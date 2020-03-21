@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+    <persistence-unit name="c3_jsf_tfe" transaction-type="JTA">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <jta-data-source>java:comp/env/jdbc/c3_jsf_tfe</jta-data-source>
+
+        <class>com.projet.entities.User</class>
+        <class>com.projet.entities.Patient</class>
+        <class>com.projet.entities.Charge</class>
+        <class>com.projet.entities.Agreement</class>
+        <class>com.projet.entities.Card</class>
+        <class>com.projet.entities.Connection</class>
+        <class>com.projet.entities.Contact</class>
+        <class>com.projet.entities.DashboardCard</class>
+        <class>com.projet.entities.Dashboard</class>
+        <class>com.projet.entities.DocumentType</class>
+        <class>com.projet.entities.Document</class>
+        <class>com.projet.entities.Field</class>
+        <class>com.projet.entities.Information</class>
+        <class>com.projet.entities.MedicalCare</class>
+        <class>com.projet.entities.MedicalService</class>
+        <class>com.projet.entities.MedicalServiceType</class>
+        <class>com.projet.entities.Meeting</class>
+        <class>com.projet.entities.Organization</class>
+        <class>com.projet.entities.Pathology</class>
+        <class>com.projet.entities.Permission</class>
+        <class>com.projet.entities.PlaceType</class>
+        <class>com.projet.entities.Place</class>
+        <class>com.projet.entities.Price</class>
+        <class>com.projet.entities.RolePermission</class>
+        <class>com.projet.entities.Role</class>
+        <class>com.projet.entities.Supplier</class>
+        <class>com.projet.entities.Billing</class>
+        <class>com.projet.entities.Subscription</class>
+        <class>com.projet.entities.ToDo</class>
+
+        <properties>
+            <property name="eclipselink.ddl-generation.output-mode" value="database"/>
+        </properties>
+    </persistence-unit>
+</persistence>

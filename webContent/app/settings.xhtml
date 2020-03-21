@@ -1,0 +1,263 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="../WEB-INF/template/template.xhtml">
+
+    <ui:define name="title">Empty Page</ui:define>
+    <ui:define name="viewname">
+        <li>Pages</li>
+        <li>/</li>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="ui-g">
+            <h:form styleClass="ui-g-12 ui-md-12 ui-lg-12">
+                <p:toolbar>
+                    <f:facet name="left">
+                        <h1>Bienvenue #{profileBean.user.firstName} ! </h1>
+                    </f:facet>
+
+                    <f:facet name="right">
+                        <span class="ui-separator" style="padding-right: 10px;">
+                        <span class="fa fa-ellipsis-v SoftGray" />
+                    </span>
+
+                        <p:commandButton type="button" value="Assistance" icon="fa fa-support" styleClass="help-btn"/>
+                        <p:commandButton type="button" value="Deconnexion" icon="fa fa-power-off" styleClass="danger-btn"/>
+                    </f:facet>
+                </p:toolbar>
+                <div class="card">
+                </div>
+            </h:form>
+        </div>
+        <div class="ui-g">
+            <div class="ui-g-12 ui-md-12 ui-lg-12">
+                <p:tabView activeIndex="#{param.index}">
+                    <p:tab title="PROFIL">
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-12 ui-lg-4">
+                                <div class="card card-w-title" id="infos">
+                                    <h2><i class="fa fa-fw fa-info"></i> Informations du compte</h2>
+                                    <p:separator />
+                                    <div class="small-card" style="overflow: scroll">
+                                        <h:form id="info-form">
+                                            <p:growl id="msgs" showDetail="true" sticky="true" />
+                                            <h:panelGrid columns="2" layout="grid" cellpadding="5">
+                                                <h:outputLabel for="firstname" value="Nom:" />
+                                                <p:inplace id="firstname" emptyLabel="*">
+                                                    <p:ajax event="save" listener="#{profileBean.save}" update="msgs, @this" />
+                                                    <p:inputText value="#{profileBean.user.firstName}" required="true" label="text" />
+                                                </p:inplace>
+
+                                                <h:outputLabel for="lastname" value="Prénom:" />
+                                                <p:inplace id="lastname" editor="true" emptyLabel="*">
+                                                    <p:ajax event="save" listener="#{profileBean.save}" update="msgs @this" />
+                                                    <p:inputText value="#{profileBean.user.lastName}" required="true" label="text" />
+                                                </p:inplace>
+
+                                                <h:outputLabel for="birthdate" value="Date de Naissance:" />
+                                                <p:inplace id="birthdate" editor="true" emptyLabel="*">
+                                                    <p:ajax event="save" listener="#{profileBean.save}" update="msgs @this"/>
+                                                    <p:inputMask value="#{profileBean.user.birthdate}" mask="99/99/9999" required="true" label="text">
+                                                        <f:convertDateTime for="birthdate" pattern="dd/MM/yyyy"/>
+                                                    </p:inputMask>
+                                                </p:inplace>
+
+                                                <h:outputLabel for="phone" value="N° tel:" />
+                                                <p:inplace id="phone" editor="true" emptyLabel="*">
+                                                    <p:ajax event="save" listener="#{profileBean.save}" update="msgs @this" />
+                                                    <p:inputMask value="#{profileBean.user.phone}" mask="(+32) 999/99.99.99" required="true" label="text"/>
+                                                </p:inplace>
+
+                                                <h:outputLabel for="inami" value="N° inami:" />
+                                                <p:inplace id="inami" editor="true" emptyLabel="*">
+                                                    <p:ajax event="save" listener="#{profileBean.save}" update="msgs @this"/>
+                                                    <p:inputMask value="#{profileBean.user.inamiNumber}" mask="9/99999/99/999" required="true" label="text"/>
+                                                </p:inplace>
+
+                                                <h:outputLabel for="tva" value="N° tva:" />
+                                                <p:inplace id="tva" editor="true" emptyLabel="*">
+                                                    <p:ajax event="save" listener="#{profileBean.save}" update="msgs @this" />
+                                                    <p:inputMask value="#{profileBean.user.tva}" mask="BE 0999999999" required="true" label="text"/>
+                                                </p:inplace>
+
+                                                <h:outputLabel for="iban" value="Iban:" />
+                                                <p:inplace id="iban" editor="true" emptyLabel="*" >
+                                                    <p:ajax event="save" listener="#{profileBean.save}" update="msgs @this" />
+                                                    <p:inputMask value="#{profileBean.user.iban}" mask="BE99 9999 9999 9999"
+                                                                 required="true" label="text"/>
+                                                </p:inplace>
+                                            </h:panelGrid>
+                                        </h:form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-md-12 ui-lg-4">
+                                <div class="card card-w-title small-card">
+                                    <h2>Statut</h2>
+                                    <p:separator />
+
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-md-12 ui-lg-4">
+                                <div class="card card-w-title small-card">
+                                    <h2>Informations de facturation</h2>
+                                    <p:separator />
+                                </div>
+                            </div>
+                        </div>
+                    </p:tab>
+                    <p:tab title="SECURITE">
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-12 ui-lg-4">
+                                <div class="card card-w-title" id="infos">
+                                    <h2><i class="fa fa-fw fa-info"></i> Informations du compte</h2>
+                                    <p:separator />
+                                    <div class="small-card" style="overflow: scroll">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-md-12 ui-lg-4">
+                                <div class="card card-w-title small-card">
+                                    <h2>Mot de passe</h2>
+                                    <p:separator />
+                                    <h:form>
+                                        <h:panelGrid columns="2" id="matchGrid" cellpadding="5" style="margin-bottom: 25px">
+                                            <h:outputText value="Mot de passe" />
+                                            <p:password value="dede" required="true"/>
+
+                                            <h:outputLabel for="pwd1" value="Nouveau mot de passe" />
+                                            <p:password id="pwd1" value="dede" match="pwd2" label="Password 1" required="true"  feedback="true"/>
+
+                                            <h:outputLabel for="pwd2" value="Confirmer mot de passe" />
+                                            <p:password id="pwd2" value="dee" label="Password 2" required="true" />
+                                        </h:panelGrid>
+
+                                        <p:commandButton update="matchGrid" value="Save"/>
+                                    </h:form>
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-md-12 ui-lg-4">
+                                <div class="card card-w-title small-card">
+                                    <h2>Informations de facturation</h2>
+                                    <p:separator />
+                                </div>
+                            </div>
+                        </div>
+                    </p:tab>
+                    <p:tab title="NOTIFICATIONS">
+
+                    </p:tab>
+                    <p:tab title="ABONNEMENT">
+
+                    </p:tab>
+                    <p:tab title="THEMES">
+                        <h:form class="ui-g">
+                            <div class="ui-g-12">
+                                <p:accordionPanel multiple="false">
+                                    <p:tab title="Menu">
+                                        <h2>Layouts</h2>
+                                        <div class="ui-g">
+                                            <div class="ui-g-12 ui-md-6 ui-lg-3" align="center">
+                                                <p:commandLink actionListener="#{guestPreferences.setMenuMode('layout-menu-static')}" ajax="false">
+                                                    <p:graphicImage styleClass="ui-shadow" name="images/menu/menu-static.png" library="own-layout"/>
+                                                </p:commandLink>
+                                                <div align="center">Static</div>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-6 ui-lg-3" align="center">
+                                                <p:commandLink actionListener="#{guestPreferences.setMenuMode('layout-menu-overlay')}" ajax="false">
+                                                    <p:graphicImage styleClass="ui-shadow" name="images/menu/menu-overlay.png" library="own-layout"/>
+                                                </p:commandLink>
+                                                <div align="center">Overlay</div>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-6 ui-lg-3" align="center">
+                                                <p:commandLink actionListener="#{guestPreferences.setMenuMode('layout-menu-slim')}" ajax="false">
+                                                    <p:graphicImage styleClass="ui-shadow" name="images/menu/menu-slim.png" library="own-layout"/>
+                                                </p:commandLink>
+                                                <div align="center">Slim</div>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-6 ui-lg-3" align="center">
+                                                <p:commandLink actionListener="#{guestPreferences.setMenuMode('layout-menu-horizontal')}" ajax="false">
+                                                    <p:graphicImage styleClass="ui-shadow" name="images/menu/menu-horizontal.png" library="own-layout"/>
+                                                </p:commandLink>
+                                                <div align="center">Horizontal</div>
+                                            </div>
+                                        </div>
+                                        <h2>Colors</h2>
+                                        <div class="ui-g">
+                                            <div class="ui-g-12 ui-md-6 ui-lg-3" align="center">
+                                                <p:commandLink actionListener="#{guestPreferences.setLightMenu(true)}" ajax="false">
+                                                    <p:graphicImage styleClass="ui-shadow" name="images/menu/menu-light.png" library="own-layout"/>
+                                                </p:commandLink>
+                                                <div align="center">Light</div>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-6 ui-lg-3" align="center">
+                                                <p:commandLink actionListener="#{guestPreferences.setLightMenu(false)}" ajax="false">
+                                                    <p:graphicImage styleClass="ui-shadow" name="images/menu/menu-static.png" library="own-layout"/>
+                                                </p:commandLink>
+                                                <div align="center">Dark</div>
+                                            </div>
+                                        </div>
+                                        <h2>Orientation</h2>
+                                        <div class="ui-g">
+                                            <div class="ui-g-12 ui-md-6 ui-lg-3" align="center">
+                                                <p:commandLink actionListener="#{guestPreferences.setOrientationRTL(false)}" ajax="false">
+                                                    <p:graphicImage styleClass="ui-shadow" name="images/menu/menu-LTR.png" library="own-layout"/>
+                                                </p:commandLink>
+                                                <div align="center">LTR</div>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-6 ui-lg-3" align="center">
+                                                <p:commandLink actionListener="#{guestPreferences.setOrientationRTL(true)}" ajax="false">
+                                                    <p:graphicImage styleClass="ui-shadow" name="images/menu/menu-RTL.png" library="own-layout"/>
+                                                </p:commandLink>
+                                                <div align="center">RTL</div>
+                                            </div>
+                                        </div>
+                                    </p:tab>
+                                    <p:tab title="Thèmes">
+                                        <div class="ui-g">
+                                            <div class="ui-g-12 ui-md-6 ui-lg-1" align="center">
+                                                <p:commandLink actionListener="#{guestPreferences.changeTheme('indigo')}" ajax="false">
+                                                    <p:graphicImage styleClass="ui-shadow" name="images/color-themes/indigo-light.jpg" library="own-layout"/>
+                                                </p:commandLink>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-6 ui-lg-1" align="center">
+                                                <p:commandLink actionListener="#{guestPreferences.changeTheme('indigo-dark')}" ajax="false">
+                                                    <p:graphicImage styleClass="ui-shadow" name="images/color-themes/indigo-dark.jpg" library="own-layout"/>
+                                                </p:commandLink>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-6 ui-lg-1" align="center">
+                                                <p:commandLink actionListener="#{guestPreferences.changeTheme('amber')}" ajax="false">
+                                                    <p:graphicImage styleClass="ui-shadow" name="images/color-themes/amber-light.png" library="own-layout"/>
+                                                </p:commandLink>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-6 ui-lg-1" align="center">
+                                                <p:commandLink actionListener="#{guestPreferences.changeTheme('amber-dark')}" ajax="false">
+                                                    <p:graphicImage styleClass="ui-shadow" name="images/color-themes/amber-dark.png" library="own-layout"/>
+                                                </p:commandLink>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-6 ui-lg-1" align="center">
+                                                <p:commandLink actionListener="#{guestPreferences.changeTheme('green')}" ajax="false">
+                                                    <p:graphicImage styleClass="ui-shadow" name="images/color-themes/green-light.png" library="own-layout"/>
+                                                </p:commandLink>
+                                            </div>
+                                            <div class="ui-g-12 ui-md-6 ui-lg-1" align="center">
+                                                <p:commandLink actionListener="#{guestPreferences.changeTheme('green-dark')}" ajax="false">
+                                                    <p:graphicImage styleClass="ui-shadow" name="images/color-themes/green-dark.png" library="own-layout"/>
+                                                </p:commandLink>
+                                            </div>
+                                        </div>
+                                    </p:tab>
+                                </p:accordionPanel>
+                            </div>
+                        </h:form>
+                    </p:tab>
+                </p:tabView>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>
