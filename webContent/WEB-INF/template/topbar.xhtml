@@ -24,44 +24,11 @@
 
         <ul id="topbar-usermenu">
             <li>
-                <p:link outcome="profile">
+                <p:link>
                     <i class="fa fa-fw fa-user"></i>
-                    <span class="topbar-item-name">Profile</span>
+                    <span class="topbar-item-name">Notifications</span>
                     <f:param name="i" value="0"/>
-                    <f:param name="view" value="settings/profile.xhtml"/>
                 </p:link>
-            </li>
-            <li>
-                <a href="#">
-                    <i class="fa fa-fw fa-cog"></i>
-                    <span class="topbar-item-name">Settings</span>
-                </a>
-                <ul>
-                    <li role="menuitem">
-                        <p:link outcome="settings">
-                            <i class="fa fa-fw fa-paint-brush"></i>
-                            <span>Change</span>
-                        </p:link>
-                    </li>
-                    <li role="menuitem">
-                        <a href="#">
-                            <i class="fa fa-fw fa-star-o"></i>
-                            <span>Favorites</span>
-                        </a>
-                    </li>
-                    <li role="menuitem">
-                        <a href="#">
-                            <i class="fa fa-fw fa-lock"></i>
-                            <span>Lock Screen</span>
-                        </a>
-                    </li>
-                    <li role="menuitem">
-                        <a href="#">
-                            <i class="fa fa-fw fa-picture-o"></i>
-                            <span>Wallpaper</span>
-                        </a>
-                    </li>
-                </ul>
             </li>
             <li>
                 <a href="#">
@@ -92,6 +59,49 @@
                             <p:graphicImage name="images/avatar-lucas.png" library="ecuador-layout" width="25"/>
                             <span>Meeting today</span>
                         </a>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fa fa-fw fa-cog"></i>
+                    <span class="topbar-item-name">Settings</span>
+                </a>
+                <ul>
+                    <li role="menuitem">
+                        <p:link outcome="profile">
+                            <i class="fa fa-fw fa-user"></i>
+                            <span class="topbar-item-name">Profile</span>
+                            <f:param name="index" value="0"/>
+                        </p:link>
+                    </li>
+                    <li role="menuitem">
+                        <p:link outcome="security">
+                            <i class="fa fa-fw fa-user"></i>
+                            <span class="topbar-item-name">Securité</span>
+                            <f:param name="index" value="1"/>
+                        </p:link>
+                    </li>
+                    <li role="menuitem">
+                        <p:link outcome="notifications">
+                            <i class="fa fa-fw fa-user"></i>
+                            <span class="topbar-item-name">Notifications</span>
+                            <f:param name="index" value="2"/>
+                        </p:link>
+                    </li>
+                    <li role="menuitem">
+                        <p:link outcome="subscriptions">
+                            <i class="fa fa-fw fa-user"></i>
+                            <span class="topbar-item-name">Abonnement</span>
+                            <f:param name="index" value="3"/>
+                        </p:link>
+                    </li>
+                    <li role="menuitem">
+                        <p:link outcome="themes">
+                            <i class="fa fa-fw fa-user"></i>
+                            <span class="topbar-item-name">Thèmes</span>
+                            <f:param name="index" value="4"/>
+                        </p:link>
                     </li>
                 </ul>
             </li>

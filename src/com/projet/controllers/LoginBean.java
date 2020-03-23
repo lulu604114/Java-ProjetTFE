@@ -111,6 +111,12 @@ public class LoginBean implements Serializable {
             return "/app/dashboard.xhtml";
     }
 
+    /**
+     * saves user in session
+     *
+     * @param session to save in
+     * @param user  to save in the session
+     */
     private void saveUserInSession(Session session, User user) {
         session.setAttribute(Config.SESSION_USER, user);
         log.debug(user + " save in session : " + session.getId() + " with time-out: " + session.getTimeout());

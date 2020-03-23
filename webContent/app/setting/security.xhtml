@@ -3,7 +3,7 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                template="../WEB-INF/template/template.xhtml">
+                template="../../WEB-INF/template/template.xhtml">
 
     <ui:define name="title">Empty Page</ui:define>
     <ui:define name="viewname">
@@ -13,140 +13,122 @@
 
     <ui:define name="content">
         <div class="ui-g">
-            <h:form styleClass="ui-g-12 ui-md-12 ui-lg-12">
+            <h:form id="title-bar-form" styleClass="ui-g-12 ui-md-12 ui-lg-12">
                 <p:toolbar>
                     <f:facet name="left">
+                        <p:graphicImage name="images/avatar.png" library="ecuador-layout" styleClass="topbar-profile"/>
                         <h1>Bienvenue #{profileBean.user.firstName} ! </h1>
                     </f:facet>
 
                     <f:facet name="right">
-                        <span class="ui-separator" style="padding-right: 10px;">
-                        <span class="fa fa-ellipsis-v SoftGray" />
-                    </span>
+                        <span>Infos sur l'abonnement</span>
+                        <span class="ui-separator" style="padding: 10px;">
+                            <span class="fa fa-ellipsis-v SoftGray" />
+                        </span>
 
                         <p:commandButton type="button" value="Assistance" icon="fa fa-support" styleClass="help-btn"/>
                         <p:commandButton type="button" value="Deconnexion" icon="fa fa-power-off" styleClass="danger-btn"/>
                     </f:facet>
                 </p:toolbar>
                 <div class="card">
+                    <p:tabMenu activeIndex="#{param.index}">
+                        <p:menuitem value="PROFIL" outcome="profile">
+                            <f:param name="index" value="0" />
+                        </p:menuitem>
+                        <p:menuitem value="SECURITÉ" outcome="security">
+                            <f:param name="index" value="1" />
+                        </p:menuitem>
+                        <p:menuitem value="NOTIFICATIONS" outcome="notifications">
+                            <f:param name="index" value="2" />
+                        </p:menuitem>
+                        <p:menuitem value="ABONNEMENTS" outcome="subscriptions">
+                            <f:param name="index" value="3" />
+                        </p:menuitem>
+                        <p:menuitem value="THÈMES" outcome="themes">
+                            <f:param name="index" value="4" />
+                        </p:menuitem>
+                    </p:tabMenu>
                 </div>
             </h:form>
         </div>
         <div class="ui-g">
+            <div class="ui-g-12 ui-md-12 ui-lg-4">
+                <p:toolbar>
+                    <f:facet name="left">
+                        <h4>Mot de passe</h4>
+                    </f:facet>
+                </p:toolbar>
+                <div class="card">
+                    <div class="card-content">
+                        <h:form>
+                            <h:panelGrid columns="1" id="matchGrid" cellpadding="5" styleClass="w-100">
+                                <h:outputText value="Introduisez votre mot de passe" />
+                                <p:password value="dede" required="true"/>
+
+                                <h:outputLabel for="pwd1" value="Introduiser votre nouveau mot de passe" />
+                                <p:password id="pwd1" value="dede" match="pwd2" label="Password 1" required="true" feedback="true"/>
+
+                                <h:outputLabel for="pwd2" value="Confirmer votre npuveau mot de passe" />
+                                <p:password id="pwd2" value="dee" label="Password 2" required="true" />
+
+                                <p:commandButton update="matchGrid" value="Modifier le mot de passe"/>
+                            </h:panelGrid>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-12 ui-lg-4">
+                <p:toolbar>
+                    <f:facet name="left">
+                        <h4><i class="fa fa-fw fa-chain"></i> Appareils connus</h4>
+                    </f:facet>
+                </p:toolbar>
+                <div class="card">
+                    <div class="card-content">
+
+                    </div>
+                </div>
+            </div>
+            <div class="ui-g-12 ui-md-12 ui-lg-4">
+                <p:toolbar>
+                    <f:facet name="left">
+                        <h4>Identification à deux facteurs</h4>
+                    </f:facet>
+                </p:toolbar>
+                <div class="card">
+                    <div class="card-content">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ui-g">
+            <div class="ui-g-12 ui-md-12 ui-lg-12">
+                <p:toolbar>
+                    <f:facet name="left">
+                        <h4>Informations de connexion</h4>
+                    </f:facet>
+                </p:toolbar>
+                <div class="card">
+                    <div class="card-content">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="ui-g">
             <div class="ui-g-12 ui-md-12 ui-lg-12">
                 <p:tabView activeIndex="#{param.index}">
                     <p:tab title="PROFIL">
-                        <div class="ui-g">
-                            <div class="ui-g-12 ui-md-12 ui-lg-4">
-                                <div class="card card-w-title" id="infos">
-                                    <h2><i class="fa fa-fw fa-info"></i> Informations du compte</h2>
-                                    <p:separator />
-                                    <div class="small-card" style="overflow: scroll">
-                                        <h:form id="info-form">
-                                            <p:growl id="msgs" showDetail="true" sticky="true" />
-                                            <h:panelGrid columns="2" layout="grid" cellpadding="5">
-                                                <h:outputLabel for="firstname" value="Nom:" />
-                                                <p:inplace id="firstname" emptyLabel="*">
-                                                    <p:ajax event="save" listener="#{profileBean.save}" update="msgs, @this" />
-                                                    <p:inputText value="#{profileBean.user.firstName}" required="true" label="text" />
-                                                </p:inplace>
 
-                                                <h:outputLabel for="lastname" value="Prénom:" />
-                                                <p:inplace id="lastname" editor="true" emptyLabel="*">
-                                                    <p:ajax event="save" listener="#{profileBean.save}" update="msgs @this" />
-                                                    <p:inputText value="#{profileBean.user.lastName}" required="true" label="text" />
-                                                </p:inplace>
-
-                                                <h:outputLabel for="birthdate" value="Date de Naissance:" />
-                                                <p:inplace id="birthdate" editor="true" emptyLabel="*">
-                                                    <p:ajax event="save" listener="#{profileBean.save}" update="msgs @this"/>
-                                                    <p:inputMask value="#{profileBean.user.birthdate}" mask="99/99/9999" required="true" label="text">
-                                                        <f:convertDateTime for="birthdate" pattern="dd/MM/yyyy"/>
-                                                    </p:inputMask>
-                                                </p:inplace>
-
-                                                <h:outputLabel for="phone" value="N° tel:" />
-                                                <p:inplace id="phone" editor="true" emptyLabel="*">
-                                                    <p:ajax event="save" listener="#{profileBean.save}" update="msgs @this" />
-                                                    <p:inputMask value="#{profileBean.user.phone}" mask="(+32) 999/99.99.99" required="true" label="text"/>
-                                                </p:inplace>
-
-                                                <h:outputLabel for="inami" value="N° inami:" />
-                                                <p:inplace id="inami" editor="true" emptyLabel="*">
-                                                    <p:ajax event="save" listener="#{profileBean.save}" update="msgs @this"/>
-                                                    <p:inputMask value="#{profileBean.user.inamiNumber}" mask="9/99999/99/999" required="true" label="text"/>
-                                                </p:inplace>
-
-                                                <h:outputLabel for="tva" value="N° tva:" />
-                                                <p:inplace id="tva" editor="true" emptyLabel="*">
-                                                    <p:ajax event="save" listener="#{profileBean.save}" update="msgs @this" />
-                                                    <p:inputMask value="#{profileBean.user.tva}" mask="BE 0999999999" required="true" label="text"/>
-                                                </p:inplace>
-
-                                                <h:outputLabel for="iban" value="Iban:" />
-                                                <p:inplace id="iban" editor="true" emptyLabel="*" >
-                                                    <p:ajax event="save" listener="#{profileBean.save}" update="msgs @this" />
-                                                    <p:inputMask value="#{profileBean.user.iban}" mask="BE99 9999 9999 9999"
-                                                                 required="true" label="text"/>
-                                                </p:inplace>
-                                            </h:panelGrid>
-                                        </h:form>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ui-g-12 ui-md-12 ui-lg-4">
-                                <div class="card card-w-title small-card">
-                                    <h2>Statut</h2>
-                                    <p:separator />
-
-                                </div>
-                            </div>
-                            <div class="ui-g-12 ui-md-12 ui-lg-4">
-                                <div class="card card-w-title small-card">
-                                    <h2>Informations de facturation</h2>
-                                    <p:separator />
-                                </div>
-                            </div>
-                        </div>
                     </p:tab>
                     <p:tab title="SECURITE">
-                        <div class="ui-g">
-                            <div class="ui-g-12 ui-md-12 ui-lg-4">
-                                <div class="card card-w-title" id="infos">
-                                    <h2><i class="fa fa-fw fa-info"></i> Informations du compte</h2>
-                                    <p:separator />
-                                    <div class="small-card" style="overflow: scroll">
 
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ui-g-12 ui-md-12 ui-lg-4">
-                                <div class="card card-w-title small-card">
-                                    <h2>Mot de passe</h2>
-                                    <p:separator />
-                                    <h:form>
-                                        <h:panelGrid columns="2" id="matchGrid" cellpadding="5" style="margin-bottom: 25px">
-                                            <h:outputText value="Mot de passe" />
-                                            <p:password value="dede" required="true"/>
-
-                                            <h:outputLabel for="pwd1" value="Nouveau mot de passe" />
-                                            <p:password id="pwd1" value="dede" match="pwd2" label="Password 1" required="true"  feedback="true"/>
-
-                                            <h:outputLabel for="pwd2" value="Confirmer mot de passe" />
-                                            <p:password id="pwd2" value="dee" label="Password 2" required="true" />
-                                        </h:panelGrid>
-
-                                        <p:commandButton update="matchGrid" value="Save"/>
-                                    </h:form>
-                                </div>
-                            </div>
-                            <div class="ui-g-12 ui-md-12 ui-lg-4">
-                                <div class="card card-w-title small-card">
-                                    <h2>Informations de facturation</h2>
-                                    <p:separator />
-                                </div>
-                            </div>
-                        </div>
                     </p:tab>
                     <p:tab title="NOTIFICATIONS">
 
@@ -258,6 +240,17 @@
                 </p:tabView>
             </div>
         </div>
+
+        <p:dialog header="Dialog" widgetVar="dlg1" modal="true" responsive="true" width="300" draggable="false">
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+            <f:facet name="footer">
+                <p:commandButton value="Yes" type="button" icon="fa fa-check" onclick="PF('dlg1').hide()" />
+                <p:commandButton value="No" type="button" styleClass="secondary-button" icon="fa fa-close" onclick="PF('dlg1').hide()" />
+            </f:facet>
+        </p:dialog>
     </ui:define>
 
 </ui:composition>

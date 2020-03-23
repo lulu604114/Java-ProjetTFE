@@ -31,6 +31,7 @@ public class ProfileBean implements Serializable {
     private static final Message message = Message.getMessage(Config.BUNDLE_MESSAGE);
 
     private User user;
+    private boolean editable = true;
 
     @PostConstruct
     public void init() {
@@ -46,8 +47,11 @@ public class ProfileBean implements Serializable {
         this.user = user;
     }
 
-    public void save() {
-        // TODO: 09/03/2020
-        //save User
+    public boolean isEditable() {
+        return editable;
+    }
+
+    public void setEditable(boolean editable) {
+        this.editable = editable;
     }
 }
