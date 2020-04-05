@@ -1,5 +1,9 @@
 package com.projet.entities;
 
+import com.projet.enumeration.Language;
+import com.projet.enumeration.UserStatus;
+import com.projet.enumeration.UserTitle;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -22,90 +26,77 @@ import java.util.Objects;
         @NamedQuery(name = "User.findUserByUsername", query = "SELECT u FROM User u WHERE u.username=:username"),
         @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
 })
-public class User implements Serializable {
+public class User implements Serializable, Cloneable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Basic
-    @Column(name = "firstName", nullable = false)
+
+    @Enumerated(EnumType.STRING)
+    private UserTitle title;
+
     private String firstName;
-    @Basic
-    @Column(name = "lastName", nullable = false)
+
     private String lastName;
-    @Basic
-    @Column(name = "inamiNumber")
+
     private String inamiNumber;
-    @Basic
-    @Column(name = "iban")
+
     private String iban;
-    @Basic
-    @Column(name = "password", nullable = false)
+
     private String password;
-    @Basic
-    @Column(name = "email", nullable = false)
+
     private String email;
-    @Basic
-    @Column(name = "username", nullable = false)
+
     private String username;
-    @Basic
-    @Column(name = "phone")
+
     private String phone;
-    @Basic
-    @Column(name = "birthdate")
+
+    private String mobile;
+
     @Temporal(TemporalType.DATE)
     private Date birthdate;
-    @Basic
-    @Column(name = "tva")
+
     private String tva;
-    @Basic
-    @Column(name = "active", nullable = false)
+
     private boolean active;
+
+    @Enumerated(EnumType.STRING)
+    private Language language;
+
+    @Enumerated(EnumType.STRING)
+    private UserStatus status;
+
     @OneToMany(mappedBy = "user")
     private List<Charge> charges;
+
     @OneToMany(mappedBy = "user")
     private List<Patient> patients;
+
     @OneToMany(mappedBy = "user")
     private List<Connection> connections;
+
     @OneToMany(mappedBy = "user")
     private List<Contact> contacts;
+
     @OneToMany(mappedBy = "user")
     private List<Dashboard> dashboards;
+
     @OneToMany(mappedBy = "user")
     private List<Document> documents;
+
     @OneToMany(mappedBy = "user")
     private List<Place> places;
+
     @ManyToOne
     @JoinColumn(name = "role", referencedColumnName = "id", nullable = false)
     private Role role;
+
     @OneToMany(mappedBy = "user")
     private List<ToDo> toDos;
+
     @OneToMany(mappedBy = "user")
     private List<Supplier> suppliers;
-
-    public User() {  }
-
-    public User(int id, String firstName, String lastName, String email, String username, String password) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.username = username;
-        this.password = password;
-    }
-
-    public User(User user) {
-        this(
-                user.getId(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getEmail(),
-                user.getUsername(),
-                user.getPassword()
-        );
-    }
 
     public int getId() {
         return id;
@@ -113,6 +104,14 @@ public class User implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public UserTitle getTitle() {
+        return title;
+    }
+
+    public void setTitle(UserTitle title) {
+        this.title = title;
     }
 
     public String getFirstName() {
@@ -179,6 +178,14 @@ public class User implements Serializable {
         this.phone = phone;
     }
 
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
     public Date getBirthdate() {
         return birthdate;
     }
@@ -201,6 +208,22 @@ public class User implements Serializable {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public Language getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
+    }
+
+    public UserStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(UserStatus status) {
+        this.status = status;
     }
 
     public List<Charge> getCharges() {
@@ -303,6 +326,14 @@ public class User implements Serializable {
         return supplier;
     }
 
+    public List<Patient> getPatients() {
+        return patients;
+    }
+
+    public void setPatients(List<Patient> patients) {
+        this.patients = patients;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -325,5 +356,38 @@ public class User implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id, firstName, lastName, inamiNumber, iban, password, email, username, phone, birthdate, tva, active);
+    }
+
+    @Override
+    public User clone() {
+
+        User user = null;
+
+        try {
+            user = (User) super.clone();
+
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace(System.err);
+        }
+
+        return user;
+    }
+
+    public void setFields(User user) {
+        this.title = user.title;
+        this.firstName = user.firstName;
+        this.lastName = user.lastName;
+        this.inamiNumber = user.inamiNumber;
+        this.iban = user.iban;
+        this.password = user.password;
+        this.email = user.email;
+        this.username = user.username;
+        this.phone = user.phone;
+        this.birthdate = user.birthdate;
+        this.tva = user.tva;
+        this.active = user.active;
+        this.mobile = user.mobile;
+        this.status = user.status;
+        this.language = user.language;
     }
 }

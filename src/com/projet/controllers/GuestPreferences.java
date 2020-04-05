@@ -16,11 +16,12 @@
 package com.projet.controllers;
 
 import java.io.Serializable;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 
 @Named("guestPreferences")
-@SessionScoped
+@ApplicationScoped
 public class GuestPreferences implements Serializable {
 
     private String menuMode = "layout-menu-static";

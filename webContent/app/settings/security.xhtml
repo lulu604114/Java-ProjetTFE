@@ -1,0 +1,99 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="../../WEB-INF/template/template.xhtml">
+
+    <ui:define name="title">Empty Page</ui:define>
+    <ui:define name="viewname">
+        <li>Pages</li>
+        <li>/</li>
+    </ui:define>
+
+    <ui:define name="content">
+        <!-- TITLE BAR -->
+        <ui:include src="settingsMenu.xhtml"/>
+
+        <div class="ui-g">
+            <div class="ui-g-12 ui-md-12 ui-lg-4">
+                <p:panel header="Mot de passe" menuTitle="true">
+                    <div class="panel-content">
+                        <h:form id="passwordChange-form">
+                            <p:growl id="msgs" showDetail="true"/>
+                            <h:panelGrid columns="1" cellpadding="5" styleClass="w-100">
+                                <h:outputText value="Introduisez votre mot de passe" />
+                                <p:password id="password"/>
+
+                                <h:outputLabel for="newPassword" value="Introduiser votre nouveau mot de passe" />
+                                <p:password id="newPassword" label="newPassword" match="newPasswordConfirm" validatorMessage="Erreur. FEFE"
+                                            feedback="true"/>
+
+                                <h:outputLabel for="newPasswordConfirm" value="Confirmer votre nouveau mot de passe" />
+                                <p:password id="newPasswordConfirm" label="newPasswordConfirm">
+                                    <f:validator validatorId = "passwordChangeValidator" />
+                                </p:password>
+
+                                <p:commandButton value="Modifier le mot de passe" ajax="true"
+                                                 update="@form"/>
+                            </h:panelGrid>
+                        </h:form>
+                    </div>
+                </p:panel>
+            </div>
+            <div class="ui-g-12 ui-md-12 ui-lg-4">
+                <p:panel>
+                    <f:facet name="header">
+                        <i class="fa fa-fw fa-chain"></i>
+                        <text/>
+                        <h:outputText value="Appareils connus"/>
+                    </f:facet>
+                    <div class="panel-content">
+                        <ul>
+                            <li>
+                                <i class="fa fa-fw fa-desktop"></i>
+                                <div class="panel-content-info">
+                                    <small>macOS 10.15 - Inconnu</small>
+                                    <div>Dernière connexion : 26/10/2020 17:12</div>
+                                </div>
+                                <p:commandButton icon="fa fa-fw fa-unlink" styleClass="secondary-button pull-right"/>
+                            </li>
+                        </ul>
+                    </div>
+                </p:panel>
+            </div>
+            <div class="ui-g-12 ui-md-12 ui-lg-4">
+                <div class="card" style="text-align: center; height: 336.6px; margin-bottom: 0">
+                    <i class="fa fa-5x fa-fw fa-shield"/>
+                    <div class="card-title">Identification à deux facteur</div>
+                    <div class="card-content">
+                        Activer le système d’authentification à deux facteurs vous permet de renforcer la sécurité de votre
+                        compte
+                        Assistool. Pour chacune de vos connexions, vous recevrez un code de sécurité par email ou via un
+                        application
+                        afin de confirmer votre
+                        identité.
+                    </div>
+                    <p:separator/>
+                    <div class="ui-g card-footer">
+                        <div class="ui-g-12">
+                            <p:commandButton value="Activer la sécurité 2FA" styleClass="success-btn"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <p:panel>
+                    <f:facet name="header">
+                        <i class="fa fa-fw fa-sign-in"/>
+                        <text/>
+                        <h:outputText value="Mes dernières connexion"/>
+                    </f:facet>
+                </p:panel>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

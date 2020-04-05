@@ -1,7 +1,5 @@
 package com.projet.controllers.utils;
 
-import com.projet.conf.Config;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import java.util.Enumeration;
@@ -48,16 +46,16 @@ import java.util.ResourceBundle;
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, translate(summary), translate(detail)));
     }
 
-    private String translate(String message) {
+    public String translate(String text) {
         Enumeration<String> keys = getBundle().getKeys();
 
         while (keys.hasMoreElements()) {
             String key = keys.nextElement();
-            if (key.equals(message))
-                return getBundle().getString(message);
+            if (key.equals(text))
+                return getBundle().getString(text);
         }
 
-        return message;
+        return text;
     }
 
     private ResourceBundle getBundle() {

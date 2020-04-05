@@ -1,6 +1,6 @@
 package com.projet.controllers;
 
-import com.projet.conf.Config;
+import com.projet.conf.App;
 import com.projet.controllers.utils.Message;
 import com.projet.entities.User;
 import com.projet.services.UserService;
@@ -34,7 +34,7 @@ import java.io.Serializable;
 public class LoginBean implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final Logger log = Logger.getLogger(LoginBean.class);
-    private static final Message message = Message.getMessage(Config.BUNDLE_MESSAGE);
+    private static final Message message = Message.getMessage(App.BUNDLE_MESSAGE);
 
     private String username;
     private String password;
@@ -57,7 +57,7 @@ public class LoginBean implements Serializable {
 
             UserService service = new UserService();
 
-            saveUserInSession(currentUser.getSession(), service.getByUsername(username));
+            App.saveUserInSession(currentUser.getSession(), service.getByUsername(username));
 
             view = defineViewByRole(currentUser, "admin");
 
@@ -109,17 +109,6 @@ public class LoginBean implements Serializable {
             return "/app/admin/dashboard.xhtml";
         else
             return "/app/dashboard.xhtml";
-    }
-
-    /**
-     * saves user in session
-     *
-     * @param session to save in
-     * @param user  to save in the session
-     */
-    private void saveUserInSession(Session session, User user) {
-        session.setAttribute(Config.SESSION_USER, user);
-        log.debug(user + " save in session : " + session.getId() + " with time-out: " + session.getTimeout());
     }
 
     public String getUsername() {

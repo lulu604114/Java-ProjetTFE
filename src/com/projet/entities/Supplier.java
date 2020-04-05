@@ -21,7 +21,7 @@ import java.util.Objects;
 public class Supplier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     private String label;
 
@@ -29,11 +29,11 @@ public class Supplier {
     @JoinColumn(name = "user", nullable = false)
     private User user;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -58,10 +58,7 @@ public class Supplier {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Supplier supplier = (Supplier) o;
-        if (this.id != null)
-            return id.equals(supplier.id);
-        else
-            return false;
+        return id == supplier.id;
     }
 
     @Override

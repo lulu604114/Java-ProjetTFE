@@ -9,7 +9,7 @@
 
         <div class="search-input">
             <i class="fa fa-search icon-search"></i>
-            <input type="text"/>
+            <p:inputText value="" placeholder="(Patients, Factures, ...)" style="color: white"/>
         </div>
 
         <h:link styleClass="logo-container">
@@ -25,7 +25,7 @@
         <ul id="topbar-usermenu">
             <li>
                 <p:link>
-                    <i class="fa fa-fw fa-user"></i>
+                    <i class="fa fa-fw fa-bell-o"></i>
                     <span class="topbar-item-name">Notifications</span>
                     <f:param name="i" value="0"/>
                 </p:link>
@@ -69,36 +69,36 @@
                 </a>
                 <ul>
                     <li role="menuitem">
-                        <p:link outcome="profile">
+                        <p:link outcome="/app/settings/profile">
                             <i class="fa fa-fw fa-user"></i>
                             <span class="topbar-item-name">Profile</span>
                             <f:param name="index" value="0"/>
                         </p:link>
                     </li>
                     <li role="menuitem">
-                        <p:link outcome="security">
-                            <i class="fa fa-fw fa-user"></i>
+                        <p:link outcome="/app/settings/security">
+                            <i class="fa fa-fw fa-shield"></i>
                             <span class="topbar-item-name">Securité</span>
                             <f:param name="index" value="1"/>
                         </p:link>
                     </li>
                     <li role="menuitem">
-                        <p:link outcome="notifications">
-                            <i class="fa fa-fw fa-user"></i>
+                        <p:link outcome="/app/settings/notifications">
+                            <i class="fa fa-fw fa-bell"></i>
                             <span class="topbar-item-name">Notifications</span>
                             <f:param name="index" value="2"/>
                         </p:link>
                     </li>
                     <li role="menuitem">
-                        <p:link outcome="subscriptions">
-                            <i class="fa fa-fw fa-user"></i>
+                        <p:link outcome="/app/settings/subscriptions">
+                            <i class="fa fa-fw fa-trophy"></i>
                             <span class="topbar-item-name">Abonnement</span>
                             <f:param name="index" value="3"/>
                         </p:link>
                     </li>
                     <li role="menuitem">
-                        <p:link outcome="themes">
-                            <i class="fa fa-fw fa-user"></i>
+                        <p:link outcome="/app/settings/themes">
+                            <i class="fa fa-fw fa-picture-o"></i>
                             <span class="topbar-item-name">Thèmes</span>
                             <f:param name="index" value="4"/>
                         </p:link>

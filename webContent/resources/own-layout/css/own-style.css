@@ -14,88 +14,117 @@
     flex-direction: column;
 }
 
-body .ui-toolbar .ui-commandlink {
-    color: #828282;
+body .ui-selectonemenu-panel .ui-state-disabled {
+    display: none;
 }
-body .ui-toolbar .ui-commandlink:hover {
+
+body .ui-inputgroup .ui-button{
+    border: 1px solid #c4c4c4;
+}
+
+body .ui-noselection-option{
+    color: #666666;
+}
+
+.layout-topbar .search-input input::placeholder {
     color: #ffffff;
 }
 
-.ui-state-highlight {
-    background-color: #dedede;
+.layout-wrapper .layout-topbar .rapid-btn {
+    float: right;
+    top: 0;
+    height: 60px;
+    padding: 20px;
+    font-weight: 500;
 }
 
-.inplace-field {
-    padding: 1em;
+/* CARD */
+
+.card-title {
+    display: block;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+.card-content {
+    line-height: 1.4;
+    margin-bottom: 30px;
+    min-height: 76px;
+}
+
+.card-footer {
+    display: flex;
+    align-items: center;
+}
+
+/* END CARD */
+
+/* PANEL LIST */
+.ui-panel-content .panel-content .panel-content-info {
     display: flex;
     flex-direction: column;
-    border-bottom: 1px dotted #dedede;
-}
-body .card .inplace-field:first-child {
-    padding-top: 0;
+    padding-left: 20px;
 }
 
-.card-content .inplace-field:last-child {
-    padding-bottom: 0;
+.ui-panel-content .panel-content ul {
+    padding-left: 0;
+    margin: 0;
 }
 
-.inplace-field label {
-    padding: 0.429em;
-    font-weight: bold;
+.ui-panel-content .panel-content li {
+    display: flex;
+    list-style: none;
+    padding: 1.2em 0 1.2em 5px;
+    border-bottom: dotted 1px #dedede;
 }
 
-body .ui-button.ui-button-icon-only {
-    margin-right: 2px;
-}
-
-body .ui-toolbar {
+.ui-panel-content .panel-content li:last-child {
     border-bottom: none;
 }
 
-body .ui-toolbar img {
+/*.ui-panel-content .panel-content li:hover {
+    background-color: #dedede;
+}*/
+
+.panel-content {
+    height: 280px;
+    overflow: scroll;
+}
+
+    .pull-right {
+        left: 123px;
+    }
+
+/* END CARD LIST */
+
+/* TITLE BAR */
+body .ui-panel-titlebar img {
     height: 25px;
     width: 25px;
     margin-right: 10px;
 }
 
-.card {
-    border-top: none;
-}
-
-body .ui-toolbar h1 {
+body .ui-panel-titlebar h1 {
     margin: 0;
-    color: #828282;
+    display: inline;
 }
 
-body .ui-toolbar h2{
-    margin: 0;
-    color: #828282;
+body .ui-panel .ui-panel-actions .ui-button{
+    margin-right: 5px;
 }
 
-body .ui-toolbar h3 {
-    margin: 0;
-    color: #828282;
+body .ui-panel .ui-panel-actions .ui-button:last-child{
+    margin-right: 0;
 }
+/* END TITLE BAR*/
 
-body .ui-toolbar h4 {
-    margin: 0;
-    color: #828282;
-}
-
-.ui-toolbar-group-left {
-    display: flex;
-    align-items: center;
-}
-
-.card-content {
-    height: 280px;
-    overflow: scroll;
-}
-
-body .ui-inputfield {
+body .ui-inputfield,
+body .ui-selectonemenu {
     width: 100%;
 }
 
+/* MENU TAB */
 body .ui-tabs.ui-tabs-top .ui-tabs-nav,
 body .ui-tabmenu .ui-tabmenu-nav {
     justify-content: space-between;
@@ -114,19 +143,7 @@ body .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem:last-child {
     margin-right: 0;
 }
 
-body .ui-toolbar {
-    -webkit-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.12);
-    -moz-box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.12);
-    box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.12);
-}
-
-body .ui-tabs .ui-tabs-panels .ui-tabs-panel {
-    padding: 2em 1em 1em 1em; !important;
-}
-
-body .ui-dialog-content h4 {
-    margin: 5px 0;
-}
+/* END MENU TAB */
 
 
 
@@ -141,7 +158,7 @@ body .ui-dialog-content h4 {
 
 
 
-@media only screen and (max-width: 620px) {
+@media only screen and (max-width: 715px) {
     body .ui-tabs.ui-tabs-top .ui-tabs-nav,
     body .ui-tabmenu .ui-tabmenu-nav {
         justify-content: space-between;
@@ -149,7 +166,7 @@ body .ui-dialog-content h4 {
         display: flex;
     }
 
-    .ui-toolbar-group-left {
+    body .ui-panel .ui-panel-title {
         display: flex;
         align-items: center;
         flex-direction: column;
@@ -164,14 +181,19 @@ body .ui-dialog-content h4 {
         display: none;
     }
 
-    .ui-toolbar-group-right {
+    body .ui-panel .ui-panel-actions {
         display: flex;
         align-items: center;
         flex-direction: column;
+        width: 100%;
     }
 
-    .ui-toolbar-group-right span:first-child,
-    .ui-toolbar-group-right button {
+    body .ui-panel .ui-panel-actions ui.ui-separator {
+        transform: rotate(90deg);
+    }
+    
+
+    body .ui-panel .ui-panel-actions button {
         margin: 5px 0;
     }
 }

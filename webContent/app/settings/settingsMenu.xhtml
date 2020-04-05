@@ -1,0 +1,47 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ecuador">
+
+    <div class="ui-g">
+        <div class="ui-g-12">
+            <p:panel>
+                <f:facet name="header">
+                    <p:graphicImage name="images/avatar.png" library="ecuador-layout" styleClass="topbar-profile"/>
+                    <h1>Bienvenue #{profileSettings.user.firstName} ! </h1>
+                </f:facet>
+                <f:facet name="actions">
+                    <span>Infos sur l'abonnement</span>
+                    <span class="ui-separator" style="padding: 10px;">
+                            <span class="fa fa-ellipsis-v SoftGray" />
+                        </span>
+
+                    <p:commandButton value="Assistance" icon="fa fa-support" styleClass="help-btn"/>
+                    <p:commandButton value="Deconnexion" icon="fa fa-power-off" styleClass="danger-btn"
+                                     action="#{loginBean.doLogout}"/>
+                </f:facet>
+
+                <p:tabMenu activeIndex="#{param.index}">
+                    <p:menuitem value="PROFIL" outcome="profile" icon="fa fa-fw fa-user">
+                        <f:param name="index" value="0" />
+                    </p:menuitem>
+                    <p:menuitem value="SECURITÉ" outcome="security" icon="fa fa-fw fa-shield"
+                                actionListener="#{profileSettings.edit}">
+                        <f:param name="index" value="1" />
+                    </p:menuitem>
+                    <p:menuitem value="NOTIFICATIONS" outcome="notifications" icon="fa fa-fw fa-bell">
+                        <f:param name="index" value="2" />
+                    </p:menuitem>
+                    <p:menuitem value="ABONNEMENTS" outcome="subscriptions" icon="fa fa-fw fa-trophy">
+                        <f:param name="index" value="3" />
+                    </p:menuitem>
+                    <p:menuitem value="THÈMES" outcome="themes" icon="fa fa-fw fa-picture-o">
+                        <f:param name="index" value="4" />
+                    </p:menuitem>
+                </p:tabMenu>
+            </p:panel>
+        </div>
+    </div>
+</ui:composition>

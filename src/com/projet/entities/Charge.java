@@ -27,7 +27,7 @@ import java.util.Objects;
 public class Charge {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     private String label;
 
@@ -53,11 +53,11 @@ public class Charge {
 
     private boolean payed;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -130,7 +130,7 @@ public class Charge {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Charge charge = (Charge) o;
-        return id.equals(charge.id);
+        return id == charge.id;
     }
 
     @Override

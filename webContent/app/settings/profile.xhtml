@@ -1,0 +1,387 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="../../WEB-INF/template/template.xhtml">
+
+    <ui:define name="title">Empty Page</ui:define>
+    <ui:define name="viewname">
+        <li>Pages</li>
+        <li>/</li>
+    </ui:define>
+
+    <ui:define name="content">
+        <!-- TITLE BAR -->
+        <ui:include src="settingsMenu.xhtml"/>
+
+        <h:form id="content">
+            <p:growl id="msgs" showDetail="true"/>
+            <!-- CONTENT -->
+            <div class="ui-g">
+
+                <!-- INFO CARD -->
+                <div class="ui-g-12 ui-md-12 ui-lg-4">
+                    <p:panel id="profile-card">
+                        <f:facet name="header">
+                            <i class="fa fa-fw fa-address-card"/>
+                            <text/>
+                            <h:outputText value="Informations du compte"/>
+                        </f:facet>
+                        <f:facet name="actions">
+                            <p:commandLink id="profile-card-edit-btn" type="button" onclick="PF('info-modal').show();" ajax="true"
+                                           actionListener="#{profileSettings.edit}" update=":info-modal-form">
+                                <i class="fa fa-fw fa-pencil"></i>
+                            </p:commandLink>
+                            <p:tooltip for="profile-card-edit-btn" value="Editer" position="top"/>
+                        </f:facet>
+                        <div class="panel-content">
+                            <ul>
+                                <li>
+                                    <div><i class="fa fa-fw fa-user"></i></div>
+                                    <div class="panel-content-info">
+                                        <small>Nom d'utilisateur</small>
+                                        <div>#{profileSettings.user.username}</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div><i class="fa fa-fw fa-envelope"></i></div>
+                                    <div class="panel-content-info">
+                                        <small>Email</small>
+                                        <div>#{profileSettings.user.email}</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div><i class="fa fa-fw fa-phone"></i></div>
+                                    <div class="panel-content-info">
+                                        <small>N° de telephone</small>
+                                        <div>#{empty(profileSettings.user.phone) ? '---' : profileSettings.user.phone}</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div><i class="fa fa-fw fa-mobile"></i></div>
+                                    <div class="panel-content-info">
+                                        <small>N° de GSM</small>
+                                        <div>#{empty(profileSettings.user.mobile) ? '---' : profileSettings.user.mobile}</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div><i class="fa fa-fw fa-birthday-cake"></i></div>
+                                    <div class="panel-content-info">
+                                        <small>Date de naissance</small>
+                                        <div>
+                                            <h:outputText value="---" rendered="#{empty(profileSettings.user.birthdate)}"/>
+                                            <h:outputText value="#{profileSettings.user.birthdate}" rendered="#{! empty(profileSettings.user.birthdate)}">
+                                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                            </h:outputText>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </p:panel>
+                </div>
+
+                <!-- STATUS CARD -->
+                <div class="ui-g-12 ui-md-12 ui-lg-4">
+                    <p:panel id="status-card">
+                        <f:facet name="header">
+                            <i class="fa fa-fw fa-list-alt"></i>
+                            <text/>
+                            <h:outputText value="Statut"/>
+                        </f:facet>
+                        <f:facet name="actions">
+                            <p:commandLink id="status-card-edit-btn" type="button" onclick="PF('status-modal').show();" ajax="true"
+                                           actionListener="#{profileSettings.edit}" update=":status-modal-form">
+                                <i class="fa fa-fw fa-pencil"></i>
+                            </p:commandLink>
+                            <p:tooltip for="status-card-edit-btn" value="Editer" position="top"/>
+                        </f:facet>
+                        <div class="panel-content">
+                            <ul>
+                                <li>
+                                    <div><i class="fa fa-fw fa-male"/></div>
+                                    <div class="panel-content-info">
+                                        <small>Civilité</small>
+                                        <div>#{empty(profileSettings.user.title) ? '---' : profileSettings.user.title.label}</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div><i class="fa fa-fw fa-address-card"/></div>
+                                    <div class="panel-content-info">
+                                        <small>N° INAMI</small>
+                                        <div>#{empty(profileSettings.user.inamiNumber) ? '---' : profileSettings.user.inamiNumber}</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div><i class="fa fa-fw fa-list-alt"/></div>
+                                    <div class="panel-content-info">
+                                        <small>N° BCE</small>
+                                        <div>#{empty(profileSettings.user.tva) ? '---' : profileSettings.user.tva}</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div><i class="fa fa-fw fa-street-view"/></div>
+                                    <div class="panel-content-info">
+                                        <small>Statut actuel</small>
+                                        <div>#{empty(profileSettings.user.status) ? '---' : profileSettings.user.status.label}</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div><i class="fa fa-fw fa-globe"/></div>
+                                    <div class="panel-content-info">
+                                        <small>Langue</small>
+                                        <div>#{empty(profileSettings.user.language) ? '---' : profileSettings.user.language.label}</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </p:panel>
+                </div>
+
+                <!-- INVOICE CARD -->
+                <div class="ui-g-12 ui-md-12 ui-lg-4">
+                    <p:panel id="invoice-card">
+                        <f:facet name="header">
+                            <i class="fa fa-fw fa-file-text"></i>
+                            <text/>
+                            <h:outputText value="Informations de facturation"/>
+                        </f:facet>
+                        <f:facet name="actions">
+                            <p:commandLink onclick="PF('dlg1').show();" ajax="true">
+                                <i class="fa fa-fw fa-pencil"></i>
+                            </p:commandLink>
+                        </f:facet>
+                        <div class="panel-content">
+                            <ul>
+                                <li>
+                                    <div><i class="fa fa-fw fa-user"/></div>
+                                    <div class="panel-content-info">
+                                        <small>Nom</small>
+                                        <div>#{profileSettings.user.lastName}</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div><i class="fa fa-fw fa-user"/></div>
+                                    <div class="panel-content-info">
+                                        <small>Prénom</small>
+                                        <div>#{profileSettings.user.firstName}</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div><i class="fa fa-fw fa-map-marker"/></div>
+                                    <div class="panel-content-info">
+                                        <small>Adresse</small>
+                                        <div>---</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div><i class="fa fa-fw fa-bank"/></div>
+                                    <div class="panel-content-info">
+                                        <small>N° IBAN</small>
+                                        <div>#{empty(profileSettings.user.iban) ? '---' : profileSettings.user.iban}</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </p:panel>
+                </div>
+            </div>
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <p:panel id="consumption-card">
+                        <f:facet name="header">
+                            <i class="fa fa-fw fa-dashboard"/>
+                            <text/>
+                            <h:outputText value="Consommations"/>
+                        </f:facet>
+                        <div class="ui-g">
+                            <div class="ui-g-12 ui-md-12 ui-lg-4">
+                                <div class="card" style="text-align: center">
+                                    <i class="fa fa-5x fa-fw fa-hdd-o"/>
+                                    <div class="card-title">Espace disponible</div>
+                                    <div class="card-content">
+                                        Consultez votre espace de stockage restant pour vos notes et documents. En cas de besoin, vous
+                                        pouvez ajouter de l’espace supplémentaire.
+                                    </div>
+                                    <p:separator/>
+                                    <div class="ui-g card-footer">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-6">
+                                            <p:progressBar value="50" labelTemplate="{value}%" displayOnly="true"/>
+                                            <div>2.50GB / 5.00GB</div>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-12 ui-lg-6">
+                                            <p:commandButton value="Acheter de l'espace" styleClass="success-btn" disabled="true"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-md-12 ui-lg-4">
+                                <div class="card" style="text-align: center">
+                                    <i class="fa fa-5x fa-fw fa-usd"/>
+                                    <div class="card-title">Credits disponibles</div>
+                                    <div class="card-content">
+                                        Consultez votre crédit restant pour votre téléphonie, vos rappels SMS ainsi que vos envois postaux.
+                                        Une fois épuisé, ajoutez du crédit supplémentaire.
+                                    </div>
+                                    <p:separator/>
+                                    <div class="ui-g card-footer">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-6">
+                                            <div>
+                                                <span style="font-size: 28px">0.00</span>
+                                            </div>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-12 ui-lg-6">
+                                            <p:commandButton value="Acheter du credit" styleClass="success-btn" disabled="true"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-g-12 ui-md-12 ui-lg-4">
+                                <div class="card" style="text-align: center">
+                                    <i class="fa fa-5x fa-fw fa-users"/>
+                                    <div class="card-title">Dossiers patients créés</div>
+                                    <div class="card-content">
+                                        Ayant souscrit à un abonnement Assistart, vous êtes limité(e) à 10 dossiers patient actifs. En cas
+                                        de nécessité, passez en illimité !
+                                    </div>
+                                    <p:separator/>
+                                    <div class="ui-g card-footer">
+                                        <div class="ui-g-12 ui-md-12 ui-lg-6">
+                                            <p:progressBar value="0" labelTemplate="{value}%" displayOnly="true"/>
+                                            <div>0 / illimité</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </p:panel>
+                </div>
+            </div>
+        </h:form>
+
+        <!-- INFORMATIONS MODIFICATION MODAL -->
+        <p:dialog header="Modifier les informations du compte" widgetVar="info-modal" modal="true"
+                  responsive="true" width="500" draggable="false" closable="false"
+                  focus="info-modal-close-btn">
+            <div class="ui-g">
+                <div class="ui-g-12" style="border: 1px solid #dedede; border-radius: 10px">
+                    <h4>Identifiants</h4>
+                </div>
+                <div class="ui-g-12 ui-md-12 ui-lg-6">
+                    <i class="fa fa-fw fa-user"></i>
+                    <p:outputLabel value=" Nom d'utilisateur :" />
+                    <p:inputText value="#{profileSettings.user.username}" disabled="true"/>
+                </div>
+                <div class="ui-g-12 ui-md-12 ui-lg-6">
+                    <i class="fa fa-fw fa-envelope"></i>
+                    <p:outputLabel value=" Email :"/>
+                    <p:inputText value="#{profileSettings.user.email}" disabled="true"/>
+                </div>
+                <small style="margin: 5px 0 0 6.5px"><i class="fa fa-fw fa-warning"></i> Pour modifier les informations si dessus veuillez contacter le support !</small>
+            </div>
+            <br/>
+            <br/>
+            <h:form id="info-modal-form" styleClass="ui-g">
+                <div class="ui-g-12" style="border: 1px solid #dedede; border-radius: 10px">
+                    <h4>Informations de contact</h4>
+                </div>
+                <div class="ui-g-12 ui-md-12 ui-lg-6">
+                    <i class="fa fa-fw fa-phone"></i>
+                    <p:outputLabel value=" Telephone :"/>
+                    <p:inputMask id="phone" placeholder="Phone Number" value="#{profileSettings.editedUser.phone}" mask="999/99.99.99"/>
+                </div>
+                <div class="ui-g-12 ui-md-12 ui-lg-6">
+                    <i class="fa fa-fw fa-mobile"></i>
+                    <p:outputLabel value=" GSM :"/>
+                    <p:inputMask id="mobile" placeholder="Mobile number" value="#{profileSettings.editedUser.mobile}" mask="(+99)999/99.99.99"/>
+                </div>
+                <div class="ui-g-12 ui-md-12 ui-lg-6">
+                    <i class="fa fa-fw fa-birthday-cake"></i>
+                    <p:outputLabel value=" Date de naissance :"/>
+                    <p:inputMask id="date" placeholder="xx/xx/xxxx" value="#{profileSettings.editedUser.birthdate}" mask="99/99/9999">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </p:inputMask>
+                </div>
+            </h:form>
+            <f:facet name="footer">
+                <p:commandButton id="info-modal-close-btn" form="info-modal-form" type="button" value="Fermer"
+                                 styleClass="secondary-button" onclick="PF('info-modal').hide()"
+                                 actionListener="#{profileSettings.cancel}" update=":content:msgs"/>
+                <p:commandButton form="info-modal-form" value="Modfier" styleClass="success-btn"
+                                 icon="fa fa-check" onclick="PF('info-modal').hide()"
+                                 actionListener="#{profileSettings.save}" update=":content:profile-card, :content:msgs"/>
+            </f:facet>
+        </p:dialog>
+
+        <!-- STATUS MODIFICATION MODAL -->
+        <p:dialog header="Statut" widgetVar="status-modal" modal="true"
+                  responsive="true" width="500" draggable="false" closable="false"
+                  focus="status-modal-close-btn">
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <p:outputLabel value=" Numéro inami" />
+                    <p:inputText value="#{profileSettings.user.inamiNumber}" disabled="true"/>
+                </div>
+                <small style="margin: 5px 0 0 6.5px"><i class="fa fa-fw fa-warning"></i> Pour modifier les informations si dessus veuillez contacter le support !</small>
+            </div>
+            <br/>
+            <h:form id="status-modal-form">
+                <div class="ui-g">
+                    <div class="ui-g-12">
+                        <p:outputLabel for="BCE" value=" Numéro BCE" />
+                        <p:inputMask id="BCE" placeholder="(exemple : 0694.456.432)" value="#{profileSettings.editedUser.tva}" mask="9999.999.999"/>
+                    </div>
+                    <div class="ui-g-12">
+                        <p:outputLabel value=" Civilité" />
+                        <div class="ui-inputgroup">
+                            <p:selectOneMenu id="title-select" value="#{profileSettings.editedUser.title}">
+                                <p:importEnum type="com.projet.enumeration.UserTitle" var="UserTitle" allSuffix="VALUES"/>
+                                <f:selectItem itemLabel="Selectionner un titre" noSelectionOption="true"
+                                              itemDisabled="#{profileSettings.editedUser.title != null}"/>
+                                <f:selectItems var="title" value="#{UserTitle.VALUES}" itemLabel="#{title.label}" itemValue="#{title}" />
+                            </p:selectOneMenu>
+                            <p:commandButton icon="fa fa-fw fa-times" update="title-select" ajax="true" styleClass="secondary-button"
+                                             actionListener="#{profileSettings.editedUser.setTitle(null)}"/>
+                        </div>
+                    </div>
+                    <div class="ui-g-12">
+                        <p:outputLabel value="Statut actuel" />
+                        <div class="ui-inputgroup">
+                            <p:selectOneMenu id="status-select" value="#{profileSettings.editedUser.status}">
+                                <p:importEnum type="com.projet.enumeration.UserStatus" var="UserStatus" allSuffix="VALUES"/>
+                                <f:selectItem itemLabel="Selectionner un titre" noSelectionOption="true"
+                                              itemDisabled="#{profileSettings.editedUser.status != null}"/>
+                                <f:selectItems var="status" value="#{UserStatus.VALUES}" itemLabel="#{status.label}" itemValue="#{status}"/>
+                            </p:selectOneMenu>
+                            <p:commandButton icon="fa fa-fw fa-times" update="status-select" ajax="true" styleClass="secondary-button"
+                                             actionListener="#{profileSettings.editedUser.setStatus(null)}"/>
+                        </div>
+                    </div>
+                    <div class="ui-g-12">
+                        <p:outputLabel value="Langue" />
+                        <div class="ui-inputgroup">
+                            <p:selectOneMenu id="language-select" value="#{profileSettings.editedUser.language}">
+                                <p:importEnum type="com.projet.enumeration.Language" var="Language" allSuffix="VALUES"/>
+                                <f:selectItem itemLabel="Selectionner un titre" noSelectionOption="true"
+                                              itemDisabled="#{profileSettings.editedUser.language != null}"/>
+                                <f:selectItems var="language" value="#{Language.VALUES}" itemLabel="#{language.label}" itemValue="#{language}"/>
+                            </p:selectOneMenu>
+                            <p:commandButton icon="fa fa-fw fa-times" update="language-select" ajax="true" styleClass="secondary-button"
+                                             actionListener="#{profileSettings.editedUser.setLanguage(null)}"/>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+            <f:facet name="footer">
+                <p:commandButton id="status-modal-close-btn" form="status-modal-form" value="Fermer" type="button"
+                                 styleClass="secondary-button" onclick="PF('status-modal').hide()"
+                                 actionListener="#{profileSettings.cancel}" update=":content:msgs" ajax="true"/>
+                <p:commandButton form="status-modal-form" value="Modifier" styleClass="success-btn"
+                                 icon="fa fa-check" onclick="PF('status-modal').hide()"
+                                  actionListener="#{profileSettings.save}" update=":content:status-card, :content:msgs" ajax="true"/>
+            </f:facet>
+        </p:dialog>
+    </ui:define>
+
+</ui:composition>

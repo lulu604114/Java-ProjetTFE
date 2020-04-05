@@ -24,18 +24,24 @@ import java.util.Map;
  * Time: 18:00
  * =================================================================
  */
-public class UserService implements  Serializable {
+public class UserService implements  IService<User>, Serializable {
     private static final Logger log = Logger.getLogger(UserService.class);
     private static final long serialVersionUID = 1L;
 
-    private List<User> users;
     private User userDB;
     private EntityManager em;
 
+    public UserService(EntityManager em) {
+        this.em = em;
+    }
+
+    public UserService() {
+
+    }
+
     public List<User> getAll() {
         EntityFinder<User> finder = new EntityFinderImpl<>(User.class);
-        users = finder.findByNamedQuery("User.findAll", null);
-        return users;
+        return finder.findByNamedQuery("User.findAll", null);
     }
 
     public User getByUsername(String username) {
@@ -125,5 +131,24 @@ public class UserService implements  Serializable {
             log.debug("Ok");
         }
         return status;
+    }
+
+    @Override
+    public User save(User user) {
+        if (user.getId() == 0) {
+            em.persist(user);
+        } else {
+            user = em.merge(user);
+        }
+        return user;
+    }
+
+    @Override
+    public void delete(User user) {
+        if (!em.contains(user)) {
+            em.merge(user);
+        }
+
+        em.remove(user);
     }
 }
