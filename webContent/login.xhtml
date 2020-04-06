@@ -34,7 +34,7 @@
                         <p:selectBooleanCheckbox id="rememberMe" value="#{loginBean.rememberMe}"/>
                         <span>Remember me</span>
                     </div>
-                    <p:commandButton id="loginButton" type="submit" value="Login" update="loginForm" action="#{loginBean.doLogin}"/>
+                    <p:commandButton id="loginButton" value="Login" ajax="false" action="#{loginBean.doLogin}"/>
                 </div>
 
                 <div class="separator"></div>

@@ -9,7 +9,7 @@
 
         <div class="search-input">
             <i class="fa fa-search icon-search"></i>
-            <p:inputText value="" placeholder="(Patients, Factures, ...)" style="color: white"/>
+            <p:inputText placeholder="(Patients, Factures, ...)" style="color: white"/>
         </div>
 
         <h:link styleClass="logo-container">
@@ -106,7 +106,7 @@
                 </ul>
             </li>
             <li>
-                <p:commandLink action="#{loginBean.doLogout}">
+                <p:commandLink type="button" action="#{loginBean.doLogout}">
                     <i class="fa fa-fw fa-power-off"></i>
                     <span class="topbar-item-name">Log out</span>
                 </p:commandLink>

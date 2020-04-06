@@ -4,9 +4,8 @@ import com.projet.conf.App;
 import com.projet.connection.EMF;
 import com.projet.controllers.utils.Message;
 import com.projet.entities.User;
+import com.projet.security.SecurityManager;
 import com.projet.services.UserService;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -15,6 +14,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.io.Serializable;
+import java.rmi.NoSuchObjectException;
 
 
 /**
@@ -37,8 +37,8 @@ public class ProfileSettings implements Serializable {
     private User editedUser;
 
     @PostConstruct
-    public void init() {
-        user = App.getSessionUser();
+    public void init() throws NoSuchObjectException {
+        user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
         edit();
     }
 

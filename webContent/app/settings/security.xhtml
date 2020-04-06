@@ -23,7 +23,9 @@
                             <p:growl id="msgs" showDetail="true"/>
                             <h:panelGrid columns="1" cellpadding="5" styleClass="w-100">
                                 <h:outputText value="Introduisez votre mot de passe" />
-                                <p:password id="password"/>
+                                <p:password id="password">
+                                    <p:ajax event="focus" listener="#{profileSettings.edit}"/>
+                                </p:password>
 
                                 <h:outputLabel for="newPassword" value="Introduiser votre nouveau mot de passe" />
                                 <p:password id="newPassword" label="newPassword" match="newPasswordConfirm" validatorMessage="Erreur. FEFE"

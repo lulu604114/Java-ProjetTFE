@@ -25,26 +25,4 @@ public class App {
     public static final String BUNDLE_MESSAGE = "resources.messages";
     public static final String BUNDLE_VALIDATOR_MESSAGE = "resources.messages";
     public static final String BUNDLE_VIEW = "resources.view";
-
-    /**
-     * Retrieve user save in session
-     *
-     * @return session's user
-     */
-    public static User getSessionUser() {
-        Subject sessionUser = SecurityUtils.getSubject();
-        return (User) sessionUser.getSession().getAttribute(SESSION_USER);
-    }
-
-    /**
-     * saves user in session
-     *
-     * @param session to save in
-     * @param user  to save in the session
-     */
-    public static void saveUserInSession(Session session, User user) {
-        session.setAttribute(SESSION_USER, user);
-        log.debug(user + " save in session : " + session.getId() + " with time-out: " + session.getTimeout());
-    }
-
 }

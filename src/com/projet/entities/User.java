@@ -3,6 +3,7 @@ package com.projet.entities;
 import com.projet.enumeration.Language;
 import com.projet.enumeration.UserStatus;
 import com.projet.enumeration.UserTitle;
+import com.projet.security.SecurityManager;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -151,7 +152,7 @@ public class User implements Serializable, Cloneable {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = SecurityManager.encryptPassword(password);
     }
 
     public String getEmail() {
