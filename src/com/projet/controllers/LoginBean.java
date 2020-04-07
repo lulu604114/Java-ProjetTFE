@@ -60,8 +60,14 @@ public class LoginBean implements Serializable {
 
         if (SecurityManager.userIsLogged()) {
             view = "/app/dashboard.xhtml";
-        } else
+        } else {
             view = "/login.xhtml";
+
+            String username = SecurityManager.userIsRemembered();
+
+            if (username != null)
+                setUsername(username);
+        }
 
         return view + "?faces-redirect=true";
     }

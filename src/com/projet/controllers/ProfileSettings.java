@@ -37,7 +37,7 @@ public class ProfileSettings implements Serializable {
     private User editedUser;
 
     @PostConstruct
-    public void init() throws NoSuchObjectException {
+    public void init() {
         user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
         edit();
     }
@@ -56,12 +56,12 @@ public class ProfileSettings implements Serializable {
 
             transaction.commit();
 
-            message.display(FacesMessage.SEVERITY_INFO, "Success", "Modifications réussies");
+            message.display(FacesMessage.SEVERITY_INFO, "Modifications réussies");
         } finally {
             if (transaction.isActive()) {
                 transaction.rollback();
 
-                message.display(FacesMessage.SEVERITY_ERROR, "Unknown error", "Please process again");
+                message.display(FacesMessage.SEVERITY_ERROR, "Unknown error");
             }
 
             em.close();

@@ -60,7 +60,7 @@
                                 <p:graphicImage name="images/ecuador-logo.png" library="ecuador-layout"/>
                             </a>
                         </div>
-                     
+
                         <div class="ui-g-9 ui-md-9 ui-lg-9">
                             <ul id="landing-menu">
                                 <li>
@@ -82,18 +82,18 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="header-content animation-element slide-bottom">
                     <div class="header-bg"><span>PrimeFaces Presents</span></div>
                     <div class="header-bg"><span>Ecuador</span></div>
-                    <h2 style="line-height: 1.5">Modern and elegant responsive application template with a premium look 
+                    <h2 style="line-height: 1.5">Modern and elegant responsive application template with a premium look
                     for PrimeFaces components.</h2>
                     <div>
                         <p:button class="landing-button" outcome="dashboard" value="Learn More"/>
                     </div>
                 </div>
             </div>
-                        
+
             <div id="features">
                 <div>
                     <div class="ui-g">
@@ -121,7 +121,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div id="news">
                 <div>
                     <div class="ui-g">
@@ -135,7 +135,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div id="pricing">
                 <div>
                     <div class="ui-g">
@@ -193,7 +193,7 @@
                                                     <li>Unlimited Space</li>
                                                 </ul>
                                             </div>
-                                        
+
                                             <p:button outcome="/dashboard" value="Get a Quote" styleClass="green-btn raised-btn" />
                                         </div>
                                     </div>
@@ -202,7 +202,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div id="multimedia">
                <div>
                     <div class="ui-g-12 ui-md-12 video-header">
@@ -214,7 +214,7 @@
                    </div>
                </div>
            </div>
-            
+
            <div id="footer">
                <div class="ui-g">
                    <div class="ui-g-12 ui-md-12 ui-lg-4 footer">
@@ -227,39 +227,39 @@
                        <div id="landing-menu">
                            <div class="ui-g-12 ui-md-6 ui-lg-3 landing-box">
                                <span>OVERVIEW</span>
-                             
+
                                 <a href="#primefaces">Why PrimeFaces</a>
-                            
+
                                 <a href="#prime">Who Uses PrimeFaces</a>
-                            
+
                                 <a href="#testimonials">Testimonials</a>
-                             
+
                                 <a href="#licence">License</a>
-                               
+
                            </div>
                            <div class="ui-g-12 ui-md-6 ui-lg-3 landing-box">
                                 <span>DEMOS</span>
-                               
+
                                 <a href="#faces">PrimeFaces</a>
-                            
+
                                 <a href="#ng">PrimeNG</a>
-                            
+
                                 <a href="#react">PrimeReact</a>
-                            
+
                                 <a href="#ui">PrimeUI</a>
 
                            </div>
                            <div class="ui-g-12 ui-md-6 ui-lg-3 landing-box">
                                <span>SUPPORT</span>
-                                
+
                                 <a href="#options">Support Options</a>
-                            
+
                                 <a href="#pro">PrimeFaces PRO</a>
-                            
+
                                 <a href="#elite">PrimeFaces Elite</a>
-                            
+
                                 <a href="#forum">Forum</a>
-                             
+
                             </div>
                             <div class="ui-g-12 ui-md-6 ui-lg-3 landing-box">
                                 <span>SOCIAL</span>
@@ -272,18 +272,18 @@
                </div>
            </div>
         </div>
-        
+
         <h:outputStylesheet name="css/layout-#{guestPreferences.layout}.css" library="ecuador-layout" />
-        
+
         <script>
         //<![CDATA[
             var $this = this;
-            
+
             $(document).ready(function(){
                 $('html').animate({scrollTop:0}, 1);
                 $('body').animate({scrollTop:0}, 1);
             });
-            
+
             /* Scroll Animate */
             $('a[href*="#"]:not([href="#"])').click(function() {
                 var target = $(this.hash);
@@ -292,9 +292,9 @@
                         scrollTop: target.offset().top
                     }, 500);
                     return false;
-                }   
+                }
             });
-            
+
             //window and animation items
           var animation_elements = $.find('.animation-element');
           var web_window = $(window);
@@ -313,13 +313,13 @@
                       var element_height = $(element).outerHeight();
                       var element_top_position = $(element).offset().top;
                       var element_bottom_position = (element_top_position + element_height);
-                      
+
                       //check to see if this current container is visible (its viewable if it exists between the viewable space of the viewport)
-                    
+
                       if ((element_top_position <= window_bottom_position)) {
                         element.addClass('in-view');
                       }
-                      
+
                 });
           }
 

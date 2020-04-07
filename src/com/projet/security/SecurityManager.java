@@ -2,6 +2,7 @@ package com.projet.security;
 
 import com.projet.conf.App;
 import com.projet.controllers.utils.Message;
+import com.projet.services.UserService;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -10,7 +11,6 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 
 import javax.faces.application.FacesMessage;
-import java.rmi.NoSuchObjectException;
 
 /**
  * =================================================================
@@ -25,8 +25,6 @@ import java.rmi.NoSuchObjectException;
 public class SecurityManager {
     private static final Logger log = Logger.getLogger(SecurityManager.class);
     private static final Message message = Message.getMessage(App.BUNDLE_MESSAGE);
-    private static final String SESSION_USER = "sessionUser";
-
 
     public static boolean processToLogin(String username, String password, boolean rememberMe) {
         Subject subject = SecurityUtils.getSubject();
@@ -47,7 +45,7 @@ public class SecurityManager {
         } catch (LockedAccountException ex) {
             log.error(ex.getMessage(), ex);
             message.display(FacesMessage.SEVERITY_ERROR, "Error", "Contact admin");
-        } catch (AuthenticationException ex) {
+        } catch (ExcessiveAttemptsException ex) {
             log.error(ex.getMessage(), ex);
             message.display(FacesMessage.SEVERITY_ERROR, "Unknown error", "Contact administrator");
         } finally {
@@ -72,13 +70,24 @@ public class SecurityManager {
         return SecurityUtils.getSubject().isAuthenticated();
     }
 
-    public static Object getSessionAttribute(String name) throws NoSuchObjectException {
+    public static String userIsRemembered() {
+        Subject subject = SecurityUtils.getSubject();
+
+        if (subject.isRemembered())
+            return (String) subject.getPrincipal();
+
+        return null;
+    }
+
+    public static Object getSessionAttribute(String name) {
         Session session = SecurityUtils.getSubject().getSession();
 
         Object attribute = session.getAttribute(name);
 
         if (attribute == null)
-            throw new NoSuchObjectException("No such object called" + name + "find in session : " + session.getId());
+            log.debug("No such attribute named : " + name + "find in session : " + session.getId());
+        else
+            log.debug(name + " retrieve from session : " + session.getId());
 
         return attribute;
     }

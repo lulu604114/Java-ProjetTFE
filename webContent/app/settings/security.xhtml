@@ -20,24 +20,26 @@
                 <p:panel header="Mot de passe" menuTitle="true">
                     <div class="panel-content">
                         <h:form id="passwordChange-form">
-                            <p:growl id="msgs" showDetail="true"/>
+                            <p:growl id="msgs"/>
                             <h:panelGrid columns="1" cellpadding="5" styleClass="w-100">
-                                <h:outputText value="Introduisez votre mot de passe" />
-                                <p:password id="password">
-                                    <p:ajax event="focus" listener="#{profileSettings.edit}"/>
+                                <h:outputText for="password" value="Introduisez votre mot de passe" />
+                                <p:password id="password" label="password" required="true"
+                                            requiredMessage="Veuillez introduire votre mot de passe">
+                                    <f:validator validatorId="passwordChangeValidator"/>
                                 </p:password>
 
                                 <h:outputLabel for="newPassword" value="Introduiser votre nouveau mot de passe" />
-                                <p:password id="newPassword" label="newPassword" match="newPasswordConfirm" validatorMessage="Erreur. FEFE"
-                                            feedback="true"/>
+                                <p:password id="newPassword" label="newPassword" value="#{profileSettings.editedUser.password}"
+                                            match="newPasswordConfirm" feedback="true" rendered="true" required="true"
+                                            requiredMessage="Veuillez introduire un nouveau mot de passe"
+                                            validatorMessage="Erreur : la confirmation du nouveau mot de passe a échouée"/>
 
                                 <h:outputLabel for="newPasswordConfirm" value="Confirmer votre nouveau mot de passe" />
-                                <p:password id="newPasswordConfirm" label="newPasswordConfirm">
-                                    <f:validator validatorId = "passwordChangeValidator" />
-                                </p:password>
+                                <p:password id="newPasswordConfirm" label="newPasswordConfirm" required="true"
+                                            requiredMessage="Veuillez confirmer le nouveau mot de passe"/>
 
                                 <p:commandButton value="Modifier le mot de passe" ajax="true"
-                                                 update="@form"/>
+                                                 update="@form" action="#{profileSettings.save}"/>
                             </h:panelGrid>
                         </h:form>
                     </div>
@@ -79,7 +81,7 @@
                     <p:separator/>
                     <div class="ui-g card-footer">
                         <div class="ui-g-12">
-                            <p:commandButton value="Activer la sécurité 2FA" styleClass="success-btn"/>
+                            <p:commandButton value="Activer la sécurité 2FA" styleClass="success-btn" disabled="true"/>
                         </div>
                     </div>
                 </div>
