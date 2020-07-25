@@ -2115,10 +2115,13 @@ body .layout-wrapper .layout-main .layout-content {
 .landing-body .landing-wrapper #header .header-top .home-page-menu #landing-menu {
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: row;
 }
 .landing-body .landing-wrapper #header .header-top .home-page-menu #landing-menu li {
   list-style: none;
-  display: inline-block;
+  display: flex;
+  align-items: center;
 }
 .landing-body .landing-wrapper #header .header-top .home-page-menu #landing-menu li a {
   text-decoration: none;
@@ -2133,6 +2136,10 @@ body .layout-wrapper .layout-main .layout-content {
   border-radius: 5px;
   padding-top: 8px;
   padding-bottom: 8px;
+}
+.landing-body .landing-wrapper #header .header-top .home-page-menu #landing-menu li.flag img {
+  width: 20px;
+  margin-top: 5px;
 }
 .landing-body .landing-wrapper #header .header-content {
   padding: 130px 60px 130px 60px;

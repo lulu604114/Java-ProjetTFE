@@ -11,8 +11,9 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
         <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <link rel="icon" href="resources/own-layout/images/logo/favicon.png" type="image/x-icon"/>
     </f:facet>
-    <title>PrimeFaces Ecuador</title>
+    <title>Assistologos</title>
     <script type="text/javascript">
         hideMenu = function () {
             var menu = $('#landing-menu');
@@ -63,23 +64,37 @@
                     <div class="home-page-menu ui-g-9 ui-md-9 ui-lg-9">
                         <ul id="landing-menu">
                             <li>
-                                <a href="#home">Accueil</a>
+                                <a href="#home">#{homepage['menu.home']}</a>
                             </li>
                             <li>
-                                <a href="#features">Fonctionnalités</a>
+                                <a href="#features">#{homepage['menu.features']}</a>
                             </li>
                             <li>
-                                <a href="#news">News</a>
+                                <a href="#news">#{homepage['menu.news']}</a>
                             </li>
                             <li>
-                                <a href="#pricing">Prix</a>
+                                <a href="#pricing">#{homepage['menu.pricing']}</a>
                             </li>
                             <li>
-                                <a href="#multimedia">Médias</a>
+                                <a href="#multimedia">#{homepage['menu.media']}</a>
                             </li>
                             <li>
                                 <h:form>
-                                    <p:commandLink value="Connexion"/>
+                                    <p:commandLink value="#{homepage['login']}"/>
+                                </h:form>
+                            </li>
+                            <li class="flag">
+                                <h:form>
+                                    <h:commandLink action="#{i18n.changeLanguage('fr')}">
+                                        <p:graphicImage name="images/icons/france.png" library="own-layout"/>
+                                    </h:commandLink>
+                                </h:form>
+                            </li>
+                            <li class="flag">
+                                <h:form>
+                                    <h:commandLink action="#{i18n.changeLanguage('en')}">
+                                        <p:graphicImage name="images/icons/united-kingdom.png" library="own-layout"/>
+                                    </h:commandLink>
                                 </h:form>
                             </li>
                         </ul>
