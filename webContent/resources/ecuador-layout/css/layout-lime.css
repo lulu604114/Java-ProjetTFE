@@ -2086,7 +2086,7 @@ body .layout-wrapper .layout-main .layout-content {
   }
 }
 .landing-body .landing-wrapper #header {
-  background: url("#{resource['ecuador-layout:images/bg-hero.jpg']}") no-repeat;
+  background-image: linear-gradient(90deg, rgba(29, 240, 253, 0.2) 0%, #5d45fc 100%), url("#{resource['own-layout:images/background/speech-therapist.jpg']}");
   background-size: cover;
   background-position: center;
   height: 100%;
@@ -2100,28 +2100,34 @@ body .layout-wrapper .layout-main .layout-content {
   text-align: left;
 }
 .landing-body .landing-wrapper #header .header-top .logo-container .logo img {
-  height: 13px;
+  height: 200px;
   width: auto;
 }
 .landing-body .landing-wrapper #header .header-top .menu-button-mobile {
   display: none;
 }
-.landing-body .landing-wrapper #header .header-top #landing-menu {
+.landing-body .landing-wrapper #header .header-top .home-page-menu {
+  display: flex;
+  place-content: flex-end;
+  align-items: center;
+}
+.landing-body .landing-wrapper #header .header-top .home-page-menu #landing-menu {
   padding: 0;
   margin: 0;
 }
-.landing-body .landing-wrapper #header .header-top #landing-menu li {
+.landing-body .landing-wrapper #header .header-top .home-page-menu #landing-menu li {
   list-style: none;
   display: inline-block;
 }
-.landing-body .landing-wrapper #header .header-top #landing-menu li a {
+.landing-body .landing-wrapper #header .header-top .home-page-menu #landing-menu li a {
   text-decoration: none;
   color: #ffffff;
   padding: 0 14px;
   font-size: 12px;
 }
-.landing-body .landing-wrapper #header .header-top #landing-menu li a:hover {
-  background-color: #582E51;
+.landing-body .landing-wrapper #header .header-top .home-page-menu #landing-menu li a:hover {
+  background-color: rgba(32, 32, 32, 0.2);
+  border-radius: 5px;
   padding-top: 8px;
   padding-bottom: 8px;
 }
@@ -2129,7 +2135,7 @@ body .layout-wrapper .layout-main .layout-content {
   padding: 130px 60px 130px 60px;
 }
 .landing-body .landing-wrapper #header .header-content .header-bg {
-  background-color: #582E51;
+  background-color: rgba(32, 32, 32, 0.3);
   display: table;
   padding: 10px;
 }
@@ -2148,12 +2154,13 @@ body .layout-wrapper .layout-main .layout-content {
   font-weight: 700;
 }
 .landing-body .landing-wrapper #header .header-content .ui-button:hover {
-  background-color: #582E51;
+  background-color: rgba(32, 32, 32, 0.3);
   color: #ffffff;
 }
 .landing-body .landing-wrapper .landing-button {
-  background-color: #ffffff;
-  color: #de294d;
+  background: linear-gradient(90deg, rgba(29, 240, 253, 0.2) 0%, #5d45fc 100%);
+  color: white;
+  border: none;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.21);
   font-weight: 500;
 }
@@ -2344,6 +2351,9 @@ body .layout-wrapper .layout-main .layout-content {
   }
   .landing-body .landing-wrapper #header .header-top .menu-button-mobile:hover {
     background-color: #3E9311;
+  }
+  .landing-body .landing-wrapper #header .header-top .logo-container {
+    width: 100%;
   }
   .landing-body .landing-wrapper #header .header-top #landing-menu {
     display: none;
