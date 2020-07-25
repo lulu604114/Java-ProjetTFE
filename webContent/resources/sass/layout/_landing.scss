@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@600&display=swap');
+
 .landing-body {
     .landing-wrapper {
         #header {
@@ -44,7 +46,9 @@
                                 text-decoration: none;
                                 color: #ffffff;
                                 padding: 0 14px;
-                                font-size: 12px;
+                                font-size: 16px;
+                                text-transform: uppercase;
+                                font-family: 'Baloo Da 2', cursive;
 
                                 &:hover {
                                     background-color: rgba(32, 32, 32, 0.2);
@@ -62,20 +66,35 @@
                 padding: 130px 60px 130px 60px;
 
                 .header-bg {
-                    background-color: rgba(32, 32, 32, 0.3);
-                    display: table;
-                    padding: 10px;
-
                     span {
                         color: #ffffff;
+                        text-shadow: 2px 2px 2px #04040470;
                         font-size: 40px;
+                        font-family: 'Baloo Da 2', cursive;
                     }
                 }
 
-                h2 {
-                    color: #ffffff;
-                    font-size: 18px;
-                    font-weight: 500;
+                .sub-header-bg {
+                    span {
+                        color: #00b1ff;
+                        text-shadow: 2px 2px 2px #04040470;
+                        font-size: 40px;
+                        font-family: 'Baloo Da 2', cursive;
+                    }
+                }
+
+                .sub-header-description {
+                    p {
+                        color: white;
+                        text-shadow: 2px 2px 2px #04040470;
+                        font-size: 18px;
+                        font-family: "Baloo Da 2", cursive;
+                    }
+                }
+
+                .header-button {
+                    display: flex;
+                    place-content: flex-end;
                 }
 
                 .ui-button {
@@ -92,11 +111,15 @@
         }
 
         .landing-button {
-            background: linear-gradient(90deg, rgba(29,240,253,0.2) 0%, rgba(93,69,252,1) 100%);
+            background: linear-gradient(200deg, rgba(29,240,253,1) 0%, rgba(93,69,252,1) 100%);
+            border-radius: 25px;
             color: white;
             border: none;
             box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.21);
             font-weight: 500;
+        }
+        .landing-button:hover {
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
         }
 
         #features {

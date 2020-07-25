@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@600&display=swap");
 html {
   height: 100%;
 }
@@ -2123,7 +2124,9 @@ body .layout-wrapper .layout-main .layout-content {
   text-decoration: none;
   color: #ffffff;
   padding: 0 14px;
-  font-size: 12px;
+  font-size: 16px;
+  text-transform: uppercase;
+  font-family: "Baloo Da 2", cursive;
 }
 .landing-body .landing-wrapper #header .header-top .home-page-menu #landing-menu li a:hover {
   background-color: rgba(32, 32, 32, 0.2);
@@ -2134,19 +2137,27 @@ body .layout-wrapper .layout-main .layout-content {
 .landing-body .landing-wrapper #header .header-content {
   padding: 130px 60px 130px 60px;
 }
-.landing-body .landing-wrapper #header .header-content .header-bg {
-  background-color: rgba(32, 32, 32, 0.3);
-  display: table;
-  padding: 10px;
-}
 .landing-body .landing-wrapper #header .header-content .header-bg span {
   color: #ffffff;
+  text-shadow: 2px 2px 2px #04040470;
   font-size: 40px;
+  font-family: "Baloo Da 2", cursive;
 }
-.landing-body .landing-wrapper #header .header-content h2 {
-  color: #ffffff;
+.landing-body .landing-wrapper #header .header-content .sub-header-bg span {
+  color: #00b1ff;
+  text-shadow: 2px 2px 2px #04040470;
+  font-size: 40px;
+  font-family: "Baloo Da 2", cursive;
+}
+.landing-body .landing-wrapper #header .header-content .sub-header-description p {
+  color: white;
+  text-shadow: 2px 2px 2px #04040470;
   font-size: 18px;
-  font-weight: 500;
+  font-family: "Baloo Da 2", cursive;
+}
+.landing-body .landing-wrapper #header .header-content .header-button {
+  display: flex;
+  place-content: flex-end;
 }
 .landing-body .landing-wrapper #header .header-content .ui-button {
   padding: 8px 16px;
@@ -2158,11 +2169,15 @@ body .layout-wrapper .layout-main .layout-content {
   color: #ffffff;
 }
 .landing-body .landing-wrapper .landing-button {
-  background: linear-gradient(90deg, rgba(29, 240, 253, 0.2) 0%, #5d45fc 100%);
+  background: linear-gradient(200deg, #1df0fd 0%, #5d45fc 100%);
+  border-radius: 25px;
   color: white;
   border: none;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.21);
   font-weight: 500;
+}
+.landing-body .landing-wrapper .landing-button:hover {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
 }
 .landing-body .landing-wrapper #features {
   background-color: #ffffff;
