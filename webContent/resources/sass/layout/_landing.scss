@@ -44,6 +44,7 @@
                         align-items: center;
 
                         a {
+                            display: flex;
                             text-decoration: none;
                             color: #ffffff;
                             padding: 0 14px;
@@ -60,9 +61,9 @@
                         }
 
                         &.flag {
+                            padding: 0px;
                             img {
-                                width: 20px;
-                                margin-top: 5px;
+                                width: 27px;
                             }
                         }
                     }
@@ -136,6 +137,14 @@
 
             .features-content {
                 text-align: center;
+                h3 {
+                    text-transform: uppercase;
+                    font-family: "Baloo Da 2", cursive;
+                }
+                img {
+                    max-width: 200px;
+                    max-height: 200px;
+                }
             }
         }
 

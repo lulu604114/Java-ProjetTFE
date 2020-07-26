@@ -2122,6 +2122,7 @@ body .layout-wrapper .layout-main .layout-content {
   align-items: center;
 }
 .landing-body .landing-wrapper #header .header-top #landing-menu li a {
+  display: flex;
   text-decoration: none;
   color: #ffffff;
   padding: 0 14px;
@@ -2135,9 +2136,11 @@ body .layout-wrapper .layout-main .layout-content {
   padding-top: 8px;
   padding-bottom: 8px;
 }
+.landing-body .landing-wrapper #header .header-top #landing-menu li.flag {
+  padding: 0px;
+}
 .landing-body .landing-wrapper #header .header-top #landing-menu li.flag img {
-  width: 20px;
-  margin-top: 5px;
+  width: 27px;
 }
 .landing-body .landing-wrapper #header .header-content {
   padding: 130px 60px 130px 60px;
@@ -2190,6 +2193,14 @@ body .layout-wrapper .layout-main .layout-content {
 }
 .landing-body .landing-wrapper #features .features-content {
   text-align: center;
+}
+.landing-body .landing-wrapper #features .features-content h3 {
+  text-transform: uppercase;
+  font-family: "Baloo Da 2", cursive;
+}
+.landing-body .landing-wrapper #features .features-content img {
+  max-width: 200px;
+  max-height: 200px;
 }
 .landing-body .landing-wrapper #news {
   background: url("#{resource['ecuador-layout:images/bg-news.jpg']}") no-repeat;

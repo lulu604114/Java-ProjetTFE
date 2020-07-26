@@ -85,6 +85,7 @@
                             </li>
                             <li class="flag">
                                 <h:form>
+
                                     <h:commandLink action="#{i18n.changeLanguage('fr')}">
                                         <p:graphicImage name="images/icons/france.png" library="own-layout"/>
                                     </h:commandLink>
@@ -92,6 +93,7 @@
                             </li>
                             <li class="flag">
                                 <h:form>
+
                                     <h:commandLink action="#{i18n.changeLanguage('en')}">
                                         <p:graphicImage name="images/icons/united-kingdom.png" library="own-layout"/>
                                     </h:commandLink>
@@ -105,47 +107,72 @@
             <div class="header-content animation-element slide-bottom">
                 <div class="header-bg">
                     <span>
-                        Gagnez du temps,
+                        #{homepage['header.title']}
                     </span>
                 </div>
                 <div class="sub-header-bg">
                     <span>
-                        pour vous et vos patients.
+                        #{homepage['header.sub-title']}
                     </span>
                 </div>
                 <div class="sub-header-description">
                     <p>
-                        Assistologos est un outil en ligne de gestion administrative, entièrement conçu pour les logopèdes de Belgique. Intuitif, pratique et sécurisé, découvrez enfin une solution complète et taillée pour vos besoins.
+                        #{homepage['header.description']}
                     </p>
                 </div>
                 <div class="header-button">
-                    <p:button class="landing-button" value="À propos"/>
+                    <p:button class="landing-button" value="#{homepage['header.button']}"/>
                 </div>
             </div>
         </div>
 
         <div id="features">
             <div>
+                <!-- ROW 1-->
                 <div class="ui-g">
                     <div class="ui-g-12 ui-md-12 ui-lg-4">
                         <div class="features-content">
-                            <p:graphicImage name="images/icon-responsive.png" library="ecuador-layout"/>
-                            <h3>RESPONSIVE LAYOUT</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
+                            <p:graphicImage name="images/icons/dashboard.svg" library="own-layout"/>
+                            <h3>#{homepage['features.dashboard.title']}</h3>
+                            <p>#{homepage['features.dashboard.description']}</p>
                         </div>
                     </div>
                     <div class="ui-g-12 ui-md-12 ui-lg-4">
                         <div class="features-content">
-                            <p:graphicImage name="images/icon-design.png" library="ecuador-layout"/>
-                            <h3>MODERN DESIGN</h3>
-                            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                            <p:graphicImage name="images/icons/folder.svg" library="own-layout"/>
+                            <h3>#{homepage['features.document.title']}</h3>
+                            <p>#{homepage['features.document.description']}</p>
                         </div>
                     </div>
                     <div class="ui-g-12 ui-md-12 ui-lg-4">
                         <div class="features-content">
-                            <p:graphicImage name="images/icon-code.png" library="ecuador-layout"/>
-                            <h3>CLEAN CODE</h3>
-                            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            <p:graphicImage name="images/icons/patient.svg" library="own-layout"/>
+                            <h3>#{homepage['features.patient.title']}</h3>
+                            <p>#{homepage['features.patient.description']}</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- ROW 2-->
+                <div class="ui-g">
+                    <div class="ui-g-12 ui-md-12 ui-lg-4">
+                        <div class="features-content">
+                            <p:graphicImage name="images/icons/task.svg" library="own-layout"/>
+                            <h3>#{homepage['features.task.title']}</h3>
+                            <p>#{homepage['features.task.description']}</p>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-12 ui-lg-4">
+                        <div class="features-content">
+                            <p:graphicImage name="images/icons/contact.svg" library="own-layout"/>
+                            <h3>#{homepage['features.contact.title']}</h3>
+                            <p>#{homepage['features.contact.description']}</p>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-12 ui-lg-4">
+                        <div class="features-content">
+                            <p:graphicImage name="images/icons/digital-marketing.svg" library="own-layout"/>
+                            <h3>#{homepage['features.cost.title']}</h3>
+                            <p>#{homepage['features.cost.description']}</p>
                         </div>
                     </div>
                 </div>
