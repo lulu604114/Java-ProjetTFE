@@ -2107,23 +2107,21 @@ body .layout-wrapper .layout-main .layout-content {
 .landing-body .landing-wrapper #header .header-top .menu-button-mobile {
   display: none;
 }
-.landing-body .landing-wrapper #header .header-top .home-page-menu {
-  display: flex;
-  place-content: flex-end;
-  align-items: center;
-}
-.landing-body .landing-wrapper #header .header-top .home-page-menu #landing-menu {
+.landing-body .landing-wrapper #header .header-top #landing-menu {
+  height: 100%;
   padding: 0;
   margin: 0;
   display: flex;
   flex-direction: row;
+  place-content: flex-end;
+  align-items: center;
 }
-.landing-body .landing-wrapper #header .header-top .home-page-menu #landing-menu li {
+.landing-body .landing-wrapper #header .header-top #landing-menu li {
   list-style: none;
   display: flex;
   align-items: center;
 }
-.landing-body .landing-wrapper #header .header-top .home-page-menu #landing-menu li a {
+.landing-body .landing-wrapper #header .header-top #landing-menu li a {
   text-decoration: none;
   color: #ffffff;
   padding: 0 14px;
@@ -2131,13 +2129,13 @@ body .layout-wrapper .layout-main .layout-content {
   text-transform: uppercase;
   font-family: "Baloo Da 2", cursive;
 }
-.landing-body .landing-wrapper #header .header-top .home-page-menu #landing-menu li a:hover {
+.landing-body .landing-wrapper #header .header-top #landing-menu li a:hover {
   background-color: rgba(32, 32, 32, 0.2);
   border-radius: 5px;
   padding-top: 8px;
   padding-bottom: 8px;
 }
-.landing-body .landing-wrapper #header .header-top .home-page-menu #landing-menu li.flag img {
+.landing-body .landing-wrapper #header .header-top #landing-menu li.flag img {
   width: 20px;
   margin-top: 5px;
 }
@@ -2358,7 +2356,7 @@ body .layout-wrapper .layout-main .layout-content {
   color: #1F1F1F;
 }
 
-@media (max-width: 1025px) {
+@media (max-width: 1340px) {
   .landing-body .landing-wrapper #header {
     padding: 0 32px;
   }
