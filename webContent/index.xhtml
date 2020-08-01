@@ -64,13 +64,10 @@
                     <div class="ui-g-9 ui-md-9 ui-lg-9">
                         <ul id="landing-menu">
                             <li>
-                                <a href="#home">#{homepage['menu.home']}</a>
+                                <a href="#header">#{homepage['menu.home']}</a>
                             </li>
                             <li>
                                 <a href="#features">#{homepage['menu.features']}</a>
-                            </li>
-                            <li>
-                                <a href="#news">#{homepage['menu.news']}</a>
                             </li>
                             <li>
                                 <a href="#pricing">#{homepage['menu.pricing']}</a>
@@ -127,6 +124,7 @@
         </div>
 
         <div id="features">
+            <span class="section-header">#{homepage['features.title']}</span>
             <div>
                 <!-- ROW 1-->
                 <div class="ui-g">
@@ -179,79 +177,63 @@
             </div>
         </div>
 
-        <div id="news">
-            <div>
-                <div class="ui-g">
-                    <div class="ui-g-12 ui-md-12 news-content">
-                        <h2>PrimeFaces Premium Template</h2>
-                        <p>
-                            Take advantage of media's most prominent business trend, and empowers your internal advertising teams.
-                        </p>
-                        <p:button id="promotionButton" value="Learn More"></p:button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div id="pricing">
             <div>
                 <div class="ui-g">
-                    <span class="section-header">Pricing</span>
-                    <div class="ui-g-12">
+                    <span class="section-header">#{homepage['pricing.title']}</span>
+                    <div class=" ui-g-12">
                         <div class="ui-g-12 ui-md-12 ui-lg-4 pricing-container">
                             <div class="price-type">
-                                <div class="price-header">
-                                    <h3>BEGINNER</h3>
-                                    <span class="price-for">$5 per month</span>
+                                <div class="price-header-starter">
+                                    <h3>#{homepage['pricing.starter.title']}</h3>
                                 </div>
-                                <div class="pricing-bottom">
+                                <div class="pricing-bottom pricing-bottom-starter">
+                                    <p>#{homepage['pricing.starter.description']}</p>
+                                    <span class="price-for">#{homepage['pricing.starter.price']}</span>
                                     <div>
                                         <ul>
-                                            <li>Responsive</li>
-                                            <li>Push Messages</li>
+                                            <li>#{homepage['pricing.starter.list.1']}</li>
+                                            <li>#{homepage['pricing.starter.list.2']}</li>
+                                            <li>#{homepage['pricing.starter.list.3']}</li>
                                         </ul>
                                     </div>
-                                    <p:button value="Buy Now" styleClass="green-btn raised-btn"/>
                                 </div>
                             </div>
                         </div>
                         <div class="ui-g-12 ui-md-12 ui-lg-4 pricing-container">
                             <div class="price-type">
-                                <div class="price-header">
-                                    <h3>PROFESSIONAL</h3>
-                                    <span class="price-for">$10 per month</span>
+                                <div class="price-header-pro">
+                                    <h3>#{homepage['pricing.pro.title']}</h3>
                                 </div>
-                                <div class="pricing-bottom">
+                                <div class="pricing-bottom pricing-bottom-pro">
+                                    <p>#{homepage['pricing.pro.description']}</p>
+                                    <span class="price-for">#{homepage['pricing.pro.price']}</span>
                                     <div>
                                         <ul>
-                                            <li>Responsive</li>
-                                            <li>Push Messages</li>
-                                            <li>10 Support Tickets</li>
-                                            <li>Free Shipping</li>
+                                            <li>#{homepage['pricing.pro.list.1']}</li>
+                                            <li>#{homepage['pricing.pro.list.2']}</li>
+                                            <li>#{homepage['pricing.pro.list.3']}</li>
+                                            <li>#{homepage['pricing.pro.list.4']}</li>
+                                            <li>#{homepage['pricing.pro.list.5']}</li>
+                                            <li>#{homepage['pricing.pro.list.6']}</li>
+                                            <li>#{homepage['pricing.pro.list.7']}</li>
                                         </ul>
                                     </div>
-                                    <p:button value="Buy Now" styleClass="green-btn raised-btn"/>
                                 </div>
                             </div>
                         </div>
                         <div class="ui-g-12 ui-md-12 ui-lg-4 pricing-container">
                             <div class="price-type">
-                                <div class="price-header">
-                                    <h3>ENTERPRISE</h3>
-                                    <span class="price-for">Get a quote</span>
+                                <div class="price-header-premium">
+                                    <h3>#{homepage['pricing.premium.title']}</h3>
                                 </div>
-                                <div class="pricing-bottom">
-                                    <div>
-                                        <ul>
-                                            <li>Responsive</li>
-                                            <li>Push Messages</li>
-                                            <li>10 Support Tickets</li>
-                                            <li>Free Shipping</li>
-                                            <li>Unlimited Space</li>
-                                        </ul>
+                                <div class="pricing-bottom pricing-bottom-premium">
+                                    <p>#{homepage['pricing.premium.description']}</p>
+                                    <div class="soon-container">
+                                        <span class="soon">#{homepage['pricing.premium.price']}</span>
                                     </div>
-
-                                    <p:button value="Get a Quote" styleClass="green-btn raised-btn"/>
+                                    <div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -327,6 +309,10 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <div id="back-to-top">
+            <a href="#header">TOP</a>
         </div>
     </div>
 

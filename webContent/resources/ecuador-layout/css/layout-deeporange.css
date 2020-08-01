@@ -1,3 +1,4 @@
+@charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@600&display=swap");
 html {
   height: 100%;
@@ -2090,7 +2091,8 @@ body .layout-wrapper .layout-main .layout-content {
   background-image: linear-gradient(90deg, rgba(29, 240, 253, 0.2) 0%, #5d45fc 100%), url("#{resource['own-layout:images/background/speech-therapist.jpg']}");
   background-size: cover;
   background-position: center;
-  height: 100%;
+  min-height: 100vh;
+  max-width: 100%;
   padding: 36px 200px;
 }
 .landing-body .landing-wrapper #header .header-top {
@@ -2191,6 +2193,16 @@ body .layout-wrapper .layout-main .layout-content {
   background-color: #ffffff;
   padding: 60px 200px;
 }
+.landing-body .landing-wrapper #features .section-header {
+  font-size: 24px;
+  font-weight: 500;
+  border-bottom: 1px solid #C5C5C5;
+  width: fit-content;
+  display: inline-block;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  color: #373737;
+}
 .landing-body .landing-wrapper #features .features-content {
   text-align: center;
 }
@@ -2227,32 +2239,64 @@ body .layout-wrapper .layout-main .layout-content {
   color: #373737;
 }
 .landing-body .landing-wrapper #pricing .pricing-container {
-  padding: 0;
+  padding: 0.5rem;
 }
 .landing-body .landing-wrapper #pricing .pricing-container .price-type {
   text-align: center;
   background-color: #ffffff;
   margin-left: -1px;
 }
-.landing-body .landing-wrapper #pricing .pricing-container .price-type .price-header {
-  border: 1px solid #E2E2E2;
-  padding: 24px;
+.landing-body .landing-wrapper #pricing .pricing-container .price-type .price-header-starter {
+  background: #4ac9be;
+  border-bottom: 4px solid #30968b;
+  box-shadow: -5px 0 5px -5px #30968b, 5px 0 5px -5px #30968b;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  padding: 2px 24px;
 }
-.landing-body .landing-wrapper #pricing .pricing-container .price-type .price-header h3 {
-  color: #7D7D7D;
-  font-size: 20px;
+.landing-body .landing-wrapper #pricing .pricing-container .price-type .price-header-starter h3 {
+  color: white;
+  text-transform: uppercase;
+  font-size: 24px;
 }
-.landing-body .landing-wrapper #pricing .pricing-container .price-type .price-header .price-for {
-  color: #ABABAB;
-  font-size: 16px;
-  font-weight: 300;
+.landing-body .landing-wrapper #pricing .pricing-container .price-type .price-header-pro {
+  background: #9985cd;
+  border-bottom: 4px solid #7161a2;
+  box-shadow: -5px 0 5px -5px #7161a2, 5px 0 5px -5px #7161a2;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  padding: 2px 24px;
+}
+.landing-body .landing-wrapper #pricing .pricing-container .price-type .price-header-pro h3 {
+  color: white;
+  text-transform: uppercase;
+  font-size: 24px;
+}
+.landing-body .landing-wrapper #pricing .pricing-container .price-type .price-header-premium {
+  background: #cb9e67;
+  border-bottom: 4px solid #9a6a42;
+  box-shadow: -5px 0 5px -5px #9a6a42, 5px 0 5px -5px #9a6a42;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  padding: 2px 24px;
+}
+.landing-body .landing-wrapper #pricing .pricing-container .price-type .price-header-premium h3 {
+  color: white;
+  text-transform: uppercase;
+  font-size: 24px;
 }
 .landing-body .landing-wrapper #pricing .pricing-container .price-type .pricing-bottom {
   padding: 24px;
-  border: 1px solid #E2E2E2;
   margin-top: -1px;
-  min-height: 340px;
+  min-height: 500px;
   position: relative;
+}
+.landing-body .landing-wrapper #pricing .pricing-container .price-type .pricing-bottom .price-for {
+  font-size: 40px;
+  font-weight: 600;
+}
+.landing-body .landing-wrapper #pricing .pricing-container .price-type .pricing-bottom .price-for::after {
+  content: "€";
 }
 .landing-body .landing-wrapper #pricing .pricing-container .price-type .pricing-bottom ul {
   padding: 0;
@@ -2266,11 +2310,38 @@ body .layout-wrapper .layout-main .layout-content {
   color: #7D7D7D;
   padding: 10px 0;
 }
-.landing-body .landing-wrapper #pricing .pricing-container .price-type .pricing-bottom button {
-  position: absolute;
-  left: 50%;
-  bottom: 24px;
-  margin-left: -50px;
+.landing-body .landing-wrapper #pricing .pricing-container .price-type .pricing-bottom-starter {
+  border-left: 2px solid #30968b;
+  border-right: 2px solid #30968b;
+  box-shadow: -5px 0 5px -5px #30968b, 5px 0 5px -5px #30968b;
+}
+.landing-body .landing-wrapper #pricing .pricing-container .price-type .pricing-bottom-starter .price-for {
+  color: #30968b;
+}
+.landing-body .landing-wrapper #pricing .pricing-container .price-type .pricing-bottom-pro {
+  border-left: 2px solid #7161a2;
+  border-right: 2px solid #7161a2;
+  box-shadow: -5px 0 5px -5px #7161a2, 5px 0 5px -5px #7161a2;
+}
+.landing-body .landing-wrapper #pricing .pricing-container .price-type .pricing-bottom-pro .price-for {
+  color: #7161a2;
+}
+.landing-body .landing-wrapper #pricing .pricing-container .price-type .pricing-bottom-premium {
+  border-left: 2px solid #9a6a42;
+  border-right: 2px solid #9a6a42;
+  box-shadow: -5px 0 5px -5px #9a6a42, 5px 0 5px -5px #9a6a42;
+}
+.landing-body .landing-wrapper #pricing .pricing-container .price-type .pricing-bottom-premium .soon-container {
+  margin: 80px 0;
+  transform: rotate(-20deg);
+}
+.landing-body .landing-wrapper #pricing .pricing-container .price-type .pricing-bottom-premium .soon-container .soon {
+  padding: 6px 16px;
+  font-size: 30px;
+  border-style: dashed;
+  border-radius: 14px;
+  color: #9a6a42;
+  transform: rotate(45deg);
 }
 .landing-body .landing-wrapper #multimedia {
   background: url("#{resource['ecuador-layout:images/bg-media.jpg']}") no-repeat;
@@ -2431,6 +2502,9 @@ body .layout-wrapper .layout-main .layout-content {
   }
   .landing-body .landing-wrapper #pricing .pricing-container {
     padding-bottom: 20px;
+  }
+  .landing-body .landing-wrapper #pricing .pricing-container .price-type .pricing-bottom {
+    min-height: 100%;
   }
   .landing-body .landing-wrapper #multimedia {
     padding: 50px;
