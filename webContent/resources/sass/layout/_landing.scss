@@ -160,18 +160,6 @@
             }
         }
 
-        #news {
-            background: url("\#{resource['ecuador-layout:images/bg-news.jpg']}") no-repeat;
-            background-size: cover;
-            background-position: center;
-            height: 100%;
-            padding: 110px 200px;
-
-            .news-content {
-                text-align: center;
-            }
-        }
-
         #pricing {
             background-color: #ffffff;
             padding: 60px 200px;
@@ -309,54 +297,14 @@
             }
         }
 
-        #multimedia {
-            background: url("\#{resource['ecuador-layout:images/bg-media.jpg']}") no-repeat;
-            background-size: cover;
-            background-position: center;
-            height: 100%;
-            padding: 110px 200px;
-
-            .video-header {
-                color: #ffffff;
-                text-align: center;
-
-                .section-header {
-                    font-size: 24px;
-                    font-weight: 500;
-                    border-bottom: 1px solid #B76F80;
-                    width: fit-content;
-                    display: inline-block;
-                    margin-bottom: 20px;
-                    padding-bottom: 10px;
-                }
-
-                span {
-                    font-size: 16px;
-                    font-weight: 300;
-                    display: block;
-                }
-            }
-
-            .video-container {
-                box-sizing: border-box;
-                display: block;
-                text-align: center;
-
-                iframe {
-                    width: 580px;
-                    height: 330px;
-                    margin-top: 50px;
-                }
-            }
-        }
-
         #footer {
-            padding: 50px 200px;
+            padding: 20px 200px;
+            background-image: linear-gradient(90deg, rgba(29, 240, 253, 0.2) 0%, #5d45fc 100%);
 
             .footer {
                 .logo {
                     img {
-                        height: 26px;
+                        height: 100px;
                         vertical-align: middle;
                     }
                 }
@@ -424,6 +372,24 @@
                         }
                     }
                 }
+            }
+        }
+
+        #back-to-top {
+            position: fixed;
+            z-index: 999;
+            top: auto;
+            left: auto;
+            bottom: 0px;
+            box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.21);
+            right: 10px;
+            padding: 6px 16px;
+            background: linear-gradient(200deg, #1df0fd 0%, #5d45fc 100%);
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+            a {
+                font-size: 28px;
+                color: white;
             }
         }
     }

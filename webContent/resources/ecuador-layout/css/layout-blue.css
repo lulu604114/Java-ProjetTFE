@@ -916,7 +916,7 @@ body .layout-wrapper .layout-main .layout-content {
   width: 100%;
   background-color: #F3F3F3;
   padding: 16px 38px;
-  color: #1F1F1F;
+  color: #F3F3F3;
   bottom: 0;
   position: relative;
 }
@@ -932,7 +932,7 @@ body .layout-wrapper .layout-main .layout-content {
   font-size: 14px;
   display: block;
   margin-top: 15px;
-  color: #1F1F1F;
+  color: #F3F3F3;
 }
 .layout-wrapper .layout-main .layout-footer #footer-menu .footer-box {
   text-align: left;
@@ -2214,16 +2214,6 @@ body .layout-wrapper .layout-main .layout-content {
   max-width: 200px;
   max-height: 200px;
 }
-.landing-body .landing-wrapper #news {
-  background: url("#{resource['ecuador-layout:images/bg-news.jpg']}") no-repeat;
-  background-size: cover;
-  background-position: center;
-  height: 100%;
-  padding: 110px 200px;
-}
-.landing-body .landing-wrapper #news .news-content {
-  text-align: center;
-}
 .landing-body .landing-wrapper #pricing {
   background-color: #ffffff;
   padding: 60px 200px;
@@ -2343,46 +2333,12 @@ body .layout-wrapper .layout-main .layout-content {
   color: #9a6a42;
   transform: rotate(45deg);
 }
-.landing-body .landing-wrapper #multimedia {
-  background: url("#{resource['ecuador-layout:images/bg-media.jpg']}") no-repeat;
-  background-size: cover;
-  background-position: center;
-  height: 100%;
-  padding: 110px 200px;
-}
-.landing-body .landing-wrapper #multimedia .video-header {
-  color: #ffffff;
-  text-align: center;
-}
-.landing-body .landing-wrapper #multimedia .video-header .section-header {
-  font-size: 24px;
-  font-weight: 500;
-  border-bottom: 1px solid #B76F80;
-  width: fit-content;
-  display: inline-block;
-  margin-bottom: 20px;
-  padding-bottom: 10px;
-}
-.landing-body .landing-wrapper #multimedia .video-header span {
-  font-size: 16px;
-  font-weight: 300;
-  display: block;
-}
-.landing-body .landing-wrapper #multimedia .video-container {
-  box-sizing: border-box;
-  display: block;
-  text-align: center;
-}
-.landing-body .landing-wrapper #multimedia .video-container iframe {
-  width: 580px;
-  height: 330px;
-  margin-top: 50px;
-}
 .landing-body .landing-wrapper #footer {
-  padding: 50px 200px;
+  padding: 20px 200px;
+  background-image: linear-gradient(90deg, rgba(29, 240, 253, 0.2) 0%, #5d45fc 100%);
 }
 .landing-body .landing-wrapper #footer .footer .logo img {
-  height: 26px;
+  height: 100px;
   vertical-align: middle;
 }
 .landing-body .landing-wrapper #footer .footer span {
@@ -2390,7 +2346,7 @@ body .layout-wrapper .layout-main .layout-content {
   font-size: 13px;
   display: block;
   margin-top: 15px;
-  color: #1F1F1F;
+  color: #F3F3F3;
   padding: 0;
 }
 .landing-body .landing-wrapper #footer #landing-menu .landing-box {
@@ -2436,6 +2392,23 @@ body .layout-wrapper .layout-main .layout-content {
 }
 .landing-body .landing-wrapper #footer #landing-menu .landing-box .icon-link .icon:hover {
   color: #1F1F1F;
+}
+.landing-body .landing-wrapper #back-to-top {
+  position: fixed;
+  z-index: 999;
+  top: auto;
+  left: auto;
+  bottom: 0px;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.21);
+  right: 10px;
+  padding: 6px 16px;
+  background: linear-gradient(200deg, #1df0fd 0%, #5d45fc 100%);
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+.landing-body .landing-wrapper #back-to-top a {
+  font-size: 28px;
+  color: white;
 }
 
 @media (max-width: 1340px) {
