@@ -15,7 +15,7 @@ import java.util.Objects;
  * =================================================================
  */
 @Entity
-@Table(name = "Informations", schema = "c3_jsf_tfe")
+@Table(name = "Informations", schema = "jsf_tfe")
 public class Information {
     @Id
     @Column(name = "id")

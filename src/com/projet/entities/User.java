@@ -22,7 +22,7 @@ import java.util.Objects;
  * =================================================================
  */
 @Entity
-@Table(name = "Users", schema = "c3_jsf_tfe")
+@Table(name = "Users", schema = "jsf_tfe")
 @NamedQueries({
         @NamedQuery(name = "User.findUserByUsername", query = "SELECT u FROM User u WHERE u.username=:username"),
         @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")

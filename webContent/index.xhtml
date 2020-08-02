@@ -77,7 +77,7 @@
                             </li>
                             <li>
                                 <h:form>
-                                    <p:commandLink value="#{homepage['login']}"/>
+                                    <p:commandLink action="#{loginBean.isLogged}" value="#{homepage['login']}"/>
                                 </h:form>
                             </li>
                             <li class="flag">
@@ -252,7 +252,7 @@
                 <div class="ui-g-12 ui-md-12 ui-lg-8">
                     <div id="landing-menu">
                         <div class="ui-g-12 ui-md-6 ui-lg-3 landing-box">
-                            <span>#{homepage['footer.developped']}</span>
+                            <span>#{homepage['footer.developed']}</span>
 
                             <a href="https://www.linkedin.com/in/nathan-lambert-371877b7/" target="_blank">Nathan Lambert</a>
 

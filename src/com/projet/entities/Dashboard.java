@@ -15,7 +15,7 @@ import java.util.Objects;
  * =================================================================
  */
 @Entity
-@Table(name = "Dashboards", schema = "c3_jsf_tfe")
+@Table(name = "Dashboards", schema = "jsf_tfe")
 @NamedQueries({
         @NamedQuery(name = "Dashboard.findDashboardByUser", query = "SELECT d FROM Dashboard d WHERE d.user.id=:userId"),
 })

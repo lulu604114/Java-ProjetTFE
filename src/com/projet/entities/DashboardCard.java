@@ -14,7 +14,7 @@ import java.util.Objects;
  * =================================================================
  */
 @Entity
-@Table(name = "Dashboard_cards", schema = "c3_jsf_tfe")
+@Table(name = "Dashboard_cards", schema = "jsf_tfe")
 @NamedQueries({
         @NamedQuery(name = "DashboardCard.removeCardFromDashboard", query = "DELETE FROM DashboardCard dc WHERE dc.card=:cardId AND dc.dashboard=:dashboardId"),
 })

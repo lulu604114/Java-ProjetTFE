@@ -2103,7 +2103,7 @@ body .layout-wrapper .layout-main .layout-content {
   text-align: left;
 }
 .landing-body .landing-wrapper #header .header-top .logo-container .logo img {
-  height: 200px;
+  height: 140px;
   width: auto;
 }
 .landing-body .landing-wrapper #header .header-top .menu-button-mobile {
@@ -2334,8 +2334,8 @@ body .layout-wrapper .layout-main .layout-content {
   transform: rotate(45deg);
 }
 .landing-body .landing-wrapper #footer {
-  padding: 20px 200px;
-  background-image: linear-gradient(90deg, rgba(29, 240, 253, 0.2) 0%, #5d45fc 100%);
+  padding: 40px 200px;
+  background-image: linear-gradient(90deg, rgba(29, 240, 253, 0.6) 0%, #5d45fc 100%);
 }
 .landing-body .landing-wrapper #footer .footer .logo img {
   height: 100px;
@@ -2346,7 +2346,7 @@ body .layout-wrapper .layout-main .layout-content {
   font-size: 13px;
   display: block;
   margin-top: 15px;
-  color: #F3F3F3;
+  color: white;
   padding: 0;
 }
 .landing-body .landing-wrapper #footer #landing-menu .landing-box {
@@ -2357,7 +2357,7 @@ body .layout-wrapper .layout-main .layout-content {
   font-size: 16px;
   font-weight: 500;
   text-align: left;
-  color: #8A8A8A;
+  color: white;
   display: block;
 }
 .landing-body .landing-wrapper #footer #landing-menu .landing-box a {
@@ -2366,13 +2366,13 @@ body .layout-wrapper .layout-main .layout-content {
   font-size: 13px;
   font-weight: 400;
   display: block;
-  color: #666666;
+  color: white;
 }
 .landing-body .landing-wrapper #footer #landing-menu .landing-box a > a {
   opacity: 0.9;
   font-size: 13px;
   text-align: left;
-  color: #666666;
+  color: white;
 }
 .landing-body .landing-wrapper #footer #landing-menu .landing-box a:hover {
   color: #1F1F1F;
@@ -2382,7 +2382,7 @@ body .layout-wrapper .layout-main .layout-content {
   margin-top: 30px;
 }
 .landing-body .landing-wrapper #footer #landing-menu .landing-box .icon-link .icon {
-  color: #666666;
+  color: white;
   font-size: 22px;
   margin-right: 16px;
   margin-left: 16px;
@@ -2391,15 +2391,15 @@ body .layout-wrapper .layout-main .layout-content {
   margin-left: 0;
 }
 .landing-body .landing-wrapper #footer #landing-menu .landing-box .icon-link .icon:hover {
-  color: #1F1F1F;
+  color: white;
 }
 .landing-body .landing-wrapper #back-to-top {
   position: fixed;
-  z-index: 999;
+  z-index: 10;
   top: auto;
   left: auto;
   bottom: 0px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.21);
+  box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.06), 0 2px 32px 0 rgba(0, 0, 0, 0.16);
   right: 10px;
   padding: 6px 16px;
   background: linear-gradient(200deg, #1df0fd 0%, #5d45fc 100%);

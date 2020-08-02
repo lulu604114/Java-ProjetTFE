@@ -14,7 +14,7 @@ import java.util.Objects;
  * =================================================================
  */
 @Entity
-@Table(name = "Suppliers", schema = "c3_jsf_tfe")
+@Table(name = "Suppliers", schema = "jsf_tfe")
 @NamedQueries({
         @NamedQuery(name = "Supplier.findByUser", query = "SELECT s FROM Supplier s WHERE s.user=:user")
 })

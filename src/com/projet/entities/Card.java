@@ -14,7 +14,7 @@ import java.util.Objects;
  * =================================================================
  */
 @Entity
-@Table(name = "Cards", schema = "c3_jsf_tfe")
+@Table(name = "Cards", schema = "jsf_tfe")
 @NamedQueries({
         @NamedQuery(name = "Card.findById", query = "SELECT c FROM Card c WHERE c.id=:cardId"),
         @NamedQuery(name = "Card.findAll", query = "SELECT c FROM Card c")
