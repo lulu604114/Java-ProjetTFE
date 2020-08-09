@@ -1910,21 +1910,14 @@ body .layout-wrapper .layout-main .layout-content {
 }
 .login-body .login-image {
   height: 100%;
-  background: url("#{resource['ecuador-layout:images/bg-image-login.jpg']}") no-repeat;
+  background-image: linear-gradient(90deg, rgba(29, 240, 253, 0.2) 0%, #5d45fc 100%), url("#{resource['own-layout:images/background/speech-therapist.jpg']}");
   background-size: cover;
   background-position: center;
 }
 .login-body .login-topbar {
   height: 60px;
   width: 100%;
-  background-color: #4b6cb7;
-  background-image: -webkit-gradient(linear, left top, right top, from(#4b6cb7), to(#182848));
-  background-image: -webkit-linear-gradient(left, #4b6cb7, #182848);
-  background-image: -moz-linear-gradient(left, #4b6cb7, #182848);
-  background-image: -ms-linear-gradient(left, #4b6cb7, #182848);
-  background-image: -o-linear-gradient(left, #4b6cb7, #182848);
-  background-image: linear-gradient(left, #4b6cb7, #182848);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#4b6cb7", endColorstr="#182848", gradientType="1");
+  background: linear-gradient(90deg, rgba(29, 240, 253, 0.2) 0%, #5d45fc 100%);
   text-align: center;
   position: fixed;
 }
@@ -1957,6 +1950,17 @@ body .layout-wrapper .layout-main .layout-content {
 .login-body .login-panel .ui-inputfield {
   width: 100%;
   margin: 6px 0;
+}
+.login-body .login-panel .login-button {
+  background: linear-gradient(200deg, #1df0fd 0%, #5d45fc 100%);
+  border-radius: 25px;
+  color: white;
+  border: none;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.21);
+  font-weight: 500;
+}
+.login-body .login-panel .login-button:hover {
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
 }
 .login-body .login-panel .checkbox-container {
   padding: 6px 0 20px 0;
