@@ -8,6 +8,7 @@ import org.apache.log4j.Logger;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.credential.PasswordMatcher;
 
+import javax.enterprise.context.SessionScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.io.Serializable;
@@ -28,9 +29,6 @@ import java.util.Map;
 public class UserService extends Service<User> implements Serializable {
     private static final Logger log = Logger.getLogger(UserService.class);
     private static final long serialVersionUID = 1L;
-
-    @PersistenceContext(unitName = "jsf_tfe")
-    private EntityManager em;
 
     public UserService(Class<?> ec) {
         super(ec);

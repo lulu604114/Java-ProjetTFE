@@ -1,9 +1,11 @@
 package com.projet.services;
 
+import com.projet.connection.EMF;
 import com.projet.dao.EntityFinder;
 import com.projet.dao.EntityFinderImpl;
 import com.projet.entities.User;
 
+import javax.enterprise.context.SessionScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
@@ -20,13 +22,13 @@ import javax.persistence.PersistenceContext;
  */
 public abstract class Service<E> implements IService<E> {
 
-    @PersistenceContext(unitName = "jsf_tfe")
-    private EntityManager em;
+    protected EntityManager em;
 
     EntityFinder<E> finder;
 
     Service(Class<?> ec) {
-        finder = new EntityFinderImpl<>(ec, this.em);
+        this.em = EMF.getEM();
+        this.finder = new EntityFinderImpl<>(ec, this.em);
     }
 
     public E getById (int id) {
