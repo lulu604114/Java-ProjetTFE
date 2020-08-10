@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <f:facet name="first">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <link rel="icon" href="resources/own-layout/images/logo/favicon.png" type="image/x-icon"/>
+
+    </f:facet>
+    <title>Assistologos</title>
+</h:head>
+
+<h:body styleClass="landing-body">
+    <div class="landing-wrapper">
+        <div id="header">
+            <div class="header-top">
+                <div class="ui-g">
+                    <a id="menu-btn" href="#" class="ui-g-3 ui-md-3 menu-button-mobile">
+                        <i class="fa fa-bars"></i>
+                    </a>
+                    <div class="ui-g-3 ui-md-3 ui-lg-3 logo-container">
+                        <a href="#" class="logo">
+                            <p:graphicImage name="images/logo/logo_transparent.png" library="own-layout"/>
+                        </a>
+                    </div>
+
+                    <div class="ui-g-9 ui-md-9 ui-lg-9">
+                        <ul id="landing-menu">
+                            <li>
+                                <p:link outcome="/index">Retour</p:link>
+                            </li>
+                            <li class="flag">
+                                <h:form>
+
+                                    <h:commandLink action="#{i18n.changeLanguage('fr')}">
+                                        <p:graphicImage name="images/icons/france.png" library="own-layout"/>
+                                    </h:commandLink>
+                                </h:form>
+                            </li>
+                            <li class="flag">
+                                <h:form>
+
+                                    <h:commandLink action="#{i18n.changeLanguage('en')}">
+                                        <p:graphicImage name="images/icons/united-kingdom.png" library="own-layout"/>
+                                    </h:commandLink>
+                                </h:form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="header-content animation-element slide-bottom">
+                <div class="header-bg">
+                    <span>
+                        Essayez Assistologo gratuitement pendant 14 jours,
+                    </span>
+                </div>
+                <div class="sub-header-bg">
+                    <span>
+                       sans aucune obligation.
+                    </span>
+                </div>
+                <div class="sub-header-description">
+                    <p>
+                        Vous êtes logopède ? Vous désirez découvrir
+                        comment Assistologo peut vous aider à travailler plus efficacement ?
+                    </p>
+                </div>
+            </div>
+
+            <div class="ui-g" style="justify-content: center">
+                <div class="ui-g-12 ui-md-12 ui-lg-6">
+                    <div class="card" style="text-align: center">
+                        <h1>Créez votre compte Assistologo en complétant les champs ci-dessous :</h1>
+                        <h:form id="registration-form">
+                            <p:panelGrid columns="2" layout="grid" columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4" styleClass="customPanelGrid" contentStyleClass="ui-fluid">
+
+                                <small>Votre identifiant ne peut contenir que des caractères alphanumériques,<br/>des points et/ou des underscores.<i class="fa fa-fw fa-lightbulb-o"/></small>
+                                <p:inputText id="username" placeholder="Nom d'utilisateur *" required="true"
+                                             value="${userRegistration.user.username}">
+                                    <f:validator validatorId="usernameValidator"/>
+                                </p:inputText>
+
+                                <small>Votre mot de passe doit contenir au minimum 8 caractères,<br/>une majuscule, une minuscule et un chiffre.<i class="fa fa-fw fa-lightbulb-o"/></small>
+                                <p:password id="password" placeholder="Mot de passe *" match="passwordConfirm" feedback="true"
+                                            required="true" value="${userRegistration.user.password}"/>
+
+                                <br/>
+                                <p:password id="passwordConfirm" placeholder="Répéter le Mot de passe *" required="true"/>
+
+                                <br/>
+                                <p:selectOneMenu id="title-select" value="${userRegistration.user.title}" required="true">
+                                    <p:importEnum type="com.projet.enumeration.UserTitle" var="UserTitle" allSuffix="VALUES"/>
+                                    <f:selectItem itemLabel="Selectionner un titre *" noSelectionOption="true"/>
+                                    <f:selectItems var="title" value="#{UserTitle.VALUES}" itemLabel="#{title.label}" itemValue="#{title}" />
+                                </p:selectOneMenu>
+
+                                <br/>
+                                <p:inputText id="firstName" placeholder="Nom *" required="true"
+                                             value="${userRegistration.user.firstName}"/>
+
+                                <br/>
+                                <p:inputText id="lastName" placeholder="Prénom *" required="true"
+                                             value="${userRegistration.user.lastName}"/>
+
+                                <br/>
+                                <p:inputText id="email" placeholder="Email *" required="true"
+                                             value="${userRegistration.user.email}"/>
+
+                                <br/>
+                                <p:inputMask id="phone" placeholder="N° de téléphone *" mask="(+99)999/99.99.99" required="true"
+                                             value="${userRegistration.user.mobile}"/>
+                            </p:panelGrid>
+                            <br/>
+                            <p:commandButton value="S'inscrire" action="${userRegistration.registrate()}"/>
+                        </h:form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="footer">
+            <div class="ui-g">
+                <div class="ui-g-12 ui-md-12 ui-lg-4 footer">
+                    <div class="logo">
+                        <p:graphicImage name="images/logo/logo_transparent.png" library="own-layout"/>
+                    </div>
+                </div>
+                <div class="ui-g-12 ui-md-12 ui-lg-8">
+                    <div id="landing-menu">
+                        <div class="ui-g-12 ui-md-6 ui-lg-3 landing-box">
+                            <span>#{homepage['footer.developed']}</span>
+
+                            <a href="https://www.linkedin.com/in/nathan-lambert-371877b7/" target="_blank">Nathan Lambert</a>
+
+                            <a href="https://www.linkedin.com/in/lucas-robyns-08327017a/" target="_blank">Lucas Robyns</a>
+
+                            <a href="https://www.linkedin.com/in/amaury-lapaque/" target="_blank">Amaury Lapaque</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="back-to-top">
+            <a href="#header">↑</a>
+        </div>
+    </div>
+
+    <h:outputStylesheet name="css/layout-#{guestPreferences.layout}.css" library="ecuador-layout"/>
+</h:body>
+
+</html>
