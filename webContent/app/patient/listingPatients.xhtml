@@ -1,0 +1,103 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:shiro="http://shiro.apache.org/tags"
+                template="../../WEB-INF/template/template.xhtml">
+
+
+        <ui:define name="title">Listing patient</ui:define>
+        <ui:define name="viewname">
+            <li>Pages</li>
+            <li>/</li>
+        </ui:define>
+        <ui:define name="content">
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <div class="card">
+                        <h1>Listing des patients</h1>
+                        <p>Listing patient.</p>
+                        <p:button value="Home" style="display:inline-block;margin-top:6px" icon="fa fa-home"/>
+
+                    </div>
+                </div>
+            </div>
+
+            <style type="text/css">
+                .logo {
+                    width: 5%
+                }
+
+                .detail {
+                    width: 95%;
+                    padding-left: 25px;
+                }
+
+                .detail td {
+                    font-size: 24px;
+                }
+
+                .ui-datascroller .ui-datascroller-item {
+                    border-bottom: 1px solid #A8A8A8;
+                    padding: 25px 10px;
+                    /* with the exported variables from Nova and Luna Themes*/
+                    border-bottom-color: var(--input-border-color, #A8A8A8);
+                }
+            </style>
+
+
+            <h:form>
+                <p:dataScroller value="test" var="car" chunkSize="10">
+                    <f:facet name="header">
+                        Scroll Down to Load More Patients
+                    </f:facet>
+
+                    <p:dataTable var="car" value="#{dtBasicView.cars}">
+                        <p:column headerText="Numéro">
+                            <h:outputText value="#{car.id}" />
+                        </p:column>
+
+                        <p:column headerText="Nom">
+                            <h:outputText value="#{car.year}" />
+                        </p:column>
+
+                        <p:column headerText="Prénom">
+                            <h:outputText value="#{car.brand}" />
+                        </p:column>
+                    </p:dataTable>
+                </p:dataScroller>
+            </h:form>
+
+            <style type="text/css">
+                .ui-datatable {
+                    margin-bottom:20px;
+                }
+
+                .ui-datatable-frozenlayout-left {
+                    width:20%;
+                }
+
+                .ui-datatable-frozenlayout-right {
+                    width:80%;
+                }
+            </style>
+
+            <h:form>
+                <h3>On-Demand Data</h3>
+                <p:dataTable var="patient" value="#{patientBean.patients}"  scrollRows="20" scrollable="true" liveScroll="true" scrollHeight="150">
+                    <p:column headerText="Id" >
+                        <h:outputText value="#{patient.id}" />
+                    </p:column>
+                    <p:column headerText="Nom" >
+                        <h:outputText value="#{patient.lastName}" />
+                    </p:column>
+
+                </p:dataTable>
+
+
+            </h:form>
+
+        </ui:define>
+
+</ui:composition>

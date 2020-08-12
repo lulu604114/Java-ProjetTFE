@@ -361,7 +361,7 @@
                     <div class="ui-g-12">
                         <p:outputLabel value="Langue" />
                         <div class="ui-inputgroup">
-                            <p:selectOneMenu id="language-select" value="#{profileSettings.editedUser.language}">
+                            <p:selectOneMenu  id="language-select" value="#{profileSettings.editedUser.language}">
                                 <p:importEnum type="com.projet.enumeration.Language" var="Language" allSuffix="VALUES"/>
                                 <f:selectItem itemLabel="Selectionner un titre" noSelectionOption="true"
                                               itemDisabled="#{profileSettings.editedUser.language != null}"/>

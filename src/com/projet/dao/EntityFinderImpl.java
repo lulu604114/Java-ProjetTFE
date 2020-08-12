@@ -1,6 +1,7 @@
 package com.projet.dao;
 
 import com.projet.connection.EMF;
+import com.projet.entities.Patient;
 import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
@@ -31,6 +32,9 @@ public class EntityFinderImpl<T> implements EntityFinder<T>, Serializable {
 		super();
 		this.ec = ec;
 		this.em = em;
+	}
+/** surement a supprimer Nathan **/
+	public EntityFinderImpl(Class<Patient> patientClass) {
 	}
 
 	@Override

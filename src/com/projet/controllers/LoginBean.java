@@ -73,6 +73,7 @@ public class LoginBean implements Serializable {
         return view + "?faces-redirect=true";
     }
 
+
     public String getUsername() {
         return username;
     }
