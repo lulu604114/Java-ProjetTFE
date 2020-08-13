@@ -1,11 +1,16 @@
 package com.projet.controllers;
 
+import com.projet.conf.App;
+import com.projet.controllers.utils.Message;
 import com.projet.entities.User;
+import com.projet.enumeration.RoleEnum;
 import com.projet.services.UserService;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
+import javax.faces.application.FacesMessage;
 import javax.inject.Named;
+import javax.persistence.EntityTransaction;
 import java.io.Serializable;
 
 
@@ -23,6 +28,7 @@ import java.io.Serializable;
 @RequestScoped
 public class UserRegistration implements Serializable {
     private static final long serialVersionUID = 1L;
+    private static final Message message = Message.getMessage(App.BUNDLE_MESSAGE);
 
     private User user;
 
@@ -31,24 +37,32 @@ public class UserRegistration implements Serializable {
         this.user = new User();
     }
 
-    public void registrate() {
-        /* UserService service = new UserService(User.class);
+    public String registrate() {
+        UserService service = new UserService(User.class);
 
         EntityTransaction transaction = service.getTransaction();
 
         transaction.begin();
 
         try {
+            User user = service.setUserRole(this.user, RoleEnum.USER);
+
             service.save(user);
 
             transaction.commit();
+
+            return "/successRegistration.xhtml?faces-redirect=true";
         } finally {
             if (transaction.isActive()) {
                 transaction.rollback();
+
+                message.display(FacesMessage.SEVERITY_ERROR, "Unknown error");
+
+                return "";
             }
 
             service.close();
-        }*/
+        }
     }
 
     public User getUser() {

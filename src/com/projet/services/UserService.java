@@ -3,7 +3,9 @@ package com.projet.services;
 import com.projet.connection.EMF;
 import com.projet.dao.EntityFinder;
 import com.projet.dao.EntityFinderImpl;
+import com.projet.entities.Role;
 import com.projet.entities.User;
+import com.projet.enumeration.RoleEnum;
 import org.apache.log4j.Logger;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.credential.PasswordMatcher;
@@ -45,6 +47,13 @@ public class UserService extends Service<User> implements Serializable {
         return finder.findOneByNamedQuery("User.findUserByUsername", param);
     }
 
+    public User getByEmail(String email) {
+        Map<String, String> param = new HashMap<>();
+        param.put("email", email);
+
+        return finder.findOneByNamedQuery("User.findUserByEmail", param);
+    }
+
     @Override
     public User save(User user) {
         if (user.getId() == 0) {
@@ -52,6 +61,14 @@ public class UserService extends Service<User> implements Serializable {
         } else {
             user = em.merge(user);
         }
+        return user;
+    }
+
+    public User setUserRole(User user, RoleEnum roleEnum) {
+        Role role = em.find(Role.class, roleEnum.getId());
+
+        user.setRole(role);
+
         return user;
     }
 }

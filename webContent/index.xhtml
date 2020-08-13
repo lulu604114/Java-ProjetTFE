@@ -80,9 +80,6 @@
                                     <p:commandLink action="#{loginBean.isLogged}" value="#{homepage['login']}"/>
                                 </h:form>
                             </li>
-                            <li>
-                                <p:link outcome="/registration">S'inscrire</p:link>
-                            </li>
                             <li class="flag">
                                 <h:form>
 
@@ -121,7 +118,7 @@
                     </p>
                 </div>
                 <div class="header-button">
-                    <p:button class="landing-button" value="#{homepage['header.button']}"/>
+                    <p:button class="landing-button" value="S'inscrire" outcome="/registration"/>
                 </div>
             </div>
         </div>

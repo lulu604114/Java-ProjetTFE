@@ -22,8 +22,8 @@ import javax.faces.validator.ValidatorException;
  * Time: 21:36
  * =================================================================
  */
-@FacesValidator("usernameValidator")
-public class UsernameValidator implements Validator {
+@FacesValidator("usernameNotUsedValidator")
+public class UsernameNotUsedValidator implements Validator {
     private Message message = Message.getMessage(App.BUNDLE_MESSAGE);
 
     @Override
@@ -32,7 +32,12 @@ public class UsernameValidator implements Validator {
 
         UserService service = new UserService(User.class);
 
-        if (service.getByUsername(username) != null)
-            throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, message.translate(username + " est déjà utilisé"), null));
+        try {
+            if (service.getByUsername(username) != null)
+                throw new ValidatorException(new FacesMessage(FacesMessage.SEVERITY_ERROR, message.translate(username + " est déjà utilisé"), null));
+
+        } finally {
+            service.close();
+        }
     }
 }

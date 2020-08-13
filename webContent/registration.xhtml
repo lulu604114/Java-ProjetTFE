@@ -77,50 +77,70 @@
             </div>
 
             <div class="ui-g" style="justify-content: center">
-                <div class="ui-g-12 ui-md-12 ui-lg-6">
+                <div class="ui-g-12 ui-md-12 ui-lg-12">
                     <div class="card" style="text-align: center">
                         <h1>Créez votre compte Assistologo en complétant les champs ci-dessous :</h1>
                         <h:form id="registration-form">
-                            <p:panelGrid columns="2" layout="grid" columnClasses="p-col-12 p-md-3 p-xl-2, p-col-12 p-md-9 p-xl-4" styleClass="customPanelGrid" contentStyleClass="ui-fluid">
+                            <p:panelGrid columns="3" layout="grid" columnClasses="ui-g-12 ui-md-12 ui-lg-4">
 
                                 <small>Votre identifiant ne peut contenir que des caractères alphanumériques,<br/>des points et/ou des underscores.<i class="fa fa-fw fa-lightbulb-o"/></small>
                                 <p:inputText id="username" placeholder="Nom d'utilisateur *" required="true"
-                                             value="${userRegistration.user.username}">
-                                    <f:validator validatorId="usernameValidator"/>
+                                             value="${userRegistration.user.username}"
+                                             requiredMessage="Cette valeur ne doit pas être vide.">
+                                    <f:validator validatorId="usernameNotUsedValidator"/>
                                 </p:inputText>
+                                <p:message for="username" />
 
-                                <small>Votre mot de passe doit contenir au minimum 8 caractères,<br/>une majuscule, une minuscule et un chiffre.<i class="fa fa-fw fa-lightbulb-o"/></small>
+                                <small>Votre mot de passe doit contenir au minimum 8 caractères,<br/>une majuscule, une minuscule, un chiffre et 1 caractère spécial.<i class="fa fa-fw fa-lightbulb-o"/></small>
                                 <p:password id="password" placeholder="Mot de passe *" match="passwordConfirm" feedback="true"
-                                            required="true" value="${userRegistration.user.password}"/>
+                                            required="true" value="${userRegistration.user.password}"
+                                            requiredMessage="Cette valeur ne doit pas être vide."/>
+                                <p:message for="password" />
 
-                                <br/>
+                                <h:outputText/>
                                 <p:password id="passwordConfirm" placeholder="Répéter le Mot de passe *" required="true"/>
+                                <h:outputText/>
 
-                                <br/>
-                                <p:selectOneMenu id="title-select" value="${userRegistration.user.title}" required="true">
+                                <h:outputText/>
+                                <p:selectOneMenu id="title-select" value="${userRegistration.user.title}" required="true"
+                                                 requiredMessage="Cette valeur ne doit pas être vide.">
                                     <p:importEnum type="com.projet.enumeration.UserTitle" var="UserTitle" allSuffix="VALUES"/>
                                     <f:selectItem itemLabel="Selectionner un titre *" noSelectionOption="true"/>
                                     <f:selectItems var="title" value="#{UserTitle.VALUES}" itemLabel="#{title.label}" itemValue="#{title}" />
                                 </p:selectOneMenu>
+                                <p:message for="title-select" />
 
-                                <br/>
+                                <h:outputText/>
                                 <p:inputText id="firstName" placeholder="Nom *" required="true"
-                                             value="${userRegistration.user.firstName}"/>
+                                             value="${userRegistration.user.firstName}"
+                                             requiredMessage="Cette valeur ne doit pas être vide."/>
+                                <p:message for="firstName" />
 
-                                <br/>
+                                <h:outputText/>
                                 <p:inputText id="lastName" placeholder="Prénom *" required="true"
-                                             value="${userRegistration.user.lastName}"/>
+                                             value="${userRegistration.user.lastName}"
+                                             requiredMessage="Cette valeur ne doit pas être vide."/>
+                                <p:message for="lastName" />
 
-                                <br/>
+                                <h:outputText/>
                                 <p:inputText id="email" placeholder="Email *" required="true"
-                                             value="${userRegistration.user.email}"/>
+                                             value="${userRegistration.user.email}"
+                                             requiredMessage="Cette valeur ne doit pas être vide.">
+                                    <f:validator validatorId="EmailNotUsedValidator"/>
+                                </p:inputText>
+                                <p:message for="email" />
 
-                                <br/>
-                                <p:inputMask id="phone" placeholder="N° de téléphone *" mask="(+99)999/99.99.99" required="true"
-                                             value="${userRegistration.user.mobile}"/>
+                                <h:outputText/>
+                                <p:inputMask id="phone" placeholder="N° de téléphone *" mask="+32999999999" required="true"
+                                             value="${userRegistration.user.mobile}"
+                                             requiredMessage="Cette valeur ne doit pas être vide."/>
+                                <h:outputText/>
                             </p:panelGrid>
                             <br/>
-                            <p:commandButton value="S'inscrire" action="${userRegistration.registrate()}"/>
+                            <small>* Champs obligatoire</small>
+                            <br/>
+                            <br/>
+                            <p:commandButton value="S'inscrire" action="${userRegistration.registrate}" update="registration-form"/>
                         </h:form>
                     </div>
                 </div>
@@ -155,6 +175,7 @@
     </div>
 
     <h:outputStylesheet name="css/layout-#{guestPreferences.layout}.css" library="ecuador-layout"/>
+    <h:outputStylesheet name="css/own-style.css" library="own-layout" />
 </h:body>
 
 </html>
