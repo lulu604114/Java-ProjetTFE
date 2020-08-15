@@ -13,8 +13,11 @@ import java.util.List;
  * Time: 11:47
  * =================================================================
  */
-public interface IService<T> {
-    public T save(T t);
+public interface IService<E> {
 
-    public void delete(T t);
+    public E getById(int id);
+
+    public abstract E save(E e);
+
+    public void delete(E e);
 }

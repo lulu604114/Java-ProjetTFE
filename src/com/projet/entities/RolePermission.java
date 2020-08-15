@@ -14,7 +14,7 @@ import java.util.Objects;
  * =================================================================
  */
 @Entity
-@Table(name = "Role_permissions", schema = "c3_jsf_tfe", catalog = "")
+@Table(name = "Role_permissions", schema = "jsf_tfe", catalog = "")
 public class RolePermission {
     @Id
     @Column(name = "id")

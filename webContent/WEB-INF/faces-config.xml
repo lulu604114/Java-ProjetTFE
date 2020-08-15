@@ -15,5 +15,13 @@
             <base-name>resources.messages</base-name>
             <var>msg</var>
         </resource-bundle>
+        <resource-bundle>
+            <base-name>resources.component</base-name>
+            <var>component</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>resources.homepage</base-name>
+            <var>homepage</var>
+        </resource-bundle>
     </application>
 </faces-config>

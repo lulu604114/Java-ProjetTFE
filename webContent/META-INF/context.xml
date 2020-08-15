@@ -21,9 +21,10 @@
 -->
       <!-- url: The JDBC connection url for connecting to your MySQL dB.
       -->
-      <Resource name="jdbc/c3_jsf_tfe" auth="Container" type="javax.sql.DataSource" maxActive="100" maxIdle="30" maxWait="10000"
-                username="c3_jsf_tfe" password="toto999!"
-                driverClassName="com.mysql.jdbc.Driver" url="jdbc:mysql://37.59.55.44:3306/c3_jsf_tfe?autoReconnect=true"/>
+      <Resource name="jdbc/jsf_tfe" auth="Container" type="javax.sql.DataSource" maxActive="100" maxIdle="30" maxWait="10000"
+                username="jsf_tfe" password="Toto999!!!"
+                driverClassName="com.mysql.jdbc.Driver" url="jdbc:mysql://jsf_tfe.must.be:3307/jsf_tfe?autoReconnect=true"/>
+
 
       <!-- to use Weld (CDI) on tomcat -->
       <Resource name="BeanManager" auth="Container" type="javax.enterprise.inject.spi.BeanManager" factory="org.jboss.weld.resources.ManagerObjectFactory"/>

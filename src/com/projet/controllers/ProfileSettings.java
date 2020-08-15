@@ -43,15 +43,15 @@ public class ProfileSettings implements Serializable {
     }
 
     public void save() {
-        EntityManager em = EMF.getEM();
-        EntityTransaction transaction = em.getTransaction();
+        UserService service = new UserService(User.class);
+
+        EntityTransaction transaction = service.getTransaction();
 
         transaction.begin();
 
         try {
             user.setFields(editedUser);
 
-            UserService service = new UserService(em);
             service.save(user);
 
             transaction.commit();
@@ -64,7 +64,7 @@ public class ProfileSettings implements Serializable {
                 message.display(FacesMessage.SEVERITY_ERROR, "Unknown error");
             }
 
-            em.close();
+            service.close();
         }
     }
 

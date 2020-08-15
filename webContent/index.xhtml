@@ -7,39 +7,39 @@
 
 <h:head>
     <f:facet name="first">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
-        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes"/>
+        <link rel="icon" href="resources/own-layout/images/logo/favicon.png" type="image/x-icon"/>
     </f:facet>
-    <title>PrimeFaces Ecuador</title>
+    <title>Assistologos</title>
     <script type="text/javascript">
-        hideMenu = function() {
+        hideMenu = function () {
             var menu = $('#landing-menu');
             menu.removeClass('landing-menu-active');
             $(document.body).removeClass('landing-masked').children('.landing-wrapper').children('.layout-mask').remove();
         }
 
-        showMenu = function() {
+        showMenu = function () {
             var menu = $('#landing-menu');
             menu.addClass('landing-menu-active');
             $(document.body).addClass('landing-masked').children('.landing-wrapper').append('<div class="layout-mask"></div>');
         }
 
-        $(function() {
-            $('#menu-btn').on('click', function(e) {
+        $(function () {
+            $('#menu-btn').on('click', function (e) {
                 var menu = $('#landing-menu');
-                if(menu.hasClass('landing-menu-active')) {
+                if (menu.hasClass('landing-menu-active')) {
                     hideMenu();
-                }
-                else {
+                } else {
                     showMenu();
                 }
 
                 e.preventDefault();
             });
 
-            $('#landing-menu').find('a').on('click', function(e) {
+            $('#landing-menu').find('a').on('click', function (e) {
                 hideMenu();
                 e.preventDefault();
             });
@@ -57,30 +57,43 @@
                     </a>
                     <div class="ui-g-3 ui-md-3 ui-lg-3 logo-container">
                         <a href="#" class="logo">
-                            <p:graphicImage name="images/ecuador-logo.png" library="ecuador-layout"/>
+                            <p:graphicImage name="images/logo/logo_transparent.png" library="own-layout"/>
                         </a>
                     </div>
 
                     <div class="ui-g-9 ui-md-9 ui-lg-9">
                         <ul id="landing-menu">
                             <li>
-                                <a href="#home">Home</a>
+                                <a href="#header">#{homepage['menu.home']}</a>
                             </li>
                             <li>
-                                <a href="#features">Features</a>
+                                <a href="#features">#{homepage['menu.features']}</a>
                             </li>
                             <li>
-                                <a href="#news">News</a>
+                                <a href="#pricing">#{homepage['menu.pricing']}</a>
                             </li>
                             <li>
-                                <a href="#pricing">Pricing</a>
-                            </li>
-                            <li>
-                                <a href="#multimedia">Multimedia</a>
+                                <a href="#multimedia">#{homepage['menu.media']}</a>
                             </li>
                             <li>
                                 <h:form>
-                                    <p:commandLink action="#{loginBean.isLogged}" value="login"/>
+                                    <p:commandLink action="#{loginBean.isLogged}" value="#{homepage['login']}"/>
+                                </h:form>
+                            </li>
+                            <li class="flag">
+                                <h:form>
+
+                                    <h:commandLink action="#{i18n.changeLanguage('fr')}">
+                                        <p:graphicImage name="images/icons/france.png" library="own-layout"/>
+                                    </h:commandLink>
+                                </h:form>
+                            </li>
+                            <li class="flag">
+                                <h:form>
+
+                                    <h:commandLink action="#{i18n.changeLanguage('en')}">
+                                        <p:graphicImage name="images/icons/united-kingdom.png" library="own-layout"/>
+                                    </h:commandLink>
                                 </h:form>
                             </li>
                         </ul>
@@ -89,53 +102,76 @@
             </div>
 
             <div class="header-content animation-element slide-bottom">
-                <div class="header-bg"><span>PrimeFaces Presents</span></div>
-                <div class="header-bg"><span>Ecuador</span></div>
-                <h2 style="line-height: 1.5">Modern and elegant responsive application template with a premium look
-                    for PrimeFaces components.</h2>
-                <div>
-                    <p:button class="landing-button" value="Learn More"/>
+                <div class="header-bg">
+                    <span>
+                        #{homepage['header.title']}
+                    </span>
+                </div>
+                <div class="sub-header-bg">
+                    <span>
+                        #{homepage['header.sub-title']}
+                    </span>
+                </div>
+                <div class="sub-header-description">
+                    <p>
+                        #{homepage['header.description']}
+                    </p>
+                </div>
+                <div class="header-button">
+                    <p:button class="landing-button" value="S'inscrire" outcome="/registration"/>
                 </div>
             </div>
         </div>
 
         <div id="features">
+            <span class="section-header">#{homepage['features.title']}</span>
             <div>
+                <!-- ROW 1-->
                 <div class="ui-g">
                     <div class="ui-g-12 ui-md-12 ui-lg-4">
                         <div class="features-content">
-                            <p:graphicImage name="images/icon-responsive.png" library="ecuador-layout" />
-                            <h3>RESPONSIVE LAYOUT</h3>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
+                            <p:graphicImage name="images/icons/dashboard.svg" library="own-layout"/>
+                            <h3>#{homepage['features.dashboard.title']}</h3>
+                            <p>#{homepage['features.dashboard.description']}</p>
                         </div>
                     </div>
                     <div class="ui-g-12 ui-md-12 ui-lg-4">
                         <div class="features-content">
-                            <p:graphicImage name="images/icon-design.png" library="ecuador-layout" />
-                            <h3>MODERN DESIGN</h3>
-                            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                            <p:graphicImage name="images/icons/folder.svg" library="own-layout"/>
+                            <h3>#{homepage['features.document.title']}</h3>
+                            <p>#{homepage['features.document.description']}</p>
                         </div>
                     </div>
                     <div class="ui-g-12 ui-md-12 ui-lg-4">
                         <div class="features-content">
-                            <p:graphicImage name="images/icon-code.png" library="ecuador-layout" />
-                            <h3>CLEAN CODE</h3>
-                            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            <p:graphicImage name="images/icons/patient.svg" library="own-layout"/>
+                            <h3>#{homepage['features.patient.title']}</h3>
+                            <p>#{homepage['features.patient.description']}</p>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div id="news">
-            <div>
+                <!-- ROW 2-->
                 <div class="ui-g">
-                    <div class="ui-g-12 ui-md-12 news-content">
-                        <h2>PrimeFaces Premium Template</h2>
-                        <p>
-                            Take advantage of media's most prominent business trend, and empowers your internal advertising teams.
-                        </p>
-                        <p:button id="promotionButton" value="Learn More"></p:button>
+                    <div class="ui-g-12 ui-md-12 ui-lg-4">
+                        <div class="features-content">
+                            <p:graphicImage name="images/icons/task.svg" library="own-layout"/>
+                            <h3>#{homepage['features.task.title']}</h3>
+                            <p>#{homepage['features.task.description']}</p>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-12 ui-lg-4">
+                        <div class="features-content">
+                            <p:graphicImage name="images/icons/contact.svg" library="own-layout"/>
+                            <h3>#{homepage['features.contact.title']}</h3>
+                            <p>#{homepage['features.contact.description']}</p>
+                        </div>
+                    </div>
+                    <div class="ui-g-12 ui-md-12 ui-lg-4">
+                        <div class="features-content">
+                            <p:graphicImage name="images/icons/digital-marketing.svg" library="own-layout"/>
+                            <h3>#{homepage['features.cost.title']}</h3>
+                            <p>#{homepage['features.cost.description']}</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -144,78 +180,64 @@
         <div id="pricing">
             <div>
                 <div class="ui-g">
-                    <span class="section-header">Pricing</span>
-                    <div class="ui-g-12">
+                    <span class="section-header">#{homepage['pricing.title']}</span>
+                    <div class=" ui-g-12">
                         <div class="ui-g-12 ui-md-12 ui-lg-4 pricing-container">
                             <div class="price-type">
-                                <div class="price-header">
-                                    <h3>BEGINNER</h3>
-                                    <span class="price-for">$5 per month</span>
+                                <div class="price-header-starter">
+                                    <h3>#{homepage['pricing.starter.title']}</h3>
                                 </div>
-                                <div class="pricing-bottom">
+                                <div class="pricing-bottom pricing-bottom-starter">
+                                    <p>#{homepage['pricing.starter.description']}</p>
+                                    <span class="price-for">#{homepage['pricing.starter.price']}</span>
                                     <div>
                                         <ul>
-                                            <li>Responsive</li>
-                                            <li>Push Messages</li>
+                                            <li>#{homepage['pricing.starter.list.1']}</li>
+                                            <li>#{homepage['pricing.starter.list.2']}</li>
+                                            <li>#{homepage['pricing.starter.list.3']}</li>
                                         </ul>
                                     </div>
-                                    <p:button value="Buy Now" styleClass="green-btn raised-btn" />
                                 </div>
                             </div>
                         </div>
                         <div class="ui-g-12 ui-md-12 ui-lg-4 pricing-container">
                             <div class="price-type">
-                                <div class="price-header">
-                                    <h3>PROFESSIONAL</h3>
-                                    <span class="price-for">$10 per month</span>
+                                <div class="price-header-pro">
+                                    <h3>#{homepage['pricing.pro.title']}</h3>
                                 </div>
-                                <div class="pricing-bottom">
+                                <div class="pricing-bottom pricing-bottom-pro">
+                                    <p>#{homepage['pricing.pro.description']}</p>
+                                    <span class="price-for">#{homepage['pricing.pro.price']}</span>
                                     <div>
                                         <ul>
-                                            <li>Responsive</li>
-                                            <li>Push Messages</li>
-                                            <li>10 Support Tickets</li>
-                                            <li>Free Shipping</li>
+                                            <li>#{homepage['pricing.pro.list.1']}</li>
+                                            <li>#{homepage['pricing.pro.list.2']}</li>
+                                            <li>#{homepage['pricing.pro.list.3']}</li>
+                                            <li>#{homepage['pricing.pro.list.4']}</li>
+                                            <li>#{homepage['pricing.pro.list.5']}</li>
+                                            <li>#{homepage['pricing.pro.list.6']}</li>
+                                            <li>#{homepage['pricing.pro.list.7']}</li>
                                         </ul>
                                     </div>
-                                    <p:button value="Buy Now" styleClass="green-btn raised-btn" />
                                 </div>
                             </div>
                         </div>
                         <div class="ui-g-12 ui-md-12 ui-lg-4 pricing-container">
                             <div class="price-type">
-                                <div class="price-header">
-                                    <h3>ENTERPRISE</h3>
-                                    <span class="price-for">Get a quote</span>
+                                <div class="price-header-premium">
+                                    <h3>#{homepage['pricing.premium.title']}</h3>
                                 </div>
-                                <div class="pricing-bottom">
-                                    <div>
-                                        <ul>
-                                            <li>Responsive</li>
-                                            <li>Push Messages</li>
-                                            <li>10 Support Tickets</li>
-                                            <li>Free Shipping</li>
-                                            <li>Unlimited Space</li>
-                                        </ul>
+                                <div class="pricing-bottom pricing-bottom-premium">
+                                    <p>#{homepage['pricing.premium.description']}</p>
+                                    <div class="soon-container">
+                                        <span class="soon">#{homepage['pricing.premium.price']}</span>
                                     </div>
-
-                                    <p:button value="Get a Quote" styleClass="green-btn raised-btn" />
+                                    <div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="multimedia">
-            <div>
-                <div class="ui-g-12 ui-md-12 video-header">
-                    <span class="section-header">Multimedia</span>
-                    <span>Duis nec lobortis massa, sed facilisis lorem. In hac habitasse platea dictumst. </span>
-                </div>
-                <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/B_lYGUtCd0g" frameborder="0" width="560"></iframe>
                 </div>
             </div>
         </div>
@@ -224,73 +246,43 @@
             <div class="ui-g">
                 <div class="ui-g-12 ui-md-12 ui-lg-4 footer">
                     <div class="logo">
-                        <p:graphicImage name="images/ecuador-orange-logo.png" library="ecuador-layout"/>
+                        <p:graphicImage name="images/logo/logo_transparent.png" library="own-layout"/>
                     </div>
-                    <span class="ui-g-12">Premium PrimeFaces Application Template</span>
                 </div>
                 <div class="ui-g-12 ui-md-12 ui-lg-8">
                     <div id="landing-menu">
                         <div class="ui-g-12 ui-md-6 ui-lg-3 landing-box">
-                            <span>OVERVIEW</span>
+                            <span>#{homepage['footer.developed']}</span>
 
-                            <a href="#primefaces">Why PrimeFaces</a>
+                            <a href="https://www.linkedin.com/in/nathan-lambert-371877b7/" target="_blank">Nathan Lambert</a>
 
-                            <a href="#prime">Who Uses PrimeFaces</a>
+                            <a href="https://www.linkedin.com/in/lucas-robyns-08327017a/" target="_blank">Lucas Robyns</a>
 
-                            <a href="#testimonials">Testimonials</a>
-
-                            <a href="#licence">License</a>
-
-                        </div>
-                        <div class="ui-g-12 ui-md-6 ui-lg-3 landing-box">
-                            <span>DEMOS</span>
-
-                            <a href="#faces">PrimeFaces</a>
-
-                            <a href="#ng">PrimeNG</a>
-
-                            <a href="#react">PrimeReact</a>
-
-                            <a href="#ui">PrimeUI</a>
-
-                        </div>
-                        <div class="ui-g-12 ui-md-6 ui-lg-3 landing-box">
-                            <span>SUPPORT</span>
-
-                            <a href="#options">Support Options</a>
-
-                            <a href="#pro">PrimeFaces PRO</a>
-
-                            <a href="#elite">PrimeFaces Elite</a>
-
-                            <a href="#forum">Forum</a>
-
-                        </div>
-                        <div class="ui-g-12 ui-md-6 ui-lg-3 landing-box">
-                            <span>SOCIAL</span>
-                            <a href="#twitter" class="icon-link"><i class="fa fa-twitter icon"></i></a>
-                            <a href="#facebook" class="icon-link"><i class="fa fa-facebook icon"></i></a>
-                            <a href="#github" class="icon-link"><i class="fa fa-github icon"></i></a>
+                            <a href="https://www.linkedin.com/in/amaury-lapaque/" target="_blank">Amaury Lapaque</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <div id="back-to-top">
+            <a href="#header">↑</a>
+        </div>
     </div>
 
-    <h:outputStylesheet name="css/layout-#{guestPreferences.layout}.css" library="ecuador-layout" />
+    <h:outputStylesheet name="css/layout-#{guestPreferences.layout}.css" library="ecuador-layout"/>
 
     <script>
         //<![CDATA[
         var $this = this;
 
-        $(document).ready(function(){
-            $('html').animate({scrollTop:0}, 1);
-            $('body').animate({scrollTop:0}, 1);
+        $(document).ready(function () {
+            $('html').animate({scrollTop: 0}, 1);
+            $('body').animate({scrollTop: 0}, 1);
         });
 
         /* Scroll Animate */
-        $('a[href*="#"]:not([href="#"])').click(function() {
+        $('a[href*="#"]:not([href="#"])').click(function () {
             var target = $(this.hash);
             if (target.length) {
                 $('html, body').animate({
@@ -312,7 +304,7 @@
             var window_bottom_position = (window_top_position + window_height);
 
             //iterate through elements to see if its in view
-            $.each(animation_elements, function() {
+            $.each(animation_elements, function () {
                 //get the element sinformation
                 var element = $(this);
                 var element_height = $(element).outerHeight();
@@ -329,7 +321,7 @@
         }
 
         //on or scroll, detect elements in view
-        $(window).on('scroll resize', function() {
+        $(window).on('scroll resize', function () {
             check_if_in_view()
         })
         //trigger our scroll event on initial load

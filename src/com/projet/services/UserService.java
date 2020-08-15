@@ -3,12 +3,16 @@ package com.projet.services;
 import com.projet.connection.EMF;
 import com.projet.dao.EntityFinder;
 import com.projet.dao.EntityFinderImpl;
+import com.projet.entities.Role;
 import com.projet.entities.User;
+import com.projet.enumeration.RoleEnum;
 import org.apache.log4j.Logger;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.credential.PasswordMatcher;
 
+import javax.enterprise.context.SessionScoped;
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -24,113 +28,30 @@ import java.util.Map;
  * Time: 18:00
  * =================================================================
  */
-public class UserService implements  IService<User>, Serializable {
+public class UserService extends Service<User> implements Serializable {
     private static final Logger log = Logger.getLogger(UserService.class);
     private static final long serialVersionUID = 1L;
 
-    private User userDB;
-    private EntityManager em;
-
-    public UserService(EntityManager em) {
-        this.em = em;
-    }
-
-    public UserService() {
-
+    public UserService(Class<?> ec) {
+        super(ec);
     }
 
     public List<User> getAll() {
-        EntityFinder<User> finder = new EntityFinderImpl<>(User.class);
         return finder.findByNamedQuery("User.findAll", null);
     }
 
     public User getByUsername(String username) {
         Map<String, String> param = new HashMap<>();
         param.put("username", username);
-        EntityFinder<User> finder = new EntityFinderImpl<>(User.class);
 
         return finder.findOneByNamedQuery("User.findUserByUsername", param);
     }
 
-    public User getById(Integer id) {
-        return null;
-    }
+    public User getByEmail(String email) {
+        Map<String, String> param = new HashMap<>();
+        param.put("email", email);
 
-    public boolean create(User user) {
-        em = EMF.getEM();
-        em.getTransaction().begin();
-        boolean status = false;
-        try {
-            PasswordMatcher auth = new PasswordMatcher();
-            this.userDB.setPassword(auth.getPasswordService().encryptPassword(user.getPassword()));
-            em.persist(user);
-            em.getTransaction().commit();
-            status = true;
-        } finally {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-                log.error("Rollback");
-                status = false;
-            }
-            em.close();
-            log.debug("Ok");
-        }
-        return status;
-    }
-
-    public boolean update(User user) throws Exception {
-        em = EMF.getEM();
-        em.getTransaction().begin();
-        boolean status = false;
-        try {
-            this.userDB = em.find(User.class, user.getId());
-            if (this.userDB != null) {
-                PasswordMatcher auth = new PasswordMatcher();
-                this.userDB.setPassword(auth.getPasswordService().encryptPassword(user.getPassword()));
-                this.userDB.setEmail(user.getEmail());
-                this.userDB.setFirstName(user.getFirstName());
-                this.userDB.setLastName(user.getLastName());
-                this.userDB.setUsername(user.getUsername());
-                em.merge(userDB);
-                em.getTransaction().commit();
-                status = true;
-            }
-        }finally {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-                log.error("Rollback");
-                status = false;
-            }
-            em.close();
-            log.debug("Ok");
-        }
-        return status;
-    }
-
-    public boolean deleteByID(User user) {
-        em = EMF.getEM();
-        em.getTransaction().begin();
-        boolean status = false;
-        try{
-            User userDB = em.find(User.class, user.getId());
-            if (userDB != null) {
-                em.remove(userDB);
-                status = true;
-            } else {
-                status = false;
-            }
-            em.getTransaction().commit();
-
-        } finally {
-            if (em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-                log.error("Rollback");
-                status = false;
-            }
-            em.close();
-            log.debug("Ok");
-        }
-        return status;
+        return finder.findOneByNamedQuery("User.findUserByEmail", param);
     }
 
     @Override
@@ -143,12 +64,11 @@ public class UserService implements  IService<User>, Serializable {
         return user;
     }
 
-    @Override
-    public void delete(User user) {
-        if (!em.contains(user)) {
-            em.merge(user);
-        }
+    public User setUserRole(User user, RoleEnum roleEnum) {
+        Role role = em.find(Role.class, roleEnum.getId());
 
-        em.remove(user);
+        user.setRole(role);
+
+        return user;
     }
 }
