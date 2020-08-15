@@ -22,9 +22,11 @@ public class PatientService extends Service<Patient> implements Serializable {
     public PatientService(Class<?> ec) {
         super(ec);
     }
+
     public List<Patient> getAll() {
         return finder.findByNamedQuery("Patient.findAll", null);
     }
+
     @Override
     public Patient save(Patient patient) {
         if (patient.getId() == 0) {

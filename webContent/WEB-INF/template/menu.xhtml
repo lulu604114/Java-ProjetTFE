@@ -1,17 +1,24 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
-                xmlns:h="http://java.sun.com/jsf/html" 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:pe="http://primefaces.org/ecuador">
 
-<div class="layout-sidebar">
+    <div class="layout-sidebar">
         <div class="nano">
-            <div class="nano-content menu-scroll-content">
+            <div class="nano-content menu-scroll-content">.
                 <h:form id="menuform">
                     <div class="layout-menu-title">NAVIGATION</div>
                     <pe:menu widgetVar="me">
-                        <p:menuitem id="om_dashboard" value="Dashboard" icon="fa fa-fw fa-dashboard"/>
+                        <p:menuitem id="om_dashboard"
+                                    outcome="/app/dashboard"
+                                    value="Dashboard"
+                                    icon="fa fa-fw fa-dashboard"/>
+                        <p:menuitem id="om_patient"
+                                    outcome="/app/patient/listingPatients"
+                                    value="Patient"
+                                    icon="fa fa-fw fa-user-plus"/>
                     </pe:menu>
                 </h:form>
             </div>
