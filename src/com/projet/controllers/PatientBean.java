@@ -1,8 +1,11 @@
 package com.projet.controllers;
 
 
+import com.projet.conf.App;
 import com.projet.dao.EntityFinderImpl;
 import com.projet.entities.Patient;
+import com.projet.entities.User;
+import com.projet.security.SecurityManager;
 import com.projet.services.PatientService;
 
 import javax.annotation.PostConstruct;
@@ -24,19 +27,16 @@ public class PatientBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Inject PatientService patientService;
-    @Inject LoginBean loginbean;
+    PatientService service = new PatientService(Patient.class);
     private Patient patient;
     private List<Patient> patients;
     private Patient patientTemp;
 
     @PostConstruct
-    /**public void onInit()
+    public void onInit()
     {
-        this.patients = this.patientService.getByUser(loginbean.getUserConnected());
-    }**/
-
-
+        this.patients = this.service.getAll();
+    }
 
     public void patientDetail(Patient patient)
     {
@@ -48,6 +48,7 @@ public class PatientBean implements Serializable {
     {
         patient = new Patient();
     }
+
     public Patient getPatient() {
         return patient;
     }

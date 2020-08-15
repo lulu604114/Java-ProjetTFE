@@ -99,6 +99,8 @@ public class User implements Serializable, Cloneable {
     @OneToMany(mappedBy = "user")
     private List<Supplier> suppliers;
 
+
+
     public int getId() {
         return id;
     }

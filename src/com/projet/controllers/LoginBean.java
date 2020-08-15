@@ -35,6 +35,7 @@ public class LoginBean implements Serializable {
     private String password;
     private boolean rememberMe;
 
+
     /**
      *
      * @return
