@@ -20,9 +20,6 @@ import java.time.LocalDateTime;
 @ViewScoped
 public class AgendaBean implements Serializable {
 
-    @Inject
-    private AgendaService service;
-
     private ScheduleModel eventModel;
 
     private ScheduleEvent event = new DefaultScheduleEvent();

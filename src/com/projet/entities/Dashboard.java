@@ -17,6 +17,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "Dashboards", schema = "jsf_tfe")
 @NamedQueries({
+        @NamedQuery(name = "Dashboard.findAll", query = "SELECT d FROM Dashboard d"),
         @NamedQuery(name = "Dashboard.findDashboardByUser", query = "SELECT d FROM Dashboard d WHERE d.user.id=:userId"),
 })
 public class Dashboard {
