@@ -45,8 +45,8 @@ public class AgendaBean implements Serializable {
     private String slotLabelInterval;
     private String slotLabelFormat;
     private String scrollTime = "06:00:00";
-    private String minTime = "04:00:00";
-    private String maxTime = "20:00:00";
+    private String minTime = "08:00:00";
+    private String maxTime = "17:30:00";
     private String locale = "fr";
     private String timeZone = "";
     private String clientTimeZone = "local";
@@ -57,7 +57,13 @@ public class AgendaBean implements Serializable {
     public void init() {
         eventModel = new DefaultScheduleModel();
 
-        DefaultScheduleEvent event = new DefaultScheduleEvent("Champions League Match", previousDay8Pm(), previousDay11Pm());
+        DefaultScheduleEvent event = DefaultScheduleEvent.builder()
+                .title("Champions League Match")
+                .startDate(previousDay8Pm())
+                .endDate(previousDay8Pm())
+                .description("test")
+                .overlapAllowed(true)
+                .build();
         eventModel.addEvent(event);
 
         event = DefaultScheduleEvent.builder()
@@ -83,6 +89,7 @@ public class AgendaBean implements Serializable {
                 .startDate(theDayAfter3Pm())
                 .endDate(fourDaysLater3pm())
                 .description("Trees, flowers, ...")
+                .overlapAllowed(true)
                 .build();
         eventModel.addEvent(event);
 
