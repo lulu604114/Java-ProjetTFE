@@ -1,5 +1,6 @@
 package com.projet.enumeration;
 
+
 /**
  * =================================================================
  * Created by Intellij IDEA.
@@ -15,7 +16,8 @@ public enum UserStatus {
     EMPLOYED("Employe"),
     UNEMPLOYED("A la rechercher d'emploi"),
     PROCOMP("Independant complementaire"),
-    STUDENT("Etudiant");
+    STUDENT("Etudiant"),
+    NONE("Aucun");
 
     private String label;
 

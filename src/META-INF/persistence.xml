@@ -35,7 +35,8 @@
         <class>com.projet.entities.ToDo</class>
 
         <properties>
-            <property name="eclipselink.ddl-generation.output-mode" value="database"/>
+            <!-- DOCUMENTATION → https://docs.oracle.com/middleware/1212/toplink/TLJPA/p_ddl_generation_output_mode.htm#TLJPA1073 -->
+            <property name="eclipselink.ddl-generation.output-mode" value="both"/>
         </properties>
     </persistence-unit>
 </persistence>
