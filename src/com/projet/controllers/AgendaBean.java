@@ -1,5 +1,6 @@
 package com.projet.controllers;
 
+import com.projet.services.AgendaService;
 import org.primefaces.event.ScheduleEntryMoveEvent;
 import org.primefaces.event.ScheduleEntryResizeEvent;
 import org.primefaces.event.SelectEvent;
@@ -9,6 +10,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -17,6 +19,9 @@ import java.time.LocalDateTime;
 @Named("agendaBean")
 @ViewScoped
 public class AgendaBean implements Serializable {
+
+    @Inject
+    private AgendaService service;
 
     private ScheduleModel eventModel;
 
@@ -101,6 +106,8 @@ public class AgendaBean implements Serializable {
                 .allDay(true)
                 .build();
         eventModel.addEvent(scheduleEventAllDay);
+
+//        service.getEvents();
     }
 
     public LocalDateTime getRandomDateTime(LocalDateTime base) {
