@@ -7,9 +7,7 @@ import com.projet.security.SecurityManager;
 import com.sun.istack.internal.Nullable;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -29,7 +27,8 @@ import java.util.Objects;
 @Table(name = "Users", schema = "jsf_tfe")
 @NamedQueries({
         @NamedQuery(name = "User.findUserByUsername", query = "SELECT u FROM User u WHERE u.username=:username"),
-        @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
+        @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
+        @NamedQuery(name = "User.findUserByEmail", query = "SELECT u FROM User u WHERE u.email=:email")
 })
 public class User implements Serializable, Cloneable {
     private static final long serialVersionUID = 1L;
@@ -44,12 +43,12 @@ public class User implements Serializable, Cloneable {
     private boolean active;
 
     @Basic
-    @NotNull
+    @NotEmpty
     @Size(min = 1, max = 250)
     private String firstName;
 
     @Basic
-    @NotNull
+    @NotEmpty
     @Size(min = 1, max = 250)
     private String lastName;
 
@@ -65,18 +64,18 @@ public class User implements Serializable, Cloneable {
     private String iban;
 
     @Basic
-    @NotNull
+    @NotEmpty
     @Size(min = 1, max = 100)
     private String password;
 
     @Basic
-    @NotNull
+    @NotEmpty
     @Size(min = 6, max = 120)
     @Pattern(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}")
     private String email;
 
     @Basic
-    @NotNull
+    @NotEmpty
     @Size(min = 4, max = 50)
     private String username;
 

@@ -31,11 +31,11 @@ public class PasswordChangeValidator implements Validator {
     private Message message = Message.getMessage(App.BUNDLE_VALIDATOR_MESSAGE);
 
     @Override
-    public void validate(FacesContext facesContext, UIComponent uiComponent, Object value) throws ValidatorException {
+    public void validate(FacesContext facesContext, UIComponent uiComponent, Object o) throws ValidatorException {
 
         User sessionUser = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
 
-        String password = (String) value;
+        String password = (String) o;
 
         PasswordMatcher matcher = new PasswordMatcher();
 

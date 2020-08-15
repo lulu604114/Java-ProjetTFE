@@ -1,20 +1,17 @@
 package com.projet.controllers;
 
 import com.projet.conf.App;
-import com.projet.connection.EMF;
 import com.projet.controllers.utils.Message;
 import com.projet.entities.User;
-import com.projet.security.SecurityManager;
+import com.projet.enumeration.RoleEnum;
 import com.projet.services.UserService;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.io.Serializable;
-import java.rmi.NoSuchObjectException;
 
 
 /**
@@ -22,27 +19,25 @@ import java.rmi.NoSuchObjectException;
  * Created by Intellij IDEA.
  *
  * @author lucas
- * @project TFE-Template
- * Date: 09/03/2020
- * Time: 13:10
+ * @project Projet TFE
+ * Date: 09/08/2020
+ * Time: 21:11
  * =================================================================
  */
-@Named("profileSettings")
-@SessionScoped
-public class ProfileSettings implements Serializable {
+@Named("userRegistration")
+@RequestScoped
+public class UserRegistration implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final Message message = Message.getMessage(App.BUNDLE_MESSAGE);
 
     private User user;
-    private User editedUser;
 
     @PostConstruct
     public void init() {
-        user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
-        edit();
+        this.user = new User();
     }
 
-    public void save() {
+    public String registrate() {
         UserService service = new UserService(User.class);
 
         EntityTransaction transaction = service.getTransaction();
@@ -50,30 +45,24 @@ public class ProfileSettings implements Serializable {
         transaction.begin();
 
         try {
-            user.setFields(editedUser);
+            User user = service.setUserRole(this.user, RoleEnum.USER);
 
             service.save(user);
 
             transaction.commit();
 
-            message.display(FacesMessage.SEVERITY_INFO, "Modifications réussies");
+            return "/successRegistration.xhtml?faces-redirect=true";
         } finally {
             if (transaction.isActive()) {
                 transaction.rollback();
 
                 message.display(FacesMessage.SEVERITY_ERROR, "Unknown error");
+
+                return "";
             }
 
             service.close();
         }
-    }
-
-    public void edit() {
-        this.editedUser = user.clone();
-    }
-
-    public void cancel() {
-        message.display(FacesMessage.SEVERITY_WARN, "Annulation", "Aucunes modifications réalisées");
     }
 
     public User getUser() {
@@ -82,13 +71,5 @@ public class ProfileSettings implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public User getEditedUser() {
-        return editedUser;
-    }
-
-    public void setEditedUser(User editedUser) {
-        this.editedUser = editedUser;
     }
 }

@@ -4,6 +4,7 @@ import com.projet.connection.EMF;
 import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import java.io.Serializable;
@@ -17,36 +18,28 @@ import java.util.*;
 public class EntityFinderImpl<T> implements EntityFinder<T>, Serializable {
 	private static final long serialVersionUID = 1L;
 
+	private EntityManager em;
 	private Class<?> ec;
+
 	// Log4j
 	private static Logger log = Logger.getLogger(EntityFinderImpl.class);
 
 	/**
      * Default constructor
      */
-	public EntityFinderImpl(Class<?> ec){
+	public EntityFinderImpl(Class<?> ec, EntityManager em){
 		super();
 		this.ec = ec;
+		this.em = em;
 	}
 
 	@Override
 	public T findOne(int id) {
 
-		T t;
-		EntityManager em = EMF.getEM();
+		 T t = (T)em.find(ec, id);
 
-		try {
-	        
-	    	t = (T)em.find(ec, id);
-	    	
-	    	em.clear();
-	    	
-	    	log.debug("Bean " + ec.getSimpleName() + " find from database: Ok");
-	    } finally {
-	        em.close();
-	        log.debug("Close em : Ok");
-	    }
-		
+		log.debug("Bean " + ec.getSimpleName() + " find from database: Ok");
+
 		return t;
 	}
 	
@@ -55,32 +48,25 @@ public class EntityFinderImpl<T> implements EntityFinder<T>, Serializable {
 		
 		List<T> listT;
 
-		EntityManager em = EMF.getEM();
-		try {
-		    Query query = em.createNamedQuery(namedQuery, ec);
-		    
-	    	if(param != null) {
-	    		
-	    		setParameters(query, param);		
-	    	}
+		Query query = em.createNamedQuery(namedQuery, ec);
 
-	    	listT = (List<T>) query.getResultList();
-	    	
-	    	log.debug("List " + ec.getSimpleName() + " size: " + listT.size());
-	    	log.debug("Named query " + namedQuery + " find from database: Ok");	    
+		if(param != null) {
+
+			setParameters(query, param);
 		}
-		finally {
-			
-			em.clear();
-	        em.close();
-	    }
+
+		listT = (List<T>) query.getResultList();
+
+		log.debug("List " + ec.getSimpleName() + " size: " + listT.size());
+		log.debug("Named query " + namedQuery + " find from database: Ok");
+
 		return listT;
 	}
 
 	@Override
 	public <K, V> T findOneByNamedQuery(String namedQuery, Map<K, V> param) {
 
-		List<T> listT = new ArrayList<T>();
+		List<T> listT;
 		T t;
 
 		listT = findByNamedQuery(namedQuery, param);
@@ -98,24 +84,19 @@ public class EntityFinderImpl<T> implements EntityFinder<T>, Serializable {
 	public <K, V> List<T> findByCustomQuery(String customQuery, Map<K, V> param) {
 		
 		List<T> listT;
-		EntityManager em = EMF.getEM();
 
-		try {
-	    	Query query = em.createQuery(customQuery, ec);
-	    	if(param != null) {
-	    		
-	    		setParameters(query, param);
-	    	}
-	    	listT = (List<T>) query.getResultList();
-	    	    	
-	    	log.debug("List " + ec.getSimpleName() + " size: " + listT.size());
-	    	log.debug("Custom query " + customQuery + " find from database: Ok");
+		Query query = em.createQuery(customQuery, ec);
+
+		if(param != null) {
+
+			setParameters(query, param);
 		}
-		finally {
-			
-			em.clear();
-	        em.close();
-	    }
+
+		listT = (List<T>) query.getResultList();
+
+		log.debug("List " + ec.getSimpleName() + " size: " + listT.size());
+		log.debug("Custom query " + customQuery + " find from database: Ok");
+
 		return listT;
 	}
 
