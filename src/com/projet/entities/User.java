@@ -5,7 +5,12 @@ import com.projet.enumeration.UserStatus;
 import com.projet.enumeration.UserTitle;
 import com.projet.security.SecurityManager;
 
+import javax.inject.Named;
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +30,8 @@ import java.util.Objects;
 @Table(name = "Users", schema = "jsf_tfe")
 @NamedQueries({
         @NamedQuery(name = "User.findUserByUsername", query = "SELECT u FROM User u WHERE u.username=:username"),
-        @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u")
+        @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
+        @NamedQuery(name = "User.findUserByEmail", query = "SELECT u FROM User u WHERE u.email=:email")
 })
 public class User implements Serializable, Cloneable {
     private static final long serialVersionUID = 1L;
@@ -37,22 +43,32 @@ public class User implements Serializable, Cloneable {
     @Enumerated(EnumType.STRING)
     private UserTitle title;
 
+    @NotEmpty
     private String firstName;
 
+    @NotEmpty
     private String lastName;
 
     private String inamiNumber;
 
     private String iban;
 
+    @NotEmpty
+    @Pattern(regexp = "^(?=.{8,}$)(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[0-9])(?=.*?\\W).*$", message = "")
     private String password;
 
+    @NotEmpty
+    @Email
     private String email;
 
+    @NotEmpty
+    @Pattern(regexp = "^(?=.{4,20}$)(?:[a-zA-Z\\d]+(?:[._][a-zA-Z\\d])*)+$", message = "")
     private String username;
 
     private String phone;
 
+    @NotEmpty
+    @Pattern(regexp = "(0|\\+32)[1-9]( *[0-9]{2}){4}", message = "Format incorrect")
     private String mobile;
 
     @Temporal(TemporalType.DATE)
