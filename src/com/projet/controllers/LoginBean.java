@@ -44,9 +44,8 @@ public class LoginBean implements Serializable {
 
         if (SecurityManager.processToLogin(username, password, rememberMe)) {
             UserService service = new UserService(User.class);
-
             SecurityManager.saveAttributeInSession(App.SESSION_USER, service.getByUsername(username));
-            FacesContext.getCurrentInstance().getExternalContext().redirect("/app//dashboard/dashboard.xhtml");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/app/dashboard/dashboard.xhtml");
         }
     }
 

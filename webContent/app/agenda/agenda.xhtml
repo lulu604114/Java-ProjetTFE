@@ -15,12 +15,25 @@
             <p:growl id="messages" showDetail="true" />
 
             <h:panelGrid columnClasses="value">
-                <p:schedule id="schedule" value="#{agendaBean.eventModel}" widgetVar="myschedule" >
+                <p:schedule id="schedule"
+                            widgetVar="myschedule"
+                            value="#{agendaBean.eventModel}"
+                            view="#{agendaBean.view}">
 
-                    <p:ajax event="dateSelect" listener="#{agendaBean.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
-                    <p:ajax event="eventSelect" listener="#{agendaBean.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
-                    <p:ajax event="eventMove" listener="#{agendaBean.onEventMove}" update="messages" />
-                    <p:ajax event="eventResize" listener="#{agendaBean.onEventResize}" update="messages" />
+                    <p:ajax event="dateSelect"
+                            listener="#{agendaBean.onDateSelect}"
+                            update="eventDetails"
+                            oncomplete="PF('eventDialog').show();"/>
+                    <p:ajax event="eventSelect"
+                            listener="#{agendaBean.onEventSelect}"
+                            update="eventDetails"
+                            oncomplete="PF('eventDialog').show();"/>
+                    <p:ajax event="eventMove"
+                            listener="#{agendaBean.onEventMove}"
+                            update="messages"/>
+                    <p:ajax event="eventResize"
+                            listener="#{agendaBean.onEventResize}"
+                            update="messages"/>
 
                 </p:schedule>
             </h:panelGrid>
