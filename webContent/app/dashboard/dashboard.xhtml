@@ -19,7 +19,7 @@
                     <div class="layout-dashboard">
                         <div class="ui-g">
                             <ui:repeat value="#{ dashboard.dashboard.dashboardCards }" var="dashboardCard">
-                                <h:panelGroup layout="block" rendered="#{dashboard.getCardType(['validation', 'calendar', 'task'], dashboardCard.card)}">
+                                <h:panelGroup layout="block" rendered="#{dashboard.getCardType(['validation', 'calendar', 'task', 'message'], dashboardCard.card)}">
                                     <div class="ui-g-12 ui-md-6 ui-lg-3">
                                         <div class="overview-box #{ dashboardCard.card.icon}">
                                             <p:graphicImage name="images/icons/${ dashboardCard.card.icon }.svg"
