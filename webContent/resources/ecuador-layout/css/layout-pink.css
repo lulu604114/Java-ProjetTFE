@@ -1354,15 +1354,25 @@ body .layout-wrapper .layout-main .layout-content {
   background-image: linear-gradient(left, rgba(29, 240, 253, 0.4), #5d45fc);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="rgba(29, 240, 253, 0.4)", endColorstr="#5d45fc", gradientType="1");
 }
+.layout-content .layout-dashboard .overview-box.task {
+  background-color: #f39611;
+  background-image: -webkit-gradient(linear, left top, right top, from(#f39611), to(#fc4576));
+  background-image: -webkit-linear-gradient(left, #f39611, #fc4576);
+  background-image: -moz-linear-gradient(left, #f39611, #fc4576);
+  background-image: -ms-linear-gradient(left, #f39611, #fc4576);
+  background-image: -o-linear-gradient(left, #f39611, #fc4576);
+  background-image: linear-gradient(left, #f39611, #fc4576);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f39611", endColorstr="#fc4576", gradientType="1");
+}
 .layout-content .layout-dashboard .overview-box.sales {
-  background-color: #F39611;
-  background-image: -webkit-gradient(linear, left top, right top, from(#F39611), to(#EE4F10));
-  background-image: -webkit-linear-gradient(left, #F39611, #EE4F10);
-  background-image: -moz-linear-gradient(left, #F39611, #EE4F10);
-  background-image: -ms-linear-gradient(left, #F39611, #EE4F10);
-  background-image: -o-linear-gradient(left, #F39611, #EE4F10);
-  background-image: linear-gradient(left, #F39611, #EE4F10);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#F39611", endColorstr="#EE4F10", gradientType="1");
+  background-color: #f39611;
+  background-image: -webkit-gradient(linear, left top, right top, from(#f39611), to(#EE4F10));
+  background-image: -webkit-linear-gradient(left, #f39611, #EE4F10);
+  background-image: -moz-linear-gradient(left, #f39611, #EE4F10);
+  background-image: -ms-linear-gradient(left, #f39611, #EE4F10);
+  background-image: -o-linear-gradient(left, #f39611, #EE4F10);
+  background-image: linear-gradient(left, #f39611, #EE4F10);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f39611", endColorstr="#EE4F10", gradientType="1");
 }
 .layout-content .layout-dashboard .overview-box.views {
   background-color: #326DDF;
@@ -1384,7 +1394,7 @@ body .layout-wrapper .layout-main .layout-content {
   background-image: linear-gradient(left, #E02364, #A22650);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#E02364", endColorstr="#A22650", gradientType="1");
 }
-.layout-content .layout-dashboard .overview-box.checkins {
+.layout-content .layout-dashboard .overview-box.validation {
   background-color: #7DC931;
   background-image: -webkit-gradient(linear, left top, right top, from(#7DC931), to(#14A143));
   background-image: -webkit-linear-gradient(left, #7DC931, #14A143);

@@ -104,8 +104,12 @@
                 @include background-gradient-left2right(rgba(29, 240, 253, 0.4),#5d45fc)
             }
 
+            &.task {
+                @include background-gradient-left2right(#f39611, #fc4576)
+            }
+
             &.sales {
-                @include background-gradient-left2right(#F39611, #EE4F10);
+                @include background-gradient-left2right(#f39611, #EE4F10);
             }
 
             &.views {
@@ -116,7 +120,7 @@
                 @include background-gradient-left2right(#E02364, #A22650);
             }
 
-            &.checkins {
+            &.validation {
                 @include background-gradient-left2right(#7DC931, #14A143);
             }
         }
