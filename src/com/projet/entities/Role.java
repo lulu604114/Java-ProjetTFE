@@ -16,6 +16,9 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "Roles", schema = "jsf_tfe")
+@NamedQueries({
+        @NamedQuery(name = "Role.findByLabel", query = "SELECT r FROM Role r WHERE r.label=:label")
+})
 public class Role {
     @Id
     @Column(name = "id")

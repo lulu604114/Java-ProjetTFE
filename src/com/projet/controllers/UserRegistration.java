@@ -45,7 +45,7 @@ public class UserRegistration implements Serializable {
         transaction.begin();
 
         try {
-            User user = service.setUserRole(this.user, RoleEnum.USER);
+            User user = service.createUser(this.user);
 
             service.save(user);
 

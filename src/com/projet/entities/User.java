@@ -5,13 +5,12 @@ import com.projet.enumeration.UserStatus;
 import com.projet.enumeration.UserTitle;
 import com.projet.security.SecurityManager;
 
-import javax.inject.Named;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -96,7 +95,7 @@ public class User implements Serializable, Cloneable {
     @OneToMany(mappedBy = "user")
     private List<Contact> contacts;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
     private List<Dashboard> dashboards;
 
     @OneToMany(mappedBy = "user")
@@ -287,6 +286,23 @@ public class User implements Serializable, Cloneable {
 
     public void setDashboards(List<Dashboard> dashboards) {
         this.dashboards = dashboards;
+    }
+
+    public Dashboard addDashboard(Dashboard dashboard) {
+        if (getDashboards() == null)
+            setDashboards(new ArrayList<>());
+
+        getDashboards().add(dashboard);
+        dashboard.setUser(this);
+
+        return dashboard;
+    }
+
+    public Dashboard removeDashboard(Dashboard dashboard) {
+        getDashboards().remove(dashboard);
+        dashboard.setUser(null);
+
+        return dashboard;
     }
 
     public List<Document> getDocuments() {

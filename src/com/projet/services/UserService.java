@@ -3,6 +3,7 @@ package com.projet.services;
 import com.projet.connection.EMF;
 import com.projet.dao.EntityFinder;
 import com.projet.dao.EntityFinderImpl;
+import com.projet.entities.Dashboard;
 import com.projet.entities.Role;
 import com.projet.entities.User;
 import com.projet.enumeration.RoleEnum;
@@ -64,8 +65,15 @@ public class UserService extends Service<User> implements Serializable {
         return user;
     }
 
-    public User setUserRole(User user, RoleEnum roleEnum) {
-        Role role = em.find(Role.class, roleEnum.getId());
+    public User createUser(User user) {
+        Dashboard dashboard = new Dashboard();
+        dashboard.setLabel("Mon dashboard");
+
+        user.addDashboard(dashboard);
+
+        RoleService service = new RoleService(Role.class);
+
+        Role role = service.findByLabel(RoleEnum.USER);
 
         user.setRole(role);
 
