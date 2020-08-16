@@ -8,6 +8,7 @@
 
         .overview-box {
             padding-top: 18px;
+            min-height: 80px;
             color: #ffffff;
             @include shadow(0 1px 3px rgba(0, 0, 0, 0.12));
 
@@ -17,7 +18,20 @@
                 float: right;
                 margin-right: 20px;
                 vertical-align: middle;
-                
+
+                &.image-icon {
+                    width: auto;
+                    height: 50px;
+                }
+            }
+
+            i {
+                width: 80px;
+                height: auto;
+                float: right;
+                margin-right: 20px;
+                vertical-align: middle;
+
                 &.image-icon {
                     width: auto;
                     height: 50px;
@@ -86,8 +100,16 @@
                 }
             }
 
+            &.calendar {
+                @include background-gradient-left2right(rgba(29, 240, 253, 0.4),#5d45fc)
+            }
+
+            &.task {
+                @include background-gradient-left2right(#f39611, #fc4576)
+            }
+
             &.sales {
-                @include background-gradient-left2right(#F39611, #EE4F10);
+                @include background-gradient-left2right(#f39611, #EE4F10);
             }
 
             &.views {
@@ -98,7 +120,7 @@
                 @include background-gradient-left2right(#E02364, #A22650);
             }
 
-            &.checkins {
+            &.validation {
                 @include background-gradient-left2right(#7DC931, #14A143);
             }
         }
@@ -111,11 +133,11 @@
                 ul {
                     padding: 0;
                     margin: 0;
-    
+
                     li {
                         list-style: none;
                         padding-bottom: 12px;
-    
+
                         img {
                             width: 55px;
                             height: 55px;
@@ -123,7 +145,7 @@
                             vertical-align: middle;
                             margin-right: 5px;
                         }
-    
+
                         .seperator {
                             width: 1px;
                             height: 50px;
@@ -131,32 +153,32 @@
                             display: inline-block;
                             vertical-align: middle;
                         }
-    
+
                         .team-box {
                             display: inline-block;
                             font-size: 13px;
                             vertical-align: middle;
                             width: 69%;
-    
+
                             .team-member {
                                 color: #323232;
                                 font-weight: 500;
                                 display: block;
                             }
-    
+
                             .team-member-mail {
                                 color: #888888;
                                 display: inline-block;
                                 font-weight: 400;
                             }
-    
+
                             .team-member-address {
                                 color: #888888;
                                 display: inline-block;
                                 font-weight: 400;
                                 margin-left: 6px;
                             }
-    
+
                             i {
                                 display: inline-block;
                                 margin-right: 9px;
@@ -164,7 +186,7 @@
                         }
                     }
                 }
-            }      
+            }
         }
 
         .tasks {
@@ -273,7 +295,7 @@
                         background-color: #f4f4f4;
                         margin-top: 12px;
                         margin-bottom: 12px;
-                        
+
                         .statsbar-value {
                             background-color: $primaryColor;
                             height: 4px;
@@ -297,7 +319,7 @@
                     .knob-container {
                         text-align: center;
                         margin-bottom: 15px;
-                        
+
                         .knob {
                             width: 150px;
                             height: 150px;
@@ -309,7 +331,7 @@
                             display: inline-block;
                             text-align: center;
                             border: 5px solid $primaryColor;
-                            border-left-color: lighten($primaryColor,30%);
+                            border-left-color: lighten($primaryColor, 30%);
                         }
                     }
 
@@ -320,7 +342,7 @@
                         span {
                             margin-right: 6px;
                         }
-                         
+
                         i {
                             font-size: 14px;
                         }
@@ -398,7 +420,7 @@
         .profile {
             .ui-panel-content {
                 padding: 0;
-                margin-bottom: 16px;   
+                margin-bottom: 16px;
 
                 .bg-image {
                     background: url("\#{resource['ecuador-layout:images/bg-image-profile.png']}") no-repeat;
@@ -406,12 +428,12 @@
                     width: 100%;
                     background-size: cover;
                 }
-                
+
                 .profile-info {
                     text-align: center;
-                    padding-bottom:25px;
+                    padding-bottom: 25px;
                     margin-top: -60px;
-    
+
                     .profile-image {
                         height: 120px;
                         width: 120px;
@@ -448,7 +470,7 @@
                             font-weight: 500;
                             margin-top: 16px;
                         }
-    
+
                         .number {
                             display: block;
                             color: #353535;
@@ -457,7 +479,7 @@
                         }
                     }
                 }
-            }   
+            }
         }
 
         .inbox {
@@ -566,7 +588,7 @@
                             .date {
                                 display: block;
                             }
-    
+
                             .time {
                             }
                         }
@@ -617,11 +639,11 @@
                                 display: block;
                                 font-weight: 500;
                             }
-    
+
                             .timeline-subheader {
                                 color: #ABABAB;
                             }
-                        } 
+                        }
                     }
                 }
             }
@@ -674,18 +696,18 @@
 
                             .persons {
                                 vertical-align: middle;
-                                text-align: center;                            
+                                text-align: center;
                                 display: inline-block;
-    
+
                                 img {
                                     height: 42px;
                                     vertical-align: middle;
                                 }
                             }
-    
+
                             span {
                                 vertical-align: middle;
-                                text-align: center;                            
+                                text-align: center;
                                 display: inline-block;
                                 color: #ffffff;
                                 font-size: 13px;
