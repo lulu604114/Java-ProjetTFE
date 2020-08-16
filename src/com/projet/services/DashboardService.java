@@ -18,10 +18,7 @@ public class DashboardService extends Service<Dashboard> implements Serializable
     }
 
     public Dashboard getDashboard(User user) {
-        Map<String, Integer> params = new HashMap<>();
-        params.put("userId", user.getId());
-        List<Dashboard> dashboards = finder.findByNamedQuery("Dashboard.findDashboardByUser", params);
-        return dashboards.get(0);
+        return user.getDashboards().get(0);
     }
 
     @Override

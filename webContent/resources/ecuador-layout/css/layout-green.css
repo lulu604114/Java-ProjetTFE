@@ -1251,6 +1251,7 @@ body .layout-wrapper .layout-main .layout-content {
 }
 .layout-content .layout-dashboard .overview-box {
   padding-top: 18px;
+  min-height: 80px;
   color: #ffffff;
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
@@ -1264,6 +1265,17 @@ body .layout-wrapper .layout-main .layout-content {
   vertical-align: middle;
 }
 .layout-content .layout-dashboard .overview-box img.image-icon {
+  width: auto;
+  height: 50px;
+}
+.layout-content .layout-dashboard .overview-box i {
+  width: 80px;
+  height: auto;
+  float: right;
+  margin-right: 20px;
+  vertical-align: middle;
+}
+.layout-content .layout-dashboard .overview-box i.image-icon {
   width: auto;
   height: 50px;
 }
@@ -1331,6 +1343,16 @@ body .layout-wrapper .layout-main .layout-content {
 }
 .layout-content .layout-dashboard .overview-box .overview-subinfo.checkin {
   padding: 8px 12px;
+}
+.layout-content .layout-dashboard .overview-box.calendar {
+  background-color: rgba(29, 240, 253, 0.4);
+  background-image: -webkit-gradient(linear, left top, right top, from(rgba(29, 240, 253, 0.4)), to(#5d45fc));
+  background-image: -webkit-linear-gradient(left, rgba(29, 240, 253, 0.4), #5d45fc);
+  background-image: -moz-linear-gradient(left, rgba(29, 240, 253, 0.4), #5d45fc);
+  background-image: -ms-linear-gradient(left, rgba(29, 240, 253, 0.4), #5d45fc);
+  background-image: -o-linear-gradient(left, rgba(29, 240, 253, 0.4), #5d45fc);
+  background-image: linear-gradient(left, rgba(29, 240, 253, 0.4), #5d45fc);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="rgba(29, 240, 253, 0.4)", endColorstr="#5d45fc", gradientType="1");
 }
 .layout-content .layout-dashboard .overview-box.sales {
   background-color: #F39611;
