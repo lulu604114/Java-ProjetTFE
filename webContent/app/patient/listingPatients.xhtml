@@ -6,7 +6,15 @@
                 xmlns:shiro="http://shiro.apache.org/tags"
                 template="../../WEB-INF/template/template.xhtml">
 
+        <style type="text/css">
+            .ui-datatable .ui-datatable-header {
+                text-align: right !important;
+            }
 
+            .ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-header .ui-chkbox {
+                display: none;
+            }
+        </style>
         <ui:define name="title">Listing patient</ui:define>
         <ui:define name="viewname">
             <li>Pages</li>
@@ -17,86 +25,43 @@
                 <div class="ui-g-12">
                     <div class="card">
                         <h1>Listing des patients</h1>
-                        <p>Listing patient.</p>
-                        <p:button value="Home" style="display:inline-block;margin-top:6px" icon="fa fa-home"/>
+                        <h:form id="form">
+                            <p:messages id="messages" />
 
+                            <p:dataTable id="tablePatient" var="patient" value="#{patientBean.patients}" widgetVar="patientTable" multiViewState="true"
+                                         rows="10" paginator="true"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         rowsPerPageTemplate="5,10,15" >
+<!--                                         selectionMode="single" selection="#{dtTableStateView.selectedCar}" rowKey="#{car.id}"-->
+<!--                                         emptyMessage="No cars found with given criteria" filteredValue="#{dtTableStateView.filteredCars}"-->
+
+
+                                <f:facet name="header">
+                                    <p:outputPanel>
+                                        <h:outputText value="Search all fields:" />
+                                        <p:inputText id="globalFilter" onkeyup="PF('patientTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                    </p:outputPanel>
+                                </f:facet>
+
+<!--                                <p:ajax event="rowSelect" update=":form:carDetail" oncomplete="PF('carDialog').show()" />-->
+
+                                <p:column headerText="Id" filterBy="#{patient.id}" sortBy="#{patient.id}" filterMatchMode="contains">
+                                    <h:outputText value="#{patient.id}" />
+                                </p:column>
+
+                                <p:column headerText="Year" filterBy="#{patient.lastName}" sortBy="#{patient.firstName}" filterMatchMode="startsWith">
+                                    <h:outputText value="#{patient.firstName}" />
+                                </p:column>
+
+                                <f:facet name="paginatorTopLeft">
+                                    <p:commandButton value="Clear table state" action="#{dtTableStateView.clearTableState}" update="@form"/>
+                                </f:facet>
+                            </p:dataTable>
+                            <p:button value="Home" style="display:inline-block;margin-top:6px" icon="fa fa-home"/>
+                        </h:form>
                     </div>
                 </div>
             </div>
-
-            <style type="text/css">
-                .logo {
-                    width: 5%
-                }
-
-                .detail {
-                    width: 95%;
-                    padding-left: 25px;
-                }
-
-                .detail td {
-                    font-size: 24px;
-                }
-
-                .ui-datascroller .ui-datascroller-item {
-                    border-bottom: 1px solid #A8A8A8;
-                    padding: 25px 10px;
-                    /* with the exported variables from Nova and Luna Themes*/
-                    border-bottom-color: var(--input-border-color, #A8A8A8);
-                }
-            </style>
-
-
-            <h:form>
-                <p:dataScroller value="test" var="car" chunkSize="10">
-                    <f:facet name="header">
-                        Scroll Down to Load More Patients
-                    </f:facet>
-
-                    <p:dataTable var="car" value="#{dtBasicView.cars}">
-                        <p:column headerText="Numéro">
-                            <h:outputText value="#{car.id}" />
-                        </p:column>
-
-                        <p:column headerText="Nom">
-                            <h:outputText value="#{car.year}" />
-                        </p:column>
-
-                        <p:column headerText="Prénom">
-                            <h:outputText value="#{car.brand}" />
-                        </p:column>
-                    </p:dataTable>
-                </p:dataScroller>
-            </h:form>
-
-            <style type="text/css">
-                .ui-datatable {
-                    margin-bottom:20px;
-                }
-
-                .ui-datatable-frozenlayout-left {
-                    width:20%;
-                }
-
-                .ui-datatable-frozenlayout-right {
-                    width:80%;
-                }
-            </style>
-
-            <h:form>
-                <h3>On-Demand Data</h3>
-                <p:dataTable var="patient" value="#{patientBean.patients}"  scrollRows="20" scrollable="true" liveScroll="true" scrollHeight="150">
-                    <p:column headerText="Id" >
-                        <h:outputText value="#{patient.id}" />
-                    </p:column>
-                    <p:column headerText="Nom" >
-                        <h:outputText value="#{patient.lastName}" />
-                    </p:column>
-
-                </p:dataTable>
-
-
-            </h:form>
 
         </ui:define>
 
