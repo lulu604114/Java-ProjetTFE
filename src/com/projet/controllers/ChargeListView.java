@@ -6,6 +6,9 @@ import com.projet.entities.User;
 import com.projet.security.SecurityManager;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Named;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -18,7 +21,10 @@ import java.util.List;
  * Time: 20:29
  * =================================================================
  */
-public class ChargeListView {
+@Named("chargeListView")
+@SessionScoped
+public class ChargeListView implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     private List<Charge> chargeList;
 
