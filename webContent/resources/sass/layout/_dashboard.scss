@@ -335,17 +335,23 @@
             }
         }
 
-        .statistics {
+        .charges {
             .ui-panel-titlebar {
+                border-top-left-radius: 6px;
+                border-top-right-radius: 6px;
+                @include background-gradient-left2right(#e0d123, #a28d26);
+                color: white;
                 width: 100%;
             }
 
             .ui-panel-content {
                 padding: 0;
                 width: 100%;
+                height: 350px;
+                overflow-x: auto;
 
                 .left-side {
-                    padding: 53px 100px 53px 20px;
+                    padding: 46px 100px 46px 20px;
                     float: right;
 
                     i {
@@ -382,7 +388,8 @@
                 }
 
                 .right-side {
-                    padding: 50px;
+                    padding: 46px;
+                    height: 100%;
                     text-align: center;
 
                     i {
@@ -405,11 +412,11 @@
                             margin-top: 20px;
                             font-size: 50px;
                             color: #6a6a7d;
-                            @include border-radius(50%);
                             display: inline-block;
                             text-align: center;
                             border: 5px solid $primaryColor;
                             border-left-color: lighten($primaryColor, 30%);
+                            @include border-radius(50%);
                         }
                     }
 
@@ -423,6 +430,99 @@
 
                         i {
                             font-size: 14px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .messages {
+            .ui-panel-titlebar {
+                border-top-left-radius: 6px;
+                border-top-right-radius: 6px;
+                @include background-gradient-left2right(#326DDF, #214B9C);
+                color: white;
+                width: 100%;
+            }
+
+            .ui-panel-content {
+                padding: 0;
+                margin-bottom: 16px;
+                height: 350px;
+                overflow-x: auto;
+
+                ul {
+                    padding: 0;
+                    margin: 0;
+
+                    li {
+                        list-style: none;
+                        padding: 18px 20px;
+
+                        .image-container {
+                            padding-right: 4px;
+                            display: inline-block;
+
+                            img {
+                                width: 55px;
+                                height: 55px;
+                                display: inline-block;
+                                vertical-align: middle;
+                            }
+                        }
+
+                        .seperator {
+                            width: 1px;
+                            height: 50px;
+                            background-color: $primaryColor;
+                            display: inline-block;
+                            vertical-align: middle;
+                        }
+
+                        .message-box {
+                            display: inline-block;
+                            font-size: 13px;
+                            vertical-align: middle;
+                            width: 73%;
+                            padding-left: 12px;
+
+                            .messager {
+                                color: #323232;
+                                font-weight: 600;
+                                display: inline-block;
+                            }
+
+                            .time {
+                                display: inline-block;
+                                color: #ABABAB;
+                            }
+
+                            .message {
+                                display: block;
+                            }
+                        }
+
+                        .message-status {
+                            float: right;
+                            text-align: right;
+                            vertical-align: middle;
+                            width: 7%;
+
+                            i {
+                                font-size: 18px;
+                                color: $primaryColor;
+                                display: block;
+
+                                &.unread {
+                                    color: #ABABAB;
+                                }
+                            }
+
+                            span {
+                                font-size: 13px;
+                                color: #ABABAB;
+                                font-weight: 500;
+                            }
                         }
                     }
                 }
