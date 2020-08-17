@@ -1252,6 +1252,7 @@ body .layout-wrapper .layout-main .layout-content {
 .layout-content .layout-dashboard .overview-box {
   padding-top: 18px;
   min-height: 80px;
+  border-radius: 6px;
   color: #ffffff;
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
@@ -1384,61 +1385,155 @@ body .layout-wrapper .layout-main .layout-content {
   background-image: linear-gradient(left, #7DC931, #14A143);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#7DC931", endColorstr="#14A143", gradientType="1");
 }
-.layout-content .layout-dashboard .contacts .ui-panel-content {
-  padding: 14px;
-  min-height: 236px;
+.layout-content .layout-dashboard .appointments .ui-panel-titlebar {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  background-color: #f39611;
+  background-image: -webkit-gradient(linear, left top, right top, from(#f39611), to(#fc4576));
+  background-image: -webkit-linear-gradient(left, #f39611, #fc4576);
+  background-image: -moz-linear-gradient(left, #f39611, #fc4576);
+  background-image: -ms-linear-gradient(left, #f39611, #fc4576);
+  background-image: -o-linear-gradient(left, #f39611, #fc4576);
+  background-image: linear-gradient(left, #f39611, #fc4576);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f39611", endColorstr="#fc4576", gradientType="1");
+  color: white;
 }
-.layout-content .layout-dashboard .contacts .ui-panel-content ul {
+.layout-content .layout-dashboard .appointments .ui-panel-content {
+  padding: 14px;
+  height: 300px;
+  overflow-x: auto;
+}
+.layout-content .layout-dashboard .appointments .ui-panel-content ul {
   padding: 0;
   margin: 0;
 }
-.layout-content .layout-dashboard .contacts .ui-panel-content ul li {
+.layout-content .layout-dashboard .appointments .ui-panel-content ul li {
   list-style: none;
   padding-bottom: 12px;
 }
-.layout-content .layout-dashboard .contacts .ui-panel-content ul li img {
+.layout-content .layout-dashboard .appointments .ui-panel-content ul li img {
   width: 55px;
   height: 55px;
   display: inline-block;
   vertical-align: middle;
   margin-right: 5px;
 }
-.layout-content .layout-dashboard .contacts .ui-panel-content ul li .seperator {
+.layout-content .layout-dashboard .appointments .ui-panel-content ul li .seperator {
   width: 1px;
   height: 50px;
   background-color: #17AFC2;
   display: inline-block;
   vertical-align: middle;
 }
-.layout-content .layout-dashboard .contacts .ui-panel-content ul li .team-box {
+.layout-content .layout-dashboard .appointments .ui-panel-content ul li .team-box {
   display: inline-block;
   font-size: 13px;
   vertical-align: middle;
   width: 69%;
 }
-.layout-content .layout-dashboard .contacts .ui-panel-content ul li .team-box .team-member {
+.layout-content .layout-dashboard .appointments .ui-panel-content ul li .team-box .team-member {
   color: #323232;
   font-weight: 500;
   display: block;
 }
-.layout-content .layout-dashboard .contacts .ui-panel-content ul li .team-box .team-member-mail {
+.layout-content .layout-dashboard .appointments .ui-panel-content ul li .team-box .team-member-mail {
   color: #888888;
   display: inline-block;
   font-weight: 400;
 }
-.layout-content .layout-dashboard .contacts .ui-panel-content ul li .team-box .team-member-address {
+.layout-content .layout-dashboard .appointments .ui-panel-content ul li .team-box .team-member-address {
   color: #888888;
   display: inline-block;
   font-weight: 400;
   margin-left: 6px;
 }
-.layout-content .layout-dashboard .contacts .ui-panel-content ul li .team-box i {
+.layout-content .layout-dashboard .appointments .ui-panel-content ul li .team-box i {
   display: inline-block;
   margin-right: 9px;
 }
+.layout-content .layout-dashboard .documents .ui-panel-titlebar {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  background-color: #8868e0;
+  background-image: -webkit-gradient(linear, left top, right top, from(#8868e0), to(#6236a0));
+  background-image: -webkit-linear-gradient(left, #8868e0, #6236a0);
+  background-image: -moz-linear-gradient(left, #8868e0, #6236a0);
+  background-image: -ms-linear-gradient(left, #8868e0, #6236a0);
+  background-image: -o-linear-gradient(left, #8868e0, #6236a0);
+  background-image: linear-gradient(left, #8868e0, #6236a0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#8868e0", endColorstr="#6236a0", gradientType="1");
+  color: white;
+}
+.layout-content .layout-dashboard .documents .ui-panel-content {
+  padding: 14px;
+  height: 300px;
+  overflow-x: auto;
+}
+.layout-content .layout-dashboard .documents .ui-panel-content ul {
+  padding: 0;
+  margin: 0;
+}
+.layout-content .layout-dashboard .documents .ui-panel-content ul li {
+  list-style: none;
+  padding-bottom: 12px;
+}
+.layout-content .layout-dashboard .documents .ui-panel-content ul li img {
+  width: 55px;
+  height: 55px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+.layout-content .layout-dashboard .documents .ui-panel-content ul li .seperator {
+  width: 1px;
+  height: 50px;
+  background-color: #17AFC2;
+  display: inline-block;
+  vertical-align: middle;
+}
+.layout-content .layout-dashboard .documents .ui-panel-content ul li .document-box {
+  display: inline-block;
+  font-size: 13px;
+  vertical-align: middle;
+  width: 69%;
+}
+.layout-content .layout-dashboard .documents .ui-panel-content ul li .document-box .document-name {
+  color: #323232;
+  font-weight: 500;
+  display: block;
+}
+.layout-content .layout-dashboard .documents .ui-panel-content ul li .document-box .document-type {
+  color: #888888;
+  display: inline-block;
+  font-weight: 400;
+}
+.layout-content .layout-dashboard .documents .ui-panel-content ul li .document-box .document-details {
+  color: #888888;
+  display: inline-block;
+  font-weight: 400;
+  margin-left: 6px;
+}
+.layout-content .layout-dashboard .documents .ui-panel-content ul li .document-box i {
+  display: inline-block;
+  margin-right: 9px;
+}
+.layout-content .layout-dashboard .tasks .ui-panel-titlebar {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  background-color: #E02364;
+  background-image: -webkit-gradient(linear, left top, right top, from(#E02364), to(#A22650));
+  background-image: -webkit-linear-gradient(left, #E02364, #A22650);
+  background-image: -moz-linear-gradient(left, #E02364, #A22650);
+  background-image: -ms-linear-gradient(left, #E02364, #A22650);
+  background-image: -o-linear-gradient(left, #E02364, #A22650);
+  background-image: linear-gradient(left, #E02364, #A22650);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#E02364", endColorstr="#A22650", gradientType="1");
+  color: white;
+}
 .layout-content .layout-dashboard .tasks .ui-panel-content {
   padding: 14px;
-  min-height: 236px;
+  height: 300px;
+  overflow-x: auto;
 }
 .layout-content .layout-dashboard .tasks .ui-panel-content ul {
   padding: 0;

@@ -9,6 +9,7 @@
         .overview-box {
             padding-top: 18px;
             min-height: 80px;
+            border-radius: 6px;
             color: #ffffff;
             @include shadow(0 1px 3px rgba(0, 0, 0, 0.12));
 
@@ -117,10 +118,17 @@
             }
         }
 
-        .contacts {
+        .appointments {
+            .ui-panel-titlebar {
+                border-top-left-radius: 6px;
+                border-top-right-radius: 6px;
+                @include background-gradient-left2right(#f39611, #fc4576);
+                color: white;
+            }
             .ui-panel-content {
                 padding: 14px;
-                min-height: 236px;
+                height: 300px;
+                overflow-x: auto;
 
                 ul {
                     padding: 0;
@@ -181,10 +189,88 @@
             }
         }
 
-        .tasks {
+        .documents {
+            .ui-panel-titlebar {
+                border-top-left-radius: 6px;
+                border-top-right-radius: 6px;
+                @include background-gradient-left2right(#8868e0, #6236a0);
+                color: white;
+            }
             .ui-panel-content {
                 padding: 14px;
-                min-height: 236px;
+                height: 300px;
+                overflow-x: auto;
+
+                ul {
+                    padding: 0;
+                    margin: 0;
+
+                    li {
+                        list-style: none;
+                        padding-bottom: 12px;
+
+                        img {
+                            width: 55px;
+                            height: 55px;
+                            display: inline-block;
+                            vertical-align: middle;
+                            margin-right: 5px;
+                        }
+
+                        .seperator {
+                            width: 1px;
+                            height: 50px;
+                            background-color: $primaryColor;
+                            display: inline-block;
+                            vertical-align: middle;
+                        }
+
+                        .document-box {
+                            display: inline-block;
+                            font-size: 13px;
+                            vertical-align: middle;
+                            width: 69%;
+
+                            .document-name {
+                                color: #323232;
+                                font-weight: 500;
+                                display: block;
+                            }
+
+                            .document-type {
+                                color: #888888;
+                                display: inline-block;
+                                font-weight: 400;
+                            }
+
+                            .document-details {
+                                color: #888888;
+                                display: inline-block;
+                                font-weight: 400;
+                                margin-left: 6px;
+                            }
+
+                            i {
+                                display: inline-block;
+                                margin-right: 9px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .tasks {
+            .ui-panel-titlebar {
+                border-top-left-radius: 6px;
+                border-top-right-radius: 6px;
+                @include background-gradient-left2right(#E02364, #A22650);
+                color: white;
+            }
+            .ui-panel-content {
+                padding: 14px;
+                height: 300px;
+                overflow-x: auto;
 
                 ul {
                     padding: 0;
