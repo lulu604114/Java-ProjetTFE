@@ -1,5 +1,9 @@
 package com.projet.enumeration;
 
+import com.projet.entities.Role;
+
+import javax.persistence.EntityManager;
+
 /**
  * =================================================================
  * Created by Intellij IDEA.
@@ -12,16 +16,17 @@ package com.projet.enumeration;
  */
 public enum RoleEnum {
 
-    USER(1),
-    ADMIN(2);
+    USER("user"),
+    ADMIN("admin");
 
-    private int id;
+    private String label;
 
-    RoleEnum(int id) {
-        this.id = id;
+    RoleEnum(String label) {
+        this.label = label;
     }
 
-    public int getId() {
-        return id;
+    public String toString() {
+        return this.label;
     }
+
 }

@@ -42,12 +42,11 @@ public class LoginBean implements Serializable {
      * @throws IOException
      */
     public void doLogin() throws IOException {
+
         if (SecurityManager.processToLogin(username, password, rememberMe)) {
             UserService service = new UserService(User.class);
-
             SecurityManager.saveAttributeInSession(App.SESSION_USER, service.getByUsername(username));
-
-            FacesContext.getCurrentInstance().getExternalContext().redirect("/app/dashboard.xhtml");
+            FacesContext.getCurrentInstance().getExternalContext().redirect("/app/dashboard/dashboard.xhtml");
         }
     }
 

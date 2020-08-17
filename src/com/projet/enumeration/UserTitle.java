@@ -15,7 +15,8 @@ public enum UserTitle {
     MME("Madame", "Mme"),
     MELLE("Mademoiselle", "Melle"),
     DOCTOR("Docteur", "Dr."),
-    PROF("Professeur", "Pr.");
+    PROF("Professeur", "Pr."),
+    NONE("Aucun", "");
 
     private String label;
     private String shortLabel;
