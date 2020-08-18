@@ -18,8 +18,10 @@
 
                     <div class="layout-dashboard">
                         <div class="ui-g">
+                            <!-- SHORTCUT CARDS -->
                             <ui:repeat value="#{ dashboard.dashboard.dashboardCards }" var="dashboardCard">
-                                <h:panelGroup layout="block" rendered="#{dashboard.getCardType(['validation', 'calendar', 'task'], dashboardCard.card)}">
+                                <h:panelGroup layout="block"
+                                              rendered="#{dashboard.getCardType(['validation', 'calendar', 'task', 'message'], dashboardCard.card)}">
                                     <div class="ui-g-12 ui-md-6 ui-lg-3">
                                         <div class="overview-box #{ dashboardCard.card.icon}">
                                             <p:graphicImage name="images/icons/${ dashboardCard.card.icon }.svg"
@@ -33,6 +35,526 @@
                                     </div>
                                 </h:panelGroup>
                             </ui:repeat>
+
+                            <!-- APPOINTMENT CARD -->
+                            <div class="ui-g-12 ui-md-12 ui-lg-4">
+                                <p:panel header="Rendez-vous du jour" styleClass="appointments">
+                                    <ul>
+                                        <li>
+                                            <p:graphicImage name="images/icons/calendar.svg" library="own-layout"/>
+                                            <div class="seperator"></div>
+                                            <div class="team-box">
+                                                <span class="team-member">Brooke Wright</span>
+                                                <div>
+                                                    <i class="fa fa-envelope"></i>
+                                                    <span class="team-member-mail">brooke@test.com</span>
+                                                </div>
+                                                <div>
+                                                    <i class="fa fa-map-pin"></i>
+                                                    <span class="team-member-address">153 Cold Valley Road</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <p:graphicImage name="images/icons/calendar.svg" library="own-layout"/>
+                                            <div class="seperator"></div>
+                                            <div class="team-box">
+                                                <span class="team-member">Maggie Walker</span>
+                                                <div>
+                                                    <i class="fa fa-envelope"></i>
+                                                    <span class="team-member-mail">maggie@test.com</span>
+                                                </div>
+                                                <div>
+                                                    <i class="fa fa-map-pin"></i>
+                                                    <span class="team-member-address">5698 Anderson Street</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <p:graphicImage name="images/icons/calendar.svg" library="own-layout"/>
+                                            <div class="seperator"></div>
+                                            <div class="team-box">
+                                                <span class="team-member">Tom Baker</span>
+                                                <div>
+                                                    <i class="fa fa-envelope"></i>
+                                                    <span class="team-member-mail">tom@example.com</span>
+                                                </div>
+                                                <div>
+                                                    <i class="fa fa-map-pin"></i>
+                                                    <span class="team-member-address">2304 Billy Bill Lane</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <p:graphicImage name="images/icons/calendar.svg" library="own-layout"/>
+                                            <div class="seperator"></div>
+                                            <div class="team-box">
+                                                <span class="team-member">Brooke Wright</span>
+                                                <div>
+                                                    <i class="fa fa-envelope"></i>
+                                                    <span class="team-member-mail">brooke@test.com</span>
+                                                </div>
+                                                <div>
+                                                    <i class="fa fa-map-pin"></i>
+                                                    <span class="team-member-address">153 Cold Valley Road</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <p:graphicImage name="images/icons/calendar.svg" library="own-layout"/>
+                                            <div class="seperator"></div>
+                                            <div class="team-box">
+                                                <span class="team-member">Maggie Walker</span>
+                                                <div>
+                                                    <i class="fa fa-envelope"></i>
+                                                    <span class="team-member-mail">maggie@test.com</span>
+                                                </div>
+                                                <div>
+                                                    <i class="fa fa-map-pin"></i>
+                                                    <span class="team-member-address">5698 Anderson Street</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <p:graphicImage name="images/icons/calendar.svg" library="own-layout"/>
+                                            <div class="seperator"></div>
+                                            <div class="team-box">
+                                                <span class="team-member">Tom Baker</span>
+                                                <div>
+                                                    <i class="fa fa-envelope"></i>
+                                                    <span class="team-member-mail">tom@example.com</span>
+                                                </div>
+                                                <div>
+                                                    <i class="fa fa-map-pin"></i>
+                                                    <span class="team-member-address">2304 Billy Bill Lane</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <p:graphicImage name="images/icons/calendar.svg" library="own-layout"/>
+                                            <div class="seperator"></div>
+                                            <div class="team-box">
+                                                <span class="team-member">Brooke Wright</span>
+                                                <div>
+                                                    <i class="fa fa-envelope"></i>
+                                                    <span class="team-member-mail">brooke@test.com</span>
+                                                </div>
+                                                <div>
+                                                    <i class="fa fa-map-pin"></i>
+                                                    <span class="team-member-address">153 Cold Valley Road</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <p:graphicImage name="images/icons/calendar.svg" library="own-layout"/>
+                                            <div class="seperator"></div>
+                                            <div class="team-box">
+                                                <span class="team-member">Maggie Walker</span>
+                                                <div>
+                                                    <i class="fa fa-envelope"></i>
+                                                    <span class="team-member-mail">maggie@test.com</span>
+                                                </div>
+                                                <div>
+                                                    <i class="fa fa-map-pin"></i>
+                                                    <span class="team-member-address">5698 Anderson Street</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <p:graphicImage name="images/icons/calendar.svg" library="own-layout"/>
+                                            <div class="seperator"></div>
+                                            <div class="team-box">
+                                                <span class="team-member">Tom Baker</span>
+                                                <div>
+                                                    <i class="fa fa-envelope"></i>
+                                                    <span class="team-member-mail">tom@example.com</span>
+                                                </div>
+                                                <div>
+                                                    <i class="fa fa-map-pin"></i>
+                                                    <span class="team-member-address">2304 Billy Bill Lane</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </p:panel>
+                            </div>
+
+                            <!-- TASK CARD -->
+                            <div class="ui-g-12 ui-md-12 ui-lg-4">
+                                <p:panel header="Tasks" styleClass="tasks">
+                                    <ul>
+                                        <li>
+                                            <span>Sales Reports</span>
+                                            <div class="time-badge">
+                                                <span>TODAY</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span>Pay Invoices</span>
+                                            <div class="time-badge">
+                                                <span>1 D</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span>Jenny's Birthday</span>
+                                            <div class="time-badge">
+                                                <span>1 D</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span>Client Meeting</span>
+                                            <div class="time-badge">
+                                                <span>2 D</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span>Flight Ticket</span>
+                                            <div class="time-badge">
+                                                <span>5 D</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span>New Themes</span>
+                                            <div class="time-badge">
+                                                <span>LATER</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span>Sales Reports</span>
+                                            <div class="time-badge">
+                                                <span>LATER</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span>Pay Invoices</span>
+                                            <div class="time-badge">
+                                                <span>LATER</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span>Jenny's Birthday</span>
+                                            <div class="time-badge">
+                                                <span>LATER</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span>Client Meeting</span>
+                                            <div class="time-badge">
+                                                <span>LATER</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span>Flight Ticket</span>
+                                            <div class="time-badge">
+                                                <span>LATER</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span>New Themes</span>
+                                            <div class="time-badge">
+                                                <span>LATER</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span>Sales Reports</span>
+                                            <div class="time-badge">
+                                                <span>LATER</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span>Pay Invoices</span>
+                                            <div class="time-badge">
+                                                <span>LATER</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span>Jenny's Birthday</span>
+                                            <div class="time-badge">
+                                                <span>LATER</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span>Client Meeting</span>
+                                            <div class="time-badge">
+                                                <span>LATER</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span>Flight Ticket</span>
+                                            <div class="time-badge">
+                                                <span>LATER</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span>New Themes</span>
+                                            <div class="time-badge">
+                                                <span>LATER</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </p:panel>
+                            </div>
+
+                            <!-- DOCUMENTS CARD -->
+                            <div class="ui-g-12 ui-md-12 ui-lg-4">
+                                <p:panel header="Documents" styleClass="documents">
+                                    <ul>
+                                        <li>
+                                            <p:graphicImage name="images/icons/documents/word.svg"
+                                                            library="own-layout"/>
+                                            <div class="seperator"></div>
+                                            <div class="document-box">
+                                                <span class="document-name">template_charge.docx</span>
+                                                <div>
+                                                    <i class="fa fa-file"></i>
+                                                    <span class="document-type">document word</span>
+                                                </div>
+                                                <div>
+                                                    <i class="fa fa-ellipsis-v"></i>
+                                                    <span class="document-details">3.8 Mo</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <p:graphicImage name="images/icons/documents/excel.svg"
+                                                            library="own-layout"/>
+                                            <div class="seperator"></div>
+                                            <div class="document-box">
+                                                <span class="document-name">frais_08_2020.xlsx</span>
+                                                <div>
+                                                    <i class="fa fa-file"></i>
+                                                    <span class="document-type">Document excel</span>
+                                                </div>
+                                                <div>
+                                                    <i class="fa fa-ellipsis-v"></i>
+                                                    <span class="document-details">23.4 Mo</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <p:graphicImage name="images/icons/documents/word.svg"
+                                                            library="own-layout"/>
+                                            <div class="seperator"></div>
+                                            <div class="document-box">
+                                                <span class="document-name">template_mutuel.docx</span>
+                                                <div>
+                                                    <i class="fa fa-file"></i>
+                                                    <span class="document-type">document word</span>
+                                                </div>
+                                                <div>
+                                                    <i class="fa fa-ellipsis-v"></i>
+                                                    <span class="document-details">7.9 Mo</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <p:graphicImage name="images/icons/documents/powerpoint.svg"
+                                                            library="own-layout"/>
+                                            <div class="seperator"></div>
+                                            <div class="document-box">
+                                                <span class="document-name">coronavirus_règles.ppt</span>
+                                                <div>
+                                                    <i class="fa fa-file"></i>
+                                                    <span class="document-type">document powertpoint</span>
+                                                </div>
+                                                <div>
+                                                    <i class="fa fa-ellipsis-v"></i>
+                                                    <span class="document-details">29.1 Mo</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <p:graphicImage name="images/icons/documents/word.svg"
+                                                            library="own-layout"/>
+                                            <div class="seperator"></div>
+                                            <div class="document-box">
+                                                <span class="document-name">rapport_patient.docx</span>
+                                                <div>
+                                                    <i class="fa fa-file"></i>
+                                                    <span class="document-type">document word</span>
+                                                </div>
+                                                <div>
+                                                    <i class="fa fa-ellipsis-v"></i>
+                                                    <span class="document-details">12.6 Mo</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </p:panel>
+                            </div>
+
+                            <!-- CHARGES CARD -->
+                            <div class="ui-g-12 ui-md-12 ui-lg-12 ui-xl-6">
+                                <p:panel header="Frais" styleClass="charges ui-g">
+                                    <div class="ui-g-12 ui-md-6 ui-lg-6 ui-xl-6 left-side">
+                                        <i class="fa fa-level-up"></i>
+                                        <span class="icon-label">Total</span>
+                                        <span>€ 85.397</span>
+                                        <div class="statsbar">
+                                            <div class="statsbar-value" style="width: 100%"></div>
+                                        </div>
+                                        <i class="fa fa-eur"></i>
+                                        <span class="icon-label">Cette semaine</span>
+                                        <span>$ 1946</span>
+                                        <div class="statsbar">
+                                            <div class="statsbar-value" style="width: 2%"></div>
+                                        </div>
+                                        <i class="fa fa-history"></i>
+                                        <span class="icon-label">Remaining</span>
+                                        <span>16:01:53</span>
+                                        <div class="statsbar">
+                                            <div class="statsbar-value" style="width: 25%"></div>
+                                        </div>
+                                    </div>
+                                    <div class="ui-g-12 ui-md-6 ui-lg-6 ui-xl-6 right-side">
+                                        <div>
+                                            <i class="fa fa-level-up"></i>
+                                            <span>100%</span>
+                                            <i class="fa fa-eur"></i>
+                                            <span>2,3%</span>
+                                            <i class="fa fa-history"></i>
+                                            <span>25%</span>
+                                        </div>
+                                        <div class="knob-container">
+                                            <div class="knob">
+                                                81%
+                                            </div>
+                                        </div>
+                                        <div class="details">
+                                            <span>See Details</span>
+                                            <i class="fa fa-chevron-right"></i>
+                                        </div>
+                                    </div>
+                                </p:panel>
+                            </div>
+
+                            <!-- MESSAGES CARD -->
+                            <div class="ui-g-12 ui-md-12 ui-lg-12 ui-xl-6">
+                                <p:panel header="Messages" styleClass="messages ui-g">
+                                    <ul>
+                                        <li>
+                                            <div class="image-container">
+                                                <p:graphicImage name="images/avatar-maggie.png" library="ecuador-layout" />
+                                            </div>
+                                            <div class="seperator"></div>
+                                            <div class="message-box">
+                                                <span class="messager">Maggie Walker</span>
+                                                <span class="time">23 mins</span>
+                                                <span class="message">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribu…</span>
+                                            </div>
+                                            <div class="message-status">
+                                                <i class="fa fa-circle"></i>
+                                                <span>562</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="image-container">
+                                                <p:graphicImage name="images/avatar-brooke.png" library="ecuador-layout" />
+                                            </div>
+                                            <div class="seperator"></div>
+                                            <div class="message-box">
+                                                <span class="messager">Brooke Wright</span>
+                                                <span class="time">5 hours</span>
+                                                <span class="message">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</span>
+                                            </div>
+                                            <div class="message-status">
+                                                <i class="fa fa-circle"></i>
+                                                <span>149</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="image-container">
+                                                <p:graphicImage name="images/avatar-tom.png" library="ecuador-layout" />
+                                            </div>
+                                            <div class="seperator"></div>
+                                            <div class="message-box">
+                                                <span class="messager">Tom Baker</span>
+                                                <span class="time">19 hours</span>
+                                                <span class="message">It is a long established fact that a reader will be distracted by the readable content.</span>
+                                            </div>
+                                            <div class="message-status">
+                                                <i class="fa fa-circle unread"></i>
+                                                <span>74</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="image-container">
+                                                <p:graphicImage name="images/avatar-lucas.png" library="ecuador-layout" />
+                                            </div>
+                                            <div class="seperator"></div>
+                                            <div class="message-box">
+                                                <span class="messager">Lucas Fox</span>
+                                                <span class="time">1 day</span>
+                                                <span class="message">It is a long established fact that a reader will be distracted by the readable contentof a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal.</span>
+                                            </div>
+                                            <div class="message-status">
+                                                <i class="fa fa-circle unread"></i>
+                                                <span>250</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="image-container">
+                                                <p:graphicImage name="images/avatar-maggie.png" library="ecuador-layout" />
+                                            </div>
+                                            <div class="seperator"></div>
+                                            <div class="message-box">
+                                                <span class="messager">Maggie Walker</span>
+                                                <span class="time">23 mins</span>
+                                                <span class="message">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribu…</span>
+                                            </div>
+                                            <div class="message-status">
+                                                <i class="fa fa-circle"></i>
+                                                <span>562</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="image-container">
+                                                <p:graphicImage name="images/avatar-brooke.png" library="ecuador-layout" />
+                                            </div>
+                                            <div class="seperator"></div>
+                                            <div class="message-box">
+                                                <span class="messager">Brooke Wright</span>
+                                                <span class="time">5 hours</span>
+                                                <span class="message">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</span>
+                                            </div>
+                                            <div class="message-status">
+                                                <i class="fa fa-circle"></i>
+                                                <span>149</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="image-container">
+                                                <p:graphicImage name="images/avatar-tom.png" library="ecuador-layout" />
+                                            </div>
+                                            <div class="seperator"></div>
+                                            <div class="message-box">
+                                                <span class="messager">Tom Baker</span>
+                                                <span class="time">19 hours</span>
+                                                <span class="message">It is a long established fact that a reader will be distracted by the readable content.</span>
+                                            </div>
+                                            <div class="message-status">
+                                                <i class="fa fa-circle unread"></i>
+                                                <span>74</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="image-container">
+                                                <p:graphicImage name="images/avatar-lucas.png" library="ecuador-layout" />
+                                            </div>
+                                            <div class="seperator"></div>
+                                            <div class="message-box">
+                                                <span class="messager">Lucas Fox</span>
+                                                <span class="time">1 day</span>
+                                                <span class="message">It is a long established fact that a reader will be distracted by the readable contentof a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal.</span>
+                                            </div>
+                                            <div class="message-status">
+                                                <i class="fa fa-circle unread"></i>
+                                                <span>250</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </p:panel>
+                            </div>
                         </div>
                     </div>
                 </div>
