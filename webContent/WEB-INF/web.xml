@@ -21,12 +21,12 @@
         <param-name>javax.faces.DATETIMECONVERTER_DEFAULT_TIMEZONE_IS_SYSTEM_TIMEZONE</param-name>
         <param-value>true</param-value>
     </context-param>
-
-    <!-- primefaces -->
     <context-param>
         <param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
         <param-value>true</param-value>
     </context-param>
+
+    <!-- primefaces -->
     <context-param>
         <param-name>primefaces.FONT_AWESOME</param-name>
         <param-value>true</param-value>
@@ -34,6 +34,16 @@
     <context-param>
         <param-name>primefaces.THEME</param-name>
         <param-value>ecuador-#{guestPreferences.theme}</param-value>
+    </context-param>
+
+    <!-- RECAPTCHA -->
+    <context-param>
+        <param-name>primefaces.PRIVATE_CAPTCHA_KEY</param-name>
+        <param-value>6LfjjcAZAAAAAHzmAfNls_okR3lGAeowoQSMr5Ew</param-value>
+    </context-param>
+    <context-param>
+        <param-name>primefaces.PUBLIC_CAPTCHA_KEY</param-name>
+        <param-value>6LfjjcAZAAAAAIqJrPS3YE8BmZYIqEzU3rKZWmQl</param-value>
     </context-param>
 
     <!-- LISTENERS -->
