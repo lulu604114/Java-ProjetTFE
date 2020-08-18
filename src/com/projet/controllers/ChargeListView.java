@@ -7,8 +7,13 @@ import com.projet.security.SecurityManager;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.time.Month;
+import java.time.format.TextStyle;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,6 +32,7 @@ public class ChargeListView implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private List<Charge> chargeList;
+    private Charge charge;
 
     @PostConstruct
     public void init() {
@@ -40,5 +46,19 @@ public class ChargeListView implements Serializable {
 
     public void setChargeList(List<Charge> chargeList) {
         this.chargeList = chargeList;
+    }
+
+    public Charge getCharge() {
+        return charge;
+    }
+
+    public void setCharge(Charge charge) {
+        this.charge = charge;
+    }
+
+    public String getMonth(int month) {
+        String monthString = Month.of(month + 1).getDisplayName(TextStyle.FULL, FacesContext.getCurrentInstance().getViewRoot().getLocale());
+
+        return monthString.substring(0, 1).toUpperCase() + monthString.substring(1);
     }
 }
