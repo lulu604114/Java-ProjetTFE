@@ -13,7 +13,7 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 
-@Named("dashboard")
+@Named("dashboardBean")
 @SessionScoped
 public class DashboardBean implements Serializable {
 
