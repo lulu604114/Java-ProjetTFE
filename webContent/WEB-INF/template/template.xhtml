@@ -26,14 +26,6 @@
 
             <div class="layout-main">
 
-                <div class="route-bar">
-                    <div class="route-bar-breadcrumb">
-                        <i class="fa fa-home"></i>
-                        <span>/ </span>
-                        <ui:insert name="viewname" />
-                    </div>
-                </div>
-
                 <div class="layout-content" style="min-height:300px">
                     <ui:insert name="content"></ui:insert>
                 </div>
@@ -57,5 +49,7 @@
         <h:outputStylesheet name="css/nanoscroller.css" library="ecuador-layout" />
         <h:outputStylesheet name="css/layout-#{guestPreferences.layout}.css" library="ecuador-layout" />
         <h:outputStylesheet name="css/own-style.css" library="own-layout" />
+        <h:outputStylesheet library="webjars" name="font-awesome/5.14.0/css/all.min-jsf.css" />
+        <h:outputStylesheet library="webjars" name="font-awesome/5.14.0/css/v4-shims.min-jsf.css" />
     </h:body>
 </html>

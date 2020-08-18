@@ -1252,6 +1252,7 @@ body .layout-wrapper .layout-main .layout-content {
 .layout-content .layout-dashboard .overview-box {
   padding-top: 18px;
   min-height: 80px;
+  border-radius: 6px;
   color: #ffffff;
   -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
   -moz-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
@@ -1384,61 +1385,155 @@ body .layout-wrapper .layout-main .layout-content {
   background-image: linear-gradient(left, #7DC931, #14A143);
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#7DC931", endColorstr="#14A143", gradientType="1");
 }
-.layout-content .layout-dashboard .contacts .ui-panel-content {
-  padding: 14px;
-  min-height: 236px;
+.layout-content .layout-dashboard .appointments .ui-panel-titlebar {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  background-color: #f39611;
+  background-image: -webkit-gradient(linear, left top, right top, from(#f39611), to(#fc4576));
+  background-image: -webkit-linear-gradient(left, #f39611, #fc4576);
+  background-image: -moz-linear-gradient(left, #f39611, #fc4576);
+  background-image: -ms-linear-gradient(left, #f39611, #fc4576);
+  background-image: -o-linear-gradient(left, #f39611, #fc4576);
+  background-image: linear-gradient(left, #f39611, #fc4576);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f39611", endColorstr="#fc4576", gradientType="1");
+  color: white;
 }
-.layout-content .layout-dashboard .contacts .ui-panel-content ul {
+.layout-content .layout-dashboard .appointments .ui-panel-content {
+  padding: 14px;
+  height: 300px;
+  overflow-x: auto;
+}
+.layout-content .layout-dashboard .appointments .ui-panel-content ul {
   padding: 0;
   margin: 0;
 }
-.layout-content .layout-dashboard .contacts .ui-panel-content ul li {
+.layout-content .layout-dashboard .appointments .ui-panel-content ul li {
   list-style: none;
   padding-bottom: 12px;
 }
-.layout-content .layout-dashboard .contacts .ui-panel-content ul li img {
+.layout-content .layout-dashboard .appointments .ui-panel-content ul li img {
   width: 55px;
   height: 55px;
   display: inline-block;
   vertical-align: middle;
   margin-right: 5px;
 }
-.layout-content .layout-dashboard .contacts .ui-panel-content ul li .seperator {
+.layout-content .layout-dashboard .appointments .ui-panel-content ul li .seperator {
   width: 1px;
   height: 50px;
   background-color: #eeb210;
   display: inline-block;
   vertical-align: middle;
 }
-.layout-content .layout-dashboard .contacts .ui-panel-content ul li .team-box {
+.layout-content .layout-dashboard .appointments .ui-panel-content ul li .team-box {
   display: inline-block;
   font-size: 13px;
   vertical-align: middle;
   width: 69%;
 }
-.layout-content .layout-dashboard .contacts .ui-panel-content ul li .team-box .team-member {
+.layout-content .layout-dashboard .appointments .ui-panel-content ul li .team-box .team-member {
   color: #323232;
   font-weight: 500;
   display: block;
 }
-.layout-content .layout-dashboard .contacts .ui-panel-content ul li .team-box .team-member-mail {
+.layout-content .layout-dashboard .appointments .ui-panel-content ul li .team-box .team-member-mail {
   color: #888888;
   display: inline-block;
   font-weight: 400;
 }
-.layout-content .layout-dashboard .contacts .ui-panel-content ul li .team-box .team-member-address {
+.layout-content .layout-dashboard .appointments .ui-panel-content ul li .team-box .team-member-address {
   color: #888888;
   display: inline-block;
   font-weight: 400;
   margin-left: 6px;
 }
-.layout-content .layout-dashboard .contacts .ui-panel-content ul li .team-box i {
+.layout-content .layout-dashboard .appointments .ui-panel-content ul li .team-box i {
   display: inline-block;
   margin-right: 9px;
 }
+.layout-content .layout-dashboard .documents .ui-panel-titlebar {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  background-color: #8868e0;
+  background-image: -webkit-gradient(linear, left top, right top, from(#8868e0), to(#6236a0));
+  background-image: -webkit-linear-gradient(left, #8868e0, #6236a0);
+  background-image: -moz-linear-gradient(left, #8868e0, #6236a0);
+  background-image: -ms-linear-gradient(left, #8868e0, #6236a0);
+  background-image: -o-linear-gradient(left, #8868e0, #6236a0);
+  background-image: linear-gradient(left, #8868e0, #6236a0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#8868e0", endColorstr="#6236a0", gradientType="1");
+  color: white;
+}
+.layout-content .layout-dashboard .documents .ui-panel-content {
+  padding: 14px;
+  height: 300px;
+  overflow-x: auto;
+}
+.layout-content .layout-dashboard .documents .ui-panel-content ul {
+  padding: 0;
+  margin: 0;
+}
+.layout-content .layout-dashboard .documents .ui-panel-content ul li {
+  list-style: none;
+  padding-bottom: 12px;
+}
+.layout-content .layout-dashboard .documents .ui-panel-content ul li img {
+  width: 55px;
+  height: 55px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+.layout-content .layout-dashboard .documents .ui-panel-content ul li .seperator {
+  width: 1px;
+  height: 50px;
+  background-color: #eeb210;
+  display: inline-block;
+  vertical-align: middle;
+}
+.layout-content .layout-dashboard .documents .ui-panel-content ul li .document-box {
+  display: inline-block;
+  font-size: 13px;
+  vertical-align: middle;
+  width: 69%;
+}
+.layout-content .layout-dashboard .documents .ui-panel-content ul li .document-box .document-name {
+  color: #323232;
+  font-weight: 500;
+  display: block;
+}
+.layout-content .layout-dashboard .documents .ui-panel-content ul li .document-box .document-type {
+  color: #888888;
+  display: inline-block;
+  font-weight: 400;
+}
+.layout-content .layout-dashboard .documents .ui-panel-content ul li .document-box .document-details {
+  color: #888888;
+  display: inline-block;
+  font-weight: 400;
+  margin-left: 6px;
+}
+.layout-content .layout-dashboard .documents .ui-panel-content ul li .document-box i {
+  display: inline-block;
+  margin-right: 9px;
+}
+.layout-content .layout-dashboard .tasks .ui-panel-titlebar {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  background-color: #E02364;
+  background-image: -webkit-gradient(linear, left top, right top, from(#E02364), to(#A22650));
+  background-image: -webkit-linear-gradient(left, #E02364, #A22650);
+  background-image: -moz-linear-gradient(left, #E02364, #A22650);
+  background-image: -ms-linear-gradient(left, #E02364, #A22650);
+  background-image: -o-linear-gradient(left, #E02364, #A22650);
+  background-image: linear-gradient(left, #E02364, #A22650);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#E02364", endColorstr="#A22650", gradientType="1");
+  color: white;
+}
 .layout-content .layout-dashboard .tasks .ui-panel-content {
   padding: 14px;
-  min-height: 236px;
+  height: 300px;
+  overflow-x: auto;
 }
 .layout-content .layout-dashboard .tasks .ui-panel-content ul {
   padding: 0;
@@ -1488,83 +1583,180 @@ body .layout-wrapper .layout-main .layout-content {
 .layout-content .layout-dashboard .resolution-center .ui-panel-content .ui-button {
   width: 100%;
 }
-.layout-content .layout-dashboard .statistics .ui-panel-titlebar {
+.layout-content .layout-dashboard .charges .ui-panel-titlebar {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  background-color: #e0d123;
+  background-image: -webkit-gradient(linear, left top, right top, from(#e0d123), to(#a28d26));
+  background-image: -webkit-linear-gradient(left, #e0d123, #a28d26);
+  background-image: -moz-linear-gradient(left, #e0d123, #a28d26);
+  background-image: -ms-linear-gradient(left, #e0d123, #a28d26);
+  background-image: -o-linear-gradient(left, #e0d123, #a28d26);
+  background-image: linear-gradient(left, #e0d123, #a28d26);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#e0d123", endColorstr="#a28d26", gradientType="1");
+  color: white;
   width: 100%;
 }
-.layout-content .layout-dashboard .statistics .ui-panel-content {
+.layout-content .layout-dashboard .charges .ui-panel-content {
   padding: 0;
   width: 100%;
+  height: 350px;
+  overflow-x: auto;
 }
-.layout-content .layout-dashboard .statistics .ui-panel-content .left-side {
-  padding: 53px 100px 53px 20px;
+.layout-content .layout-dashboard .charges .ui-panel-content .left-side {
+  padding: 46px 100px 46px 20px;
   float: right;
 }
-.layout-content .layout-dashboard .statistics .ui-panel-content .left-side i {
+.layout-content .layout-dashboard .charges .ui-panel-content .left-side i {
   color: #ABABAB;
   display: inline-block;
   font-size: 18px;
 }
-.layout-content .layout-dashboard .statistics .ui-panel-content .left-side .icon-label {
+.layout-content .layout-dashboard .charges .ui-panel-content .left-side .icon-label {
   color: #ABABAB;
   font-size: 14px;
   display: inline-block;
 }
-.layout-content .layout-dashboard .statistics .ui-panel-content .left-side span {
+.layout-content .layout-dashboard .charges .ui-panel-content .left-side span {
   color: #353535;
   font-weight: 500;
   font-size: 24px;
   display: block;
 }
-.layout-content .layout-dashboard .statistics .ui-panel-content .left-side .statsbar {
+.layout-content .layout-dashboard .charges .ui-panel-content .left-side .statsbar {
   display: block;
   width: 80%;
   background-color: #f4f4f4;
   margin-top: 12px;
   margin-bottom: 12px;
 }
-.layout-content .layout-dashboard .statistics .ui-panel-content .left-side .statsbar .statsbar-value {
+.layout-content .layout-dashboard .charges .ui-panel-content .left-side .statsbar .statsbar-value {
   background-color: #eeb210;
   height: 4px;
 }
-.layout-content .layout-dashboard .statistics .ui-panel-content .right-side {
-  padding: 50px;
+.layout-content .layout-dashboard .charges .ui-panel-content .right-side {
+  padding: 46px;
+  height: 100%;
   text-align: center;
 }
-.layout-content .layout-dashboard .statistics .ui-panel-content .right-side i {
+.layout-content .layout-dashboard .charges .ui-panel-content .right-side i {
   color: #ABABAB;
   font-size: 18px;
 }
-.layout-content .layout-dashboard .statistics .ui-panel-content .right-side span {
+.layout-content .layout-dashboard .charges .ui-panel-content .right-side span {
   margin-right: 20px;
 }
-.layout-content .layout-dashboard .statistics .ui-panel-content .right-side .knob-container {
+.layout-content .layout-dashboard .charges .ui-panel-content .right-side .knob-container {
   text-align: center;
   margin-bottom: 15px;
 }
-.layout-content .layout-dashboard .statistics .ui-panel-content .right-side .knob-container .knob {
+.layout-content .layout-dashboard .charges .ui-panel-content .right-side .knob-container .knob {
   width: 150px;
   height: 150px;
   line-height: 150px;
   margin-top: 20px;
   font-size: 50px;
   color: #6a6a7d;
-  -moz-border-radius: 50%;
-  -webkit-border-radius: 50%;
-  border-radius: 50%;
   display: inline-block;
   text-align: center;
   border: 5px solid #eeb210;
   border-left-color: #f9e09e;
+  -moz-border-radius: 50%;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
 }
-.layout-content .layout-dashboard .statistics .ui-panel-content .right-side .details {
+.layout-content .layout-dashboard .charges .ui-panel-content .right-side .details {
   font-size: 14px;
   color: #ABABAB;
 }
-.layout-content .layout-dashboard .statistics .ui-panel-content .right-side .details span {
+.layout-content .layout-dashboard .charges .ui-panel-content .right-side .details span {
   margin-right: 6px;
 }
-.layout-content .layout-dashboard .statistics .ui-panel-content .right-side .details i {
+.layout-content .layout-dashboard .charges .ui-panel-content .right-side .details i {
   font-size: 14px;
+}
+.layout-content .layout-dashboard .messages .ui-panel-titlebar {
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  background-color: #326DDF;
+  background-image: -webkit-gradient(linear, left top, right top, from(#326DDF), to(#214B9C));
+  background-image: -webkit-linear-gradient(left, #326DDF, #214B9C);
+  background-image: -moz-linear-gradient(left, #326DDF, #214B9C);
+  background-image: -ms-linear-gradient(left, #326DDF, #214B9C);
+  background-image: -o-linear-gradient(left, #326DDF, #214B9C);
+  background-image: linear-gradient(left, #326DDF, #214B9C);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#326DDF", endColorstr="#214B9C", gradientType="1");
+  color: white;
+  width: 100%;
+}
+.layout-content .layout-dashboard .messages .ui-panel-content {
+  padding: 0;
+  margin-bottom: 16px;
+  height: 350px;
+  overflow-x: auto;
+}
+.layout-content .layout-dashboard .messages .ui-panel-content ul {
+  padding: 0;
+  margin: 0;
+}
+.layout-content .layout-dashboard .messages .ui-panel-content ul li {
+  list-style: none;
+  padding: 18px 20px;
+}
+.layout-content .layout-dashboard .messages .ui-panel-content ul li .image-container {
+  padding-right: 4px;
+  display: inline-block;
+}
+.layout-content .layout-dashboard .messages .ui-panel-content ul li .image-container img {
+  width: 55px;
+  height: 55px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.layout-content .layout-dashboard .messages .ui-panel-content ul li .seperator {
+  width: 1px;
+  height: 50px;
+  background-color: #eeb210;
+  display: inline-block;
+  vertical-align: middle;
+}
+.layout-content .layout-dashboard .messages .ui-panel-content ul li .message-box {
+  display: inline-block;
+  font-size: 13px;
+  vertical-align: middle;
+  width: 73%;
+  padding-left: 12px;
+}
+.layout-content .layout-dashboard .messages .ui-panel-content ul li .message-box .messager {
+  color: #323232;
+  font-weight: 600;
+  display: inline-block;
+}
+.layout-content .layout-dashboard .messages .ui-panel-content ul li .message-box .time {
+  display: inline-block;
+  color: #ABABAB;
+}
+.layout-content .layout-dashboard .messages .ui-panel-content ul li .message-box .message {
+  display: block;
+}
+.layout-content .layout-dashboard .messages .ui-panel-content ul li .message-status {
+  float: right;
+  text-align: right;
+  vertical-align: middle;
+  width: 7%;
+}
+.layout-content .layout-dashboard .messages .ui-panel-content ul li .message-status i {
+  font-size: 18px;
+  color: #eeb210;
+  display: block;
+}
+.layout-content .layout-dashboard .messages .ui-panel-content ul li .message-status i.unread {
+  color: #ABABAB;
+}
+.layout-content .layout-dashboard .messages .ui-panel-content ul li .message-status span {
+  font-size: 13px;
+  color: #ABABAB;
+  font-weight: 500;
 }
 .layout-content .layout-dashboard .global-sales .ui-panel-content {
   padding: 0;
