@@ -48,6 +48,7 @@ public class Charge {
     @JoinColumn(name = "supplier", nullable = false)
     private Supplier supplier;
 
+    @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private ChargeStatus status;
 

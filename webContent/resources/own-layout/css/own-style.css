@@ -170,16 +170,9 @@ body .ui-datatable .ui-datatable-data > tr {
     justify-content: center;
 }
 
-
-
-
-
-
-
-
-
-
-
+body .ui-panel .ui-panel-actions .ui-button {
+    margin-right: 10px;
+}
 
 
 
