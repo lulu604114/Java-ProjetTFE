@@ -140,6 +140,10 @@
                             <small>* Champs obligatoire</small>
                             <br/>
                             <br/>
+                            <div class="captcha">
+                                <p:captcha language="#{i18n.locale}"/>
+                            </div>
+                            <br/>
                             <p:commandButton value="S'inscrire" action="${userRegistration.registrate}" update="registration-form"/>
                         </h:form>
                     </div>
