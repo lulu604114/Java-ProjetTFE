@@ -29,10 +29,10 @@ public class DashboardBean implements Serializable {
         dashboard = service.getDashboard(user);
     }
 
-    public boolean getCardType(List<String> names, Card card) {
+    public boolean isToDisplay(List<String> names,String size, Card card) {
         boolean isDisplayed = false;
         for (String name : names) {
-            if (name.equals(card.getIcon())) isDisplayed = true;
+            if (name.equals(card.getIcon()) && card.getSize().equals(size)) isDisplayed = true;
         }
         return isDisplayed;
     }
