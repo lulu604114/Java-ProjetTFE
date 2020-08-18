@@ -30,13 +30,25 @@ public class PatientBean implements Serializable {
     PatientService service = new PatientService(Patient.class);
     private Patient patient;
     private List<Patient> patients;
+    private List<Patient> filteredPatients;
     private Patient patientTemp;
+    private Patient selectedPatient;
+    private boolean disabled = false;
+
+
 
     @PostConstruct
     public void onInit()
     {
         this.patients = this.service.getAll();
     }
+
+    public boolean isDisabled(){ return disabled;}
+    public void setDisabled(boolean _bol) { this.disabled = _bol;}
+
+    public void action(){
+        disabled=true;
+        }
 
     public void patientDetail(Patient patient)
     {
@@ -71,5 +83,21 @@ public class PatientBean implements Serializable {
 
     public void setPatientTemp(Patient patientTemp) {
         this.patientTemp = patientTemp;
+    }
+
+    public List<Patient> getFilteredPatients() {
+        return filteredPatients;
+    }
+
+    public Patient getSelectedPatient() {
+        return selectedPatient;
+    }
+
+    public void setSelectedPatient(Patient selectedPatient) {
+        this.selectedPatient = selectedPatient;
+    }
+
+    public void setFilteredPatients(List<Patient> filteredPatients) {
+        this.filteredPatients = filteredPatients;
     }
 }
