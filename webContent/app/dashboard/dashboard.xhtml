@@ -39,7 +39,7 @@
                                               rendered="#{dashboard.isToDisplay(['calendar'], 'large', dashboardCard.card)}">
                                     <!-- APPOINTMENT CARD -->
                                     <div class="ui-g-12 ui-md-12 ui-lg-4">
-                                        <p:panel header="Rendez-vous du jour" styleClass="appointments">
+                                        <p:panel header="#{ dashboardCard.card.label }" styleClass="appointments">
                                             <ul>
                                                 <li>
                                                     <p:graphicImage name="images/icons/calendar.svg"
@@ -194,7 +194,7 @@
                                               rendered="#{dashboard.isToDisplay(['task'], 'large', dashboardCard.card)}">
                                     <!-- TASK CARD -->
                                     <div class="ui-g-12 ui-md-12 ui-lg-4">
-                                        <p:panel header="Tasks" styleClass="tasks">
+                                        <p:panel header="#{ dashboardCard.card.label }" styleClass="tasks">
                                             <ul>
                                                 <li>
                                                     <span>Sales Reports</span>
@@ -313,7 +313,7 @@
                                               rendered="#{dashboard.isToDisplay(['document'], 'large', dashboardCard.card)}">
                                     <!-- DOCUMENTS CARD -->
                                     <div class="ui-g-12 ui-md-12 ui-lg-4">
-                                        <p:panel header="Documents" styleClass="documents">
+                                        <p:panel header="#{ dashboardCard.card.label }" styleClass="documents">
                                             <ul>
                                                 <li>
                                                     <p:graphicImage name="images/icons/documents/word.svg"
@@ -321,10 +321,6 @@
                                                     <div class="seperator"></div>
                                                     <div class="document-box">
                                                         <span class="document-name">template_charge.docx</span>
-                                                        <div>
-                                                            <i class="fa fa-file"></i>
-                                                            <span class="document-type">document word</span>
-                                                        </div>
                                                         <div>
                                                             <i class="fa fa-ellipsis-v"></i>
                                                             <span class="document-details">3.8 Mo</span>
@@ -338,10 +334,6 @@
                                                     <div class="document-box">
                                                         <span class="document-name">frais_08_2020.xlsx</span>
                                                         <div>
-                                                            <i class="fa fa-file"></i>
-                                                            <span class="document-type">Document excel</span>
-                                                        </div>
-                                                        <div>
                                                             <i class="fa fa-ellipsis-v"></i>
                                                             <span class="document-details">23.4 Mo</span>
                                                         </div>
@@ -353,10 +345,6 @@
                                                     <div class="seperator"></div>
                                                     <div class="document-box">
                                                         <span class="document-name">template_mutuel.docx</span>
-                                                        <div>
-                                                            <i class="fa fa-file"></i>
-                                                            <span class="document-type">document word</span>
-                                                        </div>
                                                         <div>
                                                             <i class="fa fa-ellipsis-v"></i>
                                                             <span class="document-details">7.9 Mo</span>
@@ -370,10 +358,6 @@
                                                     <div class="document-box">
                                                         <span class="document-name">coronavirus_règles.ppt</span>
                                                         <div>
-                                                            <i class="fa fa-file"></i>
-                                                            <span class="document-type">document powertpoint</span>
-                                                        </div>
-                                                        <div>
                                                             <i class="fa fa-ellipsis-v"></i>
                                                             <span class="document-details">29.1 Mo</span>
                                                         </div>
@@ -385,10 +369,6 @@
                                                     <div class="seperator"></div>
                                                     <div class="document-box">
                                                         <span class="document-name">rapport_patient.docx</span>
-                                                        <div>
-                                                            <i class="fa fa-file"></i>
-                                                            <span class="document-type">document word</span>
-                                                        </div>
                                                         <div>
                                                             <i class="fa fa-ellipsis-v"></i>
                                                             <span class="document-details">12.6 Mo</span>
@@ -404,7 +384,7 @@
                                               rendered="#{dashboard.isToDisplay(['charge'], 'large', dashboardCard.card)}">
                                     <!-- CHARGES CARD -->
                                     <div class="ui-g-12 ui-md-12 ui-lg-12 ui-xl-6">
-                                        <p:panel header="Frais" styleClass="charges ui-g">
+                                        <p:panel header="#{ dashboardCard.card.label }" styleClass="charges ui-g">
                                             <div class="ui-g-12 ui-md-6 ui-lg-6 ui-xl-6 left-side">
                                                 <i class="fa fa-level-up"></i>
                                                 <span class="icon-label">Total</span>
@@ -452,7 +432,7 @@
                                               rendered="#{dashboard.isToDisplay(['message'], 'large', dashboardCard.card)}">
                                     <!-- MESSAGES CARD -->
                                     <div class="ui-g-12 ui-md-12 ui-lg-12 ui-xl-6">
-                                        <p:panel header="Messages" styleClass="messages ui-g">
+                                        <p:panel header="#{ dashboardCard.card.label }" styleClass="messages ui-g">
                                             <ul>
                                                 <li>
                                                     <div class="image-container">
