@@ -1,10 +1,12 @@
 package com.projet.entities;
 
 import com.projet.enumeration.ChargeStatus;
+import com.projet.enumeration.PaiementMethodEnum;
 
 import javax.persistence.*;
 import javax.validation.constraints.Past;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -18,7 +20,7 @@ import java.util.Objects;
  * =================================================================
  */
 @Entity
-@Table(name = "Charges")
+@Table(name = "Charges", schema = "jsf_tfe")
 @NamedQueries({
         @NamedQuery(name = "Charge.findByUser", query = "SELECT c FROM Charge c WHERE c.user=:user"),
         @NamedQuery(name = "Charge.findPayedByUser", query = "SELECT c FROM Charge c WHERE c.user=:user AND c.payed=true"),
@@ -29,30 +31,67 @@ public class Charge {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Basic
+    @Column(name = "label")
     private String label;
 
+    @Basic
     @Past
     @Temporal(TemporalType.DATE)
+    @Column(name = "created_at")
     private Date createdAt;
 
+    @Basic
+    @Column(name = "amount")
     private double amount;
 
+    @Basic
     @Temporal(TemporalType.DATE)
+    @Column(name = "due_at")
     private Date dueAt;
-
-    @ManyToOne
-    @JoinColumn(name = "user", nullable = false)
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "supplier", nullable = false)
-    private Supplier supplier;
 
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private ChargeStatus status;
 
+    @Column(name = "payed")
     private boolean payed;
+
+    @Column(name = "free_communication")
+    private String freeCommunication;
+
+    @Column(name = "structered_communication")
+    private String structeredCommunication;
+
+    @Column(name = "paiement_method")
+    @Enumerated(EnumType.STRING)
+    private PaiementMethodEnum paiementMethod;
+
+    @Column(name = "payed_at")
+    @Temporal(TemporalType.DATE)
+    private Date payedAt;
+
+    @ManyToOne
+    @JoinColumn(name = "user", referencedColumnName = "ID", nullable = false)
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "supplier", referencedColumnName = "ID", nullable = false)
+    private Supplier supplier;
+
+    @ManyToOne
+    @JoinColumn(name = "diary", referencedColumnName = "id", nullable = false)
+    private Diary diary;
+
+    @ManyToOne
+    @JoinColumn(name = "financial_year", referencedColumnName = "id", nullable = false)
+    private FinancialYear financialYear;
+
+    @OneToMany(mappedBy = "charge")
+    private List<AccountItem> accountItems;
+
+
+
 
     public int getId() {
         return id;
@@ -126,6 +165,9 @@ public class Charge {
         this.payed = payed;
     }
 
+
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -139,4 +181,62 @@ public class Charge {
         return Objects.hash(id, label, createdAt, amount, dueAt);
     }
 
+
+
+
+    public String getFreeCommunication() {
+        return freeCommunication;
+    }
+
+    public void setFreeCommunication(String freeCommunication) {
+        this.freeCommunication = freeCommunication;
+    }
+
+    public String getStructeredCommunication() {
+        return structeredCommunication;
+    }
+
+    public void setStructeredCommunication(String structeredCommunication) {
+        this.structeredCommunication = structeredCommunication;
+    }
+
+    public Object getPaiementMethod() {
+        return paiementMethod;
+    }
+
+    public void setPaiementMethod(PaiementMethodEnum paiementMethod) {
+        this.paiementMethod = paiementMethod;
+    }
+
+    public Date getPayedAt() {
+        return payedAt;
+    }
+
+    public void setPayedAt(Date payedAt) {
+        this.payedAt = payedAt;
+    }
+
+    public List<AccountItem> getAccountItems() {
+        return accountItems;
+    }
+
+    public void setAccountItems(List<AccountItem> accountItems) {
+        this.accountItems = accountItems;
+    }
+
+    public Diary getDiary() {
+        return diary;
+    }
+
+    public void setDiary(Diary diary) {
+        this.diary = diary;
+    }
+
+    public FinancialYear getFinancialYear() {
+        return financialYear;
+    }
+
+    public void setFinancialYear(FinancialYear financialYear) {
+        this.financialYear = financialYear;
+    }
 }

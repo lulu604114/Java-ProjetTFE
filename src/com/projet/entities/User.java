@@ -11,10 +11,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * =================================================================
@@ -33,410 +30,300 @@ import java.util.Objects;
         @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
         @NamedQuery(name = "User.findUserByEmail", query = "SELECT u FROM User u WHERE u.email=:email")
 })
+@NamedStoredProcedureQueries({
+        @NamedStoredProcedureQuery(
+                name = "addUserFinancialAccount",
+                procedureName = "addUserDFFinancialAccount",
+                parameters = @StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class, name = "user")
+        ),
+        @NamedStoredProcedureQuery(
+                name = "addUserSupplier",
+                procedureName = "addUserDFSupplier",
+                parameters = @StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class, name = "user")
+        ),
+        @NamedStoredProcedureQuery(
+                name = "addUserDiary",
+                procedureName = "addUserDFDiary",
+                parameters = @StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class, name = "user")
+        )
+})
 public class User implements Serializable, Cloneable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private int id;
 
-    @Basic
     @NotNull
-    @Column(columnDefinition = "boolean default 1")
+    @Column(columnDefinition = "boolean default 1", name = "ACTIVE")
     private boolean active;
 
-    @Basic
+    @Column(name = "FIRSTNAME")
     @NotEmpty
     @Size(min = 1, max = 250)
     private String firstName;
 
-    @Basic
+    @Column(name = "LASTNAME")
     @NotEmpty
     @Size(min = 1, max = 250)
     private String lastName;
 
-    @Basic
+    @Column(name = "INAMINUMBER")
     @Nullable
     @Size(min = 8, max = 12)
     private String inamiNumber;
 
-    @Basic
+    @Column(name = "IBAN")
     @Nullable
     @Size(min = 16, max = 16)
     @Pattern(regexp = "^[A-Z]{2}[0-9]{2}(?:[ ]?[0-9]{4}){4}(?:[ ]?[0-9]{1,2})?$")
     private String iban;
 
-    @Basic
+    @Column(name = "PASSWORD")
     @NotEmpty
     @Size(min = 1, max = 100)
     private String password;
 
-    @Basic
+    @Column(name = "EMAIL")
     @NotEmpty
     @Size(min = 6, max = 120)
     @Pattern(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}")
     private String email;
 
-    @Basic
+    @Column(name = "USERNAME")
     @NotEmpty
     @Size(min = 4, max = 50)
     private String username;
 
-    @Basic
+    @Column(name = "PHONE")
     @Nullable
     @Size(min = 10, max = 13)
     private String phone;
 
-    @Basic
+    @Column(name = "MOBILE")
     @Nullable
     @Size(min = 10, max = 13)
     private String mobile;
 
-    @Basic
+    @Column(name = "TVA")
     @Nullable
     @Size(min = 4, max = 50)
     private String tva;
 
     @Temporal(TemporalType.DATE)
+    @Column(name = "BIRTHDATE")
     @Nullable
     private Date birthdate;
 
-    // ENUMERATION
+    @Column(name = "charge_config_set")
+    private boolean chargeConfigSet;
 
+
+    // ENUMERATION
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "varchar(20) default 'NONE'")
+    @Column(nullable = false, columnDefinition = "varchar(20) default 'NONE'", name = "TITLE")
     private UserTitle title;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "varchar(2) default 'FR'")
+    @Column(nullable = false, columnDefinition = "varchar(2) default 'FR'", name = "LANGUAGE")
     private Language language;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "varchar(20) default 'NONE'")
+    @Column(nullable = false, columnDefinition = "varchar(20) default 'NONE'", name = "STATUS")
     private UserStatus status;
 
     // OneToMany
     @OneToMany(mappedBy = "user")
     private List<Charge> charges;
-
     @OneToMany(mappedBy = "user")
     private List<Patient> patients;
-
     @OneToMany(mappedBy = "user")
     private List<Connection> connections;
-
     @OneToMany(mappedBy = "user")
     private List<Contact> contacts;
-
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
     private List<Dashboard> dashboards;
-
     @OneToMany(mappedBy = "user")
     private List<Document> documents;
-
     @OneToMany(mappedBy = "user")
     private List<Place> places;
-
     @OneToMany(mappedBy = "user")
     private List<ToDo> toDos;
-
     @OneToMany(mappedBy = "user")
     private List<Supplier> suppliers;
+    @OneToMany(mappedBy = "user")
+    private List<AccountCategory> accountCategories;
+    @OneToMany(mappedBy = "user")
+    private List<Diary> diaries;
+    @OneToMany(mappedBy = "user")
+    private List<FinancialAccount> financialAccounts;
+    @OneToMany(mappedBy = "user")
+    private List<FinancialYear> financialYears;
+
 
     // ManyToOne
     @ManyToOne
     @JoinColumn(name = "role", referencedColumnName = "id", nullable = false)
     private Role role;
 
-    /**
-     * getId
-     * @return
-     */
+
+
+
     public int getId() {
         return id;
     }
 
-    /**
-     * setId
-     * @param id
-     */
     public void setId(int id) {
         this.id = id;
     }
 
-    /**
-     * getTitle
-     * @return
-     */
     public UserTitle getTitle() {
         return title;
     }
 
-    /**
-     * setTitle
-     * @param title
-     */
     public void setTitle(UserTitle title) {
         this.title = title;
     }
 
-    /**
-     * getFirstName
-     * @return
-     */
     public String getFirstName() {
         return firstName;
     }
 
-    /**
-     * setFirstName
-     * @param firstName
-     */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    /**
-     * getLastName
-     * @return
-     */
     public String getLastName() {
         return lastName;
     }
 
-    /**
-     * setLastName
-     * @param lastName
-     */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
-    /**
-     * getInamiNumber
-     * @return
-     */
     public String getInamiNumber() {
         return inamiNumber;
     }
 
-    /**
-     * setInamiNumber
-     * @param inamiNumber
-     */
     public void setInamiNumber(String inamiNumber) {
         this.inamiNumber = inamiNumber;
     }
 
-    /**
-     * getIban
-     * @return
-     */
     public String getIban() {
         return iban;
     }
 
-    /**
-     * setIban
-     * @param iban
-     */
     public void setIban(String iban) {
         this.iban = iban;
     }
 
-    /**
-     * getPassword
-     * @return
-     */
     public String getPassword() {
         return password;
     }
 
-    /**
-     * setPassword
-     * @param password
-     */
     public void setPassword(String password) {
         this.password = SecurityManager.encryptPassword(password);
     }
 
-    /**
-     * getEmail
-     * @return
-     */
     public String getEmail() {
         return email;
     }
 
-    /**
-     * setEmail
-     * @param email
-     */
     public void setEmail(String email) {
         this.email = email;
     }
 
-    /**
-     * getUsername
-     * @return
-     */
     public String getUsername() {
         return username;
     }
 
-    /**
-     * setUsername
-     * @param username
-     */
     public void setUsername(String username) {
         this.username = username;
     }
 
-    /**
-     * getPhone
-     * @return
-     */
     public String getPhone() {
         return phone;
     }
 
-    /**
-     * setPhone
-     * @param phone
-     */
     public void setPhone(String phone) {
         this.phone = phone;
     }
 
-    /**
-     * getMobile
-     * @return
-     */
     public String getMobile() {
         return mobile;
     }
 
-    /**
-     * setMobile
-     * @param mobile
-     */
     public void setMobile(String mobile) {
         this.mobile = mobile;
     }
 
-    /**
-     * getBirthdate
-     * @return
-     */
     public Date getBirthdate() {
         return birthdate;
     }
 
-    /**
-     * setBirthdate
-     * @param birthdate
-     */
     public void setBirthdate(Date birthdate) {
         this.birthdate = birthdate;
     }
 
-    /**
-     * getTva
-     * @return
-     */
     public String getTva() {
         return tva;
     }
 
-    /**
-     * setTva
-     * @param tva
-     */
     public void setTva(String tva) {
         this.tva = tva;
     }
 
-    /**
-     * isActive
-     * @return
-     */
     public boolean isActive() {
         return active;
     }
 
-    /**
-     * setActive
-     * @param active
-     */
+    public boolean isChargeConfigSet() {
+        return chargeConfigSet;
+    }
+
+    public void setChargeConfigSet(boolean chargeConfigSet) {
+        this.chargeConfigSet = chargeConfigSet;
+    }
+
     public void setActive(boolean active) {
         this.active = active;
     }
 
-    /**
-     * getLanguage
-     * @return
-     */
     public Language getLanguage() {
         return language;
     }
 
-    /**
-     * setLanguage
-     * @param language
-     */
     public void setLanguage(Language language) {
         this.language = language;
     }
 
-    /**
-     * getStatus
-     * @return
-     */
     public UserStatus getStatus() {
         return status;
     }
 
-    /**
-     * setStatus
-     * @param status
-     */
     public void setStatus(UserStatus status) {
         this.status = status;
     }
 
-    /**
-     * getCharges
-     * @return
-     */
     public List<Charge> getCharges() {
         return charges;
     }
 
-    /**
-     * setCharges
-     * @param charges
-     */
     public void setCharges(List<Charge> charges) {
         this.charges = charges;
     }
 
-    /**
-     * addCharge
-     * @param charge
-     * @return
-     */
     public Charge addCharge(Charge charge) {
+        if (getCharges() == null)
+            setCharges(new ArrayList<>());
+
         getCharges().add(charge);
         charge.setUser(this);
 
         return charge;
     }
 
-    /**
-     * removeCharge
-     * @param charge
-     * @return
-     */
     public Charge removeCharge(Charge charge) {
         getCharges().remove(charge);
         charge.setUser(null);
@@ -444,50 +331,26 @@ public class User implements Serializable, Cloneable {
         return charge;
     }
 
-    /**
-     * getConnections
-     * @return
-     */
     public List<Connection> getConnections() {
         return connections;
     }
 
-    /**
-     * setConnections
-     * @param connections
-     */
     public void setConnections(List<Connection> connections) {
         this.connections = connections;
     }
 
-    /**
-     * getContacts
-     * @return
-     */
     public List<Contact> getContacts() {
         return contacts;
     }
 
-    /**
-     * setContacts
-     * @param contacts
-     */
     public void setContacts(List<Contact> contacts) {
         this.contacts = contacts;
     }
 
-    /**
-     * getDashboards
-     * @return
-     */
     public List<Dashboard> getDashboards() {
         return dashboards;
     }
 
-    /**
-     * setDashboards
-     * @param dashboards
-     */
     public void setDashboards(List<Dashboard> dashboards) {
         this.dashboards = dashboards;
     }
@@ -509,91 +372,46 @@ public class User implements Serializable, Cloneable {
         return dashboard;
     }
 
-    /**
-     * getDocuments
-     * @return
-     */
     public List<Document> getDocuments() {
         return documents;
     }
 
-    /**
-     * setDocuments
-     * @param documents
-     */
     public void setDocuments(List<Document> documents) {
         this.documents = documents;
     }
 
-    /**
-     * getPlaces
-     * @return
-     */
     public List<Place> getPlaces() {
         return places;
     }
 
-    /**
-     * setPlaces
-     * @param places
-     */
     public void setPlaces(List<Place> places) {
         this.places = places;
     }
 
-    /**
-     * getRole
-     * @return
-     */
     public Role getRole() {
         return role;
     }
 
-    /**
-     * setRole
-     * @param role
-     */
     public void setRole(Role role) {
         this.role = role;
     }
 
-    /**
-     * getToDos
-     * @return
-     */
     public List<ToDo> getToDos() {
         return toDos;
     }
 
-    /**
-     * setToDos
-     * @param toDos
-     */
     public void setToDos(List<ToDo> toDos) {
         this.toDos = toDos;
     }
 
-    /**
-     * getSuppliers
-     * @return
-     */
     public List<Supplier> getSuppliers() {
         return suppliers;
     }
 
-    /**
-     * setSuppliers
-     * @param suppliers
-     */
     public void setSuppliers(List<Supplier> suppliers) {
         this.suppliers = suppliers;
     }
 
-    /**
-     * addSupplier
-     * @param supplier
-     * @return
-     */
     public Supplier addSupplier(Supplier supplier) {
         getSuppliers().add(supplier);
         supplier.setUser(this);
@@ -601,11 +419,6 @@ public class User implements Serializable, Cloneable {
         return supplier;
     }
 
-    /**
-     * removeSupplier
-     * @param supplier
-     * @return
-     */
     public Supplier removeSupplier(Supplier supplier) {
         getSuppliers().remove(supplier);
         supplier.setUser(null);
@@ -613,21 +426,48 @@ public class User implements Serializable, Cloneable {
         return supplier;
     }
 
-    /**
-     * getPatients
-     * @return
-     */
     public List<Patient> getPatients() {
         return patients;
     }
 
-    /**
-     * setPatients
-     * @param patients
-     */
     public void setPatients(List<Patient> patients) {
         this.patients = patients;
     }
+
+    public List<AccountCategory> getAccountCategories() {
+        return accountCategories;
+    }
+
+    public void setAccountCategories(List<AccountCategory> accountCategories) {
+        this.accountCategories = accountCategories;
+    }
+
+    public List<Diary> getDiaries() {
+        return diaries;
+    }
+
+    public void setDiaries(List<Diary> diaries) {
+        this.diaries = diaries;
+    }
+
+    public List<FinancialAccount> getFinancialAccounts() {
+        return financialAccounts;
+    }
+
+    public void setFinancialAccounts(List<FinancialAccount> financialAccounts) {
+        this.financialAccounts = financialAccounts;
+    }
+
+    public List<FinancialYear> getFinancialYears() {
+        return financialYears;
+    }
+
+    public void setFinancialYears(List<FinancialYear> financialYears) {
+        this.financialYears = financialYears;
+    }
+
+
+
 
     @Override
     public boolean equals(Object o) {

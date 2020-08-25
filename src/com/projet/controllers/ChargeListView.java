@@ -2,8 +2,10 @@ package com.projet.controllers;
 
 import com.projet.conf.App;
 import com.projet.entities.Charge;
+import com.projet.entities.Supplier;
 import com.projet.entities.User;
 import com.projet.security.SecurityManager;
+import com.projet.services.SupplierService;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -31,13 +33,15 @@ import java.util.List;
 public class ChargeListView implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    private User user;
     private List<Charge> chargeList;
     private Charge charge;
 
     @PostConstruct
     public void init() {
-        User user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
+        this.user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
         this.chargeList = user.getCharges();
+        this.charge = new Charge();
     }
 
     public List<Charge> getChargeList() {
@@ -56,9 +60,20 @@ public class ChargeListView implements Serializable {
         this.charge = charge;
     }
 
+    /**
+     * return month name from int
+     * @param month
+     * @return
+     */
     public String getMonth(int month) {
         String monthString = Month.of(month + 1).getDisplayName(TextStyle.FULL, FacesContext.getCurrentInstance().getViewRoot().getLocale());
 
         return monthString.substring(0, 1).toUpperCase() + monthString.substring(1);
+    }
+
+    public List<Supplier> completeSupplier(String query) {
+        SupplierService service = new SupplierService(Supplier.class);
+
+        return service.findByLabel(this.user, query + "%");
     }
 }

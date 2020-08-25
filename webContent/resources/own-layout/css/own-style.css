@@ -87,6 +87,12 @@ body .ui-noselection-option{
 /*.ui-panel-content .panel-content li:hover {
     background-color: #dedede;
 }*/
+.tag {
+    font-weight: normal;
+    font-size: 8px;
+    border: 1px solid;
+    padding: 2px;
+}
 
 .panel-content {
     height: 280px;
@@ -120,8 +126,33 @@ body .ui-panel .ui-panel-actions .ui-button:last-child{
 }
 /* END TITLE BAR*/
 
+/* TITLE BAR TOOLBAR */
+body .ui-panel .ui-panel-title .toolbar,
+body .ui-panel .ui-panel-content .toolbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 0;
+}
+
+body .ui-panel .ui-panel-title .toolbar h1,
+body .ui-panel .ui-panel-content .toolbar h4 {
+    margin: 0 0 5px 0;
+    display: block;
+}
+
+body .ui-panel .ui-panel-title .toolbar button,
+body .ui-panel .ui-panel-content .toolbar button{
+    margin-left: 10px;
+}
+
+body .ui-panel .ui-panel-title .toolbar .text .tag:first-child {
+    margin-left: 0;
+}
+
+
 body .ui-inputfield,
 body .ui-selectonemenu {
+
     width: 100%;
 }
 

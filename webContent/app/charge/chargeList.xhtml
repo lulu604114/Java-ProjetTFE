@@ -8,73 +8,32 @@
     <ui:define name="title">Empty Page</ui:define>
 
     <ui:define name="content">
+        <h:form id="chargeListForm">
+            <p:growl id="msgs" showDetail="true"/>
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <p:panel>
+                        <f:facet name="header">
+                            <h1>Gestion des frais</h1>
+                        </f:facet>
+                        <f:facet name="actions">
+                            <p:commandButton icon="fas fa-filter" styleClass="help-btn"/>
+                            <span class="ui-separator" style="padding-right: 10px">
+                                <span class="fa fa-ellipsis-v SoftGray" />
+                            </span>
 
-        <div class="ui-g">
-            <div class="ui-g-12">
-                <p:panel>
-                    <f:facet name="header">
-                        <h1>Gestion des frais</h1>
-                    </f:facet>
-                    <f:facet name="actions">
-                        <p:commandButton icon="fas fa-filter" styleClass="help-btn"/>
-                        <span class="ui-separator" style="padding-right: 10px">
-                            <span class="fa fa-ellipsis-v SoftGray" />
-                        </span>
+                            <p:commandButton icon="fas fa-wrench" styleClass="warning-btn" oncomplete="PF('sidebar2').show()"/>
+                            <p:commandButton id="charge-creation-btn" value="Ajouter un frais" icon="fas fa-plus-circle" styleClass="success-btn"
+                                             onclick="PF('chargeCreation-modal').show();" ajax="true" update=":chargeCreation-modal-form"/>
+                        </f:facet>
 
-                        <p:commandButton icon="fas fa-wrench" styleClass="warning-btn"/>
-                        <p:commandButton value="Ajouter un frais" icon="fas fa-plus-circle" styleClass="success-btn"
-                                         action="#{loginBean.doLogout}"/>
-                    </f:facet>
+                        <br/>
 
-                    <br/>
+                        <br/>
 
-                    <div class="layout-dashboard">
-                        <div class="ui-g">
-                            <div class="ui-g-12 ui-md-6 ui-lg-3">
-                                <div class="overview-box sales">
-                                    <p:graphicImage name="images/icon-sales.png" library="ecuador-layout"  styleClass="image-icon" />
-                                    <div class="overview-title">SALES</div>
-                                    <div class="overview-numbers">
-                                        $ 32,700
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ui-g-12 ui-md-6 ui-lg-3">
-                                <div class="overview-box views">
-                                    <p:graphicImage name="images/icon-views.png" library="ecuador-layout" style="margin-top:10px"/>
-                                    <div class="overview-title">VIEWS</div>
-                                    <div class="overview-numbers">
-                                        21,009
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ui-g-12 ui-md-6 ui-lg-3">
-                                <div class="overview-box users">
-                                    <p:graphicImage name="images/icon-users.png" library="ecuador-layout" />
-                                    <div class="overview-title">USERS</div>
-                                    <div class="overview-numbers">
-                                        3,270
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ui-g-12 ui-md-6 ui-lg-3">
-                                <div class="overview-box checkins">
-                                    <p:graphicImage name="images/icon-checkin.png" library="ecuador-layout"  styleClass="image-icon" />
-                                    <div class="overview-title">CHECK-INS</div>
-                                    <div class="overview-numbers">
-                                        704
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <br/>
-
-                    <h:form>
-                        <p:dataTable var="charge" value="#{chargeListView.chargeList}" sortBy="#{charge.createdAt.month}" expandableRowGroups="true">
+                        <p:dataTable id="chargeList" var="charge" value="#{chargeListView.chargeList}" sortBy="#{charge.createdAt.month}" expandableRowGroups="true">
                             <p:headerRow>
-                                <p:column colspan="6">
+                                <p:column colspan="7">
                                     <h:outputText value="#{chargeListView.getMonth(charge.createdAt.month)}" />
                                 </p:column>
                             </p:headerRow>
@@ -95,6 +54,10 @@
                                 </h:outputText>
                             </p:column>
                             <p:column>
+                                <f:facet name="header">Statut</f:facet>
+                                <h:outputText value="#{charge.status.status}"/>
+                            </p:column>
+                            <p:column>
                                 <f:facet name="header">Fournisseur</f:facet>
                                 <h:outputText value="#{charge.supplier.label}"/>
                             </p:column>
@@ -106,16 +69,150 @@
                             </p:column>
                             <p:column style="text-align: right">
                                 <f:facet name="header">Action <i class="fas fa-cog"></i></f:facet>
-                                <p:splitButton id="action_split" value=" Consulter" icon="far fa-eye">
+                                <p:splitButton id="action_split" value=" Consulter" icon="far fa-eye"
+                                               action="#{chargeDetailView.edit(charge)}">
                                     <p:menuitem value="Modifier" icon="far fa-edit" />
                                     <p:menuitem value="Supprimer" icon="fas fa-trash-alt" />
                                 </p:splitButton>
                             </p:column>
                         </p:dataTable>
-                    </h:form>
-                </p:panel>
+                    </p:panel>
+                </div>
             </div>
-        </div>
+        </h:form>
+
+        <!-- CHARGE CREATION MODAL -->
+        <p:dialog header="Ajouter un frais" widgetVar="chargeCreation-modal" modal="true"
+                  responsive="true" width="600" draggable="false" closable="false"
+                  focus="chargeCreation-modal-close-btn">
+            <h:form id="chargeCreation-modal-form">
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-12 p-md-12">
+                        <p:outputLabel for="charge-label" value="Description"/>
+                        <p:inputText id="charge-label" value="#{chargeListView.charge.label}"/>
+                    </div>
+                </div>
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="journal" value="Journal"/>
+                        <p:selectOneMenu id="journal" disabled="true">
+                            <f:selectItem itemLabel="Select One" itemValue="" />
+                            <f:selectItem itemLabel="Xbox One" itemValue="Xbox One" />
+                            <f:selectItem itemLabel="PS4" itemValue="PS4" />
+                            <f:selectItem itemLabel="Wii U" itemValue="Wii U" />
+                        </p:selectOneMenu>
+                    </div>
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="supplier" value="Fournisseurs"/>
+                        <small id="username-help">
+                            <p:commandLink id="supplier-creation-btn" onclick="PF('supplierCreation-modal').show();"
+                                           ajax="true" update=":supplierCreation-modal-form">
+                                <i class="far fa-edit"/> créer
+                            </p:commandLink>
+                        </small>
+                        <p:autoComplete id="supplier" value="#{chargeListView.charge.supplier}" completeMethod="#{chargeListView.completeSupplier}"
+                                        dropdown="true" var="supplier" itemLabel="#{supplier.label}" itemValue="#{supplier}"/>
+                    </div>
+                </div>
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="createdAt" value="Date de facturation"/>
+                        <p:datePicker id="createdAt" value="#{chargeListView.charge.createdAt}" />
+                    </div>
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="dueAt" value="Date limite de paiement"/>
+                        <p:datePicker id="dueAt" value="#{chargeListView.charge.dueAt}" />
+                    </div>
+                </div>
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="amount" value="Montant total TTC"/>
+                        <p:inputNumber id="amount" value="#{chargeListView.charge.amount}" symbol=" €" symbolPosition="s"
+                                       decimalSeparator="," thousandSeparator=" ">
+                        </p:inputNumber>
+                    </div>
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="status" value="Statut de paiement"/>
+                        <p:selectOneMenu id="status">
+                            <p:importEnum type="com.projet.enumeration.ChargeStatus" var="ChargeStatus" allSuffix="VALUES"/>
+                            <f:selectItems var="status" value="#{ChargeStatus.VALUES}" itemLabel="#{status.status}" itemValue="#{status}" />
+                        </p:selectOneMenu>
+                    </div>
+                </div>
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="freeCom" value="Communication libre"/>
+                        <p:inputText id="freeCom" placeholder="Ex: facture 344421" disabled="true"/>
+                    </div>
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="structuredCom" value="Communication structurée"/>
+                        <p:inputMask id="structuredCom" placeholder="+++XXX/XXXX/XXXXX+++" mask="+++999/9999/99999+++"
+                                        disabled="true"/>
+                    </div>
+                </div>
+            </h:form>
+            <f:facet name="footer">
+                <p:commandButton id="chargeCreation-modal-close-btn" form="chargeCreation-modal-form" type="button" value="Fermer"
+                                 styleClass="secondary-button" onclick="PF('chargeCreation-modal').hide()"
+                                 update=":chargeListForm:msgs"/>
+                <p:commandButton form="chargeCreation-modal-form" value="Modfier" styleClass="success-btn"
+                                 icon="fa fa-check" onclick="PF('chargeCreation-modal').hide()"
+                                 update=":chargeListForm:chargeList, :chargeListForm:msgs"/>
+            </f:facet>
+        </p:dialog>
+
+        <!-- SUPPLIER CREATION MODAL -->
+        <p:dialog header="Ajouter un fournisseur" widgetVar="supplierCreation-modal" modal="true"
+                  responsive="true" width="500" draggable="false" closable="false"
+                  focus="chargeCreation-modal-close-btn">
+            <h:form id="supplierCreation-modal-form">
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-12 p-md-12">
+                        <p:outputLabel for="supplier-label" value="Description"/>
+                        <p:inputText id="supplier-label"/>
+                    </div>
+                </div>
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="tva" value="N° de TVA"/>
+                        <p:inputMask id="tva" mask="BE9999999999" placeholder="ex: BE0676548769"/>
+                    </div>
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="paiement" value="Condition de paiement"/>
+                        <p:selectOneMenu id="paiement" disabled="true">
+                            <f:selectItem itemLabel="Select One" itemValue="" />
+                            <f:selectItem itemLabel="Xbox One" itemValue="Xbox One" />
+                            <f:selectItem itemLabel="PS4" itemValue="PS4" />
+                            <f:selectItem itemLabel="Wii U" itemValue="Wii U" />
+                        </p:selectOneMenu>
+                    </div>
+                </div>
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="iban" value="N° IBAN"/>
+                        <p:inputMask id="iban" mask="BE99 9999 9999 9999" placeholder="ex: BE06 7654 8769 4543"/>
+                    </div>
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="iban-bis" value="N° IBAN alternatif"/>
+                        <p:inputMask id="iban-bis" mask="BE99 9999 9999 9999" placeholder="ex: BE06 7654 8769 4543"/>
+                    </div>
+                </div>
+            </h:form>
+            <f:facet name="footer">
+                <p:commandButton id="supplierCreation-modal-close-btn" form="supplierCreation-modal-form" type="button" value="Fermer"
+                                 styleClass="secondary-button" onclick="PF('supplierCreation-modal').hide()"
+                                 update=":chargeListForm:msgs"/>
+                <p:commandButton form="supplierCreation-modal-form" value="Modfier" styleClass="success-btn"
+                                 icon="fa fa-check" onclick="PF('supplierCreation-modal').hide()"
+                                 update=":chargeListForm:msgs"/>
+
+            </f:facet>
+        </p:dialog>
+
+        <p:sidebar widgetVar="sidebar2" position="right" baseZIndex="10000">
+            <h1 style="font-weight:normal">Right Sidebar</h1>
+            <p:commandButton value="Cancel" oncomplete="PF('sidebar2').hide()"/>
+        </p:sidebar>
     </ui:define>
 
 </ui:composition>

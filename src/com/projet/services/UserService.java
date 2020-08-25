@@ -14,6 +14,7 @@ import org.apache.shiro.authc.credential.PasswordMatcher;
 import javax.enterprise.context.SessionScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.StoredProcedureQuery;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +54,24 @@ public class UserService extends Service<User> implements Serializable {
         param.put("email", email);
 
         return finder.findOneByNamedQuery("User.findUserByEmail", param);
+    }
+
+    public void addUserFinancialAccount(User user) {
+        StoredProcedureQuery query = em.createNamedStoredProcedureQuery("addUserFinancialAccount");
+        query.setParameter("user", user.getId());
+        query.execute();
+    }
+
+    public void addUserSupplier(User user) {
+        StoredProcedureQuery query = em.createNamedStoredProcedureQuery("addUserSupplier");
+        query.setParameter("user", user.getId());
+        query.execute();
+    }
+
+    public void addUserDiary(User user) {
+        StoredProcedureQuery query = em.createNamedStoredProcedureQuery("addUserDiary");
+        query.setParameter("user", user.getId());
+        query.execute();
     }
 
     @Override

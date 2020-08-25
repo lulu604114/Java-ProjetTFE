@@ -1,6 +1,7 @@
 package com.projet.entities;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Objects;
 
 /**
@@ -16,18 +17,30 @@ import java.util.Objects;
 @Entity
 @Table(name = "Suppliers", schema = "jsf_tfe")
 @NamedQueries({
-        @NamedQuery(name = "Supplier.findByUser", query = "SELECT s FROM Supplier s WHERE s.user=:user")
+        @NamedQuery(name = "Supplier.findByUser", query = "SELECT s FROM Supplier s WHERE s.user=:user"),
+        @NamedQuery(name = "Supplier.findByLabel", query = "SELECT s FROM Supplier s WHERE s.user=:user AND s.label LIKE :label")
 })
 public class Supplier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private int id;
 
+    @Column(name = "LABEL")
     private String label;
 
     @ManyToOne
-    @JoinColumn(name = "user", nullable = false)
+    @JoinColumn(name = "user", referencedColumnName = "ID", nullable = false)
     private User user;
+
+    @Column(name = "TVA")
+    private String tva;
+
+    @Column(name = "IBAN")
+    private String iban;
+
+    @Column(name = "IBAN_BIS")
+    private String ibanBis;
 
     public int getId() {
         return id;
@@ -64,5 +77,29 @@ public class Supplier {
     @Override
     public int hashCode() {
         return Objects.hash(id, label);
+    }
+
+    public String getTva() {
+        return tva;
+    }
+
+    public void setTva(String tva) {
+        this.tva = tva;
+    }
+
+    public String getIban() {
+        return iban;
+    }
+
+    public void setIban(String iban) {
+        this.iban = iban;
+    }
+
+    public String getIbanBis() {
+        return ibanBis;
+    }
+
+    public void setIbanBis(String ibanBis) {
+        this.ibanBis = ibanBis;
     }
 }
