@@ -1,0 +1,284 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="../../WEB-INF/template/template.xhtml">
+
+    <ui:define name="title">Empty Page</ui:define>
+
+    <ui:define name="content">
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <p:panel>
+                    <f:facet name="header">
+                        <div class="toolbar">
+                            <div class="text">
+                                <h1>Dépense</h1>
+                                <small class="tag">FOURNISSEUR : #{chargeDetailView.charge.supplier.label.toUpperCase()}</small>
+                                <small class="tag">FACTURE LE  :
+                                    <h:outputText value="#{chargeDetailView.charge.createdAt}">
+                                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                    </h:outputText>
+                                </small>
+                                <small class="tag" style="margin-left: 3px">STATUT DU PAIEMENT : #{chargeDetailView.charge.status}</small>
+                            </div>
+                            <div class="button">
+                                <p:commandButton icon="fas fa-arrow-left" styleClass="primary-button"/>
+                                <span class="ui-separator" style="margin-left: 10px">
+                            <span class="fa fa-ellipsis-v SoftGray" />
+                        </span>
+
+                                <p:commandButton icon="fas fa-wrench" styleClass="warning-btn"/>
+                                <p:commandButton icon="far fa-trash-alt" styleClass="danger-btn"/>
+                            </div>
+                        </div>
+
+                    </f:facet>
+
+                    <div class="toolbar">
+                        <div class="text">
+                            <h4>Marquez votre facture comme payée le cas échéant.</h4>
+                            <small>Vous pouvez uploader une pièce justificative, encoder les imputations et leurs éventuels amortissements.</small>
+                        </div>
+                        <div class="button">
+                            <p:commandButton icon="fas fa-redo" styleClass="help-btn"/>
+                            <p:commandButton icon="fas fa-plus-circle" styleClass="secondary-button"/>
+                            <p:commandButton icon="fas fa-cloud-upload-alt" styleClass="info-btn"/>
+                            <p:commandButton icon="fas fa-euro-sign" value="Marquer comme payée" styleClass="success-btn"/>
+                        </div>
+                    </div>
+                </p:panel>
+            </div>
+        </div>
+
+        <h:form id="chargeDetailForm">
+            <p:growl id="msgs" showDetail="true"/>
+
+            <div class="ui-g">
+
+                <!-- INFO CARD -->
+                <div class="ui-g-12 ui-md-12 ui-lg-4">
+                    <p:panel id="supplier-card">
+                        <f:facet name="header">
+                            <i class="fas fa-user"/>
+                            <text/>
+                            <h:outputText value="Fournisseur"/>
+                        </f:facet>
+                        <f:facet name="actions">
+                            <p:commandLink id="supplier-card-edit-btn" type="button" onclick="PF('info-modal').show();" ajax="true"
+                                           update="">
+                                <i class="fa fa-fw fa-pencil"></i>
+                            </p:commandLink>
+                            <p:tooltip for="supplier-card-edit-btn" value="Editer" position="top"/>
+                        </f:facet>
+                        <div class="panel-content">
+                            <ul>
+                                <li>
+                                    <div><i class="far fa-building"></i></div>
+                                    <div class="panel-content-info">
+                                        <small>Nom :</small>
+                                        <div>#{chargeDetailView.charge.supplier.label}</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div><i class="fas fa-id-card-alt"></i></div>
+                                    <div class="panel-content-info">
+                                        <small>N° de TVA : </small>
+                                        <div>---</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div><i class="fas fa-money-check"></i></div>
+                                    <div class="panel-content-info">
+                                        <small>IBAN</small>
+                                        <div>---</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </p:panel>
+                </div>
+
+                <!-- CONFIG CARD -->
+                <div class="ui-g-12 ui-md-12 ui-lg-4">
+                    <p:panel id="config-card">
+                        <f:facet name="header">
+                            <i class="fas fa-cogs"></i>
+                            <text/>
+                            <h:outputText value="Configuration"/>
+                        </f:facet>
+                        <f:facet name="actions">
+                            <p:commandLink id="config-card-edit-btn" type="button" onclick="PF('chargeEdit-modal').show();" ajax="true"
+                                           update="chargeEdit-modal-form">
+                                <i class="fa fa-fw fa-pencil"></i>
+                            </p:commandLink>
+                            <p:tooltip for="config-card-edit-btn" value="Editer" position="top"/>
+                        </f:facet>
+                        <div class="panel-content">
+                            <ul>
+                                <li>
+                                    <i class="fas fa-book"></i>
+                                    <div class="panel-content-info">
+                                        <small>Journal : </small>
+                                        <div>---</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div><i class="far fa-calendar-alt"></i></div>
+                                    <div class="panel-content-info">
+                                        <small>Année comptable : </small>
+                                        <div>---</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div><i class="far fa-calendar-check"></i></div>
+                                    <div class="panel-content-info">
+                                        <small>Date de la facture : </small>
+                                        <div>
+                                            <h:outputText value="#{chargeDetailView.charge.createdAt}">
+                                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                            </h:outputText>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div><i class="far fa-calendar-times"></i></div>
+                                    <div class="panel-content-info">
+                                        <small>Date limite de paiement : </small>
+                                        <div>
+                                            <h:outputText value="#{chargeDetailView.charge.dueAt}">
+                                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                            </h:outputText>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </p:panel>
+                </div>
+
+                <!-- DETAIL CARD -->
+                <div class="ui-g-12 ui-md-12 ui-lg-4">
+                    <p:panel id="detail-card">
+                        <f:facet name="header">
+                            <i class="far fa-list-alt"></i>
+                            <text/>
+                            <h:outputText value="Détails"/>
+                        </f:facet>
+                        <f:facet name="actions">
+                            <p:commandLink id="detzil-card-edit-btn" type="button" onclick="PF('chargeEdit-modal').show();" ajax="true"
+                                           update="chargeEdit-modal-form">
+                                <i class="fa fa-fw fa-pencil"></i>
+                            </p:commandLink>
+                        </f:facet>
+                        <div class="panel-content">
+                            <ul>
+                                <li>
+                                    <div><i class="fa fa-fw fa-user"/></div>
+                                    <div class="panel-content-info">
+                                        <small>Montant de la facture : </small>
+                                        <div>
+                                            <h:outputText value="#{chargeDetailView.charge.amount}">
+                                                <f:convertNumber type="currency" currencySymbol="€" maxFractionDigits="2"/>
+                                            </h:outputText>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </p:panel>
+                </div>
+            </div>
+
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <p:panel id="consumption-card">
+                        <f:facet name="header">
+                            <i class="fa fa-fw fa-dashboard"/>
+                            <text/>
+                            <h:outputText value="Consommations"/>
+                        </f:facet>
+                    </p:panel>
+                </div>
+            </div>
+
+        </h:form>
+
+        <!-- CHARGE EDIT MODAL -->
+        <p:dialog header="Modifier un frais" widgetVar="chargeEdit-modal" modal="true"
+                  responsive="true" width="600" draggable="false" closable="false"
+                  focus="chargeEdit-modal-close-btn">
+            <h:form id="chargeEdit-modal-form">
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-12 p-md-12">
+                        <p:outputLabel for="charge-label" value="Description"/>
+                        <p:inputText id="charge-label" value="#{chargeDetailView.charge.label}"/>
+                    </div>
+                </div>
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="journal" value="Journal"/>
+                        <p:selectOneMenu id="journal" disabled="true">
+                            <f:selectItem itemLabel="Select One" itemValue="" />
+                            <f:selectItem itemLabel="Xbox One" itemValue="Xbox One" />
+                            <f:selectItem itemLabel="PS4" itemValue="PS4" />
+                            <f:selectItem itemLabel="Wii U" itemValue="Wii U" />
+                        </p:selectOneMenu>
+                    </div>
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="supplier" value="Fournisseurs"/>
+                        <p:autoComplete id="supplier" value="#{chargeDetailView.charge.supplier}" completeMethod="#{chargeListView.completeSupplier}"
+                                        dropdown="true" var="supplier" itemLabel="#{supplier.label}" itemValue="#{supplier}"/>
+                    </div>
+                </div>
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="createdAt" value="Date de facturation"/>
+                        <p:datePicker id="createdAt" value="#{chargeDetailView.charge.createdAt}" />
+                    </div>
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="dueAt" value="Date limite de paiement"/>
+                        <p:datePicker id="dueAt" value="#{chargeDetailView.charge.dueAt}" />
+                    </div>
+                </div>
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="amount" value="Montant total TTC"/>
+                        <p:inputNumber id="amount" value="#{chargeDetailView.charge.amount}" symbol=" €" symbolPosition="s"
+                                       decimalSeparator="," thousandSeparator=" ">
+                        </p:inputNumber>
+                    </div>
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="status" value="Statut de paiement"/>
+                        <p:selectOneMenu id="status">
+                            <p:importEnum type="com.projet.enumeration.ChargeStatus" var="ChargeStatus" allSuffix="VALUES"/>
+                            <f:selectItems var="status" value="#{ChargeStatus.VALUES}" itemLabel="#{status.status}" itemValue="#{status}" />
+                        </p:selectOneMenu>
+                    </div>
+                </div>
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="freeCom" value="Communication libre"/>
+                        <p:inputText id="freeCom" placeholder="Ex: facture 344421" disabled="true"/>
+                    </div>
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="structuredCom" value="Communication structurée"/>
+                        <p:inputMask id="structuredCom" placeholder="+++XXX/XXXX/XXXXX+++" mask="+++999/9999/99999+++"
+                                     disabled="true"/>
+                    </div>
+                </div>
+            </h:form>
+            <f:facet name="footer">
+                <p:commandButton id="chargeEdit-modal-close-btn" form="chargeEdit-modal-form" type="button" value="Fermer"
+                                 styleClass="secondary-button" onclick="PF('chargeEdit-modal').hide()"
+                                 update=":chargeDetailForm:msgs, :chargeDetailForm:config-card, :chargeDetailForm:detail-card"/>
+                <p:commandButton form="chargeEdit-modal-form" value="Modfier" styleClass="success-btn"
+                                 icon="fa fa-check" onclick="PF('chargeEdit-modal').hide()"
+                                 update=":chargeDetailForm:msgs"/>
+            </f:facet>
+        </p:dialog>
+
+    </ui:define>
+
+</ui:composition>

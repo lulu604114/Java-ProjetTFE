@@ -1,0 +1,85 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="../../WEB-INF/template/template.xhtml">
+
+    <ui:define name="title">Empty Page</ui:define>
+    <ui:define name="viewname">
+        <li>Pages</li>
+        <li>/</li>
+        <li>
+            <p:link outcome="/empty">Empty</p:link>
+        </li>
+    </ui:define>
+
+    <ui:define name="content">
+        <h:form id="chargeConfigForm">
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <p:panel>
+                        <f:facet name="header">
+                            <div class="toolbar">
+                                <div class="text">
+                                    <h1>Pré-configuration de la gestion des frais</h1>
+                                </div>
+                            </div>
+                        </f:facet>
+                        <div class="ui-g">
+                            <div class="ui-g-12">
+                                <div class="card">
+                                    <h:panelGrid columns="2" cellpadding="10">
+                                        <i class="fas fa-info-circle fa-3x"></i>
+                                        <h:outputText value="Bienvenue dans l’étape de configuration de votre module de gestion des frais. Sachant que vous n’êtes pas comptable, ce module se veut simple et efficace. Voyez-le comme une comptabilité simplifiée qui vous permettra en quelques clics d’encoder vos dépenses et donc de pouvoir garder un oeil en temps réel sur l’ensemble de vos frais professionnels."/>
+                                    </h:panelGrid>
+                                </div>
+                            </div>
+                            <div class="ui-g-6">
+                                <div class="card">
+                                    <h:panelGrid columns="2" cellpadding="10">
+                                        <i class="far fa-check-circle fa-3x"></i>
+                                        <h:outputText value="Vous pouvez activer nos options d’importation de contenu. Ces dernières peuvent vous permettre de gagner un temps précieux dans la configuration et la complétion de votre module de gestion des frais."/>
+                                    </h:panelGrid>
+                                </div>
+                            </div>
+                            <div class="ui-g-6">
+                                <div class="card">
+                                    <h3><i class="fas fa-at"></i> Importation des factures</h3>
+                                    <div class="question" style="display: flex; justify-content: space-between">
+                                        <div class="text">
+                                            Importer automatiquement les factures d'abonnement Assistool dans vos dépenses
+                                        </div>
+                                        <div class="toggle">
+                                            <p:toggleSwitch disabled="true"/>
+                                        </div>
+                                    </div>
+                                    <h3><i class="fas fa-columns"></i>  Charges &amp; Catégories </h3>
+                                    <div class="question" style="display: flex; justify-content: space-between">
+                                        <div class="text">
+                                            Importer les catégories &amp; charges fournies par Assistool
+                                        </div>
+                                        <div class="toggle">
+                                            <p:toggleSwitch value="#{chargeConfig.addFinancialAccount}"/>
+                                        </div>
+                                    </div>
+                                    <h3><i class="fas fa-truck"></i>  Fournisseurs</h3>
+                                    <div class="question" style="display: flex; justify-content: space-between">
+                                        <div class="text">
+                                            Importer des fournisseurs commun (Voo, Proximus, ...)
+                                        </div>
+                                        <div class="toggle">
+                                            <p:toggleSwitch value="#{chargeConfig.addSupplier}"/>
+                                        </div>
+                                    </div>
+                                    <p:commandButton value="Valider ma configuration" action="#{chargeConfig.setConfig}" style="margin-top: 20px"/>
+                                </div>
+                            </div>
+                        </div>
+                    </p:panel>
+                </div>
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>
