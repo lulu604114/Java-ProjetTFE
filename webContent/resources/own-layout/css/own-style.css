@@ -105,6 +105,39 @@ body .ui-noselection-option{
 
 /* END CARD LIST */
 
+/* CHARGE CARD */
+.charge-Card {
+    display: flex;
+    justify-content: space-between;
+}
+
+.charge-Card .icon {
+    display: flex;
+    align-items: center;
+    margin-right: 25px;
+    font-size: 30px;
+}
+
+.charge-Card .number {
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.icon-success {
+    color: #81c868;
+}
+
+.icon-warning {
+    color: #ffbd4a;
+}
+
+.icon-danger {
+    color: #f05050;
+}
+
+.icon-primary {
+    color: #00b1ff;
+}
 /* TITLE BAR */
 body .ui-panel-titlebar img {
     height: 25px;
@@ -205,7 +238,23 @@ body .ui-panel .ui-panel-actions .ui-button {
     margin-right: 10px;
 }
 
+.ui-datatable-empty-message {
+    text-align: center;
+}
 
+.emptyMessage {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.emptyMessage i {
+    color: #efefef;
+}
+
+.ui-dialog-content {
+    padding: 20px;
+}
 
 @media only screen and (max-width: 715px) {
     body .ui-tabs.ui-tabs-top .ui-tabs-nav,

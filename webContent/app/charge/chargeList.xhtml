@@ -27,11 +27,84 @@
                                              onclick="PF('chargeCreation-modal').show();" ajax="true" update=":chargeCreation-modal-form"/>
                         </f:facet>
 
+                        <div class="ui-g">
+                            <div class="ui-g-3">
+                                <div class="card charge-Card">
+                                    <div class="charge-info">
+                                        <div class="number">
+                                            20
+                                        </div>
+                                        <div class="text">
+                                            Total (3 dépenses)
+                                        </div>
+                                    </div>
+                                    <div class="icon icon-primary">
+                                        <i class="fas fa-euro-sign"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-g-3">
+                                <div class="card charge-Card">
+                                    <div class="charge-info">
+                                        <div class="number">
+                                            20
+                                        </div>
+                                        <div class="text">
+                                            A payer
+                                        </div>
+                                    </div>
+                                    <div class="icon icon-warning">
+                                        <i class="fas fa-coins"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-g-3">
+                                <div class="card charge-Card">
+                                    <div class="charge-info">
+                                        <div class="number">
+                                            20
+                                        </div>
+                                        <div class="text">
+                                            En retard
+                                        </div>
+                                    </div>
+                                    <div class="icon icon-danger">
+                                        <i class="far fa-clock"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ui-g-3">
+                                <div class="card charge-Card">
+                                    <div class="charge-info">
+                                        <div class="number">
+                                            20
+                                        </div>
+                                        <div class="text">
+                                            Deduit cette année
+                                        </div>
+                                    </div>
+                                    <div class="icon icon-success">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <br/>
 
                         <br/>
 
                         <p:dataTable id="chargeList" var="charge" value="#{chargeListView.chargeList}" sortBy="#{charge.createdAt.month}" expandableRowGroups="true">
+                            <f:facet name="emptyMessage">
+                                <div class="emptyMessage">
+                                    <i class="fas fa-ban fa-5x"></i>
+                                    <div class="text">
+                                        <p>Aucune dépense ajoutée</p>
+                                        <p:commandButton id="second-charge-creation-btn" value="Ajouter un frais" icon="fas fa-plus" styleClass="secondary-button"
+                                                         onclick="PF('chargeCreation-modal').show();" ajax="true" update=":chargeCreation-modal-form"/>
+                                    </div>
+                                </div>
+                            </f:facet>
                             <p:headerRow>
                                 <p:column colspan="7">
                                     <h:outputText value="#{chargeListView.getMonth(charge.createdAt.month)}" />
