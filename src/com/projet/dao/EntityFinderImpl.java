@@ -1,6 +1,7 @@
 package com.projet.dao;
 
 import com.projet.connection.EMF;
+import com.projet.entities.Patient;
 import org.apache.log4j.Logger;
 
 import javax.persistence.EntityManager;
@@ -10,9 +11,9 @@ import javax.persistence.TemporalType;
 import java.io.Serializable;
 import java.util.*;
 
-/** 
+/**
  * Class to perform entity CRUD with the database
- * 
+ *
  * @author Renaud DIANA
  */
 public class EntityFinderImpl<T> implements EntityFinder<T>, Serializable {
@@ -27,6 +28,11 @@ public class EntityFinderImpl<T> implements EntityFinder<T>, Serializable {
 	/**
      * Default constructor
      */
+	public EntityFinderImpl(Class<?> ec){
+		super();
+		this.ec = ec;
+	}
+
 	public EntityFinderImpl(Class<?> ec, EntityManager em){
 		super();
 		this.ec = ec;
@@ -42,10 +48,10 @@ public class EntityFinderImpl<T> implements EntityFinder<T>, Serializable {
 
 		return t;
 	}
-	
+
 	@Override
 	public <K, V> List<T> findByNamedQuery(String namedQuery, Map<K, V> param) {
-		
+
 		List<T> listT;
 
 		Query query = em.createNamedQuery(namedQuery, ec);
@@ -82,7 +88,7 @@ public class EntityFinderImpl<T> implements EntityFinder<T>, Serializable {
 
 	@Override
 	public <K, V> List<T> findByCustomQuery(String customQuery, Map<K, V> param) {
-		
+
 		List<T> listT;
 
 		Query query = em.createQuery(customQuery, ec);
@@ -100,14 +106,14 @@ public class EntityFinderImpl<T> implements EntityFinder<T>, Serializable {
 		return listT;
 	}
 
-	/**  
+	/**
 	 * @param query
 	 * @param param
 	 * @return
 	 * 			the query with parameters
 	 */
 	private <K, V> void setParameters(Query query, Map<K, V> param) {
-		
+
 		Set<Map.Entry<K, V>> entries = param.entrySet();
 		for (Map.Entry<K, V> entry : entries) {
 			if ((boolean) entry.getKey().toString().toLowerCase().contains("date"))
@@ -117,5 +123,5 @@ public class EntityFinderImpl<T> implements EntityFinder<T>, Serializable {
 			//log.debug("entry.getValue: " + entry.getValue());
 		}
 	}
-	
+
 }

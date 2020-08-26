@@ -1,0 +1,74 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="../../WEB-INF/template/template.xhtml">
+
+    <ui:define name="title">Dossier du patient</ui:define>
+    <ui:define name="viewname">
+        <li>Pages</li>
+        <li>/</li>
+    </ui:define>
+
+    <ui:define name="content">
+        <!-- TITLE BAR -->
+        <ui:include src="patientMenu.xhtml"/>
+
+        <h:form id="content" enctype="multipart/form-data">
+            <p:growl id="msgs" showDetail="true"/>
+            <!-- CONTENT -->
+            <div class="ui-g">
+
+                <!-- Ajout de documents -->
+                <div class="ui-g-12 ui-md-12 ui-lg-6">
+                    <p:panel id="patient-card">
+                        <f:facet name="header">
+                            <i class="fa fa-fw fa-address-card"/>
+                            <text/>
+                            <h:outputText value="Ajouter un document"/>
+                        </f:facet>
+                        <div class="panel-content">
+                            <p:fileUpload listener="#{fileUploadBean.handleFileUpload}" mode="advanced" dragDropSupport="false"
+                                          update="messages" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|doc|docx)$/" />
+
+                            <p:growl id="messages" showDetail="true" />
+                        </div>
+                    </p:panel>
+                </div>
+
+                <!-- Liste des documents -->
+                <div class="ui-g-12 ui-md-12 ui-lg-6">
+                    <p:panel id="invoice-card">
+                        <f:facet name="header">
+                            <i class="fa fa-fw fa-file-text"></i>
+                            <text/>
+                            <h:outputText value="Documents du patient"/>
+                        </f:facet>
+
+                        <div class="panel-content">
+                            <ul>
+                                <li>
+                                    <div><i class="fa fa-fw fa-user"/></div>
+                                    <div class="panel-content-info">
+                                        <small>Niss</small>
+                                        <div>#{patientBean.patient.niss}</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div><i class="fa fa-fw fa-user"/></div>
+                                    <div class="panel-content-info">
+                                        <small>Tiers Payant</small>
+                                        <div>#{patientBean.patient.tiersPayant}</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </p:panel>
+                </div>
+            </div>
+        </h:form>
+
+    </ui:define>
+
+</ui:composition>
