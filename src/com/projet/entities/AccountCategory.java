@@ -17,6 +17,7 @@ import java.util.Objects;
 @Table(name = "AccountCategories", schema = "jsf_tfe")
 public class AccountCategory {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 

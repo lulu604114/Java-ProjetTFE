@@ -24,7 +24,7 @@
                                 <small class="tag" style="margin-left: 3px">STATUT DU PAIEMENT : #{chargeDetailView.charge.status}</small>
                             </div>
                             <div class="button">
-                                <p:commandButton icon="fas fa-arrow-left" styleClass="primary-button"/>
+                                <p:linkButton icon="fas fa-arrow-left" styleClass="primary-button" outcome="/app/charge/chargeList" />
                                 <span class="ui-separator" style="margin-left: 10px">
                             <span class="fa fa-ellipsis-v SoftGray" />
                         </span>
@@ -193,11 +193,11 @@
 
             <div class="ui-g">
                 <div class="ui-g-12">
-                    <p:panel id="consumption-card">
+                    <p:panel id="AccountItem-card">
                         <f:facet name="header">
-                            <i class="fa fa-fw fa-dashboard"/>
+                            <i class="fas fa-file-invoice"></i>
                             <text/>
-                            <h:outputText value="Consommations"/>
+                            <h:outputText value="Imputations"/>
                         </f:facet>
                     </p:panel>
                 </div>

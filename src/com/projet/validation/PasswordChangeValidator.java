@@ -1,16 +1,13 @@
 package com.projet.validation;
 
 import com.projet.conf.App;
-import com.projet.controllers.utils.Message;
+import com.projet.utility.Message;
 import com.projet.entities.User;
 import com.projet.security.SecurityManager;
 import org.apache.shiro.authc.credential.PasswordMatcher;
-import org.apache.shiro.subject.Subject;
-import org.primefaces.util.SecurityUtils;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.FacesValidator;
 import javax.faces.validator.Validator;

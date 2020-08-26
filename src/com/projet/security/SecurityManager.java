@@ -1,8 +1,7 @@
 package com.projet.security;
 
 import com.projet.conf.App;
-import com.projet.controllers.utils.Message;
-import com.projet.services.UserService;
+import com.projet.utility.Message;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;

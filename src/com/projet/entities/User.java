@@ -413,6 +413,9 @@ public class User implements Serializable, Cloneable {
     }
 
     public Supplier addSupplier(Supplier supplier) {
+        if (getSuppliers() == null)
+            setSuppliers(new ArrayList<>());
+
         getSuppliers().add(supplier);
         supplier.setUser(this);
 
@@ -466,7 +469,22 @@ public class User implements Serializable, Cloneable {
         this.financialYears = financialYears;
     }
 
+    public FinancialYear addFinancialYear(FinancialYear financialYear) {
+        if (getFinancialYears() == null)
+            setFinancialYears(new ArrayList<>());
 
+        getFinancialYears().add(financialYear);
+        financialYear.setUser(this);
+
+        return financialYear;
+    }
+
+    public FinancialYear removeFinancialYear(FinancialYear financialYear) {
+        getFinancialYears().remove(financialYear);
+        financialYear.setUser(null);
+
+        return financialYear;
+    }
 
 
     @Override

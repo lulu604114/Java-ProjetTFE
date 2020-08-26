@@ -1,7 +1,7 @@
 package com.projet.controllers;
 
 import com.projet.conf.App;
-import com.projet.controllers.utils.Message;
+import com.projet.utility.Message;
 import com.projet.entities.User;
 import com.projet.security.SecurityManager;
 import com.projet.services.UserService;

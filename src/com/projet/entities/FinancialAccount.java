@@ -18,6 +18,7 @@ import java.util.Objects;
 @Table(name = "FinancialAccounts", schema = "jsf_tfe")
 public class FinancialAccount {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
     @Basic

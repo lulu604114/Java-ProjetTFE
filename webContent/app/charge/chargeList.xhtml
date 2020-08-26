@@ -32,10 +32,12 @@
                                 <div class="card charge-Card">
                                     <div class="charge-info">
                                         <div class="number">
-                                            20
+                                            <h:outputText id="charge-dashboard" value="#{chargeListView.totalCharge}">
+                                                <f:convertNumber type="currency" currencySymbol="€" maxFractionDigits="2"/>
+                                            </h:outputText>
                                         </div>
                                         <div class="text">
-                                            Total (3 dépenses)
+                                            Total (<h:outputText value="#{chargeListView.chargeList.size()}"/>dépenses)
                                         </div>
                                     </div>
                                     <div class="icon icon-primary">
@@ -47,7 +49,9 @@
                                 <div class="card charge-Card">
                                     <div class="charge-info">
                                         <div class="number">
-                                            20
+                                            <h:outputText value="#{chargeListView.totalNotPayedCharge}">
+                                                <f:convertNumber type="currency" currencySymbol="€" maxFractionDigits="2"/>
+                                            </h:outputText>
                                         </div>
                                         <div class="text">
                                             A payer
@@ -62,7 +66,9 @@
                                 <div class="card charge-Card">
                                     <div class="charge-info">
                                         <div class="number">
-                                            20
+                                            <h:outputText value="#{chargeListView.totalLateCharge}">
+                                                <f:convertNumber type="currency" currencySymbol="€" maxFractionDigits="2"/>
+                                            </h:outputText>
                                         </div>
                                         <div class="text">
                                             En retard
@@ -77,7 +83,9 @@
                                 <div class="card charge-Card">
                                     <div class="charge-info">
                                         <div class="number">
-                                            20
+                                            <h:outputText value="#{chargeListView.totalDeductibleCharge}">
+                                                <f:convertNumber type="currency" currencySymbol="€" maxFractionDigits="2"/>
+                                            </h:outputText>
                                         </div>
                                         <div class="text">
                                             Deduit cette année
@@ -94,7 +102,8 @@
 
                         <br/>
 
-                        <p:dataTable id="chargeList" var="charge" value="#{chargeListView.chargeList}" sortBy="#{charge.createdAt.month}" expandableRowGroups="true">
+                        <p:dataTable id="chargeList" var="charge" value="#{chargeListView.chargeList}" sortBy="#{charge.createdAt.month}"
+                                     expandableRowGroups="true" sortOrder="descending">
                             <f:facet name="emptyMessage">
                                 <div class="emptyMessage">
                                     <i class="fas fa-ban fa-5x"></i>
@@ -144,8 +153,8 @@
                                 <f:facet name="header">Action <i class="fas fa-cog"></i></f:facet>
                                 <p:splitButton id="action_split" value=" Consulter" icon="far fa-eye"
                                                action="#{chargeDetailView.edit(charge)}">
-                                    <p:menuitem value="Modifier" icon="far fa-edit" />
-                                    <p:menuitem value="Supprimer" icon="fas fa-trash-alt" />
+                                    <p:menuitem value=" Modifier" icon="far fa-edit" />
+                                    <p:menuitem value=" Supprimer" icon="fas fa-trash-alt" />
                                 </p:splitButton>
                             </p:column>
                         </p:dataTable>
@@ -168,11 +177,8 @@
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="journal" value="Journal"/>
-                        <p:selectOneMenu id="journal" disabled="true">
-                            <f:selectItem itemLabel="Select One" itemValue="" />
-                            <f:selectItem itemLabel="Xbox One" itemValue="Xbox One" />
-                            <f:selectItem itemLabel="PS4" itemValue="PS4" />
-                            <f:selectItem itemLabel="Wii U" itemValue="Wii U" />
+                        <p:selectOneMenu id="journal" value="#{chargeListView.charge.diary}" converter="diaryConverter">
+                            <f:selectItems value="#{chargeListView.diaries}" var="diary" itemLabel="#{diary.label}" itemValue="#{diary}"/>
                         </p:selectOneMenu>
                     </div>
                     <div class="p-field p-col-6 p-md-6">
@@ -184,7 +190,8 @@
                             </p:commandLink>
                         </small>
                         <p:autoComplete id="supplier" value="#{chargeListView.charge.supplier}" completeMethod="#{chargeListView.completeSupplier}"
-                                        dropdown="true" var="supplier" itemLabel="#{supplier.label}" itemValue="#{supplier}"/>
+                                        dropdown="true" var="supplier" itemLabel="#{supplier.label}" itemValue="#{supplier}"
+                                        converter="supplierConverter" minQueryLength="3"/>
                     </div>
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
@@ -206,7 +213,7 @@
                     </div>
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="status" value="Statut de paiement"/>
-                        <p:selectOneMenu id="status">
+                        <p:selectOneMenu id="status" value="#{chargeListView.charge.status}">
                             <p:importEnum type="com.projet.enumeration.ChargeStatus" var="ChargeStatus" allSuffix="VALUES"/>
                             <f:selectItems var="status" value="#{ChargeStatus.VALUES}" itemLabel="#{status.status}" itemValue="#{status}" />
                         </p:selectOneMenu>
@@ -215,12 +222,12 @@
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="freeCom" value="Communication libre"/>
-                        <p:inputText id="freeCom" placeholder="Ex: facture 344421" disabled="true"/>
+                        <p:inputText id="freeCom" placeholder="Ex: facture 344421" value="#{chargeListView.charge.freeCommunication}"/>
                     </div>
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="structuredCom" value="Communication structurée"/>
                         <p:inputMask id="structuredCom" placeholder="+++XXX/XXXX/XXXXX+++" mask="+++999/9999/99999+++"
-                                        disabled="true"/>
+                                     value="#{chargeListView.charge.structeredCommunication}"/>
                     </div>
                 </div>
             </h:form>
@@ -229,8 +236,8 @@
                                  styleClass="secondary-button" onclick="PF('chargeCreation-modal').hide()"
                                  update=":chargeListForm:msgs"/>
                 <p:commandButton form="chargeCreation-modal-form" value="Modfier" styleClass="success-btn"
-                                 icon="fa fa-check" onclick="PF('chargeCreation-modal').hide()"
-                                 update=":chargeListForm:chargeList, :chargeListForm:msgs"/>
+                                 icon="fa fa-check" action="#{chargeListView.CreateCharge}" onclick="PF('chargeCreation-modal').hide()"
+                                 update="chargeListForm"/>
             </f:facet>
         </p:dialog>
 

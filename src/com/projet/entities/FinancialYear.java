@@ -17,14 +17,18 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "FinancialYears", schema = "jsf_tfe")
+@NamedQueries({
+        @NamedQuery(name = "FY.FindByUserAndYear", query = "SELECT f FROM FinancialYear f WHERE f.user=:user AND f.beginAt=:year")
+})
 public class FinancialYear {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "begin_at")
-    private Date beginAt;
+    private int beginAt;
 
     @OneToMany(mappedBy = "financialYear")
     private List<AccountItem> accountItems;
@@ -46,11 +50,11 @@ public class FinancialYear {
         this.id = id;
     }
 
-    public Object getBeginAt() {
+    public int getBeginAt() {
         return beginAt;
     }
 
-    public void setBeginAt(Date beginAt) {
+    public void setBeginAt(int beginAt) {
         this.beginAt = beginAt;
     }
 

@@ -1,8 +1,7 @@
 package com.projet.controllers;
 
 import com.projet.conf.App;
-import com.projet.connection.EMF;
-import com.projet.controllers.utils.Message;
+import com.projet.utility.Message;
 import com.projet.entities.User;
 import com.projet.security.SecurityManager;
 import com.projet.services.UserService;
@@ -11,10 +10,8 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.io.Serializable;
-import java.rmi.NoSuchObjectException;
 
 
 /**

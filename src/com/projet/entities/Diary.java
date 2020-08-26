@@ -19,6 +19,7 @@ import java.util.Objects;
 @Table(name = "Diaries", schema = "jsf_tfe")
 public class Diary {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
     @Basic

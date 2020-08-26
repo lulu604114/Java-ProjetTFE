@@ -23,6 +23,7 @@ import java.util.Objects;
 @Table(name = "Charges", schema = "jsf_tfe")
 @NamedQueries({
         @NamedQuery(name = "Charge.findByUser", query = "SELECT c FROM Charge c WHERE c.user=:user"),
+        @NamedQuery(name = "Charge.findByUserOrderByDate", query = "SELECT c FROM Charge c WHERE c.user=:user ORDER BY c.dueAt ASC"),
         @NamedQuery(name = "Charge.findPayedByUser", query = "SELECT c FROM Charge c WHERE c.user=:user AND c.payed=true"),
         @NamedQuery(name = "Charge.findAllSupplierByUser", query = "SELECT c.supplier FROM Charge c WHERE c.user=:user")
 })
@@ -71,6 +72,9 @@ public class Charge {
     @Temporal(TemporalType.DATE)
     private Date payedAt;
 
+    @Column(name = "month")
+    private int month;
+
     @ManyToOne
     @JoinColumn(name = "user", referencedColumnName = "ID", nullable = false)
     private User user;
@@ -83,7 +87,7 @@ public class Charge {
     @JoinColumn(name = "diary", referencedColumnName = "id", nullable = false)
     private Diary diary;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "financial_year", referencedColumnName = "id", nullable = false)
     private FinancialYear financialYear;
 
@@ -166,23 +170,34 @@ public class Charge {
     }
 
 
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Charge charge = (Charge) o;
-        return id == charge.id;
+        return id == charge.id &&
+                Double.compare(charge.amount, amount) == 0 &&
+                payed == charge.payed &&
+                month == charge.month &&
+                label.equals(charge.label) &&
+                createdAt.equals(charge.createdAt) &&
+                Objects.equals(dueAt, charge.dueAt) &&
+                status == charge.status &&
+                Objects.equals(freeCommunication, charge.freeCommunication) &&
+                Objects.equals(structeredCommunication, charge.structeredCommunication) &&
+                paiementMethod == charge.paiementMethod &&
+                Objects.equals(payedAt, charge.payedAt) &&
+                Objects.equals(user, charge.user) &&
+                supplier.equals(charge.supplier) &&
+                diary.equals(charge.diary) &&
+                financialYear.equals(charge.financialYear) &&
+                Objects.equals(accountItems, charge.accountItems);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, label, createdAt, amount, dueAt);
+        return Objects.hash(id, label, createdAt, amount, dueAt, status, payed, freeCommunication, structeredCommunication, paiementMethod, payedAt, month, user, supplier, diary, financialYear, accountItems);
     }
-
-
-
 
     public String getFreeCommunication() {
         return freeCommunication;
@@ -238,5 +253,13 @@ public class Charge {
 
     public void setFinancialYear(FinancialYear financialYear) {
         this.financialYear = financialYear;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
     }
 }
