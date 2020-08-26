@@ -1,0 +1,327 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="../../WEB-INF/template/template.xhtml">
+
+    <ui:define name="title">Dossier du patient</ui:define>
+    <ui:define name="viewname">
+        <li>Pages</li>
+        <li>/</li>
+    </ui:define>
+
+    <ui:define name="content">
+        <!-- TITLE BAR -->
+        <ui:include src="patientMenu.xhtml"/>
+
+        <h:form id="content">
+            <p:growl id="msgs" showDetail="true"/>
+            <!-- CONTENT -->
+            <div class="ui-g">
+
+                <!-- INFO Perso du patient -->
+                <div class="ui-g-12 ui-md-12 ui-lg-4">
+                    <p:panel id="patient-card">
+                        <f:facet name="header">
+                            <i class="fa fa-fw fa-address-card"/>
+                            <text/>
+                            <h:outputText value="Informations personnel"/>
+                        </f:facet>
+                        <f:facet name="actions">
+                            <p:commandLink id="patient-card-edit-btn" type="button" onclick="PF('info-modal').show();" ajax="true"
+                                           actionListener="#{profileSettings.edit}" update=":info-modal-form">
+                                <i class="fa fa-fw fa-pencil"></i>
+                            </p:commandLink>
+                            <p:tooltip for="patient-card-edit-btn" value="Editer" position="top"/>
+                        </f:facet>
+                        <div class="panel-content">
+                            <ul>
+                                <li>
+                                    <div><i class="fa fa-fw fa-user"></i></div>
+                                    <div class="panel-content-info">
+                                        <small>Prénom du patient</small>
+                                        <div>#{patientBean.patient.firstName}</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div><i class="fa fa-fw fa-user"></i></div>
+                                    <div class="panel-content-info">
+                                        <small>Nom du patient</small>
+                                        <div>#{patientBean.patient.lastName}</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div><i class="fa fa-fw fa-birthday-cake"></i></div>
+                                    <div class="panel-content-info">
+                                        <small>Date de naissance</small>
+                                        <div>
+                                            <h:outputText value="#{empty(patientBean.patient.birthdate) ? '---' : patientBean.patient.birthdate }">
+                                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                            </h:outputText>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div><i class="fa fa-fw fa-map-marker"></i></div>
+                                    <div class="panel-content-info">
+                                        <small>Adresse</small>
+                                        <div>#{patientBean.patient.adress}</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div><i class="fa fa-fw fa-map-marker"></i></div>
+                                    <div class="panel-content-info">
+                                        <small>N°</small>
+                                        <div>#{empty(patientBean.patient.streetNumber) ? '---' : patientBean.patient.streetNumber}</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div><i class="fa fa-fw fa-map-marker"></i></div>
+                                    <div class="panel-content-info">
+                                        <small>bte</small>
+                                        <div>#{empty(patientBean.patient.streetBox) ? '---' : patientBean.patient.streetBox}</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div><i class="fa fa-fw fa-map-marker"></i></div>
+                                    <div class="panel-content-info">
+                                        <small>Code Postal</small>
+                                        <div>#{empty(patientBean.patient.postalCode) ? '---' : patientBean.patient.postalCode}</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div><i class="fa fa-fw fa-map-marker"></i></div>
+                                    <div class="panel-content-info">
+                                        <small>Ville</small>
+                                        <div>#{empty(patientBean.patient.city) ? '---' : patientBean.patient.city}</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </p:panel>
+                </div>
+
+                <!-- Info de contact du patient -->
+                <div class="ui-g-12 ui-md-12 ui-lg-4">
+                    <p:panel id="status-card">
+                        <f:facet name="header">
+                            <i class="fa fa-fw fa-list-alt"></i>
+                            <text/>
+                            <h:outputText value="Contact"/>
+                        </f:facet>
+                        <f:facet name="actions">
+                            <p:commandLink id="status-card-edit-btn" type="button" onclick="PF('status-modal').show();" ajax="true"
+                                           actionListener="#{profileSettings.edit}" update=":status-modal-form">
+                                <i class="fa fa-fw fa-pencil"></i>
+                            </p:commandLink>
+                            <p:tooltip for="status-card-edit-btn" value="Editer" position="top"/>
+                        </f:facet>
+                        <div class="panel-content">
+                            <ul>
+                                <li>
+                                    <div><i class="fa fa-fw fa-male"/></div>
+                                    <div class="panel-content-info">
+                                        <small>N° de téléphone</small>
+                                        <div>#{empty(patientBean.patient.phone) ? '---' : patientBean.patient.phone}</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div><i class="fa fa-fw fa-address-card"/></div>
+                                    <div class="panel-content-info">
+                                        <small>Email</small>
+                                        <div>#{empty(patientBean.patient.email) ? '---' : patientBean.patient.email}</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </p:panel>
+                </div>
+
+                <!-- Info médical -->
+                <div class="ui-g-12 ui-md-12 ui-lg-4">
+                    <p:panel id="invoice-card">
+                        <f:facet name="header">
+                            <i class="fa fa-fw fa-file-text"></i>
+                            <text/>
+                            <h:outputText value="Informations médicales"/>
+                        </f:facet>
+                        <f:facet name="actions">
+                            <p:commandLink id="info-medical-card-edit-btn" type="button" onclick="PF('info-medical-modal').show();" ajax="true"
+                                           actionListener="#{profileSettings.edit}" update=":info-medical-modal-form">
+                                <i class="fa fa-fw fa-pencil"></i>
+                            </p:commandLink>
+                        </f:facet>
+                        <div class="panel-content">
+                            <ul>
+                                <li>
+                                    <div><i class="fa fa-fw fa-user"/></div>
+                                    <div class="panel-content-info">
+                                        <small>Niss</small>
+                                        <div>#{patientBean.patient.niss}</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div><i class="fa fa-fw fa-user"/></div>
+                                    <div class="panel-content-info">
+                                        <small>Tiers Payant</small>
+                                        <div>#{patientBean.patient.tiersPayant}</div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </p:panel>
+                </div>
+            </div>
+        </h:form>
+
+        <!-- INFORMATIONS MODIFICATION MODAL -->
+        <p:dialog header="Modifier les informations du compte" widgetVar="info-modal" modal="true"
+                  responsive="true" width="500" draggable="false" closable="false"
+                  focus="info-modal-close-btn">
+            <h:form>
+                <div class="ui-g">
+                    <div class="ui-g-12" style="border: 1px solid #dedede; border-radius: 10px">
+                        <h4>Identifiants</h4>
+                    </div>
+                    <div class="ui-g-12 ui-md-12 ui-lg-6">
+                        <i class="fa fa-fw fa-user"></i>
+                        <p:outputLabel value=" Nom d'utilisateur :" />
+                        <p:inputText value="#{patientBean.patient.firstName}" disabled="false"/>
+                    </div>
+                    <div class="ui-g-12 ui-md-12 ui-lg-6">
+                        <i class="fa fa-fw fa-envelope"></i>
+                        <p:outputLabel value=" Email :"/>
+                        <p:inputText value="#{profileSettings.user.email}" disabled="false"/>
+                    </div>
+                    <small style="margin: 5px 0 0 6.5px"><i class="fa fa-fw fa-warning"></i> Pour modifier les informations si dessus veuillez contacter le support !</small>
+                </div>
+                <br/>
+                <br/>
+            </h:form>
+
+            <h:form id="info-modal-form" styleClass="ui-g">
+                <div class="ui-g-12" style="border: 1px solid #dedede; border-radius: 10px">
+                    <h4>Informations de contact</h4>
+                </div>
+                <div class="ui-g-12 ui-md-12 ui-lg-6">
+                    <i class="fa fa-fw fa-phone"></i>
+                    <p:outputLabel value=" Telephone :"/>
+                    <p:inputMask id="phone" placeholder="Phone Number" value="#{profileSettings.editedUser.phone}" mask="999/99.99.99"/>
+                </div>
+                <div class="ui-g-12 ui-md-12 ui-lg-6">
+                    <i class="fa fa-fw fa-mobile"></i>
+                    <p:outputLabel value=" GSM :"/>
+                    <p:inputMask id="mobile" placeholder="Mobile number" value="#{profileSettings.editedUser.mobile}" mask="(+99)999/99.99.99"/>
+                </div>
+                <div class="ui-g-12 ui-md-12 ui-lg-6">
+                    <i class="fa fa-fw fa-birthday-cake"></i>
+                    <p:outputLabel value=" Date de naissance :"/>
+                    <p:inputMask id="date" placeholder="xx/xx/xxxx" value="#{profileSettings.editedUser.birthdate}" mask="99/99/9999">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
+                    </p:inputMask>
+                </div>
+            </h:form>
+            <f:facet name="footer">
+                <p:commandButton id="info-modal-close-btn" form="info-modal-form" type="button" value="Fermer"
+                                 styleClass="secondary-button" onclick="PF('info-modal').hide()"
+                                 actionListener="#{profileSettings.cancel}" update=":content:msgs"/>
+                <p:commandButton form="info-modal-form" value="Modfier" styleClass="success-btn"
+                                 icon="fa fa-check" onclick="PF('info-modal').hide()"
+                                 actionListener="#{profileSettings.save}" update=":content:patient-card, :content:msgs"/>
+            </f:facet>
+        </p:dialog>
+
+        <!-- CONTACT MODIFICATION MODAL -->
+        <p:dialog header="Statut" widgetVar="status-modal" modal="true"
+                  responsive="true" width="500" draggable="false" closable="false"
+                  focus="status-modal-close-btn">
+            <h:form id="status-modal-form">
+                <div class="ui-g">
+                    <div class="ui-g-12">
+                        <p:outputLabel for="BCE" value=" Numéro BCE" />
+                        <p:inputMask id="BCE" placeholder="(exemple : 0694.456.432)" value="#{profileSettings.editedUser.tva}" mask="9999.999.999"/>
+                    </div>
+                    <div class="ui-g-12">
+                        <p:outputLabel value=" Civilité" />
+                        <div class="ui-inputgroup">
+                            <p:selectOneMenu id="title-select" value="#{profileSettings.editedUser.title}">
+                                <p:importEnum type="com.projet.enumeration.UserTitle" var="UserTitle" allSuffix="VALUES"/>
+                                <f:selectItem itemLabel="Selectionner un titre" noSelectionOption="true"
+                                              itemDisabled="#{profileSettings.editedUser.title != null}"/>
+                                <f:selectItems var="title" value="#{UserTitle.VALUES}" itemLabel="#{title.label}" itemValue="#{title}" />
+                            </p:selectOneMenu>
+                            <p:commandButton icon="fa fa-fw fa-times" update="title-select" ajax="true" styleClass="secondary-button"
+                                             actionListener="#{profileSettings.editedUser.setTitle(null)}"/>
+                        </div>
+                    </div>
+                    <div class="ui-g-12">
+                        <p:outputLabel value="Statut actuel" />
+                        <div class="ui-inputgroup">
+                            <p:selectOneMenu id="status-select" value="#{profileSettings.editedUser.status}">
+                                <p:importEnum type="com.projet.enumeration.UserStatus" var="UserStatus" allSuffix="VALUES"/>
+                                <f:selectItem itemLabel="Selectionner un titre" noSelectionOption="true"
+                                              itemDisabled="#{profileSettings.editedUser.status != null}"/>
+                                <f:selectItems var="status" value="#{UserStatus.VALUES}" itemLabel="#{status.label}" itemValue="#{status}"/>
+                            </p:selectOneMenu>
+                            <p:commandButton icon="fa fa-fw fa-times" update="status-select" ajax="true" styleClass="secondary-button"
+                                             actionListener="#{profileSettings.editedUser.setStatus(null)}"/>
+                        </div>
+                    </div>
+                    <div class="ui-g-12">
+                        <p:outputLabel value="Langue" />
+                        <div class="ui-inputgroup">
+                            <p:selectOneMenu  id="language-select" value="#{profileSettings.editedUser.language}">
+                                <p:importEnum type="com.projet.enumeration.Language" var="Language" allSuffix="VALUES"/>
+                                <f:selectItem itemLabel="Selectionner un titre" noSelectionOption="true"
+                                              itemDisabled="#{profileSettings.editedUser.language != null}"/>
+                                <f:selectItems var="language" value="#{Language.VALUES}" itemLabel="#{language.label}" itemValue="#{language}"/>
+                            </p:selectOneMenu>
+                            <p:commandButton icon="fa fa-fw fa-times" update="language-select" ajax="true" styleClass="secondary-button"
+                                             actionListener="#{profileSettings.editedUser.setLanguage(null)}"/>
+                        </div>
+                    </div>
+                </div>
+            </h:form>
+            <f:facet name="footer">
+                <p:commandButton id="status-modal-close-btn" form="status-modal-form" value="Fermer" type="button"
+                                 styleClass="secondary-button" onclick="PF('status-modal').hide()"
+                                 actionListener="#{profileSettings.cancel}" update=":content:msgs" ajax="true"/>
+                <p:commandButton form="status-modal-form" value="Modifier" styleClass="success-btn"
+                                 icon="fa fa-check" onclick="PF('status-modal').hide()"
+                                 actionListener="#{profileSettings.save}" update=":content:status-card, :content:msgs" ajax="true"/>
+            </f:facet>
+        </p:dialog>
+        <!-- Info medical MODIFICATION MODAL -->
+        <p:dialog header="Statut" widgetVar="info-medical-modal" modal="true"
+                  responsive="true" width="500" draggable="false" closable="false"
+                  focus="status-modal-close-btn">
+            <h:form id="info-medical-modal-form">
+                <div class="ui-g">
+                    <div class="ui-g-12">
+                        <p:outputLabel for="Niss" value=" Numéro Niss" />
+                        <p:inputMask id="Niss" placeholder="(exemple : 0694.456.432)" value="#{profileSettings.editedUser.tva}" mask="9999.999.999"/>
+                    </div>
+                    <div class="ui-g-12">
+                        <p:outputLabel value=" Civilité" />
+
+                    </div>
+                    <div class="ui-g-12">
+                        <p:outputLabel value="Statut actuel" />
+
+                    </div>
+
+                </div>
+            </h:form>
+            <f:facet name="footer">
+                <p:commandButton id="info-medical-modal-close-btn" form="info-medical-modal-form" value="Fermer" type="button"
+                                 styleClass="secondary-button" onclick="PF('status-modal').hide()"
+                                 actionListener="#{profileSettings.cancel}" update=":content:msgs" ajax="true"/>
+                <p:commandButton form="info-medical-modal-form" value="Modifier" styleClass="success-btn"
+                                 icon="fa fa-check" onclick="PF('info-medical-modal').hide()"
+                                 actionListener="#{profileSettings.save}" update=":content:status-card, :content:msgs" ajax="true"/>
+            </f:facet>
+        </p:dialog>
+    </ui:define>
+
+</ui:composition>

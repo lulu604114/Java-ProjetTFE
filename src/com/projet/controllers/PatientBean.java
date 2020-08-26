@@ -2,6 +2,7 @@ package com.projet.controllers;
 
 
 import com.projet.conf.App;
+import com.projet.controllers.utils.Message;
 import com.projet.dao.EntityFinderImpl;
 import com.projet.entities.Patient;
 import com.projet.entities.User;
@@ -26,6 +27,7 @@ import java.util.List;
 public class PatientBean implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    private static final Message message = Message.getMessage(App.BUNDLE_MESSAGE);
 
     PatientService service = new PatientService(Patient.class);
     private Patient patient;
@@ -33,7 +35,7 @@ public class PatientBean implements Serializable {
     private List<Patient> filteredPatients;
     private Patient patientTemp;
     private Patient selectedPatient;
-    private boolean disabled = false;
+
 
 
 
@@ -43,16 +45,20 @@ public class PatientBean implements Serializable {
         this.patients = this.service.getAll();
     }
 
-    public boolean isDisabled(){ return disabled;}
-    public void setDisabled(boolean _bol) { this.disabled = _bol;}
-
-    public void action(){
-        disabled=true;
-        }
-
     public void patientDetail(Patient patient)
     {
         this.patient = patient;
+    }
+//Redirection
+    public String openRedirection()
+    {
+        System.out.println("Je reçois le patient :" + patient.getId());
+        this.patientTemp = new Patient(this.patient);
+        return "/app/patient/viewPatient.xhtml";
+    }
+    //Annulation de l'enregistrement ou de la modification d'un patient
+    public void cancel() {
+        message.display(FacesMessage.SEVERITY_WARN, "Annulation", "Aucunes modifications réalisées");
     }
 
     /* Getter and Setter */

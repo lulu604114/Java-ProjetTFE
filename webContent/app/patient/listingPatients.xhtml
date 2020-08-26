@@ -33,10 +33,11 @@
                                          rows="10" paginator="true"
                                          paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                          rowsPerPageTemplate="5,10,15"
-                                         selectionMode="single" selection="#{patientBean.selectedPatient}" rowKey="#{patient.id}"
                                          emptyMessage="Aucun patient trouvé" filteredValue="#{patientBean.filteredPatients}"
                             >
+<!--                                         selectionMode="single" selection="#{patientBean.selectedPatient}" rowKey="#{patient.id}"-->
 
+                                <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true" />
                                 <f:facet name="header">
                                     <p:outputPanel>
                                         <h:outputText value="Search all fields:" />
@@ -44,10 +45,7 @@
                                     </p:outputPanel>
                                 </f:facet>
 
-                                <p:ajax event="rowSelect" update=":form:patientDetail" oncomplete="PF('patientDialog').show()" />
-
-                                <c:set var="buttonText" value="#{patientBean.selectedPatient.lastName}" />
-
+<!--                                <p:ajax event="rowSelect" update=":form:patientDetail" oncomplete="PF('patientDialog').show()" />-->
 
                                 <p:column headerText="Id" filterBy="#{patient.id}" sortBy="#{patient.id}" filterMatchMode="contains">
                                     <h:outputText value="#{patient.id}" />
@@ -61,57 +59,146 @@
                                     <h:outputText value="#{patient.lastName}" />
                                 </p:column>
 
+                                <p:column headerText="Action" >
+                                    <p:commandButton update=":form:patientDetail" oncomplete="PF('patientDialog').show()" icon="fas fa-eye" title="Détails">
+                                        <f:setPropertyActionListener value="#{patient}"  target="#{patientBean.selectedPatient}"  />
+                                    </p:commandButton>
+                                    <p:commandButton type="submit" action="#{patientBean.openRedirection()}" icon="fas fa-book-open">
+                                        <f:setPropertyActionListener target="#{patientBean.patient}" value="#{patient}"    />
+                                    </p:commandButton>
+                                    <p:commandButton update=":form:patientDetail" oncomplete="PF('patientDialog').show()" icon="fas fa-trash-alt" title="Supprimer">
+                                        <f:setPropertyActionListener value="#{patient}"  target="#{patientBean.selectedPatient}"  />
+                                    </p:commandButton>
+                                </p:column>
+
                                 <f:facet name="paginatorTopLeft">
-                                    <p:commandButton value="Clear table state" action="#{patientBean.clearTableState}" update="@form" />
+                                    <p:commandButton update=":modal-creation" oncomplete="PF('patientCreation').show()"  value="Ajouter un patient">
+                                        <f:setPropertyActionListener value="#{patient}"  target="#{patientBean.selectedPatient}"  />
+                                    </p:commandButton>
                                 </f:facet>
+
+                                <f:facet name="paginatorTopRight">
+                                    <p:commandButton value="Réinitialiser les filtres" action="#{patientBean.clearTableState}" update="@form" />
+                                </f:facet>
+
                             </p:dataTable>
+
 <!--                            Modal-->
-                            <p:button value="Home" style="display:inline-block;margin-top:6px" icon="fa fa-home"/>
-                            <h:outputScript library="js" name="listingPatients.js" />
-                            <p:dialog header="Info patient" widgetVar="patientDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+                            <p:dialog header="Patient Info" widgetVar="patientDialog" modal="true" responsive="true" draggable="false" closable="true">
                                 <p:outputPanel id="patientDetail" style="text-align:center;">
-                                    <p:panelGrid  columns="1" rendered="#{not empty patientBean.selectedPatient}" columnClasses="label,value">
-                                        <p:tabView>
-                                            <p:tab title="Information sur le patient">
-                                                <h:panelGrid columns="2" cellpadding="10">
-                                                    <h:outputText value="Id:" />
-                                                    <h:outputText value="#{patientBean.selectedPatient.id}" />
+                                    <p:panelGrid  columns="2" rendered="#{not empty patientBean.selectedPatient}" >
+                                        <f:facet name="header">
 
-                                                    <h:outputText value="Prénom" />
-                                                    <h:outputText value="#{patientBean.selectedPatient.firstName}" />
+                                        </f:facet>
 
-                                                    <h:outputText value="Nom" />
-                                                    <h:outputText id="modifiervaleur" value="#{patientBean.disabled}" />
-                                                    <h:outputLabel for="test" value="Name:" />
-                                                    <p:inputText id="test" label="name" value="Modifier" disabled="true"  />
-                                                </h:panelGrid>
-                                                <h:outputLabel for="ajax" value="Ajax:" />
-                                                <p:inplace id="ajax" editor="true">
-                                                    <p:inputText value="#{patientBean.selectedPatient.firstName}" required="true" label="text" />
-                                                    <p:inputText value="#{patientBean.selectedPatient.lastName}" required="true" label="text" />
-                                                </p:inplace>
-                                                <p:commandButton icon="pi pi-search" title="Modifier" onclick="modify();">
-                                                    Modifier
-                                                </p:commandButton>
-                                            </p:tab>
-                                            <p:tab title="Dossiers du patient">
-                                                <h:panelGrid columns="2" cellpadding="10">
+                                        <h:outputText value="Numéro du patient :" />
+                                        <h:outputText value="#{patientBean.selectedPatient.id}" />
 
-                                                    <h:outputText value="Gestion de dossier like google drive" />
-                                                </h:panelGrid>
-                                            </p:tab>
-                                            <p:tab title="Godfather Part III">
-                                                <h:panelGrid columns="2" cellpadding="10">
-                                                    <p:graphicImage name="demo/images/godfather/godfather3.jpg" />
-                                                    <h:outputText value="After a break of more than 15 years, director Francis Ford Coppola and writer Mario Puzo returned to the well for this third and final story of the fictional Corleone crime family.
-                    Two decades have passed, and crime kingpin Michael Corleone, now divorced from his wife Kay has nearly succeeded in keeping his promise that his family would one day be completely legitimate." />
-                                                </h:panelGrid>
-                                            </p:tab>
-                                        </p:tabView>
+                                        <h:outputText value="Prénom :" />
+                                        <h:outputText value="#{patientBean.selectedPatient.firstName}" />
+
+                                        <h:outputText value="Nom :" />
+                                        <h:outputText value="#{patientBean.selectedPatient.lastName}" />
+
+                                        <h:outputText value="Téléphone :" />
+                                        <h:outputText value="#{patientBean.selectedPatient.phone}" />
+
+                                        <h:outputText value="Email:" />
+                                        <h:outputText value="#{patientBean.selectedPatient.email}" />
+
+                                        <h:outputText value="Date de naissance:" />
+                                        <h:outputText value="#{patientBean.selectedPatient.birthdate}" >
+                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                        </h:outputText>
+
                                     </p:panelGrid>
                                 </p:outputPanel>
                             </p:dialog>
                         </h:form>
+                        <p:dialog id="modal-creation" header="Création patient" widgetVar="patientCreation" width="500"  modal="true" responsive="true" draggable="false" closable="true" >
+
+                                <h:form id="creation-modal-form">
+                                    <div class="ui-g">
+                                        <div class="ui-g-12" style="border: 1px solid #dedede; border-radius: 10px">
+                                            <h4>Informations personnelles</h4>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-12 ui-lg-6">
+                                            <i class="fa fa-fw fa-user"></i>
+                                            <p:outputLabel value=" Prénom :" />
+                                            <p:inputText value="#{patientBean.patient.firstName}" disabled="false"/>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-12 ui-lg-6">
+                                            <i class="fa fa-fw fa-envelope"></i>
+                                            <p:outputLabel value=" Nom :"/>
+                                            <p:inputText value="#{patientBean.patient.lastName}" disabled="false"/>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-12 ui-lg-4">
+                                            <i class="fa fa-fw fa-envelope"></i>
+                                            <p:outputLabel value=" Adresse :"/>
+                                            <p:inputText value="#{patientBean.patient.adress}" disabled="false"/>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-12 ui-lg-4">
+                                            <i class="fa fa-fw fa-envelope"></i>
+                                            <p:outputLabel value=" N° :"/>
+                                            <p:inputText value="#{patientBean.patient.streetNumber}" disabled="false"/>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-12 ui-lg-4">
+                                            <i class="fa fa-fw fa-envelope"></i>
+                                            <p:outputLabel value=" Bte :"/>
+                                            <p:inputText value="#{patientBean.patient.streetBox}" disabled="false"/>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-12 ui-lg-6">
+                                            <i class="fa fa-fw fa-envelope"></i>
+                                            <p:outputLabel value=" Code Postal :"/>
+                                            <p:inputText value="#{patientBean.patient.postalCode}" disabled="false"/>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-12 ui-lg-6">
+                                            <i class="fa fa-fw fa-envelope"></i>
+                                            <p:outputLabel value=" Ville :"/>
+                                            <p:inputText value="#{patientBean.patient.city}" disabled="false"/>
+                                        </div>
+                                        <div class="ui-g-12" style="border: 1px solid #dedede; border-radius: 10px">
+                                            <h4>Contact</h4>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-12 ui-lg-6">
+                                            <i class="fa fa-fw fa-user"></i>
+                                            <p:outputLabel value=" Téléphone :" />
+                                            <p:inputText value="#{patientBean.patient.phone}" disabled="false"/>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-12 ui-lg-6">
+                                            <i class="fa fa-fw fa-envelope"></i>
+                                            <p:outputLabel value=" Email :"/>
+                                            <p:inputText value="#{patientBean.patient.email}" disabled="false"/>
+                                        </div>
+                                        <div class="ui-g-12" style="border: 1px solid #dedede; border-radius: 10px">
+                                            <h4>Informations médicales</h4>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-12 ui-lg-6">
+                                            <i class="fa fa-fw fa-user"></i>
+                                            <p:outputLabel value=" Niss :" />
+                                            <p:inputText value="#{patientBean.patient.niss}" disabled="false"/>
+                                        </div>
+                                        <div class="ui-g-12 ui-md-12 ui-lg-6">
+                                            <i class="fa fa-fw fa-envelope"></i>
+                                            <p:outputLabel value=" Tiers payant :"/>
+                                            <p:inputText value="#{patientBean.patient.tiersPayant}" disabled="false"/>
+                                        </div>
+                                    </div>
+                                </h:form>
+
+                                <br/>
+                                <br/>
+                                <f:facet name="footer">
+                                    <p:commandButton id="creation-modal-close-btn" form="creation-modal-form" type="button" value="Fermer"
+                                                     styleClass="secondary-button" onclick="PF('patientCreation').hide()"
+                                                     actionListener="#{patientBean.cancel}" update=":content:msgs" ajax="true"/>
+                                    <p:commandButton form="creation-modal-form" value="Enregistrer" styleClass="success-btn"
+                                                     icon="fa fa-check" onclick="PF('patientCreation').hide()"
+                                                     actionListener="#{profileSettings.save}"/>
+                                </f:facet>
+
+                        </p:dialog>
+
                     </div>
                 </div>
             </div>
