@@ -11,10 +11,9 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.List;
 
-@Named("dashboard")
+@Named("dashboardBean")
 @SessionScoped
 public class DashboardBean implements Serializable {
 
@@ -29,10 +28,10 @@ public class DashboardBean implements Serializable {
         dashboard = service.getDashboard(user);
     }
 
-    public boolean getCardType(List<String> names, Card card) {
+    public boolean isToDisplay(List<String> names,String size, Card card) {
         boolean isDisplayed = false;
         for (String name : names) {
-            if (name.equals(card.getIcon())) isDisplayed = true;
+            if (name.equals(card.getIcon()) && card.getSize().equals(size)) isDisplayed = true;
         }
         return isDisplayed;
     }

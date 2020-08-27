@@ -35,6 +35,7 @@ public class LoginBean implements Serializable {
     private String password;
     private boolean rememberMe;
 
+
     /**
      *
      * @return
@@ -71,6 +72,7 @@ public class LoginBean implements Serializable {
 
         return view + "?faces-redirect=true";
     }
+
 
     public String getUsername() {
         return username;

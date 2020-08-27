@@ -23,5 +23,9 @@
             <base-name>resources.homepage</base-name>
             <var>homepage</var>
         </resource-bundle>
+        <resource-bundle>
+            <base-name>resources.dashboard</base-name>
+            <var>dashboard</var>
+        </resource-bundle>
     </application>
 </faces-config>

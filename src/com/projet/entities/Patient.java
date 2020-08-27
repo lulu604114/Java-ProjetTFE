@@ -228,7 +228,7 @@ public class Patient {
         this.active = active;
     }
 
-    public User getUser() {
+   public User getUser() {
         return user;
     }
 

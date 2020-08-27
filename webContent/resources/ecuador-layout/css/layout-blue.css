@@ -164,7 +164,12 @@ a {
 .layout-wrapper .layout-topbar .logo-container {
   height: 60px;
   top: 20px;
+  left: 50px;
   position: relative;
+}
+.layout-wrapper .layout-topbar .logo-container span {
+  color: white;
+  font-size: 20px;
 }
 .layout-wrapper .layout-topbar .logo-container img {
   height: 14px;
@@ -317,8 +322,8 @@ a {
     left: 10px;
   }
   .layout-wrapper .layout-topbar .logo-container {
-    top: -30px;
-    left: -20px;
+    top: 48px;
+    left: -29px;
   }
   .layout-wrapper .layout-topbar #topbar-profile-menu-button {
     position: absolute;
@@ -1604,7 +1609,7 @@ body .layout-wrapper .layout-main .layout-content {
   overflow-x: auto;
 }
 .layout-content .layout-dashboard .charges .ui-panel-content .left-side {
-  padding: 46px 100px 46px 20px;
+  padding: 45px 100px 45px 20px;
   float: right;
 }
 .layout-content .layout-dashboard .charges .ui-panel-content .left-side i {
@@ -1691,7 +1696,6 @@ body .layout-wrapper .layout-main .layout-content {
 }
 .layout-content .layout-dashboard .messages .ui-panel-content {
   padding: 0;
-  margin-bottom: 16px;
   height: 350px;
   overflow-x: auto;
 }

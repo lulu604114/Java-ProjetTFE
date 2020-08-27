@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:pe="http://primefaces.org/ecuador">
+
+    <div class="ui-g">
+        <div class="ui-g-12">
+            <p:panel>
+                <f:facet name="header">
+                    <h1>Dossier du patient :  #{patientBean.patient.firstName} #{patientBean.patient.lastName} </h1>
+                </f:facet>
+                <p:tabMenu activeIndex="#{param.index}">
+                    <p:menuitem value="Fiche du patient" outcome="viewPatient" icon="fa fa-fw fa-user">
+                        <f:param name="index" value="0" />
+                    </p:menuitem>
+                    <p:menuitem value="Rendez-vous" outcome="viewPatient" icon="fas fa-calendar-alt">
+                        <f:param name="index" value="1" />
+                    </p:menuitem>
+                    <p:menuitem value="Factures" outcome="viewPatient" icon="fas fa-file-invoice-dollar">
+                        <f:param name="index" value="2" />
+                    </p:menuitem>
+                    <p:menuitem value="Documents" outcome="documentsPatient" icon="fas fa-folder">
+                        <f:param name="index" value="3" />
+                    </p:menuitem>
+                </p:tabMenu>
+            </p:panel>
+        </div>
+    </div>
+</ui:composition>
