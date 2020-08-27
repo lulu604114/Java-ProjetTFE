@@ -164,7 +164,12 @@ a {
 .layout-wrapper .layout-topbar .logo-container {
   height: 60px;
   top: 20px;
+  left: 50px;
   position: relative;
+}
+.layout-wrapper .layout-topbar .logo-container span {
+  color: white;
+  font-size: 20px;
 }
 .layout-wrapper .layout-topbar .logo-container img {
   height: 14px;
@@ -317,8 +322,8 @@ a {
     left: 10px;
   }
   .layout-wrapper .layout-topbar .logo-container {
-    top: -30px;
-    left: -20px;
+    top: 48px;
+    left: -29px;
   }
   .layout-wrapper .layout-topbar #topbar-profile-menu-button {
     position: absolute;
