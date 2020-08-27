@@ -19,12 +19,11 @@
                                     id="om_agenda"
                                     value="Agenda"
                                     icon="fa fa-fw fa-calendar"/>
-                        <p:menuitem outcome="#{checkConfig.userChargeIsSet()}"
                         <p:menuitem id="om_patient"
                                     outcome="/app/patient/listingPatients"
                                     value="Patient"
                                     icon="fa fa-fw fa-user-plus"/>
-                        <p:menuitem outcome="/app/charge/chargeList"
+                        <p:menuitem outcome="#{checkConfig.userChargeIsSet()}"
                                     id="om_charge"
                                     value="Frais"
                                     icon="fas fa-shopping-basket"/>
