@@ -4,6 +4,7 @@ import com.projet.connection.EMF;
 import com.projet.dao.EntityFinder;
 import com.projet.dao.EntityFinderImpl;
 import com.projet.entities.Dashboard;
+import com.projet.entities.DashboardCard;
 import com.projet.entities.Role;
 import com.projet.entities.User;
 import com.projet.enumeration.RoleEnum;
@@ -16,6 +17,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -87,6 +89,7 @@ public class UserService extends Service<User> implements Serializable {
     public User createUser(User user) {
         Dashboard dashboard = new Dashboard();
         dashboard.setLabel("Mon dashboard");
+
 
         user.addDashboard(dashboard);
 

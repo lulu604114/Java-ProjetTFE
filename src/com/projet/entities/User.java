@@ -356,10 +356,10 @@ public class User implements Serializable, Cloneable {
     }
 
     public Dashboard addDashboard(Dashboard dashboard) {
-        if (getDashboards() == null)
+        if (this.getDashboards() == null)
             setDashboards(new ArrayList<>());
 
-        getDashboards().add(dashboard);
+        this.getDashboards().add(dashboard);
         dashboard.setUser(this);
 
         return dashboard;

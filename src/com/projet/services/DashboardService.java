@@ -1,10 +1,18 @@
 package com.projet.services;
 
+import com.projet.connection.EMF;
+import com.projet.dao.EntityFinder;
+import com.projet.dao.EntityFinderImpl;
 import com.projet.entities.Dashboard;
 import com.projet.entities.User;
 import org.apache.log4j.Logger;
 
+import javax.persistence.EntityManager;
+import javax.persistence.StoredProcedureQuery;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class DashboardService extends Service<Dashboard> implements Serializable {
     private static final Logger log = Logger.getLogger(DashboardService.class);
@@ -15,11 +23,21 @@ public class DashboardService extends Service<Dashboard> implements Serializable
     }
 
     public Dashboard getDashboard(User user) {
-        return user.getDashboards().get(0);
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("user", user);
+        Dashboard dashboard = finder.findByNamedQuery("Dashboard.findDashboardByUser", params).get(0);
+        em.refresh(dashboard);
+        return dashboard;
     }
 
     @Override
     public Dashboard save(Dashboard dashboard) {
         return null;
+    }
+
+    public void initializeDashboardCard(Dashboard dashboard) {
+        StoredProcedureQuery query = em.createNamedStoredProcedureQuery("initializeDashboard");
+        query.setParameter("element", dashboard.getId());
+        query.execute();
     }
 }

@@ -9,12 +9,13 @@ import com.projet.services.DashboardService;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 
 @Named("dashboardBean")
-@SessionScoped
+@ViewScoped
 public class DashboardBean implements Serializable {
 
     DashboardService service = new DashboardService(Dashboard.class);
