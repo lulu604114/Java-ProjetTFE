@@ -16,6 +16,9 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "FinancialAccounts", schema = "jsf_tfe")
+@NamedQueries({
+        @NamedQuery(name = "FA.findByLabelOrCode", query = "SELECT f FROM FinancialAccount f WHERE f.user=:user AND f.label LIKE :label OR f.code LIKE :label")
+})
 public class FinancialAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

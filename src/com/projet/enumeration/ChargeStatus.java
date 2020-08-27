@@ -12,17 +12,23 @@ package com.projet.enumeration;
  */
 public enum ChargeStatus {
 
-    NOTPAYED("chargeStatus.notPayed"),
-    PAYED("chargeStatus.payed"),
-    LATE("chargeStatus.late");
+    NOTPAYED("chargeStatus.notPayed", "tag-secondary"),
+    PAYED("chargeStatus.payed", "tag-success"),
+    LATE("chargeStatus.late", "tag-danger");
 
     private String status;
+    private String statusClass;
 
-    private ChargeStatus(String status) {
+    private ChargeStatus(String status, String statusClass) {
         this.status = status;
+        this.statusClass = statusClass;
     }
 
     public String getStatus() {
         return status;
+    }
+
+    public String getStatusClass() {
+        return statusClass;
     }
 }

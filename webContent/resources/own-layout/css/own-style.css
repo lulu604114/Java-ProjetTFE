@@ -92,6 +92,30 @@ body .ui-noselection-option{
     font-size: 8px;
     border: 1px solid;
     padding: 2px;
+    text-transform: uppercase;
+}
+
+.status-tag {
+    border: 1px solid;
+    padding: 2px 5px;
+    display: inline-block;
+    font-size: 10px;
+    text-transform: uppercase;
+}
+
+.tag-danger {
+    color: #f05050;
+    background-color: rgba(240, 80, 80, 0.1);
+}
+
+.tag-success {
+    background-color: rgba(97, 177, 69, 0.1);
+    color: #61b145;
+}
+
+.tag-secondary {
+    background-color: rgba(125, 145, 178, 0.1);
+    color: #7d91b2;
 }
 
 .panel-content {
@@ -137,6 +161,10 @@ body .ui-noselection-option{
 
 .icon-primary {
     color: #00b1ff;
+}
+
+.icon-secondary {
+    color: #efefef;
 }
 /* TITLE BAR */
 body .ui-panel-titlebar img {
@@ -221,7 +249,7 @@ body .ui-datatable .ui-datatable-data > tr.ui-datatable-odd:hover {
 body .ui-datatable thead th {
     text-align: left;
     border: none;
-    border-bottom: 2px solid #dedede;;
+    border-bottom: 2px solid #dedede;
 }
 
 body .ui-datatable .ui-datatable-data > tr {
@@ -248,8 +276,9 @@ body .ui-panel .ui-panel-actions .ui-button {
     padding: 20px;
 }
 
-.emptyMessage i {
-    color: #efefef;
+.emptyMessage p {
+    width: 40%;
+    margin: 25px auto;
 }
 
 .ui-dialog-content {

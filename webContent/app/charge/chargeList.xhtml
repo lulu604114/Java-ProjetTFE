@@ -27,6 +27,10 @@
                                              onclick="PF('chargeCreation-modal').show();" ajax="true" update=":chargeCreation-modal-form"/>
                         </f:facet>
 
+                        <br/>
+
+                        <br/>
+
                         <div class="ui-g">
                             <div class="ui-g-3">
                                 <div class="card charge-Card">
@@ -37,7 +41,7 @@
                                             </h:outputText>
                                         </div>
                                         <div class="text">
-                                            Total (<h:outputText value="#{chargeListView.chargeList.size()}"/>dépenses)
+                                            Total (<h:outputText value="#{chargeListView.chargeList.size()}"/> dépenses)
                                         </div>
                                     </div>
                                     <div class="icon icon-primary">
@@ -102,11 +106,11 @@
 
                         <br/>
 
-                        <p:dataTable id="chargeList" var="charge" value="#{chargeListView.chargeList}" sortBy="#{charge.createdAt.month}"
-                                     expandableRowGroups="true" sortOrder="descending">
+                        <p:dataTable id="chargeList" var="charge" value="#{chargeListView.chargeList}" sortBy="#{chargeListView.getChargeSortDate(charge)}"
+                                     expandableRowGroups="true" sortOrder="descending" >
                             <f:facet name="emptyMessage">
                                 <div class="emptyMessage">
-                                    <i class="fas fa-ban fa-5x"></i>
+                                    <i class="fas fa-ban fa-5x icon-secondary"></i>
                                     <div class="text">
                                         <p>Aucune dépense ajoutée</p>
                                         <p:commandButton id="second-charge-creation-btn" value="Ajouter un frais" icon="fas fa-plus" styleClass="secondary-button"
@@ -116,7 +120,7 @@
                             </f:facet>
                             <p:headerRow>
                                 <p:column colspan="7">
-                                    <h:outputText value="#{chargeListView.getMonth(charge.createdAt.month)}" />
+                                    <h:outputText value="#{chargeListView.getMonth(charge.createdAt.month)} #{chargeListView.getYear(charge.createdAt)}" />
                                 </p:column>
                             </p:headerRow>
                             <p:column>
@@ -134,10 +138,19 @@
                                 <h:outputText value="#{charge.amount}">
                                     <f:convertNumber type="currency" currencySymbol="€" maxFractionDigits="2"/>
                                 </h:outputText>
+                                <h:outputText id="item-icon" styleClass="fas fa-certificate icon-primary" rendered="#{chargeListView.getAccountItemsIcon(charge) != 0}"/>
+                                <p:tooltip for="item-icon" position="top">
+                                    <h:outputText value="#{chargeListView.getAccountItemsIcon(charge)}">
+                                        <f:convertNumber type="currency" currencySymbol="€" maxFractionDigits="2"/>
+                                    </h:outputText>
+                                    <h:outputText value=" à imputer"/>
+                                </p:tooltip>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">Statut</f:facet>
-                                <h:outputText value="#{charge.status.status}"/>
+                                <div class="status-tag #{charge.status.statusClass}">
+                                    <h:outputText value="#{cmp[charge.status.status]}"/>
+                                </div>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">Fournisseur</f:facet>
@@ -152,7 +165,7 @@
                             <p:column style="text-align: right">
                                 <f:facet name="header">Action <i class="fas fa-cog"></i></f:facet>
                                 <p:splitButton id="action_split" value=" Consulter" icon="far fa-eye"
-                                               action="#{chargeDetailView.edit(charge)}">
+                                               action="#{chargeDetailView.edit(charge)}"    >
                                     <p:menuitem value=" Modifier" icon="far fa-edit" />
                                     <p:menuitem value=" Supprimer" icon="fas fa-trash-alt" />
                                 </p:splitButton>

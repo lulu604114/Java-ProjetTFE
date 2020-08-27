@@ -15,13 +15,13 @@
                         <div class="toolbar">
                             <div class="text">
                                 <h1>Dépense</h1>
-                                <small class="tag">FOURNISSEUR : #{chargeDetailView.charge.supplier.label.toUpperCase()}</small>
-                                <small class="tag">FACTURE LE  :
+                                <small class="tag">Fournisseur : #{chargeDetailView.charge.supplier.label}</small>
+                                <small class="tag">Facturé le  :
                                     <h:outputText value="#{chargeDetailView.charge.createdAt}">
                                         <f:convertDateTime pattern="dd/MM/yyyy"/>
                                     </h:outputText>
                                 </small>
-                                <small class="tag" style="margin-left: 3px">STATUT DU PAIEMENT : #{chargeDetailView.charge.status}</small>
+                                <small class="tag #{chargeDetailView.charge.status.statusClass}" style="margin-left: 3px">Statut du paiement : #{cmp[chargeDetailView.charge.status.status]}</small>
                             </div>
                             <div class="button">
                                 <p:linkButton icon="fas fa-arrow-left" styleClass="primary-button" outcome="/app/charge/chargeList" />
@@ -38,7 +38,7 @@
 
                     <div class="toolbar">
                         <div class="text">
-                            <h4>Marquez votre facture comme payée le cas échéant.</h4>
+                            <h4> <i class="far fa-clock"></i>   Marquez votre facture comme payée le cas échéant.</h4>
                             <small>Vous pouvez uploader une pièce justificative, encoder les imputations et leurs éventuels amortissements.</small>
                         </div>
                         <div class="button">
@@ -167,7 +167,7 @@
                             <h:outputText value="Détails"/>
                         </f:facet>
                         <f:facet name="actions">
-                            <p:commandLink id="detzil-card-edit-btn" type="button" onclick="PF('chargeEdit-modal').show();" ajax="true"
+                            <p:commandLink id="detail-card-edit-btn" type="button" onclick="PF('chargeEdit-modal').show();" ajax="true"
                                            update="chargeEdit-modal-form">
                                 <i class="fa fa-fw fa-pencil"></i>
                             </p:commandLink>
@@ -199,6 +199,62 @@
                             <text/>
                             <h:outputText value="Imputations"/>
                         </f:facet>
+                        <f:facet name="actions">
+                            <p:commandLink id="item-creation-btn" type="button" ajax="true" onclick="PF('itemEdit-modal').show()">
+                                <i class="far fa-plus-square"/>
+                            </p:commandLink>
+                            <p:tooltip for="item-creation-btn" position="left" value="Ajouter une imputation"/>
+                        </f:facet>
+                        <p:dataTable id="itemList" var="item" value="#{chargeDetailView.charge.accountItems}">
+                            <f:facet name="emptyMessage">
+                                <div class="emptyMessage">
+                                    <i class="far fa-plus-square fa-5x icon-primary"/>
+                                    <div class="text">
+                                        <p>Ajouter des imputations à votre dépense afin de renseigner
+                                            les différents éléments de votre facture et d'en définir
+                                            leur % de déductibilité et leur éventuelle période d'amortissement.</p>
+                                        <p:commandButton id="second-item-creation-btn" value="Ajouter une imputation" icon="fas fa-plus" styleClass="secondary-button"
+                                                         ajax="true" onclick="PF('itemEdit-modal').show()"/>
+                                    </div>
+                                </div>
+                            </f:facet>
+                            <p:column>
+                                <f:facet name="header">Année</f:facet>
+                                <h:outputText value="#{item.financialYear.beginAt}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">Charge</f:facet>
+                                <h:outputText value="#{item.financialAccount.label}"/>
+                                <small>
+                                    <h:outputText value="#{item.description}"/>
+                                </small>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">Montant</f:facet>
+                                <h:outputText value="#{item.amount}">
+                                    <f:convertNumber type="currency" currencySymbol="€" maxFractionDigits="2"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">Pro/Privé</f:facet>
+                                <h:outputText value="#{item.privatePart} / #{100 - item.privatePart} %"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">% déductabilité</f:facet>
+                                <h:outputText value="#{charge.supplier.label}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">Montant déduit</f:facet>
+                                <h:outputText value="100 €">
+                                </h:outputText>
+                            </p:column>
+                            <p:column style="text-align: right">
+                                <f:facet name="header">Action <i class="fas fa-cog"></i></f:facet>
+                                <p:splitButton id="action_split" value=" Modifier" icon="far fa-edit">
+                                    <p:menuitem value=" Supprimer" icon="fas fa-trash-alt" />
+                                </p:splitButton>
+                            </p:column>
+                        </p:dataTable>
                     </p:panel>
                 </div>
             </div>
@@ -208,7 +264,7 @@
         <!-- CHARGE EDIT MODAL -->
         <p:dialog header="Modifier un frais" widgetVar="chargeEdit-modal" modal="true"
                   responsive="true" width="600" draggable="false" closable="false"
-                  focus="chargeEdit-modal-close-btn">
+                  focus="chargeEdit-modal-close-btn" blockScroll="true">
             <h:form id="chargeEdit-modal-form">
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-12 p-md-12">
@@ -229,7 +285,7 @@
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="supplier" value="Fournisseurs"/>
                         <p:autoComplete id="supplier" value="#{chargeDetailView.charge.supplier}" completeMethod="#{chargeListView.completeSupplier}"
-                                        dropdown="true" var="supplier" itemLabel="#{supplier.label}" itemValue="#{supplier}"/>
+                                        dropdown="true" var="supplier" itemLabel="#{supplier.label}" itemValue="#{supplier}" minQueryLength="3"/>
                     </div>
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
@@ -276,6 +332,61 @@
                 <p:commandButton form="chargeEdit-modal-form" value="Modfier" styleClass="success-btn"
                                  icon="fa fa-check" onclick="PF('chargeEdit-modal').hide()"
                                  update=":chargeDetailForm:msgs"/>
+            </f:facet>
+        </p:dialog>
+
+
+
+        <!-- ITEM EDIT MODAL -->
+        <p:dialog header="Modifier un frais" widgetVar="itemEdit-modal" modal="true"
+                  responsive="true" width="600" draggable="false" closable="false"
+                  focus="itemEdit-modal-close-btn" blockScroll="true">
+            <h:form id="itemEdit-modal-form">
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-12 p-md-12">
+                        <p:outputLabel for="item-description" value="Description"/>
+                        <p:inputText id="item-description" value="#{chargeDetailView.accountItem.description}"/>
+                    </div>
+                </div>
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-12 p-md-12">
+                        <p:outputLabel for="item-financialAccount" value="Journal"/>
+                        <p:autoComplete id="item-financialAccount" value="#{chargeDetailView.accountItem.financialAccount}" completeMethod="#{chargeDetailView.completeFinancialAccount }"
+                                        var="financialAccount" itemLabel="#{financialAccount.code} - #{financialAccount.label}" itemValue="#{financialAccount}"
+                                        converter="financialAccountConverter" forceSelection="true" dropdown="true" minQueryLength="2" scrollHeight="250"
+                                        groupBy="#{chargeDetailView.getFinancialAccountGroup(financialAccount).code} . #{chargeDetailView.getFinancialAccountGroup(financialAccount).label}"/>
+                    </div>
+                </div>
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="item-amount" value="Montant à imputer (en €)"/>
+                        <p:inputNumber id="item-amount" value="#{chargeDetailView.accountItem.amount}" decimalSeparator="," thousandSeparator=" ">
+                        </p:inputNumber>
+                    </div>
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="item-deductible" value="% de déductabilité"/>
+                        <p:datePicker id="item-deductible" value="#{chargeDetailView.accountItem.taxDeductible}" />
+                    </div>
+                </div>
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="item-privatePart" value="% Quote-part privée"/>
+                        <p:datePicker id="item-privatePart" value="#{chargeDetailView.accountItem.privatePart}" />
+                    </div>
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="deductible-amount" value="Montant déduit (simulation en €)"/>
+                        <p:inputNumber id="deductible-amount" value="" decimalSeparator="," thousandSeparator=" ">
+                        </p:inputNumber>
+                    </div>
+                </div>
+            </h:form>
+            <f:facet name="footer">
+                <p:commandButton id="itemEdit-modal-close-btn" form="itemEdit-modal-form" type="button" value="Fermer"
+                                 styleClass="secondary-button" onclick="PF('itemEdit-modal').hide()"
+                                 update=""/>
+                <p:commandButton form="itemEdit-modal-form" value="Modfier" styleClass="success-btn"
+                                 icon="fa fa-check" onclick="PF('itemEdit-modal').hide()"
+                                 update=""/>
             </f:facet>
         </p:dialog>
 

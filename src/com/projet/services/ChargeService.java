@@ -5,9 +5,8 @@ import com.projet.entities.Charge;
 import com.projet.entities.FinancialYear;
 import com.projet.entities.User;
 import com.projet.enumeration.ChargeStatus;
-import com.projet.utility.Utility;
+import com.projet.utility.DateManager;
 
-import javax.persistence.EntityManager;
 import java.util.*;
 
 /**
@@ -36,6 +35,13 @@ public class ChargeService extends Service<Charge> {
         }
 
         return charge;
+    }
+
+    public List<Charge> getByUser(User user) {
+        Map<String, User> param = new HashMap<>();
+        param.put("user", user);
+
+        return finder.findByNamedQuery("Charge.findByUser", param);
     }
 
     public List<Charge> getByUserOrderByDate(User user) {
@@ -88,7 +94,7 @@ public class ChargeService extends Service<Charge> {
         // if there is a due date and the status is not payed then it check if the status need to be modify
         if (charge.getDueAt() != null && !charge.getStatus().equals(ChargeStatus.PAYED)) {
             // if the due date is outdated then the status is modify
-            if (Utility.compareToCurrentDate(charge.getDueAt()) < 0 )
+            if (DateManager.compareToCurrentDate(charge.getDueAt()) < 0 )
                 charge.setStatus(ChargeStatus.LATE);
         }
 

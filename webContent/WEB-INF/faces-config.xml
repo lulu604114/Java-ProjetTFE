@@ -17,7 +17,7 @@
         </resource-bundle>
         <resource-bundle>
             <base-name>resources.component</base-name>
-            <var>component</var>
+            <var>cmp</var>
         </resource-bundle>
         <resource-bundle>
             <base-name>resources.homepage</base-name>

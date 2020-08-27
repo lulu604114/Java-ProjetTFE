@@ -23,11 +23,11 @@ import java.util.Objects;
 @Table(name = "Charges", schema = "jsf_tfe")
 @NamedQueries({
         @NamedQuery(name = "Charge.findByUser", query = "SELECT c FROM Charge c WHERE c.user=:user"),
-        @NamedQuery(name = "Charge.findByUserOrderByDate", query = "SELECT c FROM Charge c WHERE c.user=:user ORDER BY c.dueAt ASC"),
+        @NamedQuery(name = "Charge.findByUserOrderByDate", query = "SELECT c FROM Charge c WHERE c.user=:user ORDER BY c.dueAt DESC"),
         @NamedQuery(name = "Charge.findPayedByUser", query = "SELECT c FROM Charge c WHERE c.user=:user AND c.payed=true"),
         @NamedQuery(name = "Charge.findAllSupplierByUser", query = "SELECT c.supplier FROM Charge c WHERE c.user=:user")
 })
-public class Charge {
+public class Charge implements Comparable<Charge>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -197,6 +197,14 @@ public class Charge {
     @Override
     public int hashCode() {
         return Objects.hash(id, label, createdAt, amount, dueAt, status, payed, freeCommunication, structeredCommunication, paiementMethod, payedAt, month, user, supplier, diary, financialYear, accountItems);
+    }
+
+    @Override
+    public int compareTo(Charge o) {
+        if (createdAt == null || o.createdAt == null)
+            return 0;
+
+        return createdAt.compareTo(o.createdAt);
     }
 
     public String getFreeCommunication() {

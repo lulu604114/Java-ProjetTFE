@@ -8,11 +8,9 @@ import com.projet.enumeration.ChargeStatus;
 import com.projet.security.SecurityManager;
 import com.projet.services.ChargeService;
 import com.projet.services.SupplierService;
-import com.projet.utility.Utility;
+import com.projet.utility.DateManager;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -21,10 +19,7 @@ import javax.persistence.EntityTransaction;
 import java.io.Serializable;
 import java.time.Month;
 import java.time.format.TextStyle;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 /**
  * =================================================================
@@ -44,7 +39,6 @@ public class ChargeListView implements Serializable {
     private ChargeService service = new ChargeService(Charge.class);
     private FinancialYearService faService = new FinancialYearService(FinancialYear.class);
 
-    private int financialYear;
     private User user;
     private List<Charge> chargeList;
     private Charge charge;
@@ -52,10 +46,10 @@ public class ChargeListView implements Serializable {
     @PostConstruct
     public void init() {
 
-        // get the current year
-        this.financialYear = Utility.getYear(new Date());
         this.user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
-        this.chargeList = faService.getUserFinancialYearByDate(user, financialYear).getCharges();
+        this.chargeList = service.getByUser(user);
+        Collections.sort(chargeList);
+        Collections.reverse(chargeList);
         this.charge = new Charge();
     }
 
@@ -88,6 +82,15 @@ public class ChargeListView implements Serializable {
         String monthString = Month.of(month + 1).getDisplayName(TextStyle.FULL, FacesContext.getCurrentInstance().getViewRoot().getLocale());
 
         return monthString.substring(0, 1).toUpperCase() + monthString.substring(1);
+    }
+
+    public int getYear(Date date) {
+        return DateManager.getYear(date);
+    }
+
+    public Date getChargeSortDate(Charge charge) {
+
+        return DateManager.getMonthAndYearDate(charge.getCreatedAt());
     }
 
     public List<Diary> getDiaries() {
@@ -144,4 +147,20 @@ public class ChargeListView implements Serializable {
 
         return service.totalDeductibleCharge(calendar.get(Calendar.YEAR), user);
     }
+
+    public double getAccountItemsIcon(Charge charge) {
+        double total = 0;
+        double chargeAmount = charge.getAmount();
+
+        List<AccountItem> accountItems = charge.getAccountItems();
+        if (!accountItems.isEmpty()) {
+            for (AccountItem item : accountItems) {
+                total += item.getAmount();
+            }
+        }
+
+        return chargeAmount - total;
+    }
+
+
 }
