@@ -86,7 +86,7 @@ a {
   z-index: 1000;
   width: 42px;
   height: 46px;
-  background-color: #050505;
+  background-color: #2c2c2c;
   text-align: center;
   border-radius: 5px;
   -moz-transition: transform 0.3s;
@@ -218,7 +218,7 @@ a {
   position: fixed;
   display: none;
   width: 240px;
-  background-color: #050505;
+  background-color: #2c2c2c;
   -webkit-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
@@ -404,7 +404,7 @@ a {
   top: 60px;
   left: 0;
   z-index: 999;
-  background-color: #050505;
+  background-color: #2c2c2c;
   -webkit-box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.12);
   -moz-box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.12);
   box-shadow: 1px 3px 3px rgba(0, 0, 0, 0.12);
@@ -510,7 +510,7 @@ a {
   margin: 0;
   padding: 0;
   display: none;
-  background-color: #1d1d1d;
+  background-color: #2c2c2c;
 }
 .layout-wrapper .layout-sidebar .layout-menu li ul li a {
   padding-left: 35px;
@@ -794,7 +794,7 @@ a {
     padding: 6px 8px;
     font-weight: 700;
     font-size: 13px;
-    background-color: #1B1B1B;
+    background-color: #2c2c2c;
     color: #BBBBBB;
     min-width: 75px;
     white-space: nowrap;
@@ -810,7 +810,7 @@ a {
     left: 0;
     margin-top: -5px;
     border-width: 5px 5px 5px 0;
-    border-right-color: #1B1B1B;
+    border-right-color: #2c2c2c;
   }
   .layout-wrapper.layout-menu-slim .layout-main {
     margin-left: 60px;
@@ -919,17 +919,24 @@ body .layout-wrapper .layout-main .layout-content {
 }
 .layout-wrapper .layout-main .layout-footer {
   width: 100%;
-  background-color: #F3F3F3;
   padding: 16px 38px;
   color: #F3F3F3;
   bottom: 0;
   position: relative;
+  background-color: #12AABD;
+  background-image: -webkit-gradient(linear, left top, right top, from(#12AABD), to(#C4C988));
+  background-image: -webkit-linear-gradient(left, #12AABD, #C4C988);
+  background-image: -moz-linear-gradient(left, #12AABD, #C4C988);
+  background-image: -ms-linear-gradient(left, #12AABD, #C4C988);
+  background-image: -o-linear-gradient(left, #12AABD, #C4C988);
+  background-image: linear-gradient(left, #12AABD, #C4C988);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#12AABD", endColorstr="#C4C988", gradientType="1");
 }
 .layout-wrapper .layout-main .layout-footer .logo-container {
   text-decoration: none;
 }
 .layout-wrapper .layout-main .layout-footer .logo-container img {
-  height: 26px;
+  height: 128px;
   vertical-align: middle;
 }
 .layout-wrapper .layout-main .layout-footer .logo-container .app-name {
@@ -946,7 +953,7 @@ body .layout-wrapper .layout-main .layout-content {
   font-size: 15px;
   font-weight: 500;
   text-align: left;
-  color: #8A8A8A;
+  color: white;
   display: block;
 }
 .layout-wrapper .layout-main .layout-footer #footer-menu .footer-box a {
@@ -955,13 +962,13 @@ body .layout-wrapper .layout-main .layout-content {
   font-size: 13px;
   font-weight: 400;
   display: block;
-  color: #666666;
+  color: white;
 }
 .layout-wrapper .layout-main .layout-footer #footer-menu .footer-box a > a {
   opacity: 0.9;
   font-size: 13px;
   text-align: left;
-  color: #666666;
+  color: white;
 }
 .layout-wrapper .layout-main .layout-footer #footer-menu .footer-box a:hover {
   color: #1F1F1F;
@@ -971,7 +978,7 @@ body .layout-wrapper .layout-main .layout-content {
   margin-top: 30px;
 }
 .layout-wrapper .layout-main .layout-footer #footer-menu .footer-box .icon-link .icon {
-  color: #666666;
+  color: white;
   font-size: 22px;
   margin-right: 16px;
   margin-left: 16px;
@@ -1120,7 +1127,7 @@ body .layout-wrapper .layout-main .layout-content {
   right: -230px;
   z-index: 999;
   position: fixed;
-  background-color: #050505;
+  background-color: #2c2c2c;
   padding: 20px 0 20px 10px;
   -moz-transition: right 0.3s;
   -o-transition: right 0.3s;
