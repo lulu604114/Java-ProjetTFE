@@ -1,6 +1,8 @@
 package com.projet.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -36,6 +38,10 @@ public class Card {
     @Basic
     @Column(name = "size")
     private String size;
+
+    @ManyToMany
+    private List<Dashboard> dashboards = new ArrayList<>();
+
 
     public int getId() {
         return id;
@@ -75,6 +81,14 @@ public class Card {
 
     public void setSize(String size) {
         this.size = size;
+    }
+
+    public List<Dashboard> getDashboards() {
+        return dashboards;
+    }
+
+    public void setDashboards(List<Dashboard> dashboards) {
+        this.dashboards = dashboards;
     }
 
     @Override

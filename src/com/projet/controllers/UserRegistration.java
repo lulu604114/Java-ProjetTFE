@@ -49,8 +49,7 @@ public class UserRegistration implements Serializable {
         try {
             User user = service.createUser(this.user);
             service.save(user);
-            dashboardService.initializeDashboardCard(user.getDashboards().get(0));
-            
+
             transaction.commit();
 
             return "/successRegistration.xhtml?faces-redirect=true";

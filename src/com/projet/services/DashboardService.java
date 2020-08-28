@@ -17,17 +17,15 @@ import java.util.Map;
 public class DashboardService extends Service<Dashboard> implements Serializable {
     private static final Logger log = Logger.getLogger(DashboardService.class);
     private static final long serialVersionUID = 1L;
+    Map<String, Object> params = new HashMap<String, Object>();
 
     public DashboardService(Class<?> ec) {
         super(ec);
     }
 
     public Dashboard getDashboard(User user) {
-        Map<String, Object> params = new HashMap<String, Object>();
         params.put("user", user);
-        Dashboard dashboard = finder.findByNamedQuery("Dashboard.findDashboardByUser", params).get(0);
-        em.refresh(dashboard);
-        return dashboard;
+        return finder.findByNamedQuery("Dashboard.findDashboardByUser", params).get(0);
     }
 
     @Override

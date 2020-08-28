@@ -11,7 +11,6 @@
         <class>com.projet.entities.Card</class>
         <class>com.projet.entities.Connection</class>
         <class>com.projet.entities.Contact</class>
-        <class>com.projet.entities.DashboardCard</class>
         <class>com.projet.entities.Dashboard</class>
         <class>com.projet.entities.DocumentType</class>
         <class>com.projet.entities.Document</class>
@@ -44,7 +43,7 @@
       <class>com.projet.entities.Configs</class>
       <class>com.projet.entities.Functionnalities</class>
       <class>com.projet.entities.UserConfigs</class>
-      <class>com.projet.entities.Users</class>
+      <class>com.projet.entities.User</class>
 
       <properties>
             <!-- DOCUMENTATION → https://docs.oracle.com/middleware/1212/toplink/TLJPA/p_ddl_generation_output_mode.htm#TLJPA1073 -->

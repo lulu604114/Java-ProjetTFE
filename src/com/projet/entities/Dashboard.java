@@ -1,6 +1,7 @@
 package com.projet.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,11 +36,14 @@ public class Dashboard {
     @Basic
     @Column(name = "label")
     private String label;
-    @OneToMany(mappedBy = "dashboard")
-    private List<DashboardCard> dashboardCards;
     @ManyToOne
     @JoinColumn(name = "user", referencedColumnName = "id", nullable = false)
     private User user;
+    @ManyToMany(cascade = { CascadeType.PERSIST })
+    @JoinTable(name = "Dashboards_Cards",
+    joinColumns = @JoinColumn(name = "card_id"),
+    inverseJoinColumns = @JoinColumn(name = "dashboard_id"))
+    private List<Card> cards = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -71,12 +75,12 @@ public class Dashboard {
         return Objects.hash(id, label);
     }
 
-    public List<DashboardCard> getDashboardCards() {
-        return dashboardCards;
+    public List<Card> getCards() {
+        return cards;
     }
 
-    public void setDashboardCards(List<DashboardCard> dashboardCards) {
-        this.dashboardCards = dashboardCards;
+    public void setCards(List<Card> cards) {
+        this.cards = cards;
     }
 
     public User getUser() {
