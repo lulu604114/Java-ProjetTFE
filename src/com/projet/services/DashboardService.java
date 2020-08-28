@@ -32,10 +32,4 @@ public class DashboardService extends Service<Dashboard> implements Serializable
     public Dashboard save(Dashboard dashboard) {
         return null;
     }
-
-    public void initializeDashboardCard(Dashboard dashboard) {
-        StoredProcedureQuery query = em.createNamedStoredProcedureQuery("initializeDashboard");
-        query.setParameter("element", dashboard.getId());
-        query.execute();
-    }
 }

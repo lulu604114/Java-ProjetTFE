@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
     <persistence-unit name="jsf_tfe" transaction-type="JTA">
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
         <jta-data-source>java:comp/env/jdbc/jsf_tfe</jta-data-source>
@@ -32,24 +34,10 @@
         <class>com.projet.entities.Billing</class>
         <class>com.projet.entities.Subscription</class>
         <class>com.projet.entities.ToDo</class>
-      <class>com.projet.entities.AccountCategory</class>
-      <class>com.projet.entities.AccountItem</class>
-      <class>com.projet.entities.DfAccountCategory</class>
-      <class>com.projet.entities.DfDiary</class>
-      <class>com.projet.entities.DfFinancialAccount</class>
-      <class>com.projet.entities.Diary</class>
-      <class>com.projet.entities.FinancialAccount</class>
-      <class>com.projet.entities.FinancialYear</class>
-      <class>com.projet.entities.Configs</class>
-      <class>com.projet.entities.Functionnalities</class>
-      <class>com.projet.entities.UserConfigs</class>
-      <class>com.projet.entities.User</class>
-
-      <properties>
-            <!-- DOCUMENTATION → https://docs.oracle.com/middleware/1212/toplink/TLJPA/p_ddl_generation_output_mode.htm#TLJPA1073 -->
-            <property name="eclipselink.ddl-generation.output-mode" value="both"/>
-        <property name="eclipselink.jdbc.url" value="jdbc:mysql://jsf_tfe.must.be:3307/jsf_tfe?autoReconnect=true"/>
-        <property name="eclipselink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-      </properties>
+        <class>com.projet.entities.AccountCategory</class>
+        <class>com.projet.entities.AccountItem</class>
+        <class>com.projet.entities.Diary</class>
+        <class>com.projet.entities.FinancialAccount</class>
+        <class>com.projet.entities.FinancialYear</class>
     </persistence-unit>
 </persistence>

@@ -21,13 +21,6 @@ import java.util.Objects;
         @NamedQuery(name = "Dashboard.findAll", query = "SELECT d FROM Dashboard d"),
         @NamedQuery(name = "Dashboard.findDashboardByUser", query = "SELECT d FROM Dashboard d WHERE d.user=:user"),
 })
-@NamedStoredProcedureQueries({
-        @NamedStoredProcedureQuery(
-                name = "initializeDashboard",
-                procedureName = "initializeDashboard",
-                parameters = @StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class, name = "element")
-        )
-})
 public class Dashboard {
     @Id
     @Column(name = "id")
@@ -39,11 +32,12 @@ public class Dashboard {
     @ManyToOne
     @JoinColumn(name = "user", referencedColumnName = "id", nullable = false)
     private User user;
-    @ManyToMany(cascade = { CascadeType.PERSIST })
+
+    @ManyToMany
     @JoinTable(name = "Dashboards_Cards",
-    joinColumns = @JoinColumn(name = "card_id"),
-    inverseJoinColumns = @JoinColumn(name = "dashboard_id"))
-    private List<Card> cards = new ArrayList<>();
+            joinColumns = @JoinColumn(name = "dashboard_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "card_id", referencedColumnName = "id"))
+    private List<Card> cards;
 
     public int getId() {
         return id;

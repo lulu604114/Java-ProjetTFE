@@ -8,7 +8,6 @@ import com.projet.security.SecurityManager;
 import com.projet.services.DashboardService;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;

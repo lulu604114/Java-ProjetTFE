@@ -39,10 +39,6 @@ public class Card {
     @Column(name = "size")
     private String size;
 
-    @ManyToMany
-    private List<Dashboard> dashboards = new ArrayList<>();
-
-
     public int getId() {
         return id;
     }
@@ -81,14 +77,6 @@ public class Card {
 
     public void setSize(String size) {
         this.size = size;
-    }
-
-    public List<Dashboard> getDashboards() {
-        return dashboards;
-    }
-
-    public void setDashboards(List<Dashboard> dashboards) {
-        this.dashboards = dashboards;
     }
 
     @Override
