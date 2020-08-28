@@ -2,18 +2,13 @@ package com.projet.controllers;
 
 
 import com.projet.conf.App;
-import com.projet.dao.EntityFinderImpl;
 import com.projet.entities.Patient;
-import com.projet.entities.User;
-import com.projet.security.SecurityManager;
 import com.projet.services.PatientService;
 import com.projet.utility.Message;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.context.FacesContext;
-import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
