@@ -142,7 +142,7 @@ public class User implements Serializable, Cloneable {
     private List<Connection> connections;
     @OneToMany(mappedBy = "user")
     private List<Contact> contacts;
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private List<Dashboard> dashboards;
     @OneToMany(mappedBy = "user")
     private List<Document> documents;
