@@ -448,6 +448,7 @@
             .ui-panel-content {
                 padding: 0;
                 height: 350px;
+                width: 100%;
                 overflow-x: auto;
 
                 ul {
@@ -460,6 +461,7 @@
 
                         .image-container {
                             padding-right: 4px;
+
                             display: inline-block;
 
                             img {
@@ -467,6 +469,7 @@
                                 height: 55px;
                                 display: inline-block;
                                 vertical-align: middle;
+                                border-radius: 30px;
                             }
                         }
 
@@ -498,6 +501,9 @@
 
                             .message {
                                 display: block;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
                             }
                         }
 

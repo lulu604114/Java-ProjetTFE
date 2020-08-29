@@ -1704,6 +1704,7 @@ body .layout-wrapper .layout-main .layout-content {
 .layout-content .layout-dashboard .messages .ui-panel-content {
   padding: 0;
   height: 350px;
+  width: 100%;
   overflow-x: auto;
 }
 .layout-content .layout-dashboard .messages .ui-panel-content ul {
@@ -1723,6 +1724,7 @@ body .layout-wrapper .layout-main .layout-content {
   height: 55px;
   display: inline-block;
   vertical-align: middle;
+  border-radius: 30px;
 }
 .layout-content .layout-dashboard .messages .ui-panel-content ul li .seperator {
   width: 1px;
@@ -1749,6 +1751,9 @@ body .layout-wrapper .layout-main .layout-content {
 }
 .layout-content .layout-dashboard .messages .ui-panel-content ul li .message-box .message {
   display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .layout-content .layout-dashboard .messages .ui-panel-content ul li .message-status {
   float: right;
