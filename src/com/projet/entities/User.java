@@ -52,85 +52,88 @@ public class User implements Serializable, Cloneable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @Column(name = "id")
     private int id;
 
     @NotNull
-    @Column(columnDefinition = "boolean default 1", name = "ACTIVE")
+    @Column(columnDefinition = "boolean default 1", name = "active")
     private boolean active;
 
-    @Column(name = "FIRSTNAME")
+    @Column(name = "first_name")
     @NotEmpty
     @Size(min = 1, max = 250)
     private String firstName;
 
-    @Column(name = "LASTNAME")
+    @Column(name = "last_name")
     @NotEmpty
     @Size(min = 1, max = 250)
     private String lastName;
 
-    @Column(name = "INAMINUMBER")
+    @Column(name = "inami_number")
     @Nullable
     @Size(min = 8, max = 12)
     private String inamiNumber;
 
-    @Column(name = "IBAN")
+    @Column(name = "iban")
     @Nullable
     @Size(min = 16, max = 16)
     @Pattern(regexp = "^[A-Z]{2}[0-9]{2}(?:[ ]?[0-9]{4}){4}(?:[ ]?[0-9]{1,2})?$")
     private String iban;
 
-    @Column(name = "PASSWORD")
+    @Column(name = "password")
     @NotEmpty
     @Size(min = 1, max = 100)
     private String password;
 
-    @Column(name = "EMAIL")
+    @Column(name = "email")
     @NotEmpty
     @Size(min = 6, max = 120)
     @Pattern(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}")
     private String email;
 
-    @Column(name = "USERNAME")
+    @Column(name = "username")
     @NotEmpty
     @Size(min = 4, max = 50)
     private String username;
 
-    @Column(name = "PHONE")
+    @Column(name = "phone")
     @Nullable
     @Size(min = 10, max = 13)
     private String phone;
 
-    @Column(name = "MOBILE")
+    @Column(name = "mobile")
     @Nullable
     @Size(min = 10, max = 13)
     private String mobile;
 
-    @Column(name = "TVA")
+    @Column(name = "tva")
     @Nullable
     @Size(min = 4, max = 50)
     private String tva;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "BIRTHDATE")
+    @Column(name = "birth_date")
     @Nullable
     private Date birthdate;
 
     @Column(name = "charge_config_set")
     private boolean chargeConfigSet;
 
+    @Column(columnDefinition = "varchar(255) default 'avatar.svg'", name = "avatar")
+    private String avatar;
+
 
     // ENUMERATION
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "varchar(20) default 'NONE'", name = "TITLE")
+    @Column(nullable = false, columnDefinition = "varchar(20) default 'NONE'", name = "title")
     private UserTitle title;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "varchar(2) default 'FR'", name = "LANGUAGE")
+    @Column(nullable = false, columnDefinition = "varchar(2) default 'FR'", name = "language")
     private Language language;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "varchar(20) default 'NONE'", name = "STATUS")
+    @Column(nullable = false, columnDefinition = "varchar(20) default 'NONE'", name = "status")
     private UserStatus status;
 
     // OneToMany
@@ -312,6 +315,14 @@ public class User implements Serializable, Cloneable {
 
     public void setCharges(List<Charge> charges) {
         this.charges = charges;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public Charge addCharge(Charge charge) {
