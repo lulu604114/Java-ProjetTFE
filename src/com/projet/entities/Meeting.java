@@ -5,6 +5,7 @@ import com.projet.enumeration.UserTitle;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -16,6 +17,9 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "Meetings", schema = "jsf_tfe")
+@NamedQueries({
+        @NamedQuery(name = "Meeting.findAll", query = "SELECT m FROM Meeting m"),
+})
 public class Meeting {
 
     @Id
@@ -27,12 +31,12 @@ public class Meeting {
     private String title;
     @Basic
     @Column(name = "startDate")
-    @Temporal(TemporalType.DATE)
-    private Date startDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime startDate;
     @Basic
     @Column(name = "endDate")
-    @Temporal(TemporalType.DATE)
-    private Date endDate;
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime endDate;
     @Basic
     @Column(name = "description")
     private String description;
@@ -72,7 +76,7 @@ public class Meeting {
      * @param type        the type
      * @param patient     the patient
      */
-    public Meeting(int id, String title, Date startDate, Date endDate, String description, MeetingTypeEnum type, Patient patient) {
+    public Meeting(int id, String title, LocalDateTime startDate, LocalDateTime endDate, String description, MeetingTypeEnum type, Patient patient) {
         this.id = id;
         this.title = title;
         this.startDate = startDate;
@@ -96,7 +100,7 @@ public class Meeting {
      * @param patient        the patient
      * @param bill           the bill
      */
-    public Meeting(int id, String title, Date startDate, Date endDate, String description, MeetingTypeEnum type, MedicalService medicalService, Place place, Patient patient, Billing bill) {
+    public Meeting(int id, String title, LocalDateTime startDate, LocalDateTime endDate, String description, MeetingTypeEnum type, MedicalService medicalService, Place place, Patient patient, Billing bill) {
         this.id = id;
         this.title = title;
         this.startDate = startDate;
@@ -150,7 +154,7 @@ public class Meeting {
      *
      * @return the start date
      */
-    public Date getStartDate() {
+    public LocalDateTime getStartDate() {
         return startDate;
     }
 
@@ -159,7 +163,7 @@ public class Meeting {
      *
      * @param startDate the start date
      */
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDateTime startDate) {
         this.startDate = startDate;
     }
 
@@ -168,7 +172,7 @@ public class Meeting {
      *
      * @return the end date
      */
-    public Date getEndDate() {
+    public LocalDateTime getEndDate() {
         return endDate;
     }
 
@@ -177,7 +181,7 @@ public class Meeting {
      *
      * @param endDate the end date
      */
-    public void setEndDate(Date endDate) {
+    public void setEndDate(LocalDateTime endDate) {
         this.endDate = endDate;
     }
 

@@ -10,11 +10,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AgendaService extends Service implements Serializable {
-    private static final Logger log = Logger.getLogger(AgendaService.class);
+/**
+ * The type Meeting service.
+ *
+ * @author Amaury Lapaque
+ */
+public class MeetingService extends Service implements Serializable {
+    private static final Logger log = Logger.getLogger(MeetingService.class);
     private static final long serialVersionUID = 1L;
 
-    public AgendaService(Class<?> ec ) {
+    /**
+     * Instantiates a new Meeting service.
+     *
+     * @param ec the ec
+     */
+    public MeetingService(Class<?> ec ) {
         super(ec);
     }
 
@@ -23,11 +33,16 @@ public class AgendaService extends Service implements Serializable {
         return null;
     }
 
-    public List getEvents() {
+    /**
+     * Gets meetings.
+     *
+     * @return the meetings
+     */
+    public List getMeetings() {
         Map<String, Integer> params = new HashMap<>();
         User sessionUser = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
         params.put("id", sessionUser.getId());
 
-        return finder.findByNamedQuery("Events.findByUser", params);
+        return finder.findByNamedQuery("Meeting.findAll", params);
     }
 }
