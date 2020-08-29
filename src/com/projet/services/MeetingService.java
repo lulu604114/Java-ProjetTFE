@@ -6,9 +6,9 @@ import org.apache.log4j.Logger;
 import com.projet.security.SecurityManager;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.*;
 
 /**
  * The type Meeting service.
@@ -40,9 +40,22 @@ public class MeetingService extends Service implements Serializable {
      */
     public List getMeetings() {
         Map<String, Integer> params = new HashMap<>();
-        User sessionUser = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
-        params.put("id", sessionUser.getId());
+        return finder.findByNamedQuery("Meeting.findAll", null);
+    }
 
-        return finder.findByNamedQuery("Meeting.findAll", params);
+    /**
+     * To local date time local date time.
+     *
+     * @param calendar the calendar
+     *
+     * @return the local date time
+     */
+    public LocalDateTime toLocalDateTime(Calendar calendar) {
+        if (calendar == null) {
+            return null;
+        }
+        TimeZone tz = calendar.getTimeZone();
+        ZoneId zid = tz == null ? ZoneId.systemDefault() : tz.toZoneId();
+        return LocalDateTime.ofInstant(calendar.toInstant(), zid);
     }
 }

@@ -6,6 +6,7 @@ import com.projet.enumeration.UserTitle;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 
@@ -13,7 +14,7 @@ import java.util.Objects;
 /**
  * The type Meeting.
  *
- * @author Amaury  29/08/2020 - 19:54 Projet TFE
+ * @author Amaury 29/08/2020 - 19:54 Projet TFE
  */
 @Entity
 @Table(name = "Meetings", schema = "jsf_tfe")
@@ -32,14 +33,17 @@ public class Meeting {
     @Basic
     @Column(name = "startDate")
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime startDate;
+    private Calendar startDate;
     @Basic
     @Column(name = "endDate")
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime endDate;
+    private Calendar endDate;
     @Basic
     @Column(name = "description")
     private String description;
+    @Basic
+    @Column(nullable = false, columnDefinition = "tinyint(1) default 0", name = "all_day")
+    private boolean allDay;
 
     // ENUMERATION
     @Enumerated(EnumType.STRING)
@@ -73,15 +77,17 @@ public class Meeting {
      * @param startDate   the start date
      * @param endDate     the end date
      * @param description the description
+     * @param allDay      the all day
      * @param type        the type
      * @param patient     the patient
      */
-    public Meeting(int id, String title, LocalDateTime startDate, LocalDateTime endDate, String description, MeetingTypeEnum type, Patient patient) {
+    public Meeting(int id, String title, Calendar startDate, Calendar endDate, String description, boolean allDay, MeetingTypeEnum type, Patient patient) {
         this.id = id;
         this.title = title;
         this.startDate = startDate;
         this.endDate = endDate;
         this.description = description;
+        this.allDay = allDay;
         this.type = type;
         this.patient = patient;
     }
@@ -100,7 +106,7 @@ public class Meeting {
      * @param patient        the patient
      * @param bill           the bill
      */
-    public Meeting(int id, String title, LocalDateTime startDate, LocalDateTime endDate, String description, MeetingTypeEnum type, MedicalService medicalService, Place place, Patient patient, Billing bill) {
+    public Meeting(int id, String title, Calendar startDate, Calendar endDate, String description, MeetingTypeEnum type, MedicalService medicalService, Place place, Patient patient, Billing bill) {
         this.id = id;
         this.title = title;
         this.startDate = startDate;
@@ -154,8 +160,26 @@ public class Meeting {
      *
      * @return the start date
      */
-    public LocalDateTime getStartDate() {
+    public Calendar getStartDate() {
         return startDate;
+    }
+
+    /**
+     * Is all day boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isAllDay() {
+        return allDay;
+    }
+
+    /**
+     * Sets all day.
+     *
+     * @param allDay the all day
+     */
+    public void setAllDay(boolean allDay) {
+        this.allDay = allDay;
     }
 
     /**
@@ -163,7 +187,7 @@ public class Meeting {
      *
      * @param startDate the start date
      */
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(Calendar startDate) {
         this.startDate = startDate;
     }
 
@@ -172,7 +196,7 @@ public class Meeting {
      *
      * @return the end date
      */
-    public LocalDateTime getEndDate() {
+    public Calendar getEndDate() {
         return endDate;
     }
 
@@ -181,7 +205,7 @@ public class Meeting {
      *
      * @param endDate the end date
      */
-    public void setEndDate(LocalDateTime endDate) {
+    public void setEndDate(Calendar endDate) {
         this.endDate = endDate;
     }
 

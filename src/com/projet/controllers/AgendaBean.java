@@ -68,19 +68,23 @@ public class AgendaBean implements Serializable {
      */
     @PostConstruct
     public void init() {
-//        eventModel = new DefaultScheduleModel();
-//        List<Meeting> meetings = meetingService.getMeetings();
-//        meetings.forEach(meeting -> {
-//            DefaultScheduleEvent event = DefaultScheduleEvent.builder()
-//                                        .title(meeting.getTitle())
-//                                        .startDate(meeting.getStartDate())
-//                                        .endDate(meeting.getEndDate())
-//                                        .description(meeting.getDescription())
-//                                        .data(meeting)
-//                                        .overlapAllowed(true)
-//                                        .build();
-//            eventModel.addEvent(event);
-//        });
+        eventModel = new DefaultScheduleModel();
+        List<Meeting> meetings = this.meetingService.getMeetings();
+
+        if (!meetings.isEmpty()) {
+            meetings.forEach(meeting -> {
+                event = DefaultScheduleEvent.builder()
+                        .title(meeting.getTitle())
+                        .startDate(this.meetingService.toLocalDateTime(meeting.getStartDate()))
+                        .endDate(this.meetingService.toLocalDateTime(meeting.getEndDate()))
+                        .description(meeting.getDescription())
+                        .data(meeting)
+                        .allDay(meeting.isAllDay())
+                        .overlapAllowed(true)
+                        .build();
+                eventModel.addEvent(event);
+            });
+        }
     }
 
     /**
