@@ -43,7 +43,7 @@ public class Meeting {
 
     // ENUMERATION
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "varchar(20) default 'NONE'", name = "title")
+    @Column(nullable = false, columnDefinition = "varchar(20) default 'NONE'", name = "type")
     private MeetingTypeEnum type;
 
     @ManyToOne
