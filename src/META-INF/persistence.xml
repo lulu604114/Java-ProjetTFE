@@ -42,13 +42,5 @@
         <class>com.projet.entities.FinancialAccount</class>
         <class>com.projet.entities.UserAccount</class>
         <class>com.projet.entities.UserSupplier</class>
-
-
-      <properties>
-            <!-- DOCUMENTATION → https://docs.oracle.com/middleware/1212/toplink/TLJPA/p_ddl_generation_output_mode.htm#TLJPA1073 -->
-            <property name="eclipselink.ddl-generation.output-mode" value="both"/>
-        <property name="eclipselink.jdbc.url" value="jdbc:mysql://jsf_tfe.must.be:3307/jsf_tfe?autoReconnect=true"/>
-        <property name="eclipselink.jdbc.driver" value="com.mysql.jdbc.Driver"/>
-      </properties>
     </persistence-unit>
 </persistence>

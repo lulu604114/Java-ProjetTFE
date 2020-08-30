@@ -1,20 +1,13 @@
 package com.projet.services;
 
-import com.projet.connection.EMF;
-import com.projet.dao.EntityFinder;
-import com.projet.dao.EntityFinderImpl;
+import com.projet.entities.Card;
 import com.projet.entities.Dashboard;
 import com.projet.entities.Role;
 import com.projet.entities.User;
 import com.projet.entities.UserAccount;
 import com.projet.enumeration.RoleEnum;
 import org.apache.log4j.Logger;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.credential.PasswordMatcher;
 
-import javax.enterprise.context.SessionScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -34,6 +27,8 @@ import java.util.Map;
 public class UserService extends Service<User> implements Serializable {
     private static final Logger log = Logger.getLogger(UserService.class);
     private static final long serialVersionUID = 1L;
+
+    public CardService cardService =  new CardService(Card.class);
 
     public UserService(Class<?> ec) {
         super(ec);
@@ -81,8 +76,9 @@ public class UserService extends Service<User> implements Serializable {
 
     public User createUser(User user) {
         Dashboard dashboard = new Dashboard();
+        List<Card> cards = this.cardService.findAllCards();
         dashboard.setLabel("Mon dashboard");
-
+        dashboard.setCards(cards);
         user.addDashboard(dashboard);
 
         RoleService service = new RoleService(Role.class);

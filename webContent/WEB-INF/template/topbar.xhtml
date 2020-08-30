@@ -13,7 +13,7 @@
 
         <a id="topbar-profile-menu-button" href="#">
             <span>${profileSettings.user.firstName} ${profileSettings.user.lastName}</span>
-            <p:graphicImage name="images/icons/avatar.svg" library="own-layout" styleClass="topbar-profile" />
+            <p:graphicImage name="images/avatar/#{ profileSettings.user.avatar }" library="own-layout" styleClass="topbar-profile" />
             <i class="fa fa-angle-down"></i>
         </a>
 
@@ -107,10 +107,6 @@
                 </p:commandLink>
             </li>
         </ul>
-
-        <a href="#" id="right-panel-button">
-            <i class="fa fa-angle-double-left"></i>
-        </a>
     </h:form>
 
 </ui:composition>

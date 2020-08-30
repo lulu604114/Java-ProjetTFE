@@ -4,17 +4,17 @@
 
         .layout-footer {
             width: 100%;
-            background-color: $footerBgColor;
             padding: 16px 38px;
             color: $footerTextColor;
             bottom: 0;
             position: relative;
-    
+            @include background-gradient-left2right($topbarBgLeftColor, $topbarBgRightColor);
+
             .logo-container {  
                 text-decoration: none;
               
                 img {
-                    height: 26px;
+                    height: 128px;
                     vertical-align: middle;
                 }
         
@@ -35,7 +35,7 @@
                         font-size: 15px;
                         font-weight: 500;
                         text-align: left;
-                        color: #8A8A8A;
+                        color: white;
                         display: block; 
                     }
     
@@ -45,13 +45,13 @@
                         font-size: 13px;
                         font-weight: 400;
                         display: block;
-                        color: #666666;
+                        color: white;
     
                         >a {
                             opacity: 0.9;
                             font-size: 13px;
                             text-align: left;
-                            color: #666666;
+                            color: white;
                         }
 
                         &:hover {
@@ -64,7 +64,7 @@
                         margin-top: 30px;
     
                         .icon {
-                            color: #666666;
+                            color: white;
                             font-size: 22px;
                             margin-right: 16px;
                             margin-left: 16px;

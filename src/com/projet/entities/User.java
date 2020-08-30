@@ -30,33 +30,16 @@ import java.util.*;
         @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
         @NamedQuery(name = "User.findUserByEmail", query = "SELECT u FROM User u WHERE u.email=:email")
 })
-@NamedStoredProcedureQueries({
-        @NamedStoredProcedureQuery(
-                name = "addUserFinancialAccount",
-                procedureName = "addUserDFFinancialAccount",
-                parameters = @StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class, name = "user")
-        ),
-        @NamedStoredProcedureQuery(
-                name = "addUserSupplier",
-                procedureName = "addUserDFSupplier",
-                parameters = @StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class, name = "user")
-        ),
-        @NamedStoredProcedureQuery(
-                name = "addUserDiary",
-                procedureName = "addUserDFDiary",
-                parameters = @StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class, name = "user")
-        )
-})
 public class User implements Serializable, Cloneable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ID")
+    @Column(name = "id")
     private int id;
 
     @NotNull
-    @Column(columnDefinition = "boolean default 1", name = "ACTIVE")
+    @Column(columnDefinition = "boolean default 1", name = "active")
     private boolean active;
 
     @Column(name = "first_name")
@@ -74,7 +57,6 @@ public class User implements Serializable, Cloneable {
     @Size(min = 8, max = 12)
     private String inamiNumber;
 
-    @Basic
     @Column(name = "iban")
     @Nullable
     @Size(min = 16, max = 16)
@@ -120,18 +102,21 @@ public class User implements Serializable, Cloneable {
     @Column(name = "charge_config_set")
     private boolean chargeConfigSet;
 
+    @Column(columnDefinition = "varchar(255) default 'avatar.svg'", name = "avatar")
+    private String avatar;
+
 
     // ENUMERATION
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "varchar(20) default 'NONE'", name = "TITLE")
+    @Column(nullable = false, columnDefinition = "varchar(20) default 'NONE'", name = "title")
     private UserTitle title;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "varchar(2) default 'FR'", name = "LANGUAGE")
+    @Column(nullable = false, columnDefinition = "varchar(2) default 'FR'", name = "language")
     private Language language;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "varchar(20) default 'NONE'", name = "STATUS")
+    @Column(nullable = false, columnDefinition = "varchar(20) default 'NONE'", name = "status")
     private UserStatus status;
 
     // OneToMany
@@ -143,7 +128,7 @@ public class User implements Serializable, Cloneable {
     private List<Connection> connections;
     @OneToMany(mappedBy = "user")
     private List<Contact> contacts;
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
     private List<Dashboard> dashboards;
     @OneToMany(mappedBy = "user")
     private List<Document> documents;
@@ -167,11 +152,6 @@ public class User implements Serializable, Cloneable {
     @JoinColumn(name = "role", referencedColumnName = "id", nullable = false)
     private Role role;
 
-    @ManyToMany
-    @JoinTable(name = "User_Accounts",
-            joinColumns = @JoinColumn(name = "user", referencedColumnName = "ID"),
-            inverseJoinColumns = @JoinColumn(name = "financialAccount", referencedColumnName = "id") )
-    private List<FinancialAccount> financialAccounts;
 
 
 
@@ -319,12 +299,27 @@ public class User implements Serializable, Cloneable {
         this.charges = charges;
     }
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     public Charge addCharge(Charge charge) {
         if (getCharges() == null)
             setCharges(new ArrayList<>());
 
         getCharges().add(charge);
         charge.setUser(this);
+
+        return charge;
+    }
+
+    public Charge removeCharge(Charge charge) {
+        getCharges().remove(charge);
+        charge.setUser(null);
 
         return charge;
     }
@@ -354,10 +349,10 @@ public class User implements Serializable, Cloneable {
     }
 
     public Dashboard addDashboard(Dashboard dashboard) {
-        if (getDashboards() == null)
+        if (this.getDashboards() == null)
             setDashboards(new ArrayList<>());
 
-        getDashboards().add(dashboard);
+        this.getDashboards().add(dashboard);
         dashboard.setUser(this);
 
         return dashboard;
@@ -537,4 +532,6 @@ public class User implements Serializable, Cloneable {
     public void setUserSuppliers(List<UserSupplier> userSuppliers) {
         this.userSuppliers = userSuppliers;
     }
+}
+
 }

@@ -9,8 +9,8 @@
         <div class="ui-g-12">
             <p:panel>
                 <f:facet name="header">
-                    <p:graphicImage name="images/avatar.png" library="ecuador-layout" styleClass="topbar-profile"/>
-                    <h1>Bienvenue #{profileSettings.user.firstName} ! </h1>
+                    <p:graphicImage name="images/avatar/#{ profileSettings.user.avatar }" library="own-layout" styleClass="topbar-profile"/>
+                    <h1>Bienvenue #{profileSettings.user.firstName} #{profileSettings.user.lastName} ! </h1>
                 </f:facet>
                 <f:facet name="actions">
                     <span>Infos sur l'abonnement</span>

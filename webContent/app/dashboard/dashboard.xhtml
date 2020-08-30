@@ -19,27 +19,27 @@
                     <div class="layout-dashboard">
                         <div class="ui-g">
                             <!-- SHORTCUT CARDS -->
-                            <ui:repeat value="#{ dashboardBean.dashboard.dashboardCards }" var="dashboardCard">
+                            <ui:repeat value="#{ dashboardBean.dashboard.cards }" var="card">
                                 <h:panelGroup layout="block"
-                                              rendered="#{dashboardBean.isToDisplay(['validation', 'calendar', 'task', 'message'], 'small', dashboardCard.card)}">
+                                              rendered="#{dashboardBean.isToDisplay(['validation', 'calendar', 'task', 'message'], 'small', card)}">
                                     <div class="ui-g-12 ui-md-6 ui-lg-3">
-                                        <div class="overview-box #{ dashboardCard.card.icon}">
-                                            <p:graphicImage name="images/icons/${ dashboardCard.card.icon }.svg"
+                                        <div class="overview-box #{ card.icon}">
+                                            <p:graphicImage name="images/icons/${ card.icon }.png"
                                                             library="own-layout"
                                                             styleClass="image-icon"/>
-                                            <div class="overview-title">#{ dashboard[dashboardCard.card.label] }</div>
+                                            <div class="overview-title">#{ dashboard[card.label] }</div>
                                             <div class="overview-numbers">
-                                                #{ dashboardBean.getCardContent(dashboardCard.card) }
+                                                #{ dashboardBean.getCardContent(card) }
                                             </div>
                                         </div>
                                     </div>
                                 </h:panelGroup>
 
                                 <h:panelGroup layout="block"
-                                              rendered="#{dashboardBean.isToDisplay(['calendar'], 'large', dashboardCard.card)}">
+                                              rendered="#{dashboardBean.isToDisplay(['calendar'], 'large', card)}">
                                     <!-- APPOINTMENT CARD -->
                                     <div class="ui-g-12 ui-md-12 ui-lg-4">
-                                        <p:panel header="#{ dashboard[dashboardCard.card.label] }" styleClass="appointments">
+                                        <p:panel header="#{ dashboard[card.label] }" styleClass="appointments">
                                             <ul>
                                                 <li>
                                                     <p:graphicImage name="images/icons/calendar.svg"
@@ -191,10 +191,10 @@
                                 </h:panelGroup>
 
                                 <h:panelGroup layout="block"
-                                              rendered="#{dashboardBean.isToDisplay(['task'], 'large', dashboardCard.card)}">
+                                              rendered="#{dashboardBean.isToDisplay(['task'], 'large', card)}">
                                     <!-- TASK CARD -->
                                     <div class="ui-g-12 ui-md-12 ui-lg-4">
-                                        <p:panel header="#{ dashboard[dashboardCard.card.label] }" styleClass="tasks">
+                                        <p:panel header="#{ dashboard[card.label] }" styleClass="tasks">
                                             <ul>
                                                 <li>
                                                     <span>Sales Reports</span>
@@ -310,10 +310,10 @@
                                 </h:panelGroup>
 
                                 <h:panelGroup layout="block"
-                                              rendered="#{dashboardBean.isToDisplay(['document'], 'large', dashboardCard.card)}">
+                                              rendered="#{dashboardBean.isToDisplay(['document'], 'large', card)}">
                                     <!-- DOCUMENTS CARD -->
                                     <div class="ui-g-12 ui-md-12 ui-lg-4">
-                                        <p:panel header="#{ dashboard[dashboardCard.card.label] }" styleClass="documents">
+                                        <p:panel header="#{ dashboard[card.label] }" styleClass="documents">
                                             <ul>
                                                 <li>
                                                     <p:graphicImage name="images/icons/documents/word.svg"
@@ -381,10 +381,10 @@
                                 </h:panelGroup>
 
                                 <h:panelGroup layout="block"
-                                              rendered="#{dashboardBean.isToDisplay(['charge'], 'large', dashboardCard.card)}">
+                                              rendered="#{dashboardBean.isToDisplay(['charge'], 'large', card)}">
                                     <!-- CHARGES CARD -->
                                     <div class="ui-g-12 ui-md-12 ui-lg-12 ui-xl-6">
-                                        <p:panel header="#{ dashboard[dashboardCard.card.label] }" styleClass="charges ui-g">
+                                        <p:panel header="#{ dashboard[card.label] }" styleClass="charges ui-g">
                                             <div class="ui-g-12 ui-md-6 ui-lg-6 ui-xl-6 left-side">
                                                 <i class="fa fa-level-up"></i>
                                                 <span class="icon-label">Total</span>
@@ -429,107 +429,31 @@
                                 </h:panelGroup>
 
                                 <h:panelGroup layout="block"
-                                              rendered="#{dashboardBean.isToDisplay(['message'], 'large', dashboardCard.card)}">
+                                              rendered="#{dashboardBean.isToDisplay(['message'], 'large', card)}">
                                     <!-- MESSAGES CARD -->
                                     <div class="ui-g-12 ui-md-12 ui-lg-12 ui-xl-6">
-                                        <p:panel header="#{ dashboard[dashboardCard.card.label] }" styleClass="messages ui-g">
+                                        <p:panel header="#{ dashboard[card.label] }" styleClass="messages ui-g">
                                             <ul>
-                                                <li>
-                                                    <div class="image-container">
-                                                        <p:graphicImage name="images/icons/avatar.svg"
-                                                                        library="own-layout"/>
-                                                    </div>
-                                                    <div class="seperator"></div>
-                                                    <div class="message-box">
-                                                        <span class="messager">Maggie Walker</span>
-                                                        <span class="time">23 mins</span>
-                                                        <span class="message">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribu…</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="image-container">
-                                                        <p:graphicImage name="images/icons/avatar.svg"
-                                                                        library="own-layout"/>
-                                                    </div>
-                                                    <div class="seperator"></div>
-                                                    <div class="message-box">
-                                                        <span class="messager">Brooke Wright</span>
-                                                        <span class="time">5 hours</span>
-                                                        <span class="message">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="image-container">
-                                                        <p:graphicImage name="images/icons/avatar.svg"
-                                                                        library="own-layout"/>
-                                                    </div>
-                                                    <div class="seperator"></div>
-                                                    <div class="message-box">
-                                                        <span class="messager">Tom Baker</span>
-                                                        <span class="time">19 hours</span>
-                                                        <span class="message">It is a long established fact that a reader will be distracted by the readable content.</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="image-container">
-                                                        <p:graphicImage name="images/icons/avatar.svg"
-                                                                        library="own-layout"/>
-                                                    </div>
-                                                    <div class="seperator"></div>
-                                                    <div class="message-box">
-                                                        <span class="messager">Lucas Fox</span>
-                                                        <span class="time">1 day</span>
-                                                        <span class="message">It is a long established fact that a reader will be distracted by the readable contentof a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal.</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="image-container">
-                                                        <p:graphicImage name="images/icons/avatar.svg"
-                                                                        library="own-layout"/>
-                                                    </div>
-                                                    <div class="seperator"></div>
-                                                    <div class="message-box">
-                                                        <span class="messager">Maggie Walker</span>
-                                                        <span class="time">23 mins</span>
-                                                        <span class="message">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribu…</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="image-container">
-                                                        <p:graphicImage name="images/icons/avatar.svg"
-                                                                        library="own-layout"/>
-                                                    </div>
-                                                    <div class="seperator"></div>
-                                                    <div class="message-box">
-                                                        <span class="messager">Brooke Wright</span>
-                                                        <span class="time">5 hours</span>
-                                                        <span class="message">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="image-container">
-                                                        <p:graphicImage name="images/icons/avatar.svg"
-                                                                        library="own-layout"/>
-                                                    </div>
-                                                    <div class="seperator"></div>
-                                                    <div class="message-box">
-                                                        <span class="messager">Tom Baker</span>
-                                                        <span class="time">19 hours</span>
-                                                        <span class="message">It is a long established fact that a reader will be distracted by the readable content.</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="image-container">
-                                                        <p:graphicImage name="images/icons/avatar.svg"
-                                                                        library="own-layout"/>
-                                                    </div>
-                                                    <div class="seperator"></div>
-                                                    <div class="message-box">
-                                                        <span class="messager">Lucas Fox</span>
-                                                        <span class="time">1 day</span>
-                                                        <span class="message">It is a long established fact that a reader will be distracted by the readable contentof a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal.</span>
-                                                    </div>
-                                                </li>
+                                                <ui:repeat value="#{ dashboardBean.getCardContent(card) }" var="email">
+                                                    <li>
+                                                        <div class="image-container">
+                                                            <p:graphicImage name="images/avatar/#{email.getAvatar()}"
+                                                                            library="own-layout"/>
+                                                        </div>
+                                                        <div class="seperator"></div>
+                                                        <div class="message-box">
+                                                            <span class="messager">
+                                                                #{ email.getSender() }
+                                                            </span>
+                                                            <span class="time">
+                                                                #{ email.getSendTimeFromNow() }
+                                                            </span>
+                                                            <span class="message">
+                                                                #{ email.getContent() }
+                                                            </span>
+                                                        </div>
+                                                    </li>
+                                                </ui:repeat>
                                             </ul>
                                         </p:panel>
                                     </div>
