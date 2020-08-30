@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * =================================================================
@@ -74,7 +75,7 @@ public class ChargeListView implements Serializable {
     }
 
     /**
-     * return month name from int
+     * return month name from int. Use to display the month name in rowGrouping
      * @param month
      * @return
      */
@@ -88,6 +89,12 @@ public class ChargeListView implements Serializable {
         return DateManager.getYear(date);
     }
 
+    /**
+     * Take the createdAt date of a charge and transform it from the pattern dd/MM/YYYY
+     * to MM/YYYY. It give the possibility to a datatable to group charges from a list by month and year.
+     * @param charge
+     * @return
+     */
     public Date getChargeSortDate(Charge charge) {
 
         return DateManager.getMonthAndYearDate(charge.getCreatedAt());
@@ -97,13 +104,19 @@ public class ChargeListView implements Serializable {
         return user.getDiaries();
     }
 
-    public List<Supplier> completeSupplier(String query) {
-        SupplierService service = new SupplierService(Supplier.class);
+    public List<UserSupplier> completeSupplier(String query) {
+        List<UserSupplier> userSuppliers = user.getUserSuppliers();
 
-        return service.findByLabel(this.user, query + "%");
+        List<UserSupplier> suppliers = new ArrayList<>();
+        for (UserSupplier userSupplier : userSuppliers) {
+            if (userSupplier.getSupplier().getLabel().startsWith(query)) {
+                suppliers.add(userSupplier);
+            }
+        }
+        return suppliers;
     }
 
-    public void CreateCharge() {
+    public String CreateCharge() {
 
         EntityTransaction transaction = service.getTransaction();
 
@@ -117,6 +130,8 @@ public class ChargeListView implements Serializable {
             transaction.commit();
 
             message.display(FacesMessage.SEVERITY_INFO, "Success", charge.getLabel() + " is added");
+
+            return "/app/charge/chargeDetail?faces-redirect=truechargeId=" + charge.getId();
         }finally {
             if (transaction.isActive()){
                 transaction.rollback();

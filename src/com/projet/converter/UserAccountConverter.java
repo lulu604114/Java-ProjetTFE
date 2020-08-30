@@ -2,7 +2,9 @@ package com.projet.converter;
 
 import com.projet.entities.FinancialAccount;
 import com.projet.entities.Supplier;
+import com.projet.entities.UserAccount;
 import com.projet.services.FinancialAccountService;
+import com.projet.services.UserAccountService;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -21,9 +23,9 @@ import javax.inject.Named;
  * =================================================================
  */
 @Named
-@FacesConverter(value = "financialAccountConverter")
-public class FinancialAccountConverter implements Converter {
-    private FinancialAccountService service = new FinancialAccountService(FinancialAccount.class);
+@FacesConverter(value = "userAccountConverter")
+public class UserAccountConverter implements Converter {
+    private UserAccountService service = new UserAccountService(UserAccount.class);
 
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent uiComponent, String s) {
@@ -39,7 +41,7 @@ public class FinancialAccountConverter implements Converter {
     @Override
     public String getAsString(FacesContext facesContext, UIComponent uiComponent, Object o) {
         if (o != null)
-            return String.valueOf(((FinancialAccount) o).getId());
+            return String.valueOf(((UserAccount) o).getId());
         else
             return null;
     }

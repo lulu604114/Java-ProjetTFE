@@ -24,12 +24,20 @@ public class FinancialAccountService extends Service<FinancialAccount>{
         super(ec);
     }
 
-    public List<FinancialAccount> findByLabelOrCode(User user, String label) {
+    public List<FinancialAccount> findByLabelOrCode(User user, String label, String label2) {
         Map<String, Object> param = new HashMap<>();
         param.put("user", user);
         param.put("label", label);
+        param.put("label2", label2);
 
         return finder.findByNamedQuery("FA.findByLabelOrCode", param);
+    }
+
+    public List<FinancialAccount> getDefaultFinancialAccount() {
+        Map<String, Boolean> param = new HashMap<>();
+        param.put("boolean", true);
+
+        return finder.findByNamedQuery("FA.findDefaultFa", param);
     }
 
     @Override

@@ -1,7 +1,9 @@
 package com.projet.converter;
 
 import com.projet.entities.Supplier;
+import com.projet.entities.UserSupplier;
 import com.projet.services.SupplierService;
+import com.projet.services.UserSupplierService;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -20,9 +22,9 @@ import javax.inject.Named;
  * =================================================================
  */
 @Named
-@FacesConverter(value = "supplierConverter")
-public class SupplierConverter implements Converter {
-    private SupplierService service = new SupplierService(Supplier.class);
+@FacesConverter(value = "userSupplierConverter")
+public class UserSupplierConverter implements Converter {
+    private UserSupplierService service = new UserSupplierService(UserSupplier.class);
 
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent uiComponent, String s) {
@@ -38,7 +40,7 @@ public class SupplierConverter implements Converter {
     @Override
     public String getAsString(FacesContext facesContext, UIComponent uiComponent, Object o) {
         if (o != null)
-            return String.valueOf(((Supplier) o).getId());
+            return String.valueOf(((UserSupplier) o).getId());
         else
             return null;
     }

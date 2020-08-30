@@ -33,18 +33,16 @@
         <class>com.projet.entities.Billing</class>
         <class>com.projet.entities.Subscription</class>
         <class>com.projet.entities.ToDo</class>
-      <class>com.projet.entities.AccountCategory</class>
-      <class>com.projet.entities.AccountItem</class>
-      <class>com.projet.entities.DfAccountCategory</class>
-      <class>com.projet.entities.DfDiary</class>
-      <class>com.projet.entities.DfFinancialAccount</class>
-      <class>com.projet.entities.Diary</class>
-      <class>com.projet.entities.FinancialAccount</class>
-      <class>com.projet.entities.FinancialYear</class>
-      <class>com.projet.entities.Configs</class>
-      <class>com.projet.entities.Functionnalities</class>
-      <class>com.projet.entities.UserConfigs</class>
-      <class>com.projet.entities.Users</class>
+        <class>com.projet.entities.AccountCategory</class>
+        <class>com.projet.entities.AccountItem</class>
+        <class>com.projet.entities.Diary</class>
+        <class>com.projet.entities.FinancialAccount</class>
+        <class>com.projet.entities.FinancialYear</class>
+        <class>com.projet.entities.AccountCategory</class>
+        <class>com.projet.entities.FinancialAccount</class>
+        <class>com.projet.entities.UserAccount</class>
+        <class>com.projet.entities.UserSupplier</class>
+
 
       <properties>
             <!-- DOCUMENTATION → https://docs.oracle.com/middleware/1212/toplink/TLJPA/p_ddl_generation_output_mode.htm#TLJPA1073 -->

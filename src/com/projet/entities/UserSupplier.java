@@ -9,23 +9,23 @@ import java.util.Objects;
  *
  * @author lucas
  * @project Projet TFE
- * Date: 28/08/2020
- * Time: 22:37
+ * Date: 29/08/2020
+ * Time: 16:44
  * =================================================================
  */
 @Entity
-@Table(name = "AccountCategories", schema = "jsf_tfe")
-public class AccountCategory {
+@Table(name = "User_Suppliers", schema = "jsf_tfe")
+public class UserSupplier {
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
-    @Basic
-    @Column(name = "label")
-    private String label;
     @ManyToOne
-    @JoinColumn(name = "user", referencedColumnName = "ID", nullable = true)
+    @JoinColumn(name = "user", referencedColumnName = "id", nullable = false)
     private User user;
+    @ManyToOne
+    @JoinColumn(name = "supplier", referencedColumnName = "ID", nullable = false)
+    private Supplier supplier;
 
     public int getId() {
         return id;
@@ -35,25 +35,32 @@ public class AccountCategory {
         this.id = id;
     }
 
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AccountCategory that = (AccountCategory) o;
-        return id == that.id &&
-                Objects.equals(label, that.label);
+        UserSupplier that = (UserSupplier) o;
+        return id == that.id;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, label);
+        return Objects.hash(id);
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Supplier getSupplier() {
+        return supplier;
+    }
+
+    public void setSupplier(Supplier supplier) {
+        this.supplier = supplier;
     }
 }

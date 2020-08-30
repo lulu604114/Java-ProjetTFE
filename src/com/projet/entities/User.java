@@ -59,60 +59,61 @@ public class User implements Serializable, Cloneable {
     @Column(columnDefinition = "boolean default 1", name = "ACTIVE")
     private boolean active;
 
-    @Column(name = "FIRSTNAME")
+    @Column(name = "first_name")
     @NotEmpty
     @Size(min = 1, max = 250)
     private String firstName;
 
-    @Column(name = "LASTNAME")
+    @Column(name = "last_name")
     @NotEmpty
     @Size(min = 1, max = 250)
     private String lastName;
 
-    @Column(name = "INAMINUMBER")
+    @Column(name = "inami_number")
     @Nullable
     @Size(min = 8, max = 12)
     private String inamiNumber;
 
-    @Column(name = "IBAN")
+    @Basic
+    @Column(name = "iban")
     @Nullable
     @Size(min = 16, max = 16)
     @Pattern(regexp = "^[A-Z]{2}[0-9]{2}(?:[ ]?[0-9]{4}){4}(?:[ ]?[0-9]{1,2})?$")
     private String iban;
 
-    @Column(name = "PASSWORD")
+    @Column(name = "password")
     @NotEmpty
     @Size(min = 1, max = 100)
     private String password;
 
-    @Column(name = "EMAIL")
+    @Column(name = "email")
     @NotEmpty
     @Size(min = 6, max = 120)
     @Pattern(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}")
     private String email;
 
-    @Column(name = "USERNAME")
+    @Column(name = "username")
     @NotEmpty
     @Size(min = 4, max = 50)
     private String username;
 
-    @Column(name = "PHONE")
+    @Column(name = "phone")
     @Nullable
     @Size(min = 10, max = 13)
     private String phone;
 
-    @Column(name = "MOBILE")
+    @Column(name = "mobile")
     @Nullable
     @Size(min = 10, max = 13)
     private String mobile;
 
-    @Column(name = "TVA")
+    @Column(name = "tva")
     @Nullable
     @Size(min = 4, max = 50)
     private String tva;
 
     @Temporal(TemporalType.DATE)
-    @Column(name = "BIRTHDATE")
+    @Column(name = "birth_date")
     @Nullable
     private Date birthdate;
 
@@ -151,22 +152,26 @@ public class User implements Serializable, Cloneable {
     @OneToMany(mappedBy = "user")
     private List<ToDo> toDos;
     @OneToMany(mappedBy = "user")
-    private List<Supplier> suppliers;
-    @OneToMany(mappedBy = "user")
     private List<AccountCategory> accountCategories;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
     private List<Diary> diaries;
     @OneToMany(mappedBy = "user")
-    private List<FinancialAccount> financialAccounts;
-    @OneToMany(mappedBy = "user")
     private List<FinancialYear> financialYears;
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
+    private List<UserAccount> userAccounts;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
+    private List<UserSupplier> userSuppliers;
 
     // ManyToOne
     @ManyToOne
     @JoinColumn(name = "role", referencedColumnName = "id", nullable = false)
     private Role role;
 
+    @ManyToMany
+    @JoinTable(name = "User_Accounts",
+            joinColumns = @JoinColumn(name = "user", referencedColumnName = "ID"),
+            inverseJoinColumns = @JoinColumn(name = "financialAccount", referencedColumnName = "id") )
+    private List<FinancialAccount> financialAccounts;
 
 
 
@@ -278,16 +283,16 @@ public class User implements Serializable, Cloneable {
         return active;
     }
 
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public boolean isChargeConfigSet() {
         return chargeConfigSet;
     }
 
     public void setChargeConfigSet(boolean chargeConfigSet) {
         this.chargeConfigSet = chargeConfigSet;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
     }
 
     public Language getLanguage() {
@@ -320,13 +325,6 @@ public class User implements Serializable, Cloneable {
 
         getCharges().add(charge);
         charge.setUser(this);
-
-        return charge;
-    }
-
-    public Charge removeCharge(Charge charge) {
-        getCharges().remove(charge);
-        charge.setUser(null);
 
         return charge;
     }
@@ -404,31 +402,6 @@ public class User implements Serializable, Cloneable {
         this.toDos = toDos;
     }
 
-    public List<Supplier> getSuppliers() {
-        return suppliers;
-    }
-
-    public void setSuppliers(List<Supplier> suppliers) {
-        this.suppliers = suppliers;
-    }
-
-    public Supplier addSupplier(Supplier supplier) {
-        if (getSuppliers() == null)
-            setSuppliers(new ArrayList<>());
-
-        getSuppliers().add(supplier);
-        supplier.setUser(this);
-
-        return supplier;
-    }
-
-    public Supplier removeSupplier(Supplier supplier) {
-        getSuppliers().remove(supplier);
-        supplier.setUser(null);
-
-        return supplier;
-    }
-
     public List<Patient> getPatients() {
         return patients;
     }
@@ -453,12 +426,14 @@ public class User implements Serializable, Cloneable {
         this.diaries = diaries;
     }
 
-    public List<FinancialAccount> getFinancialAccounts() {
-        return financialAccounts;
-    }
+    public Diary addDiary(Diary diary) {
+        if (getDiaries() == null)
+            setDiaries(new ArrayList<>());
 
-    public void setFinancialAccounts(List<FinancialAccount> financialAccounts) {
-        this.financialAccounts = financialAccounts;
+        getDiaries().add(diary);
+        diary.setUser(this);
+
+        return diary;
     }
 
     public List<FinancialYear> getFinancialYears() {
@@ -485,7 +460,6 @@ public class User implements Serializable, Cloneable {
 
         return financialYear;
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -546,5 +520,21 @@ public class User implements Serializable, Cloneable {
         this.mobile = user.mobile;
         this.status = user.status;
         this.language = user.language;
+    }
+
+    public List<UserAccount> getUserAccounts() {
+        return userAccounts;
+    }
+
+    public void setUserAccounts(List<UserAccount> userAccounts) {
+        this.userAccounts = userAccounts;
+    }
+
+    public List<UserSupplier> getUserSuppliers() {
+        return userSuppliers;
+    }
+
+    public void setUserSuppliers(List<UserSupplier> userSuppliers) {
+        this.userSuppliers = userSuppliers;
     }
 }

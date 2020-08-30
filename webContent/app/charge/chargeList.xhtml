@@ -29,8 +29,6 @@
 
                         <br/>
 
-                        <br/>
-
                         <div class="ui-g">
                             <div class="ui-g-3">
                                 <div class="card charge-Card">
@@ -104,8 +102,6 @@
 
                         <br/>
 
-                        <br/>
-
                         <p:dataTable id="chargeList" var="charge" value="#{chargeListView.chargeList}" sortBy="#{chargeListView.getChargeSortDate(charge)}"
                                      expandableRowGroups="true" sortOrder="descending" >
                             <f:facet name="emptyMessage">
@@ -154,7 +150,7 @@
                             </p:column>
                             <p:column>
                                 <f:facet name="header">Fournisseur</f:facet>
-                                <h:outputText value="#{charge.supplier.label}"/>
+                                <h:outputText value="#{charge.userSupplier.supplier.label}"/>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">Limite de paiement</f:facet>
@@ -164,11 +160,9 @@
                             </p:column>
                             <p:column style="text-align: right">
                                 <f:facet name="header">Action <i class="fas fa-cog"></i></f:facet>
-                                <p:splitButton id="action_split" value=" Consulter" icon="far fa-eye"
-                                               action="#{chargeDetailView.edit(charge)}"    >
-                                    <p:menuitem value=" Modifier" icon="far fa-edit" />
-                                    <p:menuitem value=" Supprimer" icon="fas fa-trash-alt" />
-                                </p:splitButton>
+                                <p:linkButton id="detail-btn" outcome="/app/charge/chargeDetail" icon="far fa-eye">
+                                    <f:param name="chargeId" value="#{charge.id}"/>
+                                </p:linkButton>
                             </p:column>
                         </p:dataTable>
                     </p:panel>
@@ -202,9 +196,9 @@
                                 <i class="far fa-edit"/> créer
                             </p:commandLink>
                         </small>
-                        <p:autoComplete id="supplier" value="#{chargeListView.charge.supplier}" completeMethod="#{chargeListView.completeSupplier}"
-                                        dropdown="true" var="supplier" itemLabel="#{supplier.label}" itemValue="#{supplier}"
-                                        converter="supplierConverter" minQueryLength="3"/>
+                        <p:autoComplete id="supplier" value="#{chargeListView.charge.userSupplier}" completeMethod="#{chargeListView.completeSupplier}"
+                                        dropdown="true" var="userSupplier" itemLabel="#{userSupplier.supplier.label}" itemValue="#{userSupplier}"
+                                        converter="userSupplierConverter" minQueryLength="2"/>
                     </div>
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
