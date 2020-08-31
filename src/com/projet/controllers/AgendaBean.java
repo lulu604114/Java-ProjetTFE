@@ -1,6 +1,10 @@
 package com.projet.controllers;
 
+import com.projet.conf.App;
 import com.projet.entities.Meeting;
+import com.projet.entities.Patient;
+import com.projet.entities.User;
+import com.projet.security.SecurityManager;
 import com.projet.services.MeetingService;
 import org.primefaces.event.ScheduleEntryMoveEvent;
 import org.primefaces.event.ScheduleEntryResizeEvent;
@@ -15,6 +19,7 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,7 +33,7 @@ public class AgendaBean implements Serializable {
 
     private ScheduleModel eventModel;
 
-    private ScheduleEvent event = new DefaultScheduleEvent();
+    private ScheduleEvent<Meeting> event = new DefaultScheduleEvent<Meeting>();
 
     private boolean slotEventOverlap = true;
     private boolean showWeekNumbers = false;
@@ -108,46 +113,6 @@ public class AgendaBean implements Serializable {
         return eventModel;
     }
 
-    private LocalDateTime previousDay8Pm() {
-        return LocalDateTime.now().minusDays(1).withHour(20).withMinute(0).withSecond(0).withNano(0);
-    }
-
-    private LocalDateTime previousDay11Pm() {
-        return LocalDateTime.now().minusDays(1).withHour(23).withMinute(0).withSecond(0).withNano(0);
-    }
-
-    private LocalDateTime today1Pm() {
-        return LocalDateTime.now().withHour(13).withMinute(0).withSecond(0).withNano(0);
-    }
-
-    private LocalDateTime theDayAfter3Pm() {
-        return LocalDateTime.now().plusDays(1).withHour(15).withMinute(0).withSecond(0).withNano(0);
-    }
-
-    private LocalDateTime today6Pm() {
-        return LocalDateTime.now().withHour(18).withMinute(0).withSecond(0).withNano(0);
-    }
-
-    private LocalDateTime nextDay9Am() {
-        return LocalDateTime.now().plusDays(1).withHour(9).withMinute(0).withSecond(0).withNano(0);
-    }
-
-    private LocalDateTime nextDay11Am() {
-        return LocalDateTime.now().plusDays(1).withHour(11).withMinute(0).withSecond(0).withNano(0);
-    }
-
-    private LocalDateTime fourDaysLater3pm() {
-        return LocalDateTime.now().plusDays(4).withHour(15).withMinute(0).withSecond(0).withNano(0);
-    }
-
-    private LocalDateTime sevenDaysLater0am() {
-        return LocalDateTime.now().plusDays(7).withHour(0).withMinute(0).withSecond(0).withNano(0);
-    }
-
-    private LocalDateTime eightDaysLater0am() {
-        return LocalDateTime.now().plusDays(7).withHour(0).withMinute(0).withSecond(0).withNano(0);
-    }
-
     /**
      * Gets initial date.
      *
@@ -162,7 +127,7 @@ public class AgendaBean implements Serializable {
      *
      * @return the event
      */
-    public ScheduleEvent<?> getEvent() {
+    public ScheduleEvent<Meeting> getEvent() {
         return event;
     }
 
@@ -171,7 +136,7 @@ public class AgendaBean implements Serializable {
      *
      * @param event the event
      */
-    public void setEvent(ScheduleEvent<?> event) {
+    public void setEvent(ScheduleEvent<Meeting> event) {
         this.event = event;
     }
 
@@ -199,7 +164,7 @@ public class AgendaBean implements Serializable {
      *
      * @param selectEvent the select event
      */
-    public void onEventSelect(SelectEvent<ScheduleEvent<?>> selectEvent) {
+    public void onEventSelect(SelectEvent<ScheduleEvent<Meeting>> selectEvent) {
         event = selectEvent.getObject();
     }
 
@@ -218,7 +183,11 @@ public class AgendaBean implements Serializable {
      * @param selectEvent the select event
      */
     public void onDateSelect(SelectEvent<LocalDateTime> selectEvent) {
-        event = DefaultScheduleEvent.builder().startDate(selectEvent.getObject()).endDate(selectEvent.getObject().plusHours(1)).build();
+        event = DefaultScheduleEvent.builder()
+                .startDate(selectEvent.getObject())
+                .endDate(selectEvent.getObject().plusHours(1))
+                .data(new Meeting())
+                .build();
     }
 
     /**
@@ -760,5 +729,29 @@ public class AgendaBean implements Serializable {
      */
     public void setColumnHeaderFormat(String columnHeaderFormat) {
         this.columnHeaderFormat = columnHeaderFormat;
+    }
+
+    /**
+     * Complete patient.
+     *
+     * @param query the query
+     *
+     * @return the list
+     */
+    public List<Patient> completePatient(String query) {
+        User user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
+        List<Patient> patients = user.getPatients();
+        List<Patient> results = new ArrayList<>();
+        // check if there are some userAccounts who match with the query
+        for (Patient patient : patients) {
+            String concatLastFirst = patient.getLastName() + " " + patient.getFirstName();
+            String concatFirstLast = patient.getFirstName() + " " + patient.getLastName();
+            // check if the firstName or lastName startWith the query received
+            if ((patient.getFirstName().toLowerCase().startsWith(query.toLowerCase()) || patient.getLastName().toLowerCase().startsWith(query.toLowerCase())))
+                results.add(patient);
+            else if (concatFirstLast.toLowerCase().startsWith(query.toLowerCase()) || concatLastFirst.toLowerCase().startsWith(query.toLowerCase()))
+                results.add(patient);
+        }
+        return results;
     }
 }
