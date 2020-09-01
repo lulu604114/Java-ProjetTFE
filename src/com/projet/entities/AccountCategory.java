@@ -1,6 +1,7 @@
 package com.projet.entities;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -9,27 +10,29 @@ import java.util.Objects;
  *
  * @author lucas
  * @project Projet TFE
- * Date: 24/08/2020
- * Time: 11:47
+ * Date: 28/08/2020
+ * Time: 22:37
  * =================================================================
  */
 @Entity
 @Table(name = "AccountCategories", schema = "jsf_tfe")
-public class AccountCategory {
+@NamedQueries({
+        @NamedQuery(name = "AC.findByUser", query = "SELECT a FROM AccountCategory a WHERE a.user=:user"),
+        @NamedQuery(name = "AC.findDefault", query = "SELECT a FROM AccountCategory a WHERE a.user=null")
+})
+public class AccountCategory implements Comparable<AccountCategory>{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
-    @Column(name = "code")
-    private String code;
-
+    @Basic
     @Column(name = "label")
     private String label;
-
     @ManyToOne
-    @JoinColumn(name = "user", referencedColumnName = "ID")
+    @JoinColumn(name = "user", referencedColumnName = "ID", nullable = true)
     private User user;
+
+    private List<UserAccount> userAccounts;
 
     public int getId() {
         return id;
@@ -37,14 +40,6 @@ public class AccountCategory {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public String getLabel() {
@@ -55,26 +50,30 @@ public class AccountCategory {
         this.label = label;
     }
 
+    public List<UserAccount> getUserAccounts() {
+        return userAccounts;
+    }
+
+    public void setUserAccounts(List<UserAccount> userAccounts) {
+        this.userAccounts = userAccounts;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AccountCategory that = (AccountCategory) o;
         return id == that.id &&
-                Objects.equals(code, that.code) &&
                 Objects.equals(label, that.label);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, code, label);
+        return Objects.hash(id, label);
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
+    @Override
+    public int compareTo(AccountCategory o) {
+        return 0;
     }
 }

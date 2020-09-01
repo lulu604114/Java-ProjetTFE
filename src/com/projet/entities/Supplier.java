@@ -17,8 +17,8 @@ import java.util.Objects;
 @Entity
 @Table(name = "Suppliers", schema = "jsf_tfe")
 @NamedQueries({
-        @NamedQuery(name = "Supplier.findByUser", query = "SELECT s FROM Supplier s WHERE s.user=:user"),
-        @NamedQuery(name = "Supplier.findByLabel", query = "SELECT s FROM Supplier s WHERE s.user=:user AND s.label LIKE :label")
+        @NamedQuery(name = "Supplier.findByDefault", query = "SELECT s FROM Supplier s WHERE s.default_sup=:boolean"),
+        @NamedQuery(name = "Supplier.findByLabel", query = "SELECT s FROM Supplier s")
 })
 public class Supplier {
     @Id
@@ -29,10 +29,6 @@ public class Supplier {
     @Column(name = "LABEL")
     private String label;
 
-    @ManyToOne
-    @JoinColumn(name = "user", referencedColumnName = "ID", nullable = false)
-    private User user;
-
     @Column(name = "TVA")
     private String tva;
 
@@ -41,6 +37,9 @@ public class Supplier {
 
     @Column(name = "IBAN_BIS")
     private String ibanBis;
+
+    @Column(name = "default_sup")
+    private Boolean default_sup;
 
     public int getId() {
         return id;
@@ -56,14 +55,6 @@ public class Supplier {
 
     public void setLabel(String label) {
         this.label = label;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     @Override
@@ -101,5 +92,13 @@ public class Supplier {
 
     public void setIbanBis(String ibanBis) {
         this.ibanBis = ibanBis;
+    }
+
+    public Boolean getDefault_sup() {
+        return default_sup;
+    }
+
+    public void setDefault_sup(Boolean default_sup) {
+        this.default_sup = default_sup;
     }
 }

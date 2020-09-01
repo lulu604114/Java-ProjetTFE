@@ -1,12 +1,13 @@
 package com.projet.services;
 
-import com.projet.entities.AccountItem;
-import com.projet.entities.Charge;
-import com.projet.entities.FinancialYear;
-import com.projet.entities.User;
+import com.projet.entities.*;
 import com.projet.enumeration.ChargeStatus;
-import com.projet.utility.DateManager;
+import com.projet.utils.DateManager;
+import org.apache.shiro.authc.Account;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.*;
 
 /**
@@ -49,6 +50,15 @@ public class ChargeService extends Service<Charge> {
         param.put("user", user);
 
         return finder.findByNamedQuery("Charge.findByUserOrderByDate", param);
+    }
+
+    public List<Charge> getByUserAndFilter(User user, Date startDate, Date endDate, ChargeStatus status, int pageSize, int pageNumber) {
+        CriteriaBuilder builder = em.getCriteriaBuilder();
+
+        CriteriaQuery<Charge> query = builder.createQuery(Charge.class);
+        Root<Charge> i = query.from(Charge.class);
+
+        return null;
     }
 
     /**
@@ -128,23 +138,16 @@ public class ChargeService extends Service<Charge> {
         return total;
     }
 
-    public double totalDeductibleCharge(int year, User user) {
-        FinancialYearService service = new FinancialYearService(FinancialYear.class);
-        double total = 0;
+    public double calculate_total_deductible_amount_by_financialYear(FinancialYear financialYear) {
+        AccountItemService accountItemService = new AccountItemService(AccountItem.class);
 
-        FinancialYear financialYear = service.getUserFinancialYearByDate(user, year);
+        double total = 0;
 
         if (financialYear != null) {
             List<AccountItem> accountItems = financialYear.getAccountItems();
 
-            if (!accountItems.isEmpty()) {
-                for (AccountItem item: accountItems) {
-                    double amount = item.getAmount();
-                    double privatePart = item.getPrivatePart();
-                    double deductible = item.getTaxDeductible();
-
-                    total += ((amount - ((amount / 100) * privatePart)) / 100) * deductible;
-                }
+            if (! accountItems.isEmpty()) {
+                total = accountItemService.calculate_deductible_amount_of_accountItem_list(accountItems);
             }
         }
 

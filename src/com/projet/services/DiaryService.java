@@ -1,6 +1,7 @@
 package com.projet.services;
 
 import com.projet.entities.Diary;
+import com.projet.entities.User;
 
 import java.io.Serializable;
 
@@ -23,6 +24,19 @@ public class DiaryService extends Service<Diary> implements Serializable {
 
     @Override
     public Diary save(Diary diary) {
-        return null;
+        if (diary.getId() == 0) {
+            em.persist(diary);
+        } else {
+            diary = em.merge(diary);
+        }
+
+        return diary;
+    }
+
+    public Diary createDefaultDiary() {
+        Diary diary = new Diary();
+        diary.setLabel("Journal Pro");
+
+        return diary;
     }
 }

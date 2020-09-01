@@ -35,11 +35,10 @@ public class AccountItem {
 
 
 
-
     //MANY TO ONE
     @ManyToOne
-    @JoinColumn(name = "financial_account", referencedColumnName = "id", nullable = false)
-    private FinancialAccount financialAccount;
+    @JoinColumn(name = "user_account", referencedColumnName = "id", nullable = false)
+    private UserAccount userAccount;
 
     @ManyToOne
     @JoinColumn(name = "financial_year", referencedColumnName = "id", nullable = false)
@@ -113,12 +112,12 @@ public class AccountItem {
 
 
 
-    public FinancialAccount getFinancialAccount() {
-        return financialAccount;
+    public UserAccount getUserAccount() {
+        return userAccount;
     }
 
-    public void setFinancialAccount(FinancialAccount financialAccount) {
-        this.financialAccount = financialAccount;
+    public void setUserAccount(UserAccount userAccount) {
+        this.userAccount = userAccount;
     }
 
     public FinancialYear getFinancialYear() {

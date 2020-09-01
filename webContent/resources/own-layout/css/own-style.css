@@ -38,7 +38,6 @@ body .ui-noselection-option{
     padding: 20px;
     font-weight: 500;
 }
-
 /* CARD */
 
 .card-title {
@@ -123,9 +122,13 @@ body .ui-noselection-option{
     overflow: scroll;
 }
 
-    .pull-right {
-        left: 123px;
-    }
+body .ui-panel .ui-panel-content {
+    padding: 1em 1em;
+}
+
+.pull-right {
+    left: 123px;
+}
 
 /* END CARD LIST */
 
@@ -288,6 +291,33 @@ body .ui-panel .ui-panel-actions .ui-button {
 
 .ui-dialog-content {
     padding: 20px;
+}
+
+.column-footer-group {
+    background: #f4f8fb !important;
+    border-right: 15px solid white !important;
+}
+
+.column-left-footer {
+    text-align: left !important;
+}
+
+.column-right-footer {
+    text-align: right !important;
+}
+
+.bg-primary {
+    background-color: #00b1ff !important;
+    color: white !important;
+}
+
+.bg-secondary {
+    background-color: #f4f8fb !important;
+}
+
+.bg-success {
+    background-color: #81c868 !important;
+    color: white !important;
 }
 
 @media only screen and (max-width: 715px) {

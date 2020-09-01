@@ -1,0 +1,118 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="../../../WEB-INF/template/template.xhtml">
+
+    <ui:define name="title">Empty Page</ui:define>
+
+    <ui:define name="content">
+        <h:form id="supplier-list-form">
+            <p:growl id="msgs" showDetail="true"/>
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <p:panel>
+                        <f:facet name="header">
+                            <h1>Mes fournisseurs</h1>
+                        </f:facet>
+                        <f:facet name="actions">
+                            <p:linkButton icon="fas fa-arrow-left" styleClass="primary-button" outcome="/app/charge/chargeList" />
+                            <span class="ui-separator" style="padding-right: 10px">
+                                              <span class="fa fa-ellipsis-v SoftGray" />
+                                          </span>
+
+                            <p:commandButton icon="fas fa-wrench" styleClass="warning-btn" oncomplete="PF('sidebar2').show()"/>
+                            <p:commandButton id="supplier-creation-btn" value="Créer une catégorie" icon="fas fa-window-maximize" styleClass="success-btn"
+                                             onclick="PF('supplierCreation-modal').show();" ajax="true" update="supplierCreation-modal-form"/>
+                        </f:facet>
+
+                        <br/>
+
+                        <p:dataTable var="userAccount" value="#{category.userAccounts}" emptyMessage="no data found">
+                            <p:column>
+                                <f:facet name="header">Code</f:facet>
+                                <h:outputText value="#{userAccount.financialAccount.code}"/>
+                            </p:column>
+                            <p:column colspan="2">
+                                <f:facet name="header">Dénomination</f:facet>
+                                <h:outputText value="#{userAccount.financialAccount.label}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">Deductabilité</f:facet>
+                                <h:outputText value="#{userAccount.taxDeductible}">
+                                    <f:convertNumber type="currency" currencySymbol="%" maxFractionDigits="2"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">Quote-part privé</f:facet>
+                                <h:outputText value="#{userAccount.privatePart}">
+                                    <f:convertNumber type="currency" currencySymbol="%" maxFractionDigits="2"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">Ammortissable</f:facet>
+                                <i class="#{userAccount.financialAccount.redeemable ? 'fas fa-times icon-danger' : 'fas fa-check icon-success'}"/>
+                            </p:column>
+                            <p:column style="text-align: right">
+                                <f:facet name="header">Action</f:facet>
+                                <p:splitButton  value=" Modifier" icon="far fa-edit">
+                                    <p:menuitem value=" Supprimer" icon="fas fa-trash-alt" />
+                                </p:splitButton>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </div>
+            </div>
+        </h:form>
+        <!-- SUPPLIER CREATION MODAL -->
+        <p:dialog header="Ajouter un fournisseur" widgetVar="supplierCreation-modal" modal="true"
+                  responsive="true" width="500" draggable="false" closable="false"
+                  focus="supplierCreation-modal-close-btn" dynamic="true">
+            <h:form id="supplierCreation-modal-form">
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-12 p-md-12">
+                        <p:outputLabel for="supplier-label" value="Description"/>
+                        <p:inputText id="supplier-label"/>
+                    </div>
+                </div>
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="tva" value="N° de TVA"/>
+                        <p:inputMask id="tva" mask="BE9999999999" placeholder="ex: BE0676548769"/>
+                    </div>
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="paiement" value="Condition de paiement"/>
+                        <p:selectOneMenu id="paiement" disabled="true">
+                            <f:selectItem itemLabel="Select One" itemValue="" />
+                            <f:selectItem itemLabel="Xbox One" itemValue="Xbox One" />
+                            <f:selectItem itemLabel="PS4" itemValue="PS4" />
+                            <f:selectItem itemLabel="Wii U" itemValue="Wii U" />
+                        </p:selectOneMenu>
+                    </div>
+                </div>
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="iban" value="N° IBAN"/>
+                        <p:inputMask id="iban" mask="BE99 9999 9999 9999" placeholder="ex: BE06 7654 8769 4543"/>
+                    </div>
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="iban-bis" value="N° IBAN alternatif"/>
+                        <p:inputMask id="iban-bis" mask="BE99 9999 9999 9999" placeholder="ex: BE06 7654 8769 4543"/>
+                    </div>
+                </div>
+            </h:form>
+            <f:facet name="footer">
+                <p:commandButton id="supplierCreation-modal-close-btn" form="supplierCreation-modal-form" type="button" value="Fermer"
+                                 styleClass="secondary-button" onclick="PF('supplierCreation-modal').hide();"
+                                 update=":supplier-list-form:msgs"/>
+                <p:commandButton form="supplierCreation-modal-form" value="Modfier" styleClass="success-btn"
+                                 icon="fa fa-check" onclick="PF('supplierCreation-modal').hide();"
+                                 update=":supplier-list-form:msgs"/>
+
+            </f:facet>
+        </p:dialog>
+
+    </ui:define>
+
+</ui:composition>

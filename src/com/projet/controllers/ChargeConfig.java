@@ -1,10 +1,12 @@
 package com.projet.controllers;
 
 import com.projet.conf.App;
-import com.projet.entities.FinancialAccount;
-import com.projet.entities.User;
+import com.projet.entities.*;
 import com.projet.security.SecurityManager;
+import com.projet.services.DiaryService;
+import com.projet.services.UserAccountService;
 import com.projet.services.UserService;
+import com.projet.services.UserSupplierService;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
@@ -43,6 +45,11 @@ public class ChargeConfig implements Serializable {
 
     public String setConfig() {
         UserService service = new UserService(User.class);
+        DiaryService diaryService = new DiaryService(Diary.class);
+        UserAccountService userAccountService = new UserAccountService(UserAccount.class);
+        UserSupplierService userSupplierService = new UserSupplierService(UserSupplier.class);
+
+
 
         EntityTransaction transaction = service.getTransaction();
 
@@ -50,13 +57,21 @@ public class ChargeConfig implements Serializable {
 
         try {
 
-            if (addFinancialAccount)
-                service.addUserFinancialAccount(user);
+            if (addFinancialAccount) {
+                List<UserAccount> userAccounts = userAccountService.createDefaultUserAccount(this.user);
 
-            if (addSupplier)
-                service.addUserSupplier(user);
+                user.setUserAccounts(userAccounts);
+            }
 
-            service.addUserDiary(user);
+            if (addSupplier) {
+                List<UserSupplier> userSuppliers = userSupplierService.createDefaultSupplier(this.user);
+
+                user.setUserSuppliers(userSuppliers);
+            }
+
+            Diary diary = diaryService.createDefaultDiary();
+
+            user.addDiary(diary);
 
             user.setChargeConfigSet(true);
 
@@ -68,6 +83,10 @@ public class ChargeConfig implements Serializable {
                 transaction.rollback();
 
             service.close();
+            diaryService.close();
+            userAccountService.close();
+            userSupplierService.close();
+
         }
 
         return "/app/charge/chargeList?faces-redirect=true";

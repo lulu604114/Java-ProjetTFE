@@ -4,6 +4,7 @@ import com.projet.entities.Card;
 import com.projet.entities.Dashboard;
 import com.projet.entities.Role;
 import com.projet.entities.User;
+import com.projet.entities.UserAccount;
 import com.projet.enumeration.RoleEnum;
 import org.apache.log4j.Logger;
 
@@ -49,12 +50,6 @@ public class UserService extends Service<User> implements Serializable {
         param.put("email", email);
 
         return finder.findOneByNamedQuery("User.findUserByEmail", param);
-    }
-
-    public void addUserFinancialAccount(User user) {
-        StoredProcedureQuery query = em.createNamedStoredProcedureQuery("addUserFinancialAccount");
-        query.setParameter("user", user.getId());
-        query.execute();
     }
 
     public void addUserSupplier(User user) {
