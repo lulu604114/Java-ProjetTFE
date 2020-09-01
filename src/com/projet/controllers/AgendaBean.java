@@ -1,12 +1,13 @@
 package com.projet.controllers;
 
 import com.projet.conf.App;
+import com.projet.connection.EMF;
 import com.projet.entities.Meeting;
 import com.projet.entities.Patient;
 import com.projet.entities.User;
 import com.projet.security.SecurityManager;
 import com.projet.services.MeetingService;
-import com.projet.utility.Message;
+import com.projet.utils.Message;
 import org.primefaces.event.ScheduleEntryMoveEvent;
 import org.primefaces.event.ScheduleEntryResizeEvent;
 import org.primefaces.event.SelectEvent;
@@ -17,6 +18,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -140,6 +142,7 @@ public class AgendaBean implements Serializable {
         event = DefaultScheduleEvent.builder()
                 .startDate(selectEvent.getObject())
                 .endDate(selectEvent.getObject().plusHours(1))
+                .overlapAllowed(true)
                 .data(new Meeting())
                 .build();
     }
@@ -180,8 +183,8 @@ public class AgendaBean implements Serializable {
      * @param event the event
      */
     public void saveMeeting(ScheduleEvent event) {
-        EntityTransaction transaction = meetingService.getTransaction();
         MeetingService service = new MeetingService(Meeting.class);
+        EntityTransaction transaction = service.getTransaction();
 
         transaction.begin();
 
@@ -192,7 +195,8 @@ public class AgendaBean implements Serializable {
 
             transaction.commit();
 
-            message.display(FacesMessage.SEVERITY_INFO, "Mis à jour de " + meeting.getTitle());
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Événement modifié", event.getTitle() + "a été mis à jour");
+            addMessage(message);
         } finally {
             if (transaction.isActive()) {
                 transaction.rollback();
@@ -225,6 +229,10 @@ public class AgendaBean implements Serializable {
                 results.add(patient);
         }
         return results;
+    }
+
+    private void addMessage(FacesMessage message) {
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
 
