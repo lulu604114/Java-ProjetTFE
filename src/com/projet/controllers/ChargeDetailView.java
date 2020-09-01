@@ -5,21 +5,17 @@ import com.projet.entities.*;
 import com.projet.security.SecurityManager;
 import com.projet.services.AccountItemService;
 import com.projet.services.ChargeService;
-import com.projet.utility.Message;
-import org.apache.shiro.authc.Account;
+import com.projet.utils.Message;
 import org.primefaces.event.SelectEvent;
 import javax.annotation.PostConstruct;
-import javax.el.MethodExpression;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 /**
@@ -37,171 +33,174 @@ import java.util.stream.Collectors;
 public class ChargeDetailView implements Serializable {
     private static final long serialVersionUID = 1L;
     private Message message = Message.getMessage(App.BUNDLE_MESSAGE);
-    private ChargeService service = new ChargeService(Charge.class);
+    private AccountItemService accountItemService = new AccountItemService(AccountItemService.class);
 
-    private int chargeId;
     private Charge charge;
     private AccountItem accountItem;
     private User user;
 
-    private boolean setAmount;
-    private boolean setPrivate;
-    private boolean setDeductible;
+    private boolean accountItem_amount_has_been_set;
+    private boolean accountItem_privatePart_has_been_set;
+    private boolean accountItem_taxDeductible_has_been_set;
 
     @PostConstruct
     public void init() {
-        this.charge = service.getById(chargeId);
         this.accountItem = new AccountItem();
         this.user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
     }
 
+    /**
+     * When a new accountItem is gonna be created, the accountItem description
+     * and amount are set with the description and the amount of the corresponding
+     * charge. Amount is set but the taxDeductible and the privatePart are not set.
+     * It give the possibility to hidden the deductible amount simulation until
+     * all required fields are set.
+     */
     public void newItem() {
-        this.accountItem = new AccountItem();
-        this.accountItem.setAmount(this.charge.getAmount());
-        this.accountItem.setDescription(this.charge.getLabel());
+        accountItem = new AccountItem();
+        accountItem.setAmount(charge.getAmount());
+        accountItem.setDescription(charge.getLabel());
 
-        this.setAmount = true;
-        this.setDeductible = false;
-        this.setPrivate = false;
+        accountItem_amount_is_set();
+        accountItem_taxDeductible_is_not_set();
+        accountItem_privatePart_is_not_set();
     }
 
-    public List<UserAccount> completeUserAccount(String query) {
-        List<UserAccount> userAccounts = user.getUserAccounts();
+    public String edit(Charge charge) {
+        this.charge = charge;
 
+        return "/app/charge/chargeDetail?faces-redirect=true";
+    }
+
+    public boolean does_accountItem_amount_has_been_set() {
+        return accountItem_amount_has_been_set;
+    }
+
+    public void accountItem_amount_is_not_set() {
+        this.accountItem_amount_has_been_set = false;
+    }
+
+    public void accountItem_amount_is_set() {
+        this.accountItem_amount_has_been_set = true;
+    }
+
+    public boolean does_accountItem_privatePart_has_been_set() {
+        return accountItem_privatePart_has_been_set;
+    }
+
+    public void accountItem_privatePart_is_not_set() {
+        this.accountItem_privatePart_has_been_set = false;
+    }
+
+    public void accountItem_privatePart_is_set() {
+        this.accountItem_privatePart_has_been_set = true;
+    }
+
+    public boolean does_accountItem_taxDeductible_has_been_set() {
+        return accountItem_taxDeductible_has_been_set;
+    }
+
+    public void accountItem_taxDeductible_is_not_set() {
+        this.accountItem_taxDeductible_has_been_set = false;
+    }
+
+    public void accountItem_taxDeductible_is_set() {
+        this.accountItem_taxDeductible_has_been_set = true;
+    }
+
+    /**
+     * Method used by the autocomplete field.
+     * This returns all userAccounts that label
+     * or code begin with or contains the query typed by the user.
+     * @param query user search.
+     * @return the corresponding userAccounts.
+     */
+    public List<UserAccount> searchUserAccount(String query) {
+        List<UserAccount> userAccounts = user.getUserAccounts();
         List<UserAccount> results = new ArrayList<>();
+
+        // check if some userAccounts matches with the query
         for (UserAccount userAccount : userAccounts) {
-            if (userAccount.getFinancialAccount().getLabel().contains(query) || userAccount.getFinancialAccount().getCode().startsWith(query)) {
+            if (userAccount.getFinancialAccount().getLabel().toLowerCase().contains(query.toLowerCase()) || userAccount.getFinancialAccount().getCode().startsWith(query)) {
                 results.add(userAccount);
             }
         }
 
+        // sort the result to allow them to be grouped by categories
         Collections.sort(results);
 
         return results;
     }
 
-    public String getUserAccountLabel(UserAccount userAccount) {
+    /**
+     * Display in the autocomplete field the code and the label
+     * of a userAccount when it's selected by the user.
+     * @param userAccount the selected userAccount
+     * @return the concatenation of code and label
+     */
+    public String display_detailed_userAccount_label(UserAccount userAccount) {
         if (userAccount != null)
             return userAccount.getFinancialAccount().getCode() + " - " + userAccount.getFinancialAccount().getLabel();
         else
             return "";
     }
 
-    public Charge getCharge() {
-        return charge;
-    }
-
-    public void setCharge(Charge charge) {
-        this.charge = charge;
-    }
-
-    public AccountItem getAccountItem() {
-        return accountItem;
-    }
-
-    public void setAccountItem(AccountItem accountItem) {
-        this.accountItem = accountItem;
-    }
-
-    public boolean isSetAmount() {
-        return setAmount;
-    }
-
-    public void setSetAmount(boolean setAmount) {
-        this.setAmount = setAmount;
-    }
-
-    public boolean isSetPrivate() {
-        return setPrivate;
-    }
-
-    public void setSetPrivate(boolean setPrivate) {
-        this.setPrivate = setPrivate;
-    }
-
-    public boolean isSetDeductible() {
-        return setDeductible;
-    }
-
-    public void setSetDeductible(boolean setDeductible) {
-        this.setDeductible = setDeductible;
-    }
-
-    public int getChargeId() {
-        return chargeId;
-    }
-
-    public void setChargeId(int chargeId) {
-        this.chargeId = chargeId;
-    }
-
-    public String getStringDouble(double value) {
+    /**
+     * Convert double in String in html tag where f:convert can't be used
+     * @param value
+     * @return
+     */
+    public String convert_double_in_string(double value) {
         String string = String.format("%.2f", value);
 
         return string.replace(".", ",");
     }
 
-    public void onValueChangeAutocomplete(SelectEvent event) {
+    /**
+     * Autocomplete privatePart and tax deductible fields in accountItem form
+     * when an userAccount is selected. PrivatePart and taxDeductible fields are set
+     * when they contains value.
+     * @param event
+     */
+    public void on_selected_userAccount(SelectEvent event) {
         UserAccount userAccount = (UserAccount) event.getObject();
 
         if (userAccount != null) {
-            this.accountItem.setPrivatePart(userAccount.getPrivatePart());
-            this.accountItem.setTaxDeductible(userAccount.getTaxDeductible());
+            accountItem.setPrivatePart(userAccount.getPrivatePart());
+            accountItem_privatePart_is_set();
 
-            this.setDeductible = true;
-            this.setPrivate = true;
+            accountItem.setTaxDeductible(userAccount.getTaxDeductible());
+            accountItem_taxDeductible_is_set();
         }
     }
 
-    public String getDeductibleAmountField() {
-        if (isSetDeductible() && isSetAmount() && isSetPrivate()) {
+    public String simulate_deductible_amount() {
+        if (does_accountItem_amount_has_been_set() && does_accountItem_taxDeductible_has_been_set() && does_accountItem_privatePart_has_been_set()) {
             double total = 0;
 
-            total = getDeductibleAmount(this.accountItem);
+            total = accountItemService.calculate_deductible_amount_of_accountItem(accountItem);
 
-            return getStringDouble(total);
+            return convert_double_in_string(total);
         } else {
             return "Montant réelement déduit";
         }
     }
 
     public double getImputedAmount() {
-        List<AccountItem> accountItems = this.charge.getAccountItems();
-        double total = 0;
-
-        for (AccountItem item : accountItems) {
-            total += item.getAmount();
-        }
-
-        return total;
+        return accountItemService.calculate_imputed_amount(charge.getAccountItems());
     }
 
-    public double getTotalDeductibleAmount() {
-        List<AccountItem> accountItems = this.charge.getAccountItems();
-        double total = 0;
-
-        for (AccountItem item : accountItems) {
-            double amount = item.getAmount();
-            double privatePart = item.getPrivatePart();
-            double deductible = item.getTaxDeductible();
-
-            total += ((amount - ((amount / 100) * privatePart)) / 100) * deductible;
-        }
-
-        return total;
+    public double getTotal_deductible_amount() {
+        return accountItemService.calculate_deductible_amount_of_accountItem_list(charge.getAccountItems());
     }
 
-    public double getDeductibleAmount(AccountItem accountItem) {
-
-        double amount = accountItem.getAmount();
-        double privatePart = accountItem.getPrivatePart();
-        double deductible = accountItem.getTaxDeductible();
-
-        return ((amount - ((amount / 100) * privatePart)) / 100) * deductible;
+    public double calculate_deductible_amount(AccountItem accountItem) {
+        return accountItemService.calculate_deductible_amount_of_accountItem(accountItem);
     }
 
     public void addAccountItem() {
         AccountItemService accountItemService = new AccountItemService(AccountItem.class);
+        ChargeService service = new ChargeService(Charge.class);
         EntityTransaction transaction = service.getTransaction();
 
         transaction.begin();
@@ -223,7 +222,25 @@ public class ChargeDetailView implements Serializable {
             service.close();
             accountItemService.close();
         }
+    }
 
 
+
+
+    /* GETTER SETTER */
+    public Charge getCharge() {
+        return charge;
+    }
+
+    public void setCharge(Charge charge) {
+        this.charge = charge;
+    }
+
+    public AccountItem getAccountItem() {
+        return accountItem;
+    }
+
+    public void setAccountItem(AccountItem accountItem) {
+        this.accountItem = accountItem;
     }
 }

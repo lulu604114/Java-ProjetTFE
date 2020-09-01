@@ -533,5 +533,3 @@ public class User implements Serializable, Cloneable {
         this.userSuppliers = userSuppliers;
     }
 }
-
-}

@@ -29,7 +29,7 @@ public class DashboardBean implements Serializable {
     @PostConstruct
     public void init() {
         user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
-        dashboard = new Dashboard();
+        dashboard = service.getDashboard(user);
     }
 
     public boolean isToDisplay(List<String> names, String size, Card card) {

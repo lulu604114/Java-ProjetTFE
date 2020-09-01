@@ -1,6 +1,7 @@
 package com.projet.entities;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -15,7 +16,11 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "AccountCategories", schema = "jsf_tfe")
-public class AccountCategory {
+@NamedQueries({
+        @NamedQuery(name = "AC.findByUser", query = "SELECT a FROM AccountCategory a WHERE a.user=:user"),
+        @NamedQuery(name = "AC.findDefault", query = "SELECT a FROM AccountCategory a WHERE a.user=null")
+})
+public class AccountCategory implements Comparable<AccountCategory>{
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +31,8 @@ public class AccountCategory {
     @ManyToOne
     @JoinColumn(name = "user", referencedColumnName = "ID", nullable = true)
     private User user;
+
+    private List<UserAccount> userAccounts;
 
     public int getId() {
         return id;
@@ -43,6 +50,14 @@ public class AccountCategory {
         this.label = label;
     }
 
+    public List<UserAccount> getUserAccounts() {
+        return userAccounts;
+    }
+
+    public void setUserAccounts(List<UserAccount> userAccounts) {
+        this.userAccounts = userAccounts;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -55,5 +70,10 @@ public class AccountCategory {
     @Override
     public int hashCode() {
         return Objects.hash(id, label);
+    }
+
+    @Override
+    public int compareTo(AccountCategory o) {
+        return 0;
     }
 }

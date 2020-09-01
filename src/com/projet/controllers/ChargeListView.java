@@ -1,26 +1,27 @@
 package com.projet.controllers;
 
 import com.projet.conf.App;
+import com.projet.enumeration.ChargeFilterEnum;
+import com.projet.services.AccountItemService;
 import com.projet.services.FinancialYearService;
-import com.projet.utility.Message;
+import com.projet.utils.Message;
 import com.projet.entities.*;
 import com.projet.enumeration.ChargeStatus;
 import com.projet.security.SecurityManager;
 import com.projet.services.ChargeService;
-import com.projet.services.SupplierService;
-import com.projet.utility.DateManager;
+import com.projet.utils.DateManager;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityTransaction;
 import java.io.Serializable;
 import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * =================================================================
@@ -37,12 +38,18 @@ import java.util.stream.Collectors;
 public class ChargeListView implements Serializable {
     private static final long serialVersionUID = 1L;
     private Message message = Message.getMessage(App.BUNDLE_MESSAGE);
+
     private ChargeService service = new ChargeService(Charge.class);
     private FinancialYearService faService = new FinancialYearService(FinancialYear.class);
+    private AccountItemService accountItemService = new AccountItemService(AccountItem.class);
+
+    @Inject
+    private ChargeDetailView chargeDetailView;
 
     private User user;
     private List<Charge> chargeList;
     private Charge charge;
+    private ChargeFilterEnum filter;
 
     @PostConstruct
     public void init() {
@@ -68,6 +75,14 @@ public class ChargeListView implements Serializable {
 
     public void setCharge(Charge charge) {
         this.charge = charge;
+    }
+
+    public ChargeFilterEnum getFilter() {
+        return filter;
+    }
+
+    public void setFilter(ChargeFilterEnum filter) {
+        this.filter = filter;
     }
 
     public void initilizeCharge() {
@@ -131,7 +146,7 @@ public class ChargeListView implements Serializable {
 
             message.display(FacesMessage.SEVERITY_INFO, "Success", charge.getLabel() + " is added");
 
-            return "/app/charge/chargeDetail?faces-redirect=truechargeId=" + charge.getId();
+            return chargeDetailView.edit(charge);
         }finally {
             if (transaction.isActive()){
                 transaction.rollback();
@@ -157,25 +172,21 @@ public class ChargeListView implements Serializable {
     }
 
     public double getTotalDeductibleCharge() {
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTime(new Date());
+        FinancialYear financialYear = faService.getCurrentFinancialYearByUser(user);
 
-        return service.totalDeductibleCharge(calendar.get(Calendar.YEAR), user);
+        return service.calculate_total_deductible_amount_by_financialYear(financialYear);
     }
 
     public double getAccountItemsIcon(Charge charge) {
-        double total = 0;
-        double chargeAmount = charge.getAmount();
-
-        List<AccountItem> accountItems = charge.getAccountItems();
-        if (!accountItems.isEmpty()) {
-            for (AccountItem item : accountItems) {
-                total += item.getAmount();
-            }
-        }
-
-        return chargeAmount - total;
+        return charge.getAmount() - accountItemService.calculate_imputed_amount(charge.getAccountItems());
     }
+
+    public List<Charge> loadChargeList(ChargeFilterEnum filter) {
+
+       return null;
+    }
+
+
 
 
 }

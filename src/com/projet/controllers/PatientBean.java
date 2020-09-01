@@ -4,7 +4,7 @@ package com.projet.controllers;
 import com.projet.conf.App;
 import com.projet.entities.Patient;
 import com.projet.services.PatientService;
-import com.projet.utility.Message;
+import com.projet.utils.Message;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;

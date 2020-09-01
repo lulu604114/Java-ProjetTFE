@@ -8,10 +8,6 @@
     <ui:define name="title">Empty Page</ui:define>
 
     <ui:define name="content">
-        <f:metadata>
-            <f:viewParam name="chargeId" value="#{chargeDetailView.chargeId}" />
-            <f:event type="preRenderView" listener="#{chargeDetailView.init}" />
-        </f:metadata>
         <div class="ui-g">
             <div class="ui-g-12">
                 <p:panel>
@@ -235,10 +231,10 @@
                                 <f:facet name="header">Année</f:facet>
                                 <h:outputText value="#{item.financialYear.beginAt}"/>
                             </p:column>
-                            <p:column>
+                            <p:column colspan="3">
                                 <f:facet name="header">Charge</f:facet>
                                 <h:outputText value="#{item.userAccount.financialAccount.label}"/>
-                                <small>
+                                <small style="display: block">
                                     <h:outputText value="#{item.description}"/>
                                 </small>
                             </p:column>
@@ -250,11 +246,11 @@
                             </p:column>
                             <p:column>
                                 <f:facet name="header">Pro/Privé</f:facet>
-                                <h:outputText value="#{item.privatePart}">
+                                <h:outputText value="#{100 - item.privatePart}">
                                     <f:convertNumber type="currency" maxFractionDigits="0" currencySymbol=""/>
                                 </h:outputText>
                                 /
-                                <h:outputText value="#{100 - item.privatePart}">
+                                <h:outputText value="#{item.privatePart}">
                                     <f:convertNumber type="currency" maxFractionDigits="0" currencySymbol="%"/>
                                 </h:outputText>
                             </p:column>
@@ -266,7 +262,7 @@
                             </p:column>
                             <p:column>
                                 <f:facet name="header">Montant déduit</f:facet>
-                                <h:outputText value="#{chargeDetailView.getDeductibleAmount(item)}">
+                                <h:outputText value="#{chargeDetailView.calculate_deductible_amount(item)}">
                                     <f:convertNumber type="currency" maxFractionDigits="2" currencySymbol="€"/>
                                 </h:outputText>
                             </p:column>
@@ -278,17 +274,17 @@
                             </p:column>
                             <p:columnGroup type="footer">
                                 <p:row>
-                                    <p:column colspan="5" rowspan="3" style="background: #f4f8fb; border: none; border-right: 15px solid white;" />
-                                    <p:column footerText="Total de la depense" style="text-align: left;  border: none; background-color: #00b1ff; color: white;  font-weight: 600; font-size: 15px"/>
-                                    <p:column footerText="#{chargeDetailView.getStringDouble(chargeDetailView.charge.amount)} €"  style="text-align: right;  border: none; background-color: #00b1ff; color: white; font-weight: 600; font-size: 15px"/>
+                                    <p:column colspan="6" rowspan="3" style="background: #f4f8fb; border: none; border-right: 15px solid white;" />
+                                    <p:column colspan="2" footerText="Total de la depense" style="text-align: left;  border: none; background-color: #00b1ff; color: white;  font-weight: 600; font-size: 15px"/>
+                                    <p:column footerText="#{chargeDetailView.convert_double_in_string(chargeDetailView.charge.amount)} €"  style="text-align: right;  border: none; background-color: #00b1ff; color: white; font-weight: 600; font-size: 15px"/>
                                 </p:row>
                                 <p:row>
-                                    <p:column footerText="Montant déjà imputé" style="text-align: left;  border: none; font-size: 12px; padding-left: 18px;"/>
-                                    <p:column footerText="#{chargeDetailView.getStringDouble(chargeDetailView.getImputedAmount())} €" style="text-align: right;  border: none; font-size: 12px; padding-right: 19px;"/>
+                                    <p:column colspan="2" footerText="Montant déjà imputé" style="text-align: left;  border: none; font-size: 12px; padding-left: 18px;"/>
+                                    <p:column footerText="#{chargeDetailView.convert_double_in_string(chargeDetailView.imputedAmount)} €" style="text-align: right;  border: none; font-size: 12px; padding-right: 19px;"/>
                                 </p:row>
                                 <p:row>
-                                    <p:column footerText="Montant déduit" style="text-align: left;  border: none; background-color: #81c868; color: white; font-size: 12px; padding-left: 18px;"/>
-                                    <p:column footerText="#{chargeDetailView.getStringDouble(chargeDetailView.getTotalDeductibleAmount())} €" style="text-align: right;  border: none; background-color: #81c868; color: white; font-size: 12px; padding-right: 19px;"/>
+                                    <p:column colspan="2" footerText="Montant déduit" style="text-align: left;  border: none; background-color: #81c868; color: white; font-size: 12px; padding-left: 18px;"/>
+                                    <p:column footerText="#{chargeDetailView.convert_double_in_string(chargeDetailView.total_deductible_amount)} €" style="text-align: right;  border: none; background-color: #81c868; color: white; font-size: 12px; padding-right: 19px;"/>
                                 </p:row>
                             </p:columnGroup>
                         </p:dataTable>
@@ -388,11 +384,11 @@
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-12 p-md-12">
                         <p:outputLabel for="item-financialAccount" value="Journal"/>
-                        <p:autoComplete id="item-financialAccount" value="#{chargeDetailView.accountItem.userAccount}" completeMethod="#{chargeDetailView.completeUserAccount}"
-                                        var="userAccount" itemLabel="#{chargeDetailView.getUserAccountLabel(userAccount)}" itemValue="#{userAccount}"
+                        <p:autoComplete id="item-financialAccount" value="#{chargeDetailView.accountItem.userAccount}" completeMethod="#{chargeDetailView.searchUserAccount}"
+                                        var="userAccount" itemLabel="#{chargeDetailView.display_detailed_userAccount_label(userAccount)}" itemValue="#{userAccount}"
                                         converter="userAccountConverter" forceSelection="true" dropdown="true" minQueryLength="2" scrollHeight="250"
                                         groupBy="#{userAccount.financialAccount.accountCategory.label}">
-                            <p:ajax event="itemSelect" listener="#{chargeDetailView.onValueChangeAutocomplete}" update="item-deductible, item-privatePart, deductible-amount" process="@this"/>
+                            <p:ajax event="itemSelect" listener="#{chargeDetailView.on_selected_userAccount}" update="item-deductible, item-privatePart, deductible-amount" process="@this"/>
                         </p:autoComplete>
                     </div>
                 </div>
@@ -400,13 +396,13 @@
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="item-amount" value="Montant à imputer (en €)"/>
                         <p:inputNumber id="item-amount" value="#{chargeDetailView.accountItem.amount}" decimalSeparator="," thousandSeparator=" ">
-                            <p:ajax update="deductible-amount" listener="#{chargeDetailView.setSetAmount(true)}" process="@this"/>
+                            <p:ajax update="deductible-amount" listener="#{chargeDetailView.accountItem_amount_is_set()}" process="@this"/>
                         </p:inputNumber>
                     </div>
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="item-deductible" value="% de déductabilité"/>
                         <p:inputNumber id="item-deductible" value="#{chargeDetailView.accountItem.taxDeductible}" placeholder="ex: 75(%)">
-                            <p:ajax update="deductible-amount" listener="#{chargeDetailView.setSetDeductible(true)}" process="@this"/>
+                            <p:ajax update="deductible-amount" listener="#{chargeDetailView.accountItem_taxDeductible_is_set()}" process="@this"/>
                         </p:inputNumber>
                     </div>
                 </div>
@@ -414,12 +410,12 @@
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="item-privatePart" value="% Quote-part privée"/>
                         <p:inputNumber id="item-privatePart" value="#{chargeDetailView.accountItem.privatePart}" placeholder="ex: 10(%)">
-                            <p:ajax update="deductible-amount" listener="#{chargeDetailView.setSetPrivate(true)}" process="@this"/>
+                            <p:ajax update="deductible-amount" listener="#{chargeDetailView.accountItem_privatePart_is_set()}" process="@this"/>
                         </p:inputNumber>
                     </div>
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="deductible-amount" value="Montant déduit (simulation en €)"/>
-                        <p:inputText id="deductible-amount" value="#{chargeDetailView.getDeductibleAmountField()}" disabled="true" />
+                        <p:inputText id="deductible-amount" value="#{chargeDetailView.simulate_deductible_amount()}" disabled="true" />
                     </div>
                 </div>
             </h:form>

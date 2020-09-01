@@ -1,0 +1,169 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="../../../WEB-INF/template/template.xhtml">
+
+    <ui:define name="title">Empty Page</ui:define>
+
+    <ui:define name="content">
+        <h:form id="accountListForm">
+            <p:growl id="msgs" showDetail="true"/>
+            <div class="ui-g">
+                <div class="ui-g-12">
+                    <p:panel>
+                        <f:facet name="header">
+                            <h1>Gestion de la classification des frais</h1>
+                        </f:facet>
+                        <f:facet name="actions">
+                            <p:linkButton icon="fas fa-arrow-left" styleClass="primary-button" outcome="/app/charge/chargeList" />
+                            <span class="ui-separator" style="padding-right: 10px">
+                                            <span class="fa fa-ellipsis-v SoftGray" />
+                                        </span>
+
+                            <p:commandButton icon="fas fa-wrench" styleClass="warning-btn" oncomplete="PF('sidebar2').show()"/>
+                            <p:commandButton id="accountCategory-creation-btn" value="Créer une catégorie" icon="fas fa-window-maximize" styleClass="info-btn   "
+                                             onclick="PF('accountCategoryCreation-modal').show();" ajax="true" update="accountCategoryCreation-modal-form"/>
+                            <p:commandButton id="userAccount-creation-btn" value="Créer une charge" icon="far fa-window-maximize" styleClass="success-btn"
+                                             onclick="PF('userAccountCreation-modal').show();" ajax="true" update="userAccountCreation-modal-form"/>
+                        </f:facet>
+
+                        <br/>
+
+                        <p:accordionPanel value="#{chargeSettings.accountCategories}" var="category" >
+                            <p:tab title="#{category.label}">
+                                <p:dataTable var="userAccount" value="#{category.userAccounts}" emptyMessage="no data found">
+                                    <p:column>
+                                        <f:facet name="header">Code</f:facet>
+                                        <h:outputText value="#{userAccount.financialAccount.code}"/>
+                                    </p:column>
+                                    <p:column colspan="2">
+                                        <f:facet name="header">Dénomination</f:facet>
+                                        <h:outputText value="#{userAccount.financialAccount.label}"/>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">Deductabilité</f:facet>
+                                        <h:outputText value="#{userAccount.taxDeductible}">
+                                            <f:convertNumber type="currency" currencySymbol="%" maxFractionDigits="2"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">Quote-part privé</f:facet>
+                                        <h:outputText value="#{userAccount.privatePart}">
+                                            <f:convertNumber type="currency" currencySymbol="%" maxFractionDigits="2"/>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column>
+                                        <f:facet name="header">Ammortissable</f:facet>
+                                        <h:outputText rendered="#{userAccount.financialAccount.redeemable == false}">
+                                            <i class="fas fa-times icon-danger"></i>
+                                        </h:outputText>
+                                        <h:outputText rendered="#{userAccount.financialAccount.redeemable == true}">
+                                            <i class="fas fa-check icon-success"></i>
+                                        </h:outputText>
+                                    </p:column>
+                                    <p:column style="text-align: right">
+                                        <f:facet name="header">Action</f:facet>
+                                        <p:splitButton  value=" Modifier" icon="far fa-edit">
+                                            <p:menuitem value=" Supprimer" icon="fas fa-trash-alt" />
+                                        </p:splitButton>
+                                    </p:column>
+                                </p:dataTable>
+                            </p:tab>
+                        </p:accordionPanel>
+                    </p:panel>
+                </div>
+            </div>
+            <div class="ui-g">
+                <div class="ui-g-6">
+                    <p:panel>
+                        <f:facet name="header">
+                            <h1>Gestion des journaux</h1>
+                        </f:facet>
+                        <f:facet name="actions">
+                            <p:commandButton id="diary-creation-btn" icon="fas fa-plus" styleClass="success-btn"
+                                             ajax="true"/>
+                        </f:facet>
+
+                        <br/>
+
+                        <p:dataTable var="diary" value="#{chargeSettings.diaries}" emptyMessage="no data found">
+                            <p:column>
+                                <f:facet name="header">Denomination</f:facet>
+                                <h:outputText value="#{diary.label}"/>
+                            </p:column>
+                            <p:column style="text-align: right">
+                                <f:facet name="header">Action</f:facet>
+                                <p:commandButton  value=" Modifier" icon="far fa-edit" styleClass="info-btn"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </div>
+                <div class="ui-g-6">
+                    <p:panel>
+                        <f:facet name="header">
+                            <h1>Gestion des années comptables</h1>
+                        </f:facet>
+
+                        <br/>
+
+                        <p:dataTable var="year" value="#{chargeSettings.financialYears}" emptyMessage="no data found">
+                            <p:column>
+                                <f:facet name="header">Année</f:facet>
+                                <h:outputText value="#{year.beginAt}"/>
+                            </p:column>
+                            <p:column style="text-align: right">
+                                <f:facet name="header">Action</f:facet>
+                                <p:commandButton  value=" Rapport" icon="fas fa-file-alt" styleClass="success-btn"/>
+                                <p:commandButton  value=" Exporter" icon="fas fa-file-export" styleClass="info-btn"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </div>
+            </div>
+        </h:form>
+
+            <!-- ACCOUNTCATEGORY CREATION FORM-->
+            <p:dialog header="Créer une catégorie" widgetVar="accountCategoryCreation-modal" modal="true"
+                      responsive="true" width="500" draggable="false" closable="false"
+                      focus="accountCategoryCreation-modal-close-btn" dynamic="true">
+                <h:form id="accountCategoryCreation-modal-form">
+                    <div class="ui-fluid p-formgrid p-grid">
+                        <div class="p-field p-col-12 p-md-12">
+                            <p:outputLabel for="supplier-label" value="Description"/>
+                            <p:inputText id="supplier-label"/>
+                        </div>
+                    </div>
+                </h:form>
+                <f:facet name="footer">
+                    <p:commandButton id="accountCategoryCreation-modal-close-btn" form="accountCategoryCreation-modal-form" type="button" value="Fermer"
+                                     styleClass="secondary-button" onclick="PF('accountCategoryCreation-modal').hide();"
+                                     update=":accountListForm:msgs"/>
+                    <p:commandButton form="accountCategoryCreation-modal-form" value="Modfier" styleClass="success-btn"
+                                     icon="fa fa-check" onclick="PF('accountCategoryCreation-modal').hide();"
+                                     update=":accountListForm:msgs"/>
+
+                </f:facet>
+            </p:dialog>
+
+            <!-- USERACCOUNT CREATION FORM -->
+            <p:dialog header="Créer une catégorie" widgetVar="userAccountCreation-modal" modal="true"
+                      responsive="true" width="500" draggable="false" closable="false"
+                      focus="accountCategoryCreation-modal-close-btn" dynamic="true">
+                <h:form id="userAccountCreation-modal-form">
+                </h:form>
+                <f:facet name="footer">
+                    <p:commandButton id="userAccountCreation-modal-close-btn" form="userAccountCreation-modal-form" type="button" value="Fermer"
+                                     styleClass="secondary-button" onclick="PF('userAccountCreation-modal').hide();"
+                                     update=":accountListForm:msgs"/>
+                    <p:commandButton form="userAccountCreation-modal-form" value="Modfier" styleClass="success-btn"
+                                     icon="fa fa-check" onclick="PF('userAccountCreation-modal').hide();"
+                                     update=":accountListForm:msgs"/>
+
+                </f:facet>
+            </p:dialog>
+
+    </ui:define>
+
+</ui:composition>
