@@ -258,6 +258,10 @@ body .ui-datatable .ui-datatable-data > tr {
     border-top: 1px solid #dedede;
 }
 
+.event-detail-container input {
+    width: auto !important;
+}
+
 .captcha {
     display: flex;
     justify-content: center;

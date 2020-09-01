@@ -137,7 +137,7 @@ public class User implements Serializable, Cloneable {
     private UserStatus status;
 
     // OneToMany
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<Charge> charges;
     @OneToMany(mappedBy = "user")
     private List<Patient> patients;

@@ -1,15 +1,9 @@
 package com.projet.entities;
 
 import com.projet.enumeration.MeetingTypeEnum;
-import com.projet.enumeration.UserTitle;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Objects;
-
 
 /**
  * The type Meeting.

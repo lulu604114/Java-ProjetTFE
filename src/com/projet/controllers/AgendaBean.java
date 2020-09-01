@@ -6,6 +6,7 @@ import com.projet.entities.Patient;
 import com.projet.entities.User;
 import com.projet.security.SecurityManager;
 import com.projet.services.MeetingService;
+import com.projet.utility.Message;
 import org.primefaces.event.ScheduleEntryMoveEvent;
 import org.primefaces.event.ScheduleEntryResizeEvent;
 import org.primefaces.event.SelectEvent;
@@ -16,8 +17,8 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.persistence.EntityTransaction;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ import java.util.List;
 @Named("agendaBean")
 @ViewScoped
 public class AgendaBean implements Serializable {
-
+    private Message message = Message.getMessage(App.BUNDLE_MESSAGE);
     private ScheduleModel eventModel;
 
     private ScheduleEvent<Meeting> event = new DefaultScheduleEvent<Meeting>();
@@ -93,54 +94,6 @@ public class AgendaBean implements Serializable {
     }
 
     /**
-     * Gets random date time.
-     *
-     * @param base the base
-     *
-     * @return the random date time
-     */
-    public LocalDateTime getRandomDateTime(LocalDateTime base) {
-        LocalDateTime dateTime = base.withMinute(0).withSecond(0).withNano(0);
-        return dateTime.plusDays(((int) (Math.random() * 30)));
-    }
-
-    /**
-     * Gets event model.
-     *
-     * @return the event model
-     */
-    public ScheduleModel getEventModel() {
-        return eventModel;
-    }
-
-    /**
-     * Gets initial date.
-     *
-     * @return the initial date
-     */
-    public LocalDate getInitialDate() {
-        return LocalDate.now().plusDays(1);
-    }
-
-    /**
-     * Gets event.
-     *
-     * @return the event
-     */
-    public ScheduleEvent<Meeting> getEvent() {
-        return event;
-    }
-
-    /**
-     * Sets event.
-     *
-     * @param event the event
-     */
-    public void setEvent(ScheduleEvent<Meeting> event) {
-        this.event = event;
-    }
-
-    /**
      * Add event.
      */
     public void addEvent() {
@@ -150,13 +103,14 @@ public class AgendaBean implements Serializable {
                 event.setEndDate(event.getEndDate().plusDays(1));
             }
         }
-
+        this.saveMeeting(event);
         if (event.getId() == null)
             eventModel.addEvent(event);
         else
             eventModel.updateEvent(event);
 
         event = new DefaultScheduleEvent<>();
+
     }
 
     /**
@@ -196,9 +150,7 @@ public class AgendaBean implements Serializable {
      * @param event the event
      */
     public void onEventMove(ScheduleEntryMoveEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event moved", "Delta:" + event.getDeltaAsDuration());
-
-        addMessage(message);
+        this.saveMeeting(event.getScheduleEvent());
     }
 
     /**
@@ -207,9 +159,7 @@ public class AgendaBean implements Serializable {
      * @param event the event
      */
     public void onEventResize(ScheduleEntryResizeEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event resized", "Start-Delta:" + event.getDeltaStartAsDuration() + ", End-Delta: " + event.getDeltaEndAsDuration());
-
-        addMessage(message);
+        this.saveMeeting(event.getScheduleEvent());
     }
 
     /**
@@ -220,29 +170,118 @@ public class AgendaBean implements Serializable {
         if (event != null) {
             ScheduleEvent<?> event = eventModel.getEvent(eventId);
             eventModel.deleteEvent(event);
+            this.meetingService.remove((Meeting) event.getData());
         }
     }
 
-    private void addMessage(FacesMessage message) {
-        FacesContext.getCurrentInstance().addMessage(null, message);
+    /**
+     * Update meeting.
+     *
+     * @param event the event
+     */
+    public void saveMeeting(ScheduleEvent event) {
+        EntityTransaction transaction = meetingService.getTransaction();
+        MeetingService service = new MeetingService(Meeting.class);
+
+        transaction.begin();
+
+        try {
+            Meeting meeting = service.initMeeting(event);
+
+            service.save(meeting);
+
+            transaction.commit();
+
+            message.display(FacesMessage.SEVERITY_INFO, "Mis à jour de " + meeting.getTitle());
+        } finally {
+            if (transaction.isActive()) {
+                transaction.rollback();
+                message.display(FacesMessage.SEVERITY_ERROR, "Unknown error", "Please retry");
+            }
+
+            this.meetingService.close();
+        }
     }
 
     /**
-     * Is show weekends boolean.
+     * Complete patient.
      *
-     * @return the boolean
+     * @param query the query
+     *
+     * @return the list
      */
-    public boolean isShowWeekends() {
-        return showWeekends;
+    public List<Patient> completePatient(String query) {
+        User user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
+        List<Patient> patients = user.getPatients();
+        List<Patient> results = new ArrayList<>();
+        // check if there are some userAccounts who match with the query
+        for (Patient patient : patients) {
+            String concatLastFirst = patient.getLastName() + " " + patient.getFirstName();
+            String concatFirstLast = patient.getFirstName() + " " + patient.getLastName();
+            // check if the firstName or lastName startWith the query received
+            if ((patient.getFirstName().toLowerCase().startsWith(query.toLowerCase()) || patient.getLastName().toLowerCase().startsWith(query.toLowerCase())))
+                results.add(patient);
+            else if (concatFirstLast.toLowerCase().startsWith(query.toLowerCase()) || concatLastFirst.toLowerCase().startsWith(query.toLowerCase()))
+                results.add(patient);
+        }
+        return results;
+    }
+
+
+    /* GETTER && SETTERS FOR THE VIEW */
+
+    /**
+     * Gets message.
+     *
+     * @return the message
+     */
+    public Message getMessage() {
+        return message;
     }
 
     /**
-     * Sets show weekends.
+     * Sets message.
      *
-     * @param showWeekends the show weekends
+     * @param message the message
      */
-    public void setShowWeekends(boolean showWeekends) {
-        this.showWeekends = showWeekends;
+    public void setMessage(Message message) {
+        this.message = message;
+    }
+
+    /**
+     * Gets event model.
+     *
+     * @return the event model
+     */
+    public ScheduleModel getEventModel() {
+        return eventModel;
+    }
+
+    /**
+     * Sets event model.
+     *
+     * @param eventModel the event model
+     */
+    public void setEventModel(ScheduleModel eventModel) {
+        this.eventModel = eventModel;
+    }
+
+    /**
+     * Gets event.
+     *
+     * @return the event
+     */
+    public ScheduleEvent<Meeting> getEvent() {
+        return event;
+    }
+
+    /**
+     * Sets event.
+     *
+     * @param event the event
+     */
+    public void setEvent(ScheduleEvent<Meeting> event) {
+        this.event = event;
     }
 
     /**
@@ -336,6 +375,24 @@ public class AgendaBean implements Serializable {
     }
 
     /**
+     * Is show weekends boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isShowWeekends() {
+        return showWeekends;
+    }
+
+    /**
+     * Sets show weekends.
+     *
+     * @param showWeekends the show weekends
+     */
+    public void setShowWeekends(boolean showWeekends) {
+        this.showWeekends = showWeekends;
+    }
+
+    /**
      * Is tooltip boolean.
      *
      * @return the boolean
@@ -377,7 +434,7 @@ public class AgendaBean implements Serializable {
      * @return the aspect ratio
      */
     public double getAspectRatio() {
-        return aspectRatio == 0 ? Double.MIN_VALUE : aspectRatio;
+        return aspectRatio;
     }
 
     /**
@@ -444,24 +501,6 @@ public class AgendaBean implements Serializable {
     }
 
     /**
-     * Gets view.
-     *
-     * @return the view
-     */
-    public String getView() {
-        return view;
-    }
-
-    /**
-     * Sets view.
-     *
-     * @param view the view
-     */
-    public void setView(String view) {
-        this.view = view;
-    }
-
-    /**
      * Gets next day threshold.
      *
      * @return the next day threshold
@@ -513,6 +552,24 @@ public class AgendaBean implements Serializable {
      */
     public void setWeekNumberCalculator(String weekNumberCalculator) {
         this.weekNumberCalculator = weekNumberCalculator;
+    }
+
+    /**
+     * Gets display event end.
+     *
+     * @return the display event end
+     */
+    public String getDisplayEventEnd() {
+        return displayEventEnd;
+    }
+
+    /**
+     * Sets display event end.
+     *
+     * @param displayEventEnd the display event end
+     */
+    public void setDisplayEventEnd(String displayEventEnd) {
+        this.displayEventEnd = displayEventEnd;
     }
 
     /**
@@ -585,24 +642,6 @@ public class AgendaBean implements Serializable {
      */
     public void setSlotLabelFormat(String slotLabelFormat) {
         this.slotLabelFormat = slotLabelFormat;
-    }
-
-    /**
-     * Gets display event end.
-     *
-     * @return the display event end
-     */
-    public String getDisplayEventEnd() {
-        return displayEventEnd;
-    }
-
-    /**
-     * Sets display event end.
-     *
-     * @param displayEventEnd the display event end
-     */
-    public void setDisplayEventEnd(String displayEventEnd) {
-        this.displayEventEnd = displayEventEnd;
     }
 
     /**
@@ -732,26 +771,38 @@ public class AgendaBean implements Serializable {
     }
 
     /**
-     * Complete patient.
+     * Gets view.
      *
-     * @param query the query
-     *
-     * @return the list
+     * @return the view
      */
-    public List<Patient> completePatient(String query) {
-        User user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
-        List<Patient> patients = user.getPatients();
-        List<Patient> results = new ArrayList<>();
-        // check if there are some userAccounts who match with the query
-        for (Patient patient : patients) {
-            String concatLastFirst = patient.getLastName() + " " + patient.getFirstName();
-            String concatFirstLast = patient.getFirstName() + " " + patient.getLastName();
-            // check if the firstName or lastName startWith the query received
-            if ((patient.getFirstName().toLowerCase().startsWith(query.toLowerCase()) || patient.getLastName().toLowerCase().startsWith(query.toLowerCase())))
-                results.add(patient);
-            else if (concatFirstLast.toLowerCase().startsWith(query.toLowerCase()) || concatLastFirst.toLowerCase().startsWith(query.toLowerCase()))
-                results.add(patient);
-        }
-        return results;
+    public String getView() {
+        return view;
+    }
+
+    /**
+     * Sets view.
+     *
+     * @param view the view
+     */
+    public void setView(String view) {
+        this.view = view;
+    }
+
+    /**
+     * Gets meeting service.
+     *
+     * @return the meeting service
+     */
+    public MeetingService getMeetingService() {
+        return meetingService;
+    }
+
+    /**
+     * Sets meeting service.
+     *
+     * @param meetingService the meeting service
+     */
+    public void setMeetingService(MeetingService meetingService) {
+        this.meetingService = meetingService;
     }
 }
