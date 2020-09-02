@@ -45,8 +45,23 @@
                       hideEffect="size"
                       blockScroll="true">
                 <h:panelGrid id="eventDetails"
-                             columns="2">
-                    <p:outputLabel value="Patient:"
+                             columns="1"
+                             cellpadding="2">
+
+                    <p:outputLabel value="Type"
+                                   for="type"/>
+
+                    <p:selectOneMenu id="type"
+                                     value="#{ agendaBean.event.data.type}">
+                        <f:selectItem itemLabel="Rendez-vous"
+                                      itemValue="APPOINTMENT"/>
+                        <f:selectItem itemLabel="Séance"
+                                      itemValue="SESSION"/>
+                        <f:selectItem itemLabel="Tâche"
+                                      itemValue="TASK"/>
+                    </p:selectOneMenu>
+
+                    <p:outputLabel value="Patient"
                                    for="patient"/>
                     <p:autoComplete id="patient"
                                     value="#{ agendaBean.event.data.patient }"
@@ -72,7 +87,8 @@
                                   value="#{ agendaBean.event.startDate }"
                                   pattern="dd/MM/yyyy"
                                   showTime="true"
-                                  appendTo="@(body)"/>
+                                  appendTo="@(body)"
+                                  required="true"/>
 
                     <p:outputLabel for="to"
                                    value="To:"/>
@@ -80,13 +96,19 @@
                                   value="#{ agendaBean.event.endDate }"
                                   pattern="dd/MM/yyyy"
                                   showTime="true"
-                                  appendTo="@(body)"/>
+                                  appendTo="@(body)"
+                                  required="true"/>
 
                     <p:outputLabel for="allDay"
-                                   value="All Day (see #1164):"/>
+                                   value="All Day"/>
                     <h:selectBooleanCheckbox id="allDay"
                                              value="#{ agendaBean.event.allDay }"/>
 
+                </h:panelGrid>
+                <h:panelGrid id="eventActions"
+                             style="width: 100%"
+                             columns="2"
+                             cellpadding="2">
                     <p:commandButton id="deleteButton"
                                      icon="fas fa-trash-alt"
                                      action="#{ agendaBean.onEventDelete }"

@@ -51,8 +51,11 @@ public class MeetingService extends Service<Meeting> implements Serializable {
         return meeting;
     }
 
-    public boolean remove(Meeting meeting) {
-        return true;
+    public void remove(Meeting meeting) {
+        Meeting meetingDB = em.find(Meeting.class, meeting.getId());
+        if (meetingDB != null) {
+            em.remove(meetingDB);
+        }
     }
 
     /**

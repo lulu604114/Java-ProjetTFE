@@ -169,11 +169,27 @@ public class AgendaBean implements Serializable {
      * On event delete.
      */
     public void onEventDelete() {
-        String eventId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("eventId");
-        if (event != null) {
-            ScheduleEvent<?> event = eventModel.getEvent(eventId);
-            eventModel.deleteEvent(event);
-            this.meetingService.remove((Meeting) event.getData());
+        if (this.event != null) {
+            MeetingService service = new MeetingService(Meeting.class);
+            EntityTransaction transaction = service.getTransaction();
+
+            transaction.begin();
+
+            try {
+                service.remove(this.event.getData());
+
+                transaction.commit();
+
+                eventModel.deleteEvent(this.event);
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Événement ", this.event.getTitle() + "a été supprimé");
+                addMessage(message);
+            } finally {
+                if (transaction.isActive()) {
+                    transaction.rollback();
+                    message.display(FacesMessage.SEVERITY_ERROR, "Unknown error", "Please retry");
+                }
+                service.close();
+            }
         }
     }
 
@@ -203,7 +219,7 @@ public class AgendaBean implements Serializable {
                 message.display(FacesMessage.SEVERITY_ERROR, "Unknown error", "Please retry");
             }
 
-            this.meetingService.close();
+            service.close();
         }
     }
 

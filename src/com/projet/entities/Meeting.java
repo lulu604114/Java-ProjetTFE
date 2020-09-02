@@ -51,7 +51,7 @@ public class Meeting {
     @JoinColumn(name = "place", referencedColumnName = "id", nullable = true)
     private Place place;
     @ManyToOne
-    @JoinColumn(name = "patient", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "patient", referencedColumnName = "id", nullable = true)
     private Patient patient;
     @ManyToOne
     @JoinColumn(name = "bill", referencedColumnName = "id", nullable = true)
@@ -61,6 +61,8 @@ public class Meeting {
      * Instantiates a new Meeting.
      */
     public Meeting() {
+        this.type = MeetingTypeEnum.APPOINTMENT;
+        this.allDay = false;
     }
 
     /**
