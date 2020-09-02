@@ -1,7 +1,6 @@
 package com.projet.entities;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -10,14 +9,14 @@ import java.util.Objects;
  *
  * @author lucas
  * @project Projet TFE
- * Date: 24/08/2020
- * Time: 11:47
+ * Date: 28/08/2020
+ * Time: 22:37
  * =================================================================
  */
 @Entity
 @Table(name = "FinancialAccounts", schema = "jsf_tfe")
 @NamedQueries({
-        @NamedQuery(name = "FA.findByLabelOrCode", query = "SELECT f FROM FinancialAccount f WHERE f.user=:user AND f.label LIKE :label OR f.code LIKE :label")
+        @NamedQuery(name = "FA.findDefaultFa", query = "SELECT f FROM FinancialAccount  f WHERE f.defaultFa=:boolean")
 })
 public class FinancialAccount {
     @Id
@@ -31,25 +30,20 @@ public class FinancialAccount {
     @Column(name = "label")
     private String label;
     @Basic
-    @Column(name = "tax_deductible_percent")
-    private double taxDeductible;
+    @Column(name = "default_tax_deductible")
+    private Double defaultTaxDeductible;
     @Basic
-    @Column(name = "private_part_percent")
-    private double privatePart;
+    @Column(name = "default_private_part")
+    private Double defaultPrivatePart;
     @Basic
     @Column(name = "redeemable")
     private boolean redeemable;
-    @OneToMany(mappedBy = "financialAccount")
-    private List<AccountItem> accountItems;
-    @ManyToOne
-    @JoinColumn(name = "user", referencedColumnName = "ID", nullable = false)
-    private User user;
+    @Column(name = "default_fa")
+    private boolean defaultFa;
+
     @ManyToOne
     @JoinColumn(name = "category", referencedColumnName = "id", nullable = false)
-    private AccountCategory category;
-
-
-
+    private AccountCategory accountCategory;
 
     public int getId() {
         return id;
@@ -75,20 +69,20 @@ public class FinancialAccount {
         this.label = label;
     }
 
-    public double getTaxDeductible() {
-        return taxDeductible;
+    public Double getDefaultTaxDeductible() {
+        return defaultTaxDeductible;
     }
 
-    public void setTaxDeductible(double taxDeductible) {
-        this.taxDeductible = taxDeductible;
+    public void setDefaultTaxDeductible(Double defaultTaxDeductible) {
+        this.defaultTaxDeductible = defaultTaxDeductible;
     }
 
-    public double getPrivatePart() {
-        return privatePart;
+    public Double getDefaultPrivatePart() {
+        return defaultPrivatePart;
     }
 
-    public void setPrivatePart(double privatePart) {
-        this.privatePart = privatePart;
+    public void setDefaultPrivatePart(Double defaultPrivatePart) {
+        this.defaultPrivatePart = defaultPrivatePart;
     }
 
     public boolean isRedeemable() {
@@ -99,8 +93,13 @@ public class FinancialAccount {
         this.redeemable = redeemable;
     }
 
+    public boolean isDefaultFa() {
+        return defaultFa;
+    }
 
-
+    public void setDefaultFa(boolean defaultFa) {
+        this.defaultFa = defaultFa;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -108,42 +107,23 @@ public class FinancialAccount {
         if (o == null || getClass() != o.getClass()) return false;
         FinancialAccount that = (FinancialAccount) o;
         return id == that.id &&
-                Double.compare(that.taxDeductible, taxDeductible) == 0 &&
-                Double.compare(that.privatePart, privatePart) == 0 &&
                 redeemable == that.redeemable &&
                 Objects.equals(code, that.code) &&
-                Objects.equals(label, that.label);
+                Objects.equals(label, that.label) &&
+                Objects.equals(defaultTaxDeductible, that.defaultTaxDeductible) &&
+                Objects.equals(defaultPrivatePart, that.defaultPrivatePart);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, code, label, taxDeductible, privatePart, redeemable);
+        return Objects.hash(id, code, label, defaultTaxDeductible, defaultPrivatePart, redeemable);
     }
 
-
-
-
-    public List<AccountItem> getAccountItems() {
-        return accountItems;
+    public AccountCategory getAccountCategory() {
+        return accountCategory;
     }
 
-    public void setAccountItems(List<AccountItem> accountItems) {
-        this.accountItems = accountItems;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public AccountCategory getCategory() {
-        return category;
-    }
-
-    public void setCategory(AccountCategory category) {
-        this.category = category;
+    public void setAccountCategory(AccountCategory accountCategory) {
+        this.accountCategory = accountCategory;
     }
 }

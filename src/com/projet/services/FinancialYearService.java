@@ -2,6 +2,7 @@ package com.projet.services;
 
 import com.projet.entities.FinancialYear;
 import com.projet.entities.User;
+import com.projet.utils.DateManager;
 
 import java.time.Year;
 import java.util.*;
@@ -28,6 +29,10 @@ public class FinancialYearService extends Service<FinancialYear> {
         param.put("year", year);
 
         return finder.findOneByNamedQuery("FY.FindByUserAndYear", param);
+    }
+
+    public FinancialYear getCurrentFinancialYearByUser(User user) {
+        return getUserFinancialYearByDate(user, DateManager.getYear(new Date()));
     }
 
     @Override

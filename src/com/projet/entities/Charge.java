@@ -5,6 +5,7 @@ import com.projet.enumeration.PaiementMethodEnum;
 
 import javax.persistence.*;
 import javax.validation.constraints.Past;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -25,7 +26,6 @@ import java.util.Objects;
         @NamedQuery(name = "Charge.findByUser", query = "SELECT c FROM Charge c WHERE c.user=:user"),
         @NamedQuery(name = "Charge.findByUserOrderByDate", query = "SELECT c FROM Charge c WHERE c.user=:user ORDER BY c.dueAt DESC"),
         @NamedQuery(name = "Charge.findPayedByUser", query = "SELECT c FROM Charge c WHERE c.user=:user AND c.payed=true"),
-        @NamedQuery(name = "Charge.findAllSupplierByUser", query = "SELECT c.supplier FROM Charge c WHERE c.user=:user")
 })
 public class Charge implements Comparable<Charge>{
     @Id
@@ -76,12 +76,12 @@ public class Charge implements Comparable<Charge>{
     private int month;
 
     @ManyToOne
-    @JoinColumn(name = "user", referencedColumnName = "ID", nullable = false)
+    @JoinColumn(name = "user", referencedColumnName = "id", nullable = false)
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "supplier", referencedColumnName = "ID", nullable = false)
-    private Supplier supplier;
+    @JoinColumn(name = "user_supplier", referencedColumnName = "id", nullable = false)
+    private UserSupplier userSupplier;
 
     @ManyToOne
     @JoinColumn(name = "diary", referencedColumnName = "id", nullable = false)
@@ -91,7 +91,7 @@ public class Charge implements Comparable<Charge>{
     @JoinColumn(name = "financial_year", referencedColumnName = "id", nullable = false)
     private FinancialYear financialYear;
 
-    @OneToMany(mappedBy = "charge")
+    @OneToMany(mappedBy = "charge", cascade = CascadeType.MERGE)
     private List<AccountItem> accountItems;
 
 
@@ -145,12 +145,12 @@ public class Charge implements Comparable<Charge>{
         this.user = user;
     }
 
-    public Supplier getSupplier() {
-        return supplier;
+    public UserSupplier getUserSupplier() {
+        return userSupplier;
     }
 
-    public void setSupplier(Supplier supplier) {
-        this.supplier = supplier;
+    public void setUserSupplier(UserSupplier userSupplier) {
+        this.userSupplier = userSupplier;
     }
 
     public ChargeStatus getStatus() {
@@ -188,7 +188,7 @@ public class Charge implements Comparable<Charge>{
                 paiementMethod == charge.paiementMethod &&
                 Objects.equals(payedAt, charge.payedAt) &&
                 Objects.equals(user, charge.user) &&
-                supplier.equals(charge.supplier) &&
+                userSupplier.equals(charge.userSupplier) &&
                 diary.equals(charge.diary) &&
                 financialYear.equals(charge.financialYear) &&
                 Objects.equals(accountItems, charge.accountItems);
@@ -196,7 +196,7 @@ public class Charge implements Comparable<Charge>{
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, label, createdAt, amount, dueAt, status, payed, freeCommunication, structeredCommunication, paiementMethod, payedAt, month, user, supplier, diary, financialYear, accountItems);
+        return Objects.hash(id, label, createdAt, amount, dueAt, status, payed, freeCommunication, structeredCommunication, paiementMethod, payedAt, month, user, userSupplier, diary, financialYear, accountItems);
     }
 
     @Override
@@ -245,6 +245,16 @@ public class Charge implements Comparable<Charge>{
 
     public void setAccountItems(List<AccountItem> accountItems) {
         this.accountItems = accountItems;
+    }
+
+    public AccountItem addAccountItem(AccountItem accountItem) {
+        if (getAccountItems() == null)
+            setAccountItems(new ArrayList<>());
+
+        getAccountItems().add(accountItem);
+        accountItem.setCharge(this);
+
+        return accountItem;
     }
 
     public Diary getDiary() {

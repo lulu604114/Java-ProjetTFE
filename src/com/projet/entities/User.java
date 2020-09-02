@@ -30,23 +30,6 @@ import java.util.*;
         @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
         @NamedQuery(name = "User.findUserByEmail", query = "SELECT u FROM User u WHERE u.email=:email")
 })
-@NamedStoredProcedureQueries({
-        @NamedStoredProcedureQuery(
-                name = "addUserFinancialAccount",
-                procedureName = "addUserDFFinancialAccount",
-                parameters = @StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class, name = "user")
-        ),
-        @NamedStoredProcedureQuery(
-                name = "addUserSupplier",
-                procedureName = "addUserDFSupplier",
-                parameters = @StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class, name = "user")
-        ),
-        @NamedStoredProcedureQuery(
-                name = "addUserDiary",
-                procedureName = "addUserDFDiary",
-                parameters = @StoredProcedureParameter(mode = ParameterMode.IN, type = Integer.class, name = "user")
-        )
-})
 public class User implements Serializable, Cloneable {
     private static final long serialVersionUID = 1L;
 
@@ -154,16 +137,15 @@ public class User implements Serializable, Cloneable {
     @OneToMany(mappedBy = "user")
     private List<ToDo> toDos;
     @OneToMany(mappedBy = "user")
-    private List<Supplier> suppliers;
-    @OneToMany(mappedBy = "user")
     private List<AccountCategory> accountCategories;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
     private List<Diary> diaries;
     @OneToMany(mappedBy = "user")
-    private List<FinancialAccount> financialAccounts;
-    @OneToMany(mappedBy = "user")
     private List<FinancialYear> financialYears;
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
+    private List<UserAccount> userAccounts;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.MERGE)
+    private List<UserSupplier> userSuppliers;
 
     // ManyToOne
     @ManyToOne
@@ -281,16 +263,16 @@ public class User implements Serializable, Cloneable {
         return active;
     }
 
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public boolean isChargeConfigSet() {
         return chargeConfigSet;
     }
 
     public void setChargeConfigSet(boolean chargeConfigSet) {
         this.chargeConfigSet = chargeConfigSet;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
     }
 
     public Language getLanguage() {
@@ -415,31 +397,6 @@ public class User implements Serializable, Cloneable {
         this.toDos = toDos;
     }
 
-    public List<Supplier> getSuppliers() {
-        return suppliers;
-    }
-
-    public void setSuppliers(List<Supplier> suppliers) {
-        this.suppliers = suppliers;
-    }
-
-    public Supplier addSupplier(Supplier supplier) {
-        if (getSuppliers() == null)
-            setSuppliers(new ArrayList<>());
-
-        getSuppliers().add(supplier);
-        supplier.setUser(this);
-
-        return supplier;
-    }
-
-    public Supplier removeSupplier(Supplier supplier) {
-        getSuppliers().remove(supplier);
-        supplier.setUser(null);
-
-        return supplier;
-    }
-
     public List<Patient> getPatients() {
         return patients;
     }
@@ -464,12 +421,14 @@ public class User implements Serializable, Cloneable {
         this.diaries = diaries;
     }
 
-    public List<FinancialAccount> getFinancialAccounts() {
-        return financialAccounts;
-    }
+    public Diary addDiary(Diary diary) {
+        if (getDiaries() == null)
+            setDiaries(new ArrayList<>());
 
-    public void setFinancialAccounts(List<FinancialAccount> financialAccounts) {
-        this.financialAccounts = financialAccounts;
+        getDiaries().add(diary);
+        diary.setUser(this);
+
+        return diary;
     }
 
     public List<FinancialYear> getFinancialYears() {
@@ -496,7 +455,6 @@ public class User implements Serializable, Cloneable {
 
         return financialYear;
     }
-
 
     @Override
     public boolean equals(Object o) {
@@ -557,5 +515,21 @@ public class User implements Serializable, Cloneable {
         this.mobile = user.mobile;
         this.status = user.status;
         this.language = user.language;
+    }
+
+    public List<UserAccount> getUserAccounts() {
+        return userAccounts;
+    }
+
+    public void setUserAccounts(List<UserAccount> userAccounts) {
+        this.userAccounts = userAccounts;
+    }
+
+    public List<UserSupplier> getUserSuppliers() {
+        return userSuppliers;
+    }
+
+    public void setUserSuppliers(List<UserSupplier> userSuppliers) {
+        this.userSuppliers = userSuppliers;
     }
 }

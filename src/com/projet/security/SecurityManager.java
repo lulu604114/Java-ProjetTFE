@@ -1,7 +1,7 @@
 package com.projet.security;
 
 import com.projet.conf.App;
-import com.projet.utility.Message;
+import com.projet.utils.Message;
 import org.apache.log4j.Logger;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
@@ -15,16 +15,22 @@ import javax.faces.application.FacesMessage;
  * =================================================================
  * Created by Intellij IDEA.
  *
- * @author lucas
- * @project TFE-Template
- * Date: 05/04/2020
- * Time: 12:16
- * =================================================================
+ * @author Amaury Lapaque
+ * @project TFE -Template Date: 05/04/2020 Time: 12:16 =================================================================
  */
 public class SecurityManager {
     private static final Logger log = Logger.getLogger(SecurityManager.class);
     private static final Message message = Message.getMessage(App.BUNDLE_MESSAGE);
 
+    /**
+     * Process to login boolean.
+     *
+     * @param username   the username
+     * @param password   the password
+     * @param rememberMe the remember me
+     *
+     * @return the boolean
+     */
     public static boolean processToLogin(String username, String password, boolean rememberMe) {
         Subject subject = SecurityUtils.getSubject();
 
@@ -54,6 +60,11 @@ public class SecurityManager {
         return false;
     }
 
+    /**
+     * Process to logout boolean.
+     *
+     * @return the boolean
+     */
     public static boolean processToLogout() {
         Subject subject = SecurityUtils.getSubject();
 
@@ -65,10 +76,20 @@ public class SecurityManager {
         return false;
     }
 
+    /**
+     * User is logged boolean.
+     *
+     * @return the boolean
+     */
     public static boolean userIsLogged() {
         return SecurityUtils.getSubject().isAuthenticated();
     }
 
+    /**
+     * User is remembered string.
+     *
+     * @return the string
+     */
     public static String userIsRemembered() {
         Subject subject = SecurityUtils.getSubject();
 
@@ -78,6 +99,13 @@ public class SecurityManager {
         return null;
     }
 
+    /**
+     * Gets session attribute.
+     *
+     * @param name the name
+     *
+     * @return the session attribute
+     */
     public static Object getSessionAttribute(String name) {
         Session session = SecurityUtils.getSubject().getSession();
 
@@ -91,6 +119,12 @@ public class SecurityManager {
         return attribute;
     }
 
+    /**
+     * Save attribute in session.
+     *
+     * @param name  the name
+     * @param value the value
+     */
     public static void saveAttributeInSession(String name, Object value) {
         Session session = SecurityUtils.getSubject().getSession();
 
@@ -99,6 +133,13 @@ public class SecurityManager {
         log.debug("Attribute " + name + " with value = " + value + " save in session : " + session.getId() + " with time-out: " + session.getTimeout());
     }
 
+    /**
+     * Encrypt password string.
+     *
+     * @param password the password
+     *
+     * @return the string
+     */
     public static String encryptPassword(String password) {
         PasswordMatcher matcher = new PasswordMatcher();
 

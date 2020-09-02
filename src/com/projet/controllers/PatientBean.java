@@ -9,6 +9,7 @@ import com.projet.services.PatientService;
 import com.projet.utility.Message;
 import com.projet.security.SecurityManager;
 import org.primefaces.PrimeFaces;
+import com.projet.utils.Message;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;

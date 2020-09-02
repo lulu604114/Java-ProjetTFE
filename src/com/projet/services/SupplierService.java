@@ -31,6 +31,13 @@ public class SupplierService extends Service<Supplier> {
         return finder.findByNamedQuery("Supplier.findByLabel", param);
     }
 
+    public List<Supplier> findDefaultSupplier() {
+        Map<String, Boolean> param = new HashMap<>();
+        param.put("boolean", true);
+
+        return finder.findByNamedQuery("Supplier.findByDefault", param);
+    }
+
     @Override
     public Supplier save(Supplier supplier) {
         return null;

@@ -29,8 +29,6 @@
 
                         <br/>
 
-                        <br/>
-
                         <div class="ui-g">
                             <div class="ui-g-3">
                                 <div class="card charge-Card">
@@ -104,8 +102,6 @@
 
                         <br/>
 
-                        <br/>
-
                         <p:dataTable id="chargeList" var="charge" value="#{chargeListView.chargeList}" sortBy="#{chargeListView.getChargeSortDate(charge)}"
                                      expandableRowGroups="true" sortOrder="descending" >
                             <f:facet name="emptyMessage">
@@ -119,11 +115,11 @@
                                 </div>
                             </f:facet>
                             <p:headerRow>
-                                <p:column colspan="7">
+                                <p:column colspan="9">
                                     <h:outputText value="#{chargeListView.getMonth(charge.createdAt.month)} #{chargeListView.getYear(charge.createdAt)}" />
                                 </p:column>
                             </p:headerRow>
-                            <p:column>
+                            <p:column colspan="2">
                                 <f:facet name="header">Descprition</f:facet>
                                 <h:outputText value="#{charge.label}"/>
                             </p:column>
@@ -154,7 +150,7 @@
                             </p:column>
                             <p:column>
                                 <f:facet name="header">Fournisseur</f:facet>
-                                <h:outputText value="#{charge.supplier.label}"/>
+                                <h:outputText value="#{charge.userSupplier.supplier.label}"/>
                             </p:column>
                             <p:column>
                                 <f:facet name="header">Limite de paiement</f:facet>
@@ -162,13 +158,9 @@
                                     <f:convertDateTime pattern="dd/MM/yyyy" />
                                 </h:outputText>
                             </p:column>
-                            <p:column style="text-align: right">
+                            <p:column colspan="2" style="text-align: right">
                                 <f:facet name="header">Action <i class="fas fa-cog"></i></f:facet>
-                                <p:splitButton id="action_split" value=" Consulter" icon="far fa-eye"
-                                               action="#{chargeDetailView.edit(charge)}"    >
-                                    <p:menuitem value=" Modifier" icon="far fa-edit" />
-                                    <p:menuitem value=" Supprimer" icon="fas fa-trash-alt" />
-                                </p:splitButton>
+                                <p:commandButton id="detail-btn"  icon="far fa-eye" action="#{chargeDetailView.edit(charge)}"/>
                             </p:column>
                         </p:dataTable>
                     </p:panel>
@@ -176,10 +168,13 @@
             </div>
         </h:form>
 
+
+
+
         <!-- CHARGE CREATION MODAL -->
         <p:dialog header="Ajouter un frais" widgetVar="chargeCreation-modal" modal="true"
                   responsive="true" width="600" draggable="false" closable="false"
-                  focus="chargeCreation-modal-close-btn">
+                  focus="chargeCreation-modal-close-btn" dynamic="true">
             <h:form id="chargeCreation-modal-form">
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-12 p-md-12">
@@ -197,14 +192,14 @@
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="supplier" value="Fournisseurs"/>
                         <small id="username-help">
-                            <p:commandLink id="supplier-creation-btn" onclick="PF('supplierCreation-modal').show();"
+                            <p:commandLink id="supplier-creation-btn" onclick="PF('supplierCreation-modal').show();PF('chargeCreation-modal').hide();"
                                            ajax="true" update=":supplierCreation-modal-form">
                                 <i class="far fa-edit"/> créer
                             </p:commandLink>
                         </small>
-                        <p:autoComplete id="supplier" value="#{chargeListView.charge.supplier}" completeMethod="#{chargeListView.completeSupplier}"
-                                        dropdown="true" var="supplier" itemLabel="#{supplier.label}" itemValue="#{supplier}"
-                                        converter="supplierConverter" minQueryLength="3"/>
+                        <p:autoComplete id="supplier" value="#{chargeListView.charge.userSupplier}" completeMethod="#{chargeListView.completeSupplier}"
+                                        dropdown="true" var="userSupplier" itemLabel="#{userSupplier.supplier.label}" itemValue="#{userSupplier}"
+                                        converter="userSupplierConverter" minQueryLength="2"/>
                     </div>
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
@@ -227,7 +222,7 @@
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="status" value="Statut de paiement"/>
                         <p:selectOneMenu id="status" value="#{chargeListView.charge.status}">
-                            <p:importEnum type="com.projet.enumeration.ChargeStatus" var="ChargeStatus" allSuffix="VALUES"/>
+                            <p:importEnum type="com.projet.enumeration.ChargeStatus" var="ChargeStatus" allSuffix="VALUES" />
                             <f:selectItems var="status" value="#{ChargeStatus.VALUES}" itemLabel="#{status.status}" itemValue="#{status}" />
                         </p:selectOneMenu>
                     </div>
@@ -257,7 +252,7 @@
         <!-- SUPPLIER CREATION MODAL -->
         <p:dialog header="Ajouter un fournisseur" widgetVar="supplierCreation-modal" modal="true"
                   responsive="true" width="500" draggable="false" closable="false"
-                  focus="chargeCreation-modal-close-btn">
+                  focus="chargeCreation-modal-close-btn" dynamic="true">
             <h:form id="supplierCreation-modal-form">
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-12 p-md-12">
@@ -293,18 +288,33 @@
             </h:form>
             <f:facet name="footer">
                 <p:commandButton id="supplierCreation-modal-close-btn" form="supplierCreation-modal-form" type="button" value="Fermer"
-                                 styleClass="secondary-button" onclick="PF('supplierCreation-modal').hide()"
+                                 styleClass="secondary-button" onclick="PF('supplierCreation-modal').hide();PF('chargeCreation-modal').show();"
                                  update=":chargeListForm:msgs"/>
                 <p:commandButton form="supplierCreation-modal-form" value="Modfier" styleClass="success-btn"
-                                 icon="fa fa-check" onclick="PF('supplierCreation-modal').hide()"
+                                 icon="fa fa-check" onclick="PF('supplierCreation-modal').hide();PF('chargeCreation-modal').show();"
                                  update=":chargeListForm:msgs"/>
 
             </f:facet>
         </p:dialog>
 
-        <p:sidebar widgetVar="sidebar2" position="right" baseZIndex="10000">
-            <h1 style="font-weight:normal">Right Sidebar</h1>
-            <p:commandButton value="Cancel" oncomplete="PF('sidebar2').hide()"/>
+        <p:sidebar widgetVar="sidebar2" position="right" baseZIndex="10000" style="width: 28em;">
+            <h1>Paramètre</h1>
+            <p:link outcome="/app/charge/settings/supplier.xhtml">
+                <div class="card">
+                    <h3>Gérer mes fournisseurs</h3>
+                    <p>
+                        Créer, modifier et supprimer vos fournisseurs.
+                    </p>
+                </div>
+            </p:link>
+            <p:link outcome="/app/charge/settings/account.xhtml">
+                <div class="card">
+                    <h3>Configuration de la gestion des frais</h3>
+                    <p>
+                        Gérer les charges, journaux et visionner vos rapports des dépenses.
+                    </p>
+                </div>
+            </p:link>
         </p:sidebar>
     </ui:define>
 
