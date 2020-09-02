@@ -1,12 +1,8 @@
 package com.projet.controllers;
-
-
-import com.itextpdf.kernel.counter.SystemOutEventCounter;
 import com.projet.conf.App;
 import com.projet.entities.Patient;
 import com.projet.entities.User;
 import com.projet.services.PatientService;
-import com.projet.utility.Message;
 import com.projet.security.SecurityManager;
 import org.primefaces.PrimeFaces;
 import com.projet.utils.Message;
