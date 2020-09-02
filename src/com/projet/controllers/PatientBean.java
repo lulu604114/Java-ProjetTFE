@@ -1,5 +1,6 @@
 package com.projet.controllers;
 import com.projet.conf.App;
+import com.projet.connection.EMF;
 import com.projet.entities.Patient;
 import com.projet.entities.User;
 import com.projet.services.PatientService;
@@ -86,18 +87,17 @@ public class PatientBean implements Serializable {
     //Sauvegarde des modifications d'un patients
     public void save()
     {
-        System.out.println("Je reçois le patient temporaire :" + patientTemp.getId() + "Le patient est " + patient.getFirstName());
+
+
+        System.out.println("Je reçois le patient temporaire :" + patientTemp.getAdress() + "Le patient est " + patient.getAdress());
         PatientService service = new PatientService(Patient.class);
-
         EntityTransaction transaction = service.getTransaction();
-
         transaction.begin();
-
         try {
-            //patient.setFields(patientTemp);
+            patientTemp.setAdress(patient.getAdress());
             System.out.println("patient temps apres setfield" + patientTemp.getAdress());
-            service.save(patientTemp);
-            System.out.println("servicesaveok");
+            Patient patient = service.save(patientTemp);
+            System.out.println("servicesaveok" + patient.getAdress());
             transaction.commit();
             System.out.println("transaction commit ok");
 
