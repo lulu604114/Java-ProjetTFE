@@ -247,6 +247,14 @@ public class AgendaBean implements Serializable {
         return results;
     }
 
+    public String displayPatientLabel(Patient patient) {
+        String value = "";
+        if (patient != null) {
+            value = patient.getLastName() + " " + patient.getFirstName();
+        }
+        return value;
+    }
+
     private void addMessage(FacesMessage message) {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }

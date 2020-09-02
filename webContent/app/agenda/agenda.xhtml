@@ -18,7 +18,8 @@
                 <p:schedule id="schedule"
                             widgetVar="myschedule"
                             value="#{agendaBean.eventModel}"
-                            view="#{agendaBean.view}">
+                            view="#{agendaBean.view}"
+                >
 
                     <p:ajax event="dateSelect"
                             listener="#{agendaBean.onDateSelect}"
@@ -43,7 +44,10 @@
                       styleClass="event-detail-container"
                       showEffect="size"
                       hideEffect="size"
-                      blockScroll="true">
+                      blockScroll="true"
+                      responsive="true"
+                      minimizable="true"
+                      closeOnEscape="true">
                 <h:panelGrid id="eventDetails"
                              columns="1"
                              cellpadding="2">
@@ -73,7 +77,7 @@
                                     scrollHeight="250"
                                     var="patient"
                                     itemValue="#{ patient }"
-                                    itemLabel="#{ patient.getFirstName() } #{ patient.getLastName() }"/>
+                                    itemLabel="#{ agendaBean.displayPatientLabel(patient) }"/>
 
                     <p:outputLabel for="title"
                                    value="Titles:"/>
