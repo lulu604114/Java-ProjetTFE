@@ -21,6 +21,9 @@ public class PatientService extends Service<Patient> implements Serializable {
     private static final Logger log = Logger.getLogger(PatientService.class);
     private static final long serialVersionUID = 1L;
 
+    public PatientService(){
+        super();
+    }
 
     public PatientService(Class<?> ec) {
 
@@ -30,6 +33,11 @@ public class PatientService extends Service<Patient> implements Serializable {
     public List<Patient> getAll() {
         return finder.findByNamedQuery("Patient.findAll", null);
     }
+    public List<Patient> getAllByUser(User user) {
+        Map<String, User> param = new HashMap<>();
+        param.put("user", user);
+        return finder.findByNamedQuery("Patient.findByUser",param);
+    }
 
     @Override
     public Patient save(Patient patient) {
@@ -38,7 +46,7 @@ public class PatientService extends Service<Patient> implements Serializable {
             System.out.println("Je persist");
             em.persist(patient);
         } else {
-            System.out.println("Je merge");
+            System.out.println("Je merge " + patient.getAdress());
             patient = em.merge(patient);
 
         }

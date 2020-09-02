@@ -22,7 +22,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "Patients", schema = "jsf_tfe")
 @NamedQueries({
-        @NamedQuery(name = "Patient.findByUser", query = "SELECT p FROM Patient p WHERE p.user=:user"),
+        @NamedQuery(name = "Patient.findByUser", query = "SELECT p FROM Patient p WHERE p.user=:user AND p.active=true"),
         @NamedQuery(name = "Patient.findAll", query = "SELECT p FROM Patient p")
 })
 
@@ -99,7 +99,7 @@ public class Patient {
 
     public Patient(){}
 
-    public Patient(int id, String firstName, String lastName, String email, String niss, String streetNumber, String streetBox, String postalCode, String city, Date birthdate, boolean tiersPayant, String phone, String adress, boolean active, User user)
+    public Patient(int id, String firstName, String lastName, String email, String niss, String streetNumber, String streetBox, String postalCode, String city, Date birthdate, boolean tiersPayant, String phone, String adress, boolean active)
     {
         this.id = id;
         this.firstName = firstName;
@@ -114,8 +114,8 @@ public class Patient {
         this.tiersPayant =tiersPayant;
         this.phone = phone;
         this.adress = adress;
-        this.user =  user;
         this.active = active;
+
     }
 
     public Patient(Patient patient) {
@@ -133,8 +133,7 @@ public class Patient {
                 patient.isTiersPayant(),
                 patient.getPhone(),
                 patient.getAdress(),
-                patient.isActive(),
-                patient.getUser()
+                patient.isActive()
         );
     }
 

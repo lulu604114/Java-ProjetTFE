@@ -1,6 +1,7 @@
 package com.projet.controllers;
 import com.projet.conf.App;
 import com.projet.connection.EMF;
+import com.projet.entities.Charge;
 import com.projet.entities.Patient;
 import com.projet.entities.User;
 import com.projet.services.PatientService;
@@ -13,9 +14,12 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author nathan
@@ -35,14 +39,14 @@ public class PatientBean implements Serializable {
     private Patient patientTemp;
     private Patient selectedPatient;
     private User user;
-
-
+    private Patient patientDB;
+    private Patient patientDb;
 
     @PostConstruct
     public void onInit()
     {
         user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
-        this.patients = this.service.getAll();
+        this.patients = this.service.getAllByUser(user);
     }
 
     public void patientDetail(Patient patient)
@@ -50,6 +54,7 @@ public class PatientBean implements Serializable {
         this.patient = patient;
     }
     //Redirection
+
     public String openRedirection()
     {
         System.out.println("Je reçois le patient :" + patient.getId());
@@ -66,18 +71,18 @@ public class PatientBean implements Serializable {
         transaction.begin();
         try {
             Patient patient = service.createPatient(this.patient, this.user);
-            service.save(patient);
+            this.patient = service.save(patient);
             transaction.commit();
             System.out.println("Je commit");
             succes = true;
         } finally {
             if (transaction.isActive()) {
-
                 transaction.rollback();
                 succes = false;
             }
             service.close();
         }
+        this.patients.add(this.patient);
         patient = new Patient();
         message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Ajout du patient avec succès",patient.getFirstName());
         FacesContext.getCurrentInstance().addMessage(null, message);
@@ -87,30 +92,29 @@ public class PatientBean implements Serializable {
     //Sauvegarde des modifications d'un patients
     public void save()
     {
-
-
-        System.out.println("Je reçois le patient temporaire :" + patientTemp.getAdress() + "Le patient est " + patient.getAdress());
+        System.out.println("Je reçois le patient temporaire :" + patientTemp.getId() + "Le patient est " + patient.getId());
         PatientService service = new PatientService(Patient.class);
         EntityTransaction transaction = service.getTransaction();
         transaction.begin();
         try {
-            patientTemp.setAdress(patient.getAdress());
-            System.out.println("patient temps apres setfield" + patientTemp.getAdress());
-            Patient patient = service.save(patientTemp);
-            System.out.println("servicesaveok" + patient.getAdress());
+            patientTemp.setFields(patient);
+            System.out.println("patient db modif" + patientTemp.getNiss());
+            service.save(patientTemp);
             transaction.commit();
             System.out.println("transaction commit ok");
 
-//            message.display(FacesMessage.SEVERITY_INFO, "Modifications réussies");
         } finally {
             if (transaction.isActive()) {
                 System.out.println("probleme");
                 transaction.rollback();
-
-//                message.display(FacesMessage.SEVERITY_ERROR, "Unknown error");
             }
             service.close();
         }
+//        patientDb = em.find(Patient.class, patient.getId());
+//        em.getTransaction().begin();
+//        patientDb.setFirstName(patient.getFirstName());
+//        em.getTransaction().commit();
+
     }
     //Annulation de l'enregistrement ou de la modification d'un patient
     public void cancel() {
