@@ -30,7 +30,7 @@
                         </f:facet>
                         <f:facet name="actions">
                             <p:commandLink id="patient-card-edit-btn" type="button" onclick="PF('info-modal').show();" ajax="true"
-                                           actionListener="#{profileSettings.edit}" update=":info-modal-form">
+                                           update=":info-modal-form">
                                 <i class="fa fa-fw fa-pencil"></i>
                             </p:commandLink>
                             <p:tooltip for="patient-card-edit-btn" value="Editer" position="top"/>
@@ -112,7 +112,7 @@
                         </f:facet>
                         <f:facet name="actions">
                             <p:commandLink id="status-card-edit-btn" type="button" onclick="PF('status-modal').show();" ajax="true"
-                                           actionListener="#{profileSettings.edit}" update=":status-modal-form">
+                                           update=":status-modal-form">
                                 <i class="fa fa-fw fa-pencil"></i>
                             </p:commandLink>
                             <p:tooltip for="status-card-edit-btn" value="Editer" position="top"/>
@@ -148,7 +148,7 @@
                         </f:facet>
                         <f:facet name="actions">
                             <p:commandLink id="info-medical-card-edit-btn" type="button" onclick="PF('medical-modal').show();" ajax="true"
-                                           actionListener="#{profileSettings.edit}" update=":info-medical-modal-form">
+                                            update=":info-medical-modal-form">
                                 <i class="fa fa-fw fa-pencil"></i>
                             </p:commandLink>
                         </f:facet>
@@ -194,7 +194,9 @@
                     <div class="ui-g-12 ui-md-12 ui-lg-12">
                         <i class="fa fa-fw fa-envelope"></i>
                         <p:outputLabel value=" Date de naissance :"/>
-                        <p:inputText value="#{patientBean.patient.birthdate}" disabled="false"/>
+                        <p:inputText value="#{patientBean.patient.birthdate}" disabled="false">
+                            <f:convertDateTime pattern="dd/MM/yyyy"/>
+                        </p:inputText>
                     </div>
                     <div class="ui-g-12 ui-md-12 ui-lg-8">
                         <i class="fa fa-fw fa-envelope"></i>
@@ -226,15 +228,13 @@
                 <br/>
                 <br/>
             </h:form>
-
-
             <f:facet name="footer">
                 <p:commandButton id="info-modal-close-btn" form="info-modal-form" type="button" value="Fermer"
                                  styleClass="secondary-button" onclick="PF('info-modal').hide()"
-                                 actionListener="#{profileSettings.cancel}" update=":content:msgs"/>
+                                 actionListener="#{patientBean.cancel}" update=":content:msgs"/>
                 <p:commandButton form="info-modal-form" value="Modfier" styleClass="success-btn"
                                  icon="fa fa-check" onclick="PF('info-modal').hide()"
-                                 actionListener="#{profileSettings.save}" update=":content:patient-card, :content:msgs"/>
+                                 actionListener="#{patientBean.save}" update=":content:patient-card, :content:msgs" ajax="true"/>
             </f:facet>
         </p:dialog>
 
@@ -259,10 +259,10 @@
             <f:facet name="footer">
                 <p:commandButton id="status-modal-close-btn" form="status-modal-form" value="Fermer" type="button"
                                  styleClass="secondary-button" onclick="PF('status-modal').hide()"
-                                 actionListener="#{profileSettings.cancel}" update=":content:msgs" ajax="true"/>
+                                 actionListener="#{patientBean.cancel}" update=":content:msgs" ajax="true"/>
                 <p:commandButton form="status-modal-form" value="Modifier" styleClass="success-btn"
                                  icon="fa fa-check" onclick="PF('status-modal').hide()"
-                                 actionListener="#{profileSettings.save}" update=":content:status-card, :content:msgs" ajax="true"/>
+                                 actionListener="#{patientBean.save}" update=":content:status-card, :content:msgs" ajax="true"/>
             </f:facet>
         </p:dialog>
         <!-- Info medical MODIFICATION MODAL -->
@@ -285,10 +285,10 @@
             <f:facet name="footer">
                 <p:commandButton id="info-medical-modal-close-btn" form="info-medical-modal-form" value="Fermer" type="button"
                                  styleClass="secondary-button" onclick="PF('medical-modal').hide()"
-                                 actionListener="#{profileSettings.cancel}" update=":content:msgs" ajax="true"/>
+                                 actionListener="#{patientBean.cancel}" update=":content:msgs" ajax="true"/>
                 <p:commandButton form="info-medical-modal-form" value="Modifier" styleClass="success-btn"
                                  icon="fa fa-check" onclick="PF('medical-modal').hide()"
-                                 actionListener="#{profileSettings.save}" update=":content:status-card, :content:msgs" ajax="true"/>
+                                 actionListener="#{patientBean.save}" update=":content:status-card, :content:msgs" ajax="true"/>
             </f:facet>
         </p:dialog>
     </ui:define>

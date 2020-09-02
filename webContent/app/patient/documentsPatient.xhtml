@@ -39,32 +39,37 @@
 
                 <!-- Liste des documents -->
                 <div class="ui-g-12 ui-md-12 ui-lg-6">
-                    <p:panel id="invoice-card">
+                    <p:dataTable id="tablePatient" var="patient" value="#{patientBean.patients}" widgetVar="patientTable" multiViewState="true"
+                                 rows="10" paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15"
+                                 emptyMessage="Aucun patient trouvé" filteredValue="#{patientBean.filteredPatients}"
+                    >
+                        <!--                                         selectionMode="single" selection="#{patientBean.selectedPatient}" rowKey="#{patient.id}"-->
                         <f:facet name="header">
-                            <i class="fa fa-fw fa-file-text"></i>
-                            <text/>
-                            <h:outputText value="Documents du patient"/>
+                            <p:outputPanel>
+                                <h:outputText value="Search all fields:" />
+                                <p:inputText id="globalFilter" onkeyup="PF('patientTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                            </p:outputPanel>
                         </f:facet>
 
-                        <div class="panel-content">
-                            <ul>
-                                <li>
-                                    <div><i class="fa fa-fw fa-user"/></div>
-                                    <div class="panel-content-info">
-                                        <small>Niss</small>
-                                        <div>#{patientBean.patient.niss}</div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div><i class="fa fa-fw fa-user"/></div>
-                                    <div class="panel-content-info">
-                                        <small>Tiers Payant</small>
-                                        <div>#{patientBean.patient.tiersPayant}</div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </p:panel>
+                        <p:column headerText="Id" filterBy="#{patient.id}" sortBy="#{patient.id}" filterMatchMode="contains">
+                            <h:outputText value="#{patient.id}" />
+                        </p:column>
+
+                        <p:column headerText="Prénom" filterBy="#{patient.firstName}" sortBy="#{patient.firstName}" filterMatchMode="startsWith">
+                            <h:outputText value="#{patient.firstName}" />
+                        </p:column>
+
+                        <p:column headerText="Nom" filterBy="#{patient.lastName}" sortBy="#{patient.lastName}" filterMatchMode="startsWith">
+                            <h:outputText value="#{patient.lastName}" />
+                        </p:column>
+
+                        <f:facet name="paginatorTopRight">
+                            <p:commandButton value="Réinitialiser les filtres" action="#{patientBean.clearTableState}" update="@form" />
+                        </f:facet>
+
+                    </p:dataTable>
                 </div>
             </div>
         </h:form>

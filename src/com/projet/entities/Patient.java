@@ -1,6 +1,11 @@
 package com.projet.entities;
 
+import com.sun.istack.internal.Nullable;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -11,7 +16,7 @@ import java.util.Objects;
  *
  * @author nathan
  * @project projet_atc
- * Date: 18/11/2019
+ * Date: 14/08/2020
  * =================================================================
  */
 @Entity
@@ -27,34 +32,48 @@ public class Patient {
     @Column(name = "id")
     private int id;
     @Basic
+    @NotEmpty
+    @Size(min = 1, max = 250)
     @Column(name = "firstName")
     private String firstName;
     @Basic
+    @NotEmpty
+    @Size(min = 1, max = 250)
     @Column(name = "lastName")
     private String lastName;
     @Basic
+    @Nullable
     @Column(name = "niss")
     private String niss;
     @Basic
+    @Nullable
     @Column(name = "adress")
     private String adress;
     @Basic
+    @Nullable
     @Column(name = "streetNumber")
     private String streetNumber;
     @Basic
+    @Nullable
     @Column(name = "streetBox")
     private String streetBox;
     @Basic
+    @Nullable
     @Column(name = "postalCode")
     private String postalCode;
     @Basic
+    @Nullable
     @Column(name = "city")
     private String city;
     @Basic
+    @Nullable
+    @Size(min = 10, max = 13)
     @Column(name = "phone")
     private String phone;
     @Basic
     @Column(name = "email")
+    @Size(min = 6, max = 120)
+    @Pattern(regexp = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}")
     private String email;
     @Basic
     @Column(name = "tiersPayant")
@@ -262,6 +281,7 @@ public class Patient {
         return Objects.hash(id, firstName, lastName, niss, adress, streetNumber, streetBox, postalCode, city, phone, email, tiersPayant, birthdate, active);
     }
 
+
     public List<Information> getInformations() {
         return informations;
     }
@@ -293,4 +313,23 @@ public class Patient {
     public void setToDos(List<ToDo> toDos) {
         this.toDos = toDos;
     }
+
+    public void setFields(Patient patient) {
+        this.firstName = patient.firstName;
+        this.lastName = patient.lastName;
+        this.birthdate = patient.birthdate;
+        this.niss = patient.niss;
+        this.adress = patient.adress;
+        this.streetNumber = patient.streetNumber;
+        this.streetBox = patient.streetBox;
+        this.postalCode = patient.postalCode;
+        this.city = patient.city;
+        this.phone = patient.phone;
+        this.email = patient.email;
+        this.tiersPayant = patient.tiersPayant;
+        this.birthdate = patient.birthdate;
+        this.active = patient.active;
+        this.user = patient.user;
+    }
+
 }

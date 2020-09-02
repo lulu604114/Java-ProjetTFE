@@ -73,7 +73,8 @@ public class FileUploadBean implements Serializable {
         FileOutputStream output = null;
         try {
             // Create folder (if it doesn't already exist)
-            File folder = new File("C:\\Users\\natha\\IdeaProjects\\Projet TFE\\files");
+//            File folder = new File("C:\\Users\\natha\\IdeaProjects\\Projet TFE\\files");
+            File folder = new File("C:\\Patientfiles");
             if (!folder.exists()) {
                 folder.mkdirs();
             }

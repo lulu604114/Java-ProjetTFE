@@ -3,6 +3,7 @@ import com.projet.connection.EMF;
 import com.projet.dao.EntityFinder;
 import com.projet.dao.EntityFinderImpl;
 import com.projet.entities.Patient;
+import com.projet.entities.User;
 import org.apache.log4j.Logger;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.credential.PasswordMatcher;
@@ -13,6 +14,8 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Date;
+import java.text.SimpleDateFormat;
 
 public class PatientService extends Service<Patient> implements Serializable {
     private static final Logger log = Logger.getLogger(PatientService.class);
@@ -20,6 +23,7 @@ public class PatientService extends Service<Patient> implements Serializable {
 
 
     public PatientService(Class<?> ec) {
+
         super(ec);
     }
 
@@ -29,11 +33,22 @@ public class PatientService extends Service<Patient> implements Serializable {
 
     @Override
     public Patient save(Patient patient) {
+        System.out.println("Je save");
         if (patient.getId() == 0) {
+            System.out.println("Je persist");
             em.persist(patient);
         } else {
+            System.out.println("Je merge");
             patient = em.merge(patient);
+
         }
+        return patient;
+    }
+
+    public Patient createPatient(Patient patient, User user){
+        System.out.println("Je crée le patient :" + patient.getFirstName() + " date " + patient.getBirthdate() );
+        patient.setUser(user);
+        patient.setActive(true);
         return patient;
     }
 }
