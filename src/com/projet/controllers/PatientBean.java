@@ -29,7 +29,6 @@ public class PatientBean implements Serializable {
 
     PatientService service = new PatientService(Patient.class);
     private Patient patient;
-    private Patient editedPatient;
     private List<Patient> patients;
     private List<Patient> filteredPatients;
     private Patient patientTemp;
@@ -72,6 +71,7 @@ public class PatientBean implements Serializable {
             succes = true;
         } finally {
             if (transaction.isActive()) {
+
                 transaction.rollback();
                 succes = false;
             }
@@ -94,9 +94,9 @@ public class PatientBean implements Serializable {
         transaction.begin();
 
         try {
-            patient.setFields(patientTemp);
-
-            service.save(patient);
+            //patient.setFields(patientTemp);
+            System.out.println("patient temps apres setfield" + patientTemp.getAdress());
+            service.save(patientTemp);
             System.out.println("servicesaveok");
             transaction.commit();
             System.out.println("transaction commit ok");
@@ -104,6 +104,7 @@ public class PatientBean implements Serializable {
 //            message.display(FacesMessage.SEVERITY_INFO, "Modifications réussies");
         } finally {
             if (transaction.isActive()) {
+                System.out.println("probleme");
                 transaction.rollback();
 
 //                message.display(FacesMessage.SEVERITY_ERROR, "Unknown error");

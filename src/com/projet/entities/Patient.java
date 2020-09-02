@@ -99,7 +99,7 @@ public class Patient {
 
     public Patient(){}
 
-    public Patient(int id, String firstName, String lastName, String email, String niss, String streetNumber, String streetBox, String postalCode, String city, Date birthdate, boolean tiersPayant, String phone, String adress)
+    public Patient(int id, String firstName, String lastName, String email, String niss, String streetNumber, String streetBox, String postalCode, String city, Date birthdate, boolean tiersPayant, String phone, String adress, boolean active, User user)
     {
         this.id = id;
         this.firstName = firstName;
@@ -114,6 +114,8 @@ public class Patient {
         this.tiersPayant =tiersPayant;
         this.phone = phone;
         this.adress = adress;
+        this.user =  user;
+        this.active = active;
     }
 
     public Patient(Patient patient) {
@@ -130,7 +132,9 @@ public class Patient {
                 patient.getBirthdate(),
                 patient.isTiersPayant(),
                 patient.getPhone(),
-                patient.getAdress()
+                patient.getAdress(),
+                patient.isActive(),
+                patient.getUser()
         );
     }
 
