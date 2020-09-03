@@ -1,7 +1,6 @@
 package com.projet.controllers;
 
 import com.projet.conf.App;
-import com.projet.connection.EMF;
 import com.projet.entities.Meeting;
 import com.projet.entities.Patient;
 import com.projet.entities.User;
@@ -18,7 +17,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -57,16 +55,16 @@ public class AgendaBean implements Serializable {
     private String weekNumberCalculator = "date.getTime()";
     private String displayEventEnd;
     private String timeFormat;
-    private String slotDuration = "00:30:00";
+    private String slotDuration = "00:15:00";
     private String slotLabelInterval;
     private String slotLabelFormat;
-    private String scrollTime = "06:00:00";
-    private String minTime = "08:00:00";
-    private String maxTime = "17:30:00";
+    private String scrollTime = "17:30:00";
+    private String minTime = "06:00:00";
+    private String maxTime = "20:00:00";
     private String locale = "fr";
     private String timeZone = "";
     private String clientTimeZone = "local";
-    private String columnHeaderFormat = "";
+    private String columnHeaderFormat = "timeGridWeek: {weekday: 'short'}";
     private String view = "timeGridWeek";
 
     private User user;
@@ -212,7 +210,9 @@ public class AgendaBean implements Serializable {
         try {
             Meeting meeting = service.initMeeting(event);
 
-            user.addMeetings(meeting);
+            if (meeting.getId() == 0) user.addMeetings(meeting);
+            else user.updateMeetings(meeting);
+
             service.save(meeting);
 
             transaction.commit();

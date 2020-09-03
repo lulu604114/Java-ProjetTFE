@@ -19,11 +19,11 @@ body .ui-selectonemenu-panel .ui-state-disabled {
     display: none;
 }
 
-body .ui-inputgroup .ui-button{
+body .ui-inputgroup .ui-button {
     border: 1px solid #c4c4c4;
 }
 
-body .ui-noselection-option{
+body .ui-noselection-option {
     color: #666666;
 }
 
@@ -38,6 +38,7 @@ body .ui-noselection-option{
     padding: 20px;
     font-weight: 500;
 }
+
 /* CARD */
 
 .card-title {
@@ -169,6 +170,7 @@ body .ui-panel .ui-panel-content {
 .icon-secondary {
     color: #efefef;
 }
+
 /* TITLE BAR */
 body .ui-panel-titlebar img {
     height: 25px;
@@ -182,13 +184,14 @@ body .ui-panel-titlebar h1 {
     display: inline;
 }
 
-body .ui-panel .ui-panel-actions .ui-button{
+body .ui-panel .ui-panel-actions .ui-button {
     margin-right: 5px;
 }
 
-body .ui-panel .ui-panel-actions .ui-button:last-child{
+body .ui-panel .ui-panel-actions .ui-button:last-child {
     margin-right: 0;
 }
+
 /* END TITLE BAR*/
 
 /* TITLE BAR TOOLBAR */
@@ -206,7 +209,7 @@ body .ui-panel .ui-panel-content .toolbar h4 {
 }
 
 body .ui-panel .ui-panel-title .toolbar button,
-body .ui-panel .ui-panel-content .toolbar button{
+body .ui-panel .ui-panel-content .toolbar button {
     margin-left: 10px;
 }
 
@@ -241,7 +244,7 @@ body .ui-tabmenu .ui-tabmenu-nav .ui-tabmenuitem:last-child {
 }
 
 /* END MENU TAB */
-body .ui-datatable .ui-datatable-data > tr.ui-datatable-even{
+body .ui-datatable .ui-datatable-data > tr.ui-datatable-even {
     background-color: inherit;
 }
 
@@ -254,6 +257,10 @@ body .ui-datatable thead th {
     text-align: left;
     border: none;
     border-bottom: 2px solid #dedede;
+}
+
+.layout-content form table {
+    width: 100% !important;
 }
 
 body .ui-datatable .ui-datatable-data > tr {
@@ -353,7 +360,7 @@ body .ui-panel .ui-panel-actions .ui-button {
     body .ui-panel .ui-panel-actions ui.ui-separator {
         transform: rotate(90deg);
     }
-    
+
 
     body .ui-panel .ui-panel-actions button {
         margin: 5px 0;

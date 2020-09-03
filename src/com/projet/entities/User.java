@@ -18,7 +18,7 @@ import java.util.*;
  * Created by Intellij IDEA.
  *
  * @author lucas Lapaque
- * @project TFE  Date: 27/01/2020 Time: 19:28 =================================================================
+ * @project TFE Date: 27/01/2020 Time: 19:28 =================================================================
  */
 @Entity
 @Table(name = "Users", schema = "jsf_tfe")
@@ -623,6 +623,20 @@ public class User implements Serializable, Cloneable {
 
         this.getMeetings().add(meeting);
         meeting.setUser(this);
+
+        return meeting;
+    }
+
+    /**
+     * Update meetings meeting.
+     *
+     * @param meeting the meeting
+     *
+     * @return the meeting
+     */
+    public Meeting updateMeetings(Meeting meeting) {
+        int index = this.getMeetings().indexOf(meeting);
+        this.getMeetings().set(index, meeting);
 
         return meeting;
     }

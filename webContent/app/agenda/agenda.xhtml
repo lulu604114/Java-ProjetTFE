@@ -16,10 +16,20 @@
 
             <h:panelGrid columnClasses="value">
                 <p:schedule id="schedule"
+                            styleClass="schedule"
                             widgetVar="myschedule"
                             value="#{agendaBean.eventModel}"
                             view="#{agendaBean.view}"
-                >
+                            locale="#{agendaBean.locale}"
+                            minTime="#{agendaBean.minTime}"
+                            maxTime="#{agendaBean.maxTime}"
+                            tooltip="#{agendaBean.tooltip}"
+                            leftHeaderTemplate="#{agendaBean.leftHeaderTemplate}"
+                            rightHeaderTemplate="#{agendaBean.rightHeaderTemplate}"
+                            weekNumberCalculation="#{agendaBean.weekNumberCalculation}"
+                            weekNumberCalculator="#{agendaBean.weekNumberCalculator}"
+                            slotDuration="#{agendaBean.slotDuration}"
+                            clientTimeZone="#{agendaBean.clientTimeZone}">
 
                     <p:ajax event="dateSelect"
                             listener="#{agendaBean.onDateSelect}"
