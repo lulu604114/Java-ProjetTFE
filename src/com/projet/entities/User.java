@@ -532,4 +532,21 @@ public class User implements Serializable, Cloneable {
     public void setUserSuppliers(List<UserSupplier> userSuppliers) {
         this.userSuppliers = userSuppliers;
     }
+
+    public UserSupplier addUserSupplier(UserSupplier userSupplier) {
+        if (getUserSuppliers() == null)
+            setUserSuppliers(new ArrayList<>());
+
+        getUserSuppliers().add(userSupplier);
+        userSupplier.setUser(this);
+
+        return userSupplier;
+    }
+
+    public UserSupplier removeSupplier(UserSupplier userSupplier) {
+        getUserSuppliers().remove(userSupplier);
+        userSupplier.setUser(null);
+
+        return userSupplier;
+    }
 }

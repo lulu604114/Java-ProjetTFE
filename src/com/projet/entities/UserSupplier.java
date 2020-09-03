@@ -15,6 +15,9 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "User_Suppliers", schema = "jsf_tfe")
+@NamedQueries({
+        @NamedQuery(name = "US.findByUser", query = "SELECT u FROM UserSupplier u WHERE u.user=:user")
+})
 public class UserSupplier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +26,7 @@ public class UserSupplier {
     @ManyToOne
     @JoinColumn(name = "user", referencedColumnName = "id", nullable = false)
     private User user;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "supplier", referencedColumnName = "ID", nullable = false)
     private Supplier supplier;
 

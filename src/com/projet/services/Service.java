@@ -23,11 +23,13 @@ import javax.persistence.PersistenceContext;
 public abstract class Service<E> implements IService<E> {
 
     protected EntityManager em;
+    protected EntityFinder<E> finder;
 
-    EntityFinder<E> finder;
+    private Class<?> ec;
 
     Service(Class<?> ec) {
         this.em = EMF.getEM();
+        this.ec = ec;
         this.finder = new EntityFinderImpl<>(ec, this.em);
     }
 
@@ -37,11 +39,8 @@ public abstract class Service<E> implements IService<E> {
 
     public abstract E save(E e);
 
-    public void delete(E e) {
-        if (em.contains(e)) {
-            em.merge(e);
-        }
-
+    public void delete(int id) {
+        E e = (E) em.find(ec, id);
         em.remove(e);
     }
 

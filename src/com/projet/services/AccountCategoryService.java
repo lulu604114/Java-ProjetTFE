@@ -37,6 +37,12 @@ public class AccountCategoryService extends Service<AccountCategory>{
 
     @Override
     public AccountCategory save(AccountCategory accountCategory) {
-        return null;
+        if (accountCategory.getId() == 0) {
+            em.persist(accountCategory);
+        } else {
+            accountCategory = em.merge(accountCategory);
+        }
+
+        return accountCategory;
     }
 }

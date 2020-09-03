@@ -216,7 +216,7 @@
                         </f:facet>
                         <p:dataTable id="itemList" var="item" value="#{chargeDetailView.charge.accountItems}">
                             <f:facet name="emptyMessage">
-                                <div class="emptyMessage">
+                                <div class="card emptyMessage">
                                     <i class="far fa-plus-square fa-5x icon-primary"/>
                                     <div class="text">
                                         <p>Ajouter des imputations à votre dépense afin de renseigner
@@ -268,8 +268,8 @@
                             </p:column>
                             <p:column style="text-align: right">
                                 <f:facet name="header">Action <i class="fas fa-cog"></i></f:facet>
-                                <p:splitButton id="action_split" value=" Modifier" icon="far fa-edit">
-                                    <p:menuitem value=" Supprimer" icon="fas fa-trash-alt" />
+                                <p:splitButton id="action_split" value=" Modifier" icon="far fa-edit" style="font-size: 10px">
+                                    <p:menuitem value=" Supprimer" icon="fas fa-trash-alt" style="font-size: 10px"/>
                                 </p:splitButton>
                             </p:column>
                             <p:columnGroup type="footer">

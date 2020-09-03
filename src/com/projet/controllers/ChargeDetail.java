@@ -30,7 +30,7 @@ import java.util.List;
  */
 @Named("chargeDetailView")
 @SessionScoped
-public class ChargeDetailView implements Serializable {
+public class ChargeDetail implements Serializable {
     private static final long serialVersionUID = 1L;
     private Message message = Message.getMessage(App.BUNDLE_MESSAGE);
     private AccountItemService accountItemService = new AccountItemService(AccountItemService.class);
@@ -66,7 +66,7 @@ public class ChargeDetailView implements Serializable {
         accountItem_privatePart_is_not_set();
     }
 
-    public String edit(Charge charge) {
+    public String getChargeDetail(Charge charge) {
         this.charge = charge;
 
         return "/app/charge/chargeDetail?faces-redirect=true";
