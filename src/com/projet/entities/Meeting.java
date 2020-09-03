@@ -1,6 +1,8 @@
 package com.projet.entities;
 
+import com.projet.conf.App;
 import com.projet.enumeration.MeetingTypeEnum;
+import com.projet.security.SecurityManager;
 
 import javax.persistence.*;
 import java.util.Calendar;
@@ -14,6 +16,7 @@ import java.util.Calendar;
 @Table(name = "Meetings", schema = "jsf_tfe")
 @NamedQueries({
         @NamedQuery(name = "Meeting.findAll", query = "SELECT m FROM Meeting m"),
+        @NamedQuery(name = "Meeting.findAllByUser", query = "SELECT m FROM Meeting m WHERE m.user=:user")
 })
 public class Meeting {
 
@@ -56,6 +59,9 @@ public class Meeting {
     @ManyToOne
     @JoinColumn(name = "bill", referencedColumnName = "id", nullable = true)
     private Billing bill;
+    @ManyToOne
+    @JoinColumn(name = "user", referencedColumnName = "id", nullable = false)
+    private User user;
 
     /**
      * Instantiates a new Meeting.
@@ -311,5 +317,23 @@ public class Meeting {
      */
     public void setBill(Billing bill) {
         this.bill = bill;
+    }
+
+    /**
+     * Gets user.
+     *
+     * @return the user
+     */
+    public User getUser() {
+        return user;
+    }
+
+    /**
+     * Sets user.
+     *
+     * @param user the user
+     */
+    public void setUser(User user) {
+        this.user = user;
     }
 }

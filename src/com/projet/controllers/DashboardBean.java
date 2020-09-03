@@ -42,8 +42,8 @@ public class DashboardBean implements Serializable {
 
     public Object getCardContent(Card card) {
         Object value = new Object();
-        switch (card.getIcon()) {
-            case "message":
+        switch (card.getIcon().toLowerCase()) {
+            case "message": {
                 if (card.getSize().equals("small")) {
                     value = "0";
                 } else {
@@ -90,7 +90,14 @@ public class DashboardBean implements Serializable {
                             "roberto_deguglielmo.jpg"));
                     value = messages;
                 }
-                break;
+            }
+            break;
+            case "calendar": {
+                if (card.getSize().equals("small")) {
+                    value = this.user.getMeetings().size();
+                }
+            }
+            break;
             default:
                 value = "0";
         }

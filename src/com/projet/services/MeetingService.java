@@ -26,10 +26,17 @@ public class MeetingService extends Service<Meeting> implements Serializable {
      *
      * @param ec the ec
      */
-    public MeetingService(Class<?> ec ) {
+    public MeetingService(Class<?> ec) {
         super(ec);
     }
 
+    /**
+     * Init meeting meeting.
+     *
+     * @param event the event
+     *
+     * @return the meeting
+     */
     public Meeting initMeeting(ScheduleEvent<Meeting> event) {
         Meeting meeting = event.getData();
 
@@ -51,6 +58,11 @@ public class MeetingService extends Service<Meeting> implements Serializable {
         return meeting;
     }
 
+    /**
+     * Remove.
+     *
+     * @param meeting the meeting
+     */
     public void remove(Meeting meeting) {
         Meeting meetingDB = em.find(Meeting.class, meeting.getId());
         if (meetingDB != null) {

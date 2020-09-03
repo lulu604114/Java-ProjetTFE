@@ -69,6 +69,8 @@ public class AgendaBean implements Serializable {
     private String columnHeaderFormat = "";
     private String view = "timeGridWeek";
 
+    private User user;
+
     private MeetingService meetingService = new MeetingService(Meeting.class);
 
     /**
@@ -76,8 +78,10 @@ public class AgendaBean implements Serializable {
      */
     @PostConstruct
     public void init() {
+        user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
         eventModel = new DefaultScheduleModel();
-        List<Meeting> meetings = this.meetingService.getMeetings();
+
+        List<Meeting> meetings = user.getMeetings();
 
         if (!meetings.isEmpty()) {
             meetings.forEach(meeting -> {
@@ -112,7 +116,6 @@ public class AgendaBean implements Serializable {
             eventModel.updateEvent(event);
 
         event = new DefaultScheduleEvent<>();
-
     }
 
     /**
@@ -176,7 +179,9 @@ public class AgendaBean implements Serializable {
             transaction.begin();
 
             try {
-                service.remove(this.event.getData());
+                Meeting meeting = this.event.getData();
+                user.removeMeeting(meeting);
+                service.remove(meeting);
 
                 transaction.commit();
 
@@ -207,6 +212,7 @@ public class AgendaBean implements Serializable {
         try {
             Meeting meeting = service.initMeeting(event);
 
+            user.addMeetings(meeting);
             service.save(meeting);
 
             transaction.commit();
@@ -247,6 +253,13 @@ public class AgendaBean implements Serializable {
         return results;
     }
 
+    /**
+     * Display patient label string.
+     *
+     * @param patient the patient
+     *
+     * @return the string
+     */
     public String displayPatientLabel(Patient patient) {
         String value = "";
         if (patient != null) {
