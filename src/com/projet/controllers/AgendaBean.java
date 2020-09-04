@@ -32,7 +32,7 @@ import java.util.List;
 @ViewScoped
 public class AgendaBean implements Serializable {
     private Message message = Message.getMessage(App.BUNDLE_MESSAGE);
-    private ScheduleModel eventModel;
+    private LazyScheduleModel events;
 
     private ScheduleEvent<Meeting> event = new DefaultScheduleEvent<Meeting>();
 
@@ -77,24 +77,25 @@ public class AgendaBean implements Serializable {
     @PostConstruct
     public void init() {
         user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
-        eventModel = new DefaultScheduleModel();
-
-        List<Meeting> meetings = user.getMeetings();
-
-        if (!meetings.isEmpty()) {
-            meetings.forEach(meeting -> {
-                event = DefaultScheduleEvent.builder()
-                        .title(meeting.getTitle())
-                        .startDate(this.meetingService.toLocalDateTime(meeting.getStartDate()))
-                        .endDate(this.meetingService.toLocalDateTime(meeting.getEndDate()))
-                        .description(meeting.getDescription())
-                        .data(meeting)
-                        .allDay(meeting.isAllDay())
-                        .overlapAllowed(true)
-                        .build();
-                eventModel.addEvent(event);
-            });
-        }
+        this.events = new LazyScheduleModel() {
+            @Override
+            public void loadEvents(LocalDateTime startDate, LocalDateTime endDate) {
+                List<Meeting> meetings = meetingService.getMeetings(startDate, endDate, user);
+                if (meetings.isEmpty()) return;
+                meetings.forEach(meeting -> {
+                    addEvent(DefaultScheduleEvent.builder()
+                            .title(meeting.getTitle())
+                            .startDate(meetingService.toLocalDateTime(meeting.getStartDate()))
+                            .endDate(meetingService.toLocalDateTime(meeting.getEndDate()))
+                            .description(meeting.getDescription())
+                            .data(meeting)
+                            .allDay(meeting.isAllDay())
+                            .overlapAllowed(true)
+                            .build()
+                    );
+                });
+            }
+        };
     }
 
     /**
@@ -102,17 +103,11 @@ public class AgendaBean implements Serializable {
      */
     public void addEvent() {
         if (event.isAllDay()) {
-            // see https://github.com/primefaces/primefaces/issues/1164
             if (event.getStartDate().toLocalDate().equals(event.getEndDate().toLocalDate())) {
                 event.setEndDate(event.getEndDate().plusDays(1));
             }
         }
         this.saveMeeting(event);
-        if (event.getId() == null)
-            eventModel.addEvent(event);
-        else
-            eventModel.updateEvent(event);
-
         event = new DefaultScheduleEvent<>();
     }
 
@@ -167,36 +162,6 @@ public class AgendaBean implements Serializable {
     }
 
     /**
-     * On event delete.
-     */
-    public void onEventDelete() {
-        if (this.event != null) {
-            MeetingService service = new MeetingService(Meeting.class);
-            EntityTransaction transaction = service.getTransaction();
-
-            transaction.begin();
-
-            try {
-                Meeting meeting = this.event.getData();
-                user.removeMeeting(meeting);
-                service.remove(meeting);
-
-                transaction.commit();
-
-                eventModel.deleteEvent(this.event);
-                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Événement ", this.event.getTitle() + "a été supprimé");
-                addMessage(message);
-            } finally {
-                if (transaction.isActive()) {
-                    transaction.rollback();
-                    message.display(FacesMessage.SEVERITY_ERROR, "Unknown error", "Please retry");
-                }
-                service.close();
-            }
-        }
-    }
-
-    /**
      * Update meeting.
      *
      * @param event the event
@@ -209,9 +174,6 @@ public class AgendaBean implements Serializable {
 
         try {
             Meeting meeting = service.initMeeting(event);
-
-            if (meeting.getId() == 0) user.addMeetings(meeting);
-            else user.updateMeetings(meeting);
 
             service.save(meeting);
 
@@ -226,6 +188,35 @@ public class AgendaBean implements Serializable {
             }
 
             service.close();
+        }
+    }
+
+    /**
+     * On event delete.
+     */
+    public void onEventDelete() {
+        if (this.event != null) {
+            MeetingService service = new MeetingService(Meeting.class);
+            EntityTransaction transaction = service.getTransaction();
+
+            transaction.begin();
+
+            try {
+                Meeting meeting = this.event.getData();
+                service.remove(meeting);
+
+                transaction.commit();
+
+                events.deleteEvent(this.event);
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Événement ", this.event.getTitle() + "a été supprimé");
+                addMessage(message);
+            } finally {
+                if (transaction.isActive()) {
+                    transaction.rollback();
+                    message.display(FacesMessage.SEVERITY_ERROR, "Unknown error", "Please retry");
+                }
+                service.close();
+            }
         }
     }
 
@@ -294,21 +285,21 @@ public class AgendaBean implements Serializable {
     }
 
     /**
-     * Gets event model.
+     * Gets events.
      *
-     * @return the event model
+     * @return the events
      */
-    public ScheduleModel getEventModel() {
-        return eventModel;
+    public LazyScheduleModel getEvents() {
+        return events;
     }
 
     /**
-     * Sets event model.
+     * Sets events.
      *
-     * @param eventModel the event model
+     * @param events the events
      */
-    public void setEventModel(ScheduleModel eventModel) {
-        this.eventModel = eventModel;
+    public void setEvents(LazyScheduleModel events) {
+        this.events = events;
     }
 
     /**
@@ -849,5 +840,23 @@ public class AgendaBean implements Serializable {
      */
     public void setMeetingService(MeetingService meetingService) {
         this.meetingService = meetingService;
+    }
+
+    /**
+     * Gets user.
+     *
+     * @return the user
+     */
+    public User getUser() {
+        return user;
+    }
+
+    /**
+     * Sets user.
+     *
+     * @param user the user
+     */
+    public void setUser(User user) {
+        this.user = user;
     }
 }

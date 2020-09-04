@@ -15,8 +15,18 @@ import java.util.Calendar;
 @Entity
 @Table(name = "Meetings", schema = "jsf_tfe")
 @NamedQueries({
-        @NamedQuery(name = "Meeting.findAll", query = "SELECT m FROM Meeting m"),
-        @NamedQuery(name = "Meeting.findAllByUser", query = "SELECT m FROM Meeting m WHERE m.user=:user")
+        @NamedQuery(
+                name = "Meeting.findAll",
+                query = "SELECT m FROM Meeting m"
+        ),
+        @NamedQuery(
+                name = "Meeting.findAllByUser",
+                query = "SELECT m FROM Meeting m WHERE m.user=:user"
+        ),
+        @NamedQuery(
+                name = "Meeting.findByUserAndStartDateAndEndDate",
+                query = "SELECT m FROM Meeting m WHERE m.user=:user AND (m.startDate BETWEEN :startDate AND :endDate) AND (m.endDate < :endDate)"
+        )
 })
 public class Meeting {
 
