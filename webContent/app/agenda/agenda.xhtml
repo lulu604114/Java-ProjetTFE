@@ -61,6 +61,7 @@
             </h:panelGrid>
 
             <p:dialog widgetVar="eventDialog"
+                      id="eventDialog"
                       header="Event Details"
                       styleClass="event-detail-container"
                       showEffect="size"
@@ -72,9 +73,9 @@
                 <h:panelGrid id="eventDetails"
                              columns="1"
                              cellpadding="2">
-
                     <p:outputLabel value="Type"
-                                   for="type"/>
+                                   for="type"
+                                   style="font-weight:bold"/>
 
                     <p:selectOneMenu id="type"
                                      value="#{ agendaBean.event.data.type}">
@@ -87,7 +88,8 @@
                     </p:selectOneMenu>
 
                     <p:outputLabel value="Patient"
-                                   for="patient"/>
+                                   for="patient"
+                                   style="font-weight:bold"/>
                     <p:autoComplete id="patient"
                                     value="#{ agendaBean.event.data.patient }"
                                     completeMethod="#{ agendaBean.completePatient }"
@@ -101,13 +103,16 @@
                                     itemLabel="#{ agendaBean.displayPatientLabel(patient) }"/>
 
                     <p:outputLabel for="title"
-                                   value="Titles:"/>
+                                   value="Titles"
+                                   style="font-weight:bold"/>
                     <p:inputText id="title"
+                                 label="title"
                                  value="#{ agendaBean.event.title }"
                                  required="true"/>
 
                     <p:outputLabel for="from"
-                                   value="From:"/>
+                                   value="From"
+                                   style="font-weight:bold"/>
                     <p:datePicker id="from"
                                   value="#{ agendaBean.event.startDate }"
                                   pattern="dd/MM/yyyy"
@@ -116,7 +121,8 @@
                                   required="true"/>
 
                     <p:outputLabel for="to"
-                                   value="To:"/>
+                                   value="To"
+                                   style="font-weight:bold"/>
                     <p:datePicker id="to"
                                   value="#{ agendaBean.event.endDate }"
                                   pattern="dd/MM/yyyy"
@@ -125,7 +131,8 @@
                                   required="true"/>
 
                     <p:outputLabel for="allDay"
-                                   value="All Day"/>
+                                   value="All Day"
+                                   style="font-weight:bold"/>
                     <h:selectBooleanCheckbox id="allDay"
                                              value="#{ agendaBean.event.allDay }"/>
 
@@ -141,9 +148,14 @@
                     <p:commandButton id="addButton"
                                      style="float: right"
                                      icon="fas fa-save"
+                                     validateClient="true"
                                      action="#{ agendaBean.addEvent }"
-                                     oncomplete="PF('myschedule').update();PF('eventDialog').hide();"/>
-
+                                     oncomplete="if (!args.validationFailed) {
+                                                    PF('myschedule').update();
+                                                    PF('eventDialog').hide();
+                                                } else {
+                                                    PF('eventDialog').jq.effect('shake', {times:5}, 100);
+                                                }"/>
                 </h:panelGrid>
             </p:dialog>
         </h:form>

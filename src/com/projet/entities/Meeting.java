@@ -79,6 +79,7 @@ public class Meeting {
     public Meeting() {
         this.type = MeetingTypeEnum.APPOINTMENT;
         this.allDay = false;
+        this.user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
     }
 
     /**
@@ -102,6 +103,8 @@ public class Meeting {
         this.allDay = allDay;
         this.type = type;
         this.patient = patient;
+        this.user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
+
     }
 
     /**
@@ -129,6 +132,7 @@ public class Meeting {
         this.place = place;
         this.patient = patient;
         this.bill = bill;
+        this.user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
     }
 
     /**

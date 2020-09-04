@@ -1,8 +1,11 @@
 package com.projet.utils;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 /**
  * =================================================================
@@ -43,5 +46,50 @@ public class DateManager {
         calendar.set(Calendar.DATE, 0);
 
         return calendar.getTime();
+    }
+
+    /**
+     * To date date.
+     *
+     * @param localDateTime the local date time
+     *
+     * @return the date
+     */
+    public static Date toDate(LocalDateTime localDateTime) {
+        if (localDateTime == null) {
+            return null;
+        }
+        return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    /**
+     * To local date time local date time.
+     *
+     * @param calendar the calendar
+     *
+     * @return the local date time
+     */
+    public static LocalDateTime toLocalDateTime(Calendar calendar) {
+        if (calendar == null) {
+            return null;
+        }
+        TimeZone tz = calendar.getTimeZone();
+        ZoneId zid = tz == null ? ZoneId.systemDefault() : tz.toZoneId();
+        return LocalDateTime.ofInstant(calendar.toInstant(), zid);
+    }
+
+    /**
+     * To calendar calendar.
+     *
+     * @param localDateTime the local date time
+     *
+     * @return the calendar
+     */
+    public static Calendar toCalendar(LocalDateTime localDateTime) {
+        Date date = java.util.Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+
+        return calendar;
     }
 }

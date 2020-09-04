@@ -6,6 +6,7 @@ import com.projet.entities.Patient;
 import com.projet.entities.User;
 import com.projet.security.SecurityManager;
 import com.projet.services.MeetingService;
+import com.projet.utils.DateManager;
 import com.projet.utils.Message;
 import org.primefaces.event.ScheduleEntryMoveEvent;
 import org.primefaces.event.ScheduleEntryResizeEvent;
@@ -85,8 +86,8 @@ public class AgendaBean implements Serializable {
                 meetings.forEach(meeting -> {
                     addEvent(DefaultScheduleEvent.builder()
                             .title(meeting.getTitle())
-                            .startDate(meetingService.toLocalDateTime(meeting.getStartDate()))
-                            .endDate(meetingService.toLocalDateTime(meeting.getEndDate()))
+                            .startDate(DateManager.toLocalDateTime(meeting.getStartDate()))
+                            .endDate(DateManager.toLocalDateTime(meeting.getEndDate()))
                             .description(meeting.getDescription())
                             .data(meeting)
                             .allDay(meeting.isAllDay())
@@ -169,6 +170,7 @@ public class AgendaBean implements Serializable {
     public void saveMeeting(ScheduleEvent event) {
         MeetingService service = new MeetingService(Meeting.class);
         EntityTransaction transaction = service.getTransaction();
+        FacesMessage message;
 
         transaction.begin();
 
@@ -179,16 +181,21 @@ public class AgendaBean implements Serializable {
 
             transaction.commit();
 
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Événement modifié", event.getTitle() + "a été mis à jour");
-            addMessage(message);
+            if (meeting.getId() != 0) {
+                message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Événement modifié", event.getTitle() + "a été mis à jour");
+            } else {
+                message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Événement ", event.getTitle() + "a été ajouté");
+            }
         } finally {
             if (transaction.isActive()) {
                 transaction.rollback();
-                message.display(FacesMessage.SEVERITY_ERROR, "Unknown error", "Please retry");
+                message = new FacesMessage(FacesMessage.SEVERITY_ERROR, null, "Une erreur est survenue");
             }
 
             service.close();
         }
+        addMessage(message);
+
     }
 
     /**

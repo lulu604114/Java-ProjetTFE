@@ -611,51 +611,6 @@ public class User implements Serializable, Cloneable {
     }
 
     /**
-     * Add meetings meeting.
-     *
-     * @param meeting the meeting
-     *
-     * @return the meeting
-     */
-    public Meeting addMeetings(Meeting meeting) {
-        if (this.getMeetings() == null)
-            setMeetings(new ArrayList<>());
-
-        this.getMeetings().add(meeting);
-        meeting.setUser(this);
-
-        return meeting;
-    }
-
-    /**
-     * Update meetings meeting.
-     *
-     * @param meeting the meeting
-     *
-     * @return the meeting
-     */
-    public Meeting updateMeetings(Meeting meeting) {
-        int index = this.getMeetings().indexOf(meeting);
-        this.getMeetings().set(index, meeting);
-
-        return meeting;
-    }
-
-    /**
-     * Remove meeting meeting.
-     *
-     * @param meeting the meeting
-     *
-     * @return the meeting
-     */
-    public Meeting removeMeeting(Meeting meeting) {
-        this.getMeetings().remove(meeting);
-        meeting.setUser(null);
-
-        return meeting;
-    }
-
-    /**
      * Gets meetings.
      *
      * @return the meetings

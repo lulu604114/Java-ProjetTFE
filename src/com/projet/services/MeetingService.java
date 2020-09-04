@@ -1,10 +1,9 @@
 package com.projet.services;
 
-import com.projet.conf.App;
 import com.projet.entities.Meeting;
 import com.projet.entities.User;
+import com.projet.utils.DateManager;
 import org.apache.log4j.Logger;
-import com.projet.security.SecurityManager;
 import org.primefaces.model.ScheduleEvent;
 
 import java.io.Serializable;
@@ -40,8 +39,8 @@ public class MeetingService extends Service<Meeting> implements Serializable {
     public Meeting initMeeting(ScheduleEvent<Meeting> event) {
         Meeting meeting = event.getData();
 
-        meeting.setStartDate(this.toCalendar(event.getStartDate()));
-        meeting.setEndDate(this.toCalendar(event.getEndDate()));
+        meeting.setStartDate(DateManager.toCalendar(event.getStartDate()));
+        meeting.setEndDate(DateManager.toCalendar(event.getEndDate()));
         meeting.setAllDay(event.isAllDay());
         meeting.setTitle(event.getTitle());
 
@@ -82,54 +81,9 @@ public class MeetingService extends Service<Meeting> implements Serializable {
     public List<Meeting> getMeetings(LocalDateTime startDate, LocalDateTime endDate, User user) {
         Map<String, Object> params = new HashMap<>();
         params.put("user", (User) user);
-        params.put("startDate", (Date) this.toDate(startDate));
-        params.put("endDate", (Date) this.toDate(endDate));
+        params.put("startDate", (Date) DateManager.toDate(startDate));
+        params.put("endDate", (Date) DateManager.toDate(endDate));
 
         return finder.findByNamedQuery("Meeting.findByUserAndStartDateAndEndDate", params);
-    }
-
-    /**
-     * To date date.
-     *
-     * @param localDateTime the local date time
-     *
-     * @return the date
-     */
-    public Date toDate(LocalDateTime localDateTime) {
-        if (localDateTime == null) {
-            return null;
-        }
-        return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
-    }
-
-    /**
-     * To local date time local date time.
-     *
-     * @param calendar the calendar
-     *
-     * @return the local date time
-     */
-    public LocalDateTime toLocalDateTime(Calendar calendar) {
-        if (calendar == null) {
-            return null;
-        }
-        TimeZone tz = calendar.getTimeZone();
-        ZoneId zid = tz == null ? ZoneId.systemDefault() : tz.toZoneId();
-        return LocalDateTime.ofInstant(calendar.toInstant(), zid);
-    }
-
-    /**
-     * To calendar calendar.
-     *
-     * @param localDateTime the local date time
-     *
-     * @return the calendar
-     */
-    public Calendar toCalendar(LocalDateTime localDateTime) {
-        Date date = java.util.Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-
-        return calendar;
     }
 }
