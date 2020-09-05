@@ -10,12 +10,11 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Scanner;
+import javax.servlet.http.Part;
 
 @Named("fileUploadBean")
 @SessionScoped
@@ -24,7 +23,7 @@ public class FileUploadBean implements Serializable {
     private String fileName;
     private UploadedFile file;
     private UploadedFiles files;
-
+    private Part fileIncoming ;
     public UploadedFile getFile() {
         return file;
     }
