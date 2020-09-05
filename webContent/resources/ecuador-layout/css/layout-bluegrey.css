@@ -1342,7 +1342,6 @@ body .layout-wrapper .layout-main .layout-content {
 }
 .layout-content .layout-dashboard .overview-box .overview-numbers {
   margin-left: 12px;
-  margin-bottom: 20px;
   font-size: 20px;
   font-weight: 600;
 }
@@ -2931,6 +2930,46 @@ body .layout-wrapper .layout-main .layout-content {
   }
 }
 /* Add your customizations of layout here */
+/* AGENDA EVENT TYPE */
+body .appointment {
+  background-color: #f39611;
+  background-image: -webkit-gradient(linear, left top, right top, from(#f39611), to(#fc4576));
+  background-image: -webkit-linear-gradient(left, #f39611, #fc4576);
+  background-image: -moz-linear-gradient(left, #f39611, #fc4576);
+  background-image: -ms-linear-gradient(left, #f39611, #fc4576);
+  background-image: -o-linear-gradient(left, #f39611, #fc4576);
+  background-image: linear-gradient(left, #f39611, #fc4576);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f39611", endColorstr="#fc4576", gradientType="1");
+  border: 1px solid transparent !important;
+  padding: 3px;
+}
+
+body .session {
+  background-color: #7DC931 !important;
+  background-image: -webkit-gradient(linear, left top, right top, from(#7DC931), to(#14A143)) !important;
+  background-image: -webkit-linear-gradient(left, #7DC931, #14A143) !important;
+  background-image: -moz-linear-gradient(left, #7DC931, #14A143) !important;
+  background-image: -ms-linear-gradient(left, #7DC931, #14A143) !important;
+  background-image: -o-linear-gradient(left, #7DC931, #14A143) !important;
+  background-image: linear-gradient(left, #7DC931, #14A143) !important;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#7DC931", endColorstr="#14A143", gradientType="1") !important;
+  border: 1px solid transparent !important;
+  padding: 3px;
+}
+
+body .task {
+  background-color: #E02364 !important;
+  background-image: -webkit-gradient(linear, left top, right top, from(#E02364), to(#A22650)) !important;
+  background-image: -webkit-linear-gradient(left, #E02364, #A22650) !important;
+  background-image: -moz-linear-gradient(left, #E02364, #A22650) !important;
+  background-image: -ms-linear-gradient(left, #E02364, #A22650) !important;
+  background-image: -o-linear-gradient(left, #E02364, #A22650) !important;
+  background-image: linear-gradient(left, #E02364, #A22650) !important;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#E02364", endColorstr="#A22650", gradientType="1") !important;
+  border: 1px solid transparent !important;
+  padding: 3px;
+}
+
 /* montserrat-300 - latin-ext_latin */
 @font-face {
   font-family: "Montserrat";

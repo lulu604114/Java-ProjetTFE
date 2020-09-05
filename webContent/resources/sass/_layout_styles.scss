@@ -1,1 +1,48 @@
+@import "../sass/layout/mixins.scss";
 /* Add your customizations of layout here */
+
+/* AGENDA EVENT TYPE */
+body .appointment {
+  $start-color: #f39611;
+  $end-color: #fc4576;
+  background-color: $start-color;
+  background-image: -webkit-gradient(linear, left top, right top, from($start-color), to($end-color));
+  background-image: -webkit-linear-gradient(left, $start-color, $end-color);
+  background-image: -moz-linear-gradient(left, $start-color, $end-color);
+  background-image: -ms-linear-gradient(left, $start-color, $end-color);
+  background-image: -o-linear-gradient(left, $start-color, $end-color);
+  background-image: linear-gradient(left, $start-color, $end-color);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$start-color}', endColorstr='#{$end-color}', gradientType='1');
+  border: 1px solid transparent !important;
+  padding: 3px;
+}
+
+body .session {
+  $start-color: #7DC931;
+  $end-color: #14A143;
+  background-color: $start-color !important;
+  background-image: -webkit-gradient(linear, left top, right top, from($start-color), to($end-color)) !important;
+  background-image: -webkit-linear-gradient(left, $start-color, $end-color) !important;
+  background-image: -moz-linear-gradient(left, $start-color, $end-color) !important;
+  background-image: -ms-linear-gradient(left, $start-color, $end-color) !important;
+  background-image: -o-linear-gradient(left, $start-color, $end-color) !important;
+  background-image: linear-gradient(left, $start-color, $end-color) !important;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$start-color}', endColorstr='#{$end-color}', gradientType='1') !important;
+  border: 1px solid transparent !important;
+  padding: 3px;
+}
+
+body .task {
+  $start-color: #E02364;
+  $end-color: #A22650;
+  background-color: $start-color !important;
+  background-image: -webkit-gradient(linear, left top, right top, from($start-color), to($end-color)) !important;
+  background-image: -webkit-linear-gradient(left, $start-color, $end-color) !important;
+  background-image: -moz-linear-gradient(left, $start-color, $end-color) !important;
+  background-image: -ms-linear-gradient(left, $start-color, $end-color) !important;
+  background-image: -o-linear-gradient(left, $start-color, $end-color) !important;
+  background-image: linear-gradient(left, $start-color, $end-color) !important;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$start-color}', endColorstr='#{$end-color}', gradientType='1') !important;
+  border: 1px solid transparent !important;
+  padding: 3px;
+}
