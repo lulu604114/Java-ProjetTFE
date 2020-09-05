@@ -1,7 +1,7 @@
 body {
     .ui-panel {
         padding: 0;
-        
+
         .ui-panel-title {
             margin: 0;
         }
@@ -20,11 +20,11 @@ body {
 
                 .ui-icon-closethick {
                     @include icon_override("\f00d");
-                } 
+                }
 
                 .ui-icon-minusthick {
                     @include icon_override("\f068");
-                } 
+                }
 
                 .ui-icon-plusthick {
                     @include icon_override("\f067");
@@ -59,7 +59,7 @@ body {
         }
 
         &.ui-panel-collapsed-h {
-            .ui-panel-titlebar {   
+            .ui-panel-titlebar {
                 position: relative;
 
                 .ui-panel-titlebar-icon {
@@ -118,7 +118,7 @@ body {
                     border: $panelHeaderActiveHoverBorder;
                     background-color: $panelHeaderActiveHoverBgColor;
                     color: $panelHeaderActiveHoverTextColor;
-    
+
                     .ui-icon {
                         color: $panelHeaderActiveHoverIconColor;
                     }
@@ -133,7 +133,7 @@ body {
                 &.ui-icon-triangle-1-e {
                     @include icon_override("\f054");
                 }
-    
+
                 &.ui-icon-triangle-1-s {
                     @include icon_override("\f078");
                 }
@@ -155,7 +155,7 @@ body {
     .ui-tabs {
         padding: 0;
         position: static;
-        
+
         .ui-tabs-nav {
             margin: 0;
             padding: 0;
@@ -263,7 +263,7 @@ body {
                         @include icon_override("\f053");
                     }
                 }
-    
+
                 &.ui-tabs-navscroller-btn-right {
                     right: 0;
                     height: 100%;
@@ -361,7 +361,7 @@ body {
                 font-weight: $panelHeaderFontWeight;
             }
         }
-    } 
+    }
 
     .ui-scrollpanel {
         border: $panelContentBorder;
@@ -372,12 +372,12 @@ body {
         .ui-scrollpanel-drag {
             background-color:$scrollPanelHandleBgColor;
         }
-        
+
         .ui-scrollpanel-track {
             background-color: $scrollPanelTrackBgColor;
             border: $scrollPanelTrackBorder;
         }
-        
+
         .ui-scrollpanel-corner {
             background-color: $scrollPanelTrackBgColor;
         }
@@ -415,7 +415,7 @@ body {
 
             .ui-icon-minusthick {
                 @include icon_override("\f068");
-            } 
+            }
 
             .ui-icon-plusthick {
                 @include icon_override("\f067");
@@ -451,16 +451,16 @@ body {
                 margin: 0;
                 border-right: 0 none;
                 @include border-radius(0);
-                                
+
                 &:first-child {
                     @include border-radius-left($borderRadius);
                 }
-                
+
                 &:last-child {
                     @include border-radius-right($borderRadius);
                     border-right: $panelHeaderBorder;
                 }
-                
+
                 &.ui-state-highlight {
                     border: $panelHeaderActiveBorder;
                     background-color: $panelHeaderActiveBgColor;
@@ -468,5 +468,5 @@ body {
                 }
             }
         }
-    }  
+    }
 }
