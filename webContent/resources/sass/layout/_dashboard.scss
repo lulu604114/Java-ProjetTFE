@@ -124,7 +124,7 @@
             .ui-panel-titlebar {
                 border-top-left-radius: 6px;
                 border-top-right-radius: 6px;
-                @include background-gradient-bottom2top($color1, $color2);
+                @include background-gradient-left2right($color1, $color2);
                 color: white;
             }
 
@@ -179,7 +179,6 @@
                                 color: #888888;
                                 display: inline-block;
                                 font-weight: 400;
-                                margin-left: 6px;
                             }
 
                             i {

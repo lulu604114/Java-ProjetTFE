@@ -80,10 +80,46 @@ public class MeetingService extends Service<Meeting> implements Serializable {
      */
     public List<Meeting> getMeetings(LocalDateTime startDate, LocalDateTime endDate, User user) {
         Map<String, Object> params = new HashMap<>();
-        params.put("user", (User) user);
-        params.put("startDate", (Date) DateManager.toDate(startDate));
-        params.put("endDate", (Date) DateManager.toDate(endDate));
+        params.put("user", user);
+        params.put("startDate", DateManager.toDate(startDate));
+        params.put("endDate", DateManager.toDate(endDate));
 
         return finder.findByNamedQuery("Meeting.findByUserAndStartDateAndEndDate", params);
+    }
+
+    /**
+     * Gets meetings for card.
+     *
+     * @param startDate the start date
+     * @param endDate   the end date
+     * @param user      the user
+     *
+     * @return the meetings for card
+     */
+    public List<Meeting> getMeetingsForCard(LocalDateTime startDate, LocalDateTime endDate, User user) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("user", user);
+        params.put("startDate", DateManager.toDate(startDate));
+        params.put("endDate", DateManager.toDate(endDate));
+
+        return finder.findByNamedQuery("Meeting.findEventByUserAndStartDateAndEndDate", params);
+    }
+
+    /**
+     * Gets task for card.
+     *
+     * @param startDate the start date
+     * @param endDate   the end date
+     * @param user      the user
+     *
+     * @return the task for card
+     */
+    public List<Meeting> getTaskForCard(LocalDateTime startDate, LocalDateTime endDate, User user) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("user", user);
+        params.put("startDate", DateManager.toDate(startDate));
+        params.put("endDate", DateManager.toDate(endDate));
+
+        return finder.findByNamedQuery("Meeting.findTaskByUserAndStartDateAndEndDate", params);
     }
 }

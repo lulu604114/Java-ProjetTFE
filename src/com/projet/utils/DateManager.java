@@ -2,6 +2,8 @@ package com.projet.utils;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -18,6 +20,9 @@ import java.util.TimeZone;
  * =================================================================
  */
 public class DateManager {
+
+    public static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.SHORT);
+    public static DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
 
     public static int compareToCurrentDate(Date date) {
         Date currentDate = new Date();

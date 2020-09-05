@@ -1444,13 +1444,13 @@ body .layout-wrapper .layout-main .layout-content {
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
   background-color: #f39611;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#f39611), to(#fc4576));
-  background-image: -webkit-linear-gradient(bottom, #f39611, #fc4576);
-  background-image: -moz-linear-gradient(bottom, #f39611, #fc4576);
-  background-image: -ms-linear-gradient(bottom, #f39611, #fc4576);
-  background-image: -o-linear-gradient(bottom, #f39611, #fc4576);
-  background-image: linear-gradient(to bottom, #f39611, #fc4576);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f39611", endColorstr="#fc4576");
+  background-image: -webkit-gradient(linear, left top, right top, from(#f39611), to(#fc4576));
+  background-image: -webkit-linear-gradient(left, #f39611, #fc4576);
+  background-image: -moz-linear-gradient(left, #f39611, #fc4576);
+  background-image: -ms-linear-gradient(left, #f39611, #fc4576);
+  background-image: -o-linear-gradient(left, #f39611, #fc4576);
+  background-image: linear-gradient(left, #f39611, #fc4576);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#f39611", endColorstr="#fc4576", gradientType="1");
   color: white;
 }
 .layout-content .layout-dashboard .appointments .ui-panel-content {
@@ -1500,7 +1500,6 @@ body .layout-wrapper .layout-main .layout-content {
   color: #888888;
   display: inline-block;
   font-weight: 400;
-  margin-left: 6px;
 }
 .layout-content .layout-dashboard .appointments .ui-panel-content ul li .team-box i {
   display: inline-block;

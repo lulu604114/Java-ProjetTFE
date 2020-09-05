@@ -41,150 +41,25 @@
                                     <div class="ui-g-12 ui-md-12 ui-lg-4">
                                         <p:panel header="#{ dashboard[card.label] }" styleClass="appointments">
                                             <ul>
-                                                <li>
-                                                    <p:graphicImage name="images/icons/calendar.svg"
-                                                                    library="own-layout"/>
-                                                    <div class="seperator"></div>
-                                                    <div class="team-box">
-                                                        <span class="team-member">Brooke Wright</span>
-                                                        <div>
-                                                            <i class="fa fa-envelope"></i>
-                                                            <span class="team-member-mail">brooke@test.com</span>
+                                                <ui:repeat value="#{ dashboardBean.getCardContent(card) }"
+                                                           var="meeting">
+                                                    <li>
+                                                        <p:graphicImage name="images/icons/calendar.svg"
+                                                                        library="own-layout"/>
+                                                        <div class="seperator"></div>
+                                                        <div class="team-box">
+                                                            <span class="team-member">#{ meeting.patient.lastName } #{ meeting.patient.firstName }</span>
+                                                            <div>
+                                                                <i class="far fa-clock"></i>
+                                                                <span class="team-member-mail">#{ dashboardBean.displayMeetingTime(meeting) }</span>
+                                                            </div>
+                                                            <div>
+                                                                <i class="far fa-comment"></i>
+                                                                <span class="team-member-address">#{ meeting.title }</span>
+                                                            </div>
                                                         </div>
-                                                        <div>
-                                                            <i class="fa fa-map-pin"></i>
-                                                            <span class="team-member-address">153 Cold Valley Road</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <p:graphicImage name="images/icons/calendar.svg"
-                                                                    library="own-layout"/>
-                                                    <div class="seperator"></div>
-                                                    <div class="team-box">
-                                                        <span class="team-member">Maggie Walker</span>
-                                                        <div>
-                                                            <i class="fa fa-envelope"></i>
-                                                            <span class="team-member-mail">maggie@test.com</span>
-                                                        </div>
-                                                        <div>
-                                                            <i class="fa fa-map-pin"></i>
-                                                            <span class="team-member-address">5698 Anderson Street</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <p:graphicImage name="images/icons/calendar.svg"
-                                                                    library="own-layout"/>
-                                                    <div class="seperator"></div>
-                                                    <div class="team-box">
-                                                        <span class="team-member">Tom Baker</span>
-                                                        <div>
-                                                            <i class="fa fa-envelope"></i>
-                                                            <span class="team-member-mail">tom@example.com</span>
-                                                        </div>
-                                                        <div>
-                                                            <i class="fa fa-map-pin"></i>
-                                                            <span class="team-member-address">2304 Billy Bill Lane</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <p:graphicImage name="images/icons/calendar.svg"
-                                                                    library="own-layout"/>
-                                                    <div class="seperator"></div>
-                                                    <div class="team-box">
-                                                        <span class="team-member">Brooke Wright</span>
-                                                        <div>
-                                                            <i class="fa fa-envelope"></i>
-                                                            <span class="team-member-mail">brooke@test.com</span>
-                                                        </div>
-                                                        <div>
-                                                            <i class="fa fa-map-pin"></i>
-                                                            <span class="team-member-address">153 Cold Valley Road</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <p:graphicImage name="images/icons/calendar.svg"
-                                                                    library="own-layout"/>
-                                                    <div class="seperator"></div>
-                                                    <div class="team-box">
-                                                        <span class="team-member">Maggie Walker</span>
-                                                        <div>
-                                                            <i class="fa fa-envelope"></i>
-                                                            <span class="team-member-mail">maggie@test.com</span>
-                                                        </div>
-                                                        <div>
-                                                            <i class="fa fa-map-pin"></i>
-                                                            <span class="team-member-address">5698 Anderson Street</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <p:graphicImage name="images/icons/calendar.svg"
-                                                                    library="own-layout"/>
-                                                    <div class="seperator"></div>
-                                                    <div class="team-box">
-                                                        <span class="team-member">Tom Baker</span>
-                                                        <div>
-                                                            <i class="fa fa-envelope"></i>
-                                                            <span class="team-member-mail">tom@example.com</span>
-                                                        </div>
-                                                        <div>
-                                                            <i class="fa fa-map-pin"></i>
-                                                            <span class="team-member-address">2304 Billy Bill Lane</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <p:graphicImage name="images/icons/calendar.svg"
-                                                                    library="own-layout"/>
-                                                    <div class="seperator"></div>
-                                                    <div class="team-box">
-                                                        <span class="team-member">Brooke Wright</span>
-                                                        <div>
-                                                            <i class="fa fa-envelope"></i>
-                                                            <span class="team-member-mail">brooke@test.com</span>
-                                                        </div>
-                                                        <div>
-                                                            <i class="fa fa-map-pin"></i>
-                                                            <span class="team-member-address">153 Cold Valley Road</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <p:graphicImage name="images/icons/calendar.svg"
-                                                                    library="own-layout"/>
-                                                    <div class="seperator"></div>
-                                                    <div class="team-box">
-                                                        <span class="team-member">Maggie Walker</span>
-                                                        <div>
-                                                            <i class="fa fa-envelope"></i>
-                                                            <span class="team-member-mail">maggie@test.com</span>
-                                                        </div>
-                                                        <div>
-                                                            <i class="fa fa-map-pin"></i>
-                                                            <span class="team-member-address">5698 Anderson Street</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <p:graphicImage name="images/icons/calendar.svg"
-                                                                    library="own-layout"/>
-                                                    <div class="seperator"></div>
-                                                    <div class="team-box">
-                                                        <span class="team-member">Tom Baker</span>
-                                                        <div>
-                                                            <i class="fa fa-envelope"></i>
-                                                            <span class="team-member-mail">tom@example.com</span>
-                                                        </div>
-                                                        <div>
-                                                            <i class="fa fa-map-pin"></i>
-                                                            <span class="team-member-address">2304 Billy Bill Lane</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
+                                                    </li>
+                                                </ui:repeat>
                                             </ul>
                                         </p:panel>
                                     </div>
