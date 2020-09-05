@@ -11,7 +11,6 @@
         <class>com.projet.entities.Card</class>
         <class>com.projet.entities.Connection</class>
         <class>com.projet.entities.Contact</class>
-        <class>com.projet.entities.DashboardCard</class>
         <class>com.projet.entities.Dashboard</class>
         <class>com.projet.entities.DocumentType</class>
         <class>com.projet.entities.Document</class>
@@ -42,5 +41,10 @@
         <class>com.projet.entities.FinancialAccount</class>
         <class>com.projet.entities.UserAccount</class>
         <class>com.projet.entities.UserSupplier</class>
+
+        <properties>
+            <property name="eclipselink.logging.level" value="FINE"/>
+        </properties>
+
     </persistence-unit>
 </persistence>

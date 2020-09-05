@@ -48,7 +48,10 @@
                                                                         library="own-layout"/>
                                                         <div class="seperator"></div>
                                                         <div class="team-box">
-                                                            <span class="team-member">#{ meeting.patient.lastName } #{ meeting.patient.firstName }</span>
+                                                            <div>
+                                                                <i class="fas fa-user-injured"></i>
+                                                                <span class="team-member">#{ meeting.patient.lastName } #{ meeting.patient.firstName }</span>
+                                                            </div>
                                                             <div>
                                                                 <i class="far fa-clock"></i>
                                                                 <span class="team-member-mail">#{ dashboardBean.displayMeetingTime(meeting) }</span>
@@ -71,114 +74,15 @@
                                     <div class="ui-g-12 ui-md-12 ui-lg-4">
                                         <p:panel header="#{ dashboard[card.label] }" styleClass="tasks">
                                             <ul>
-                                                <li>
-                                                    <span>Sales Reports</span>
-                                                    <div class="time-badge">
-                                                        <span>TODAY</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <span>Pay Invoices</span>
-                                                    <div class="time-badge">
-                                                        <span>1 D</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <span>Jenny's Birthday</span>
-                                                    <div class="time-badge">
-                                                        <span>1 D</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <span>Client Meeting</span>
-                                                    <div class="time-badge">
-                                                        <span>2 D</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <span>Flight Ticket</span>
-                                                    <div class="time-badge">
-                                                        <span>5 D</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <span>New Themes</span>
-                                                    <div class="time-badge">
-                                                        <span>LATER</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <span>Sales Reports</span>
-                                                    <div class="time-badge">
-                                                        <span>LATER</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <span>Pay Invoices</span>
-                                                    <div class="time-badge">
-                                                        <span>LATER</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <span>Jenny's Birthday</span>
-                                                    <div class="time-badge">
-                                                        <span>LATER</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <span>Client Meeting</span>
-                                                    <div class="time-badge">
-                                                        <span>LATER</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <span>Flight Ticket</span>
-                                                    <div class="time-badge">
-                                                        <span>LATER</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <span>New Themes</span>
-                                                    <div class="time-badge">
-                                                        <span>LATER</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <span>Sales Reports</span>
-                                                    <div class="time-badge">
-                                                        <span>LATER</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <span>Pay Invoices</span>
-                                                    <div class="time-badge">
-                                                        <span>LATER</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <span>Jenny's Birthday</span>
-                                                    <div class="time-badge">
-                                                        <span>LATER</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <span>Client Meeting</span>
-                                                    <div class="time-badge">
-                                                        <span>LATER</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <span>Flight Ticket</span>
-                                                    <div class="time-badge">
-                                                        <span>LATER</span>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <span>New Themes</span>
-                                                    <div class="time-badge">
-                                                        <span>LATER</span>
-                                                    </div>
-                                                </li>
+                                                <ui:repeat value="#{ dashboardBean.getCardContent(card) }"
+                                                           var="task">
+                                                    <li>
+                                                        <span>#{ task.title }</span>
+                                                        <div class="time-badge">
+                                                            <span>#{ dashboardBean.displayTaskTime(task) }</span>
+                                                        </div>
+                                                    </li>
+                                                </ui:repeat>
                                             </ul>
                                         </p:panel>
                                     </div>
