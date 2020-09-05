@@ -34,13 +34,13 @@
                     <!-- WHEN CLICK ON A CELL -->
                     <p:ajax event="dateSelect"
                             listener="#{agendaBean.onDateSelect}"
-                            update="eventDetails"
+                            update="eventDialogContainer"
                             oncomplete="PF('eventDialog').show();"/>
 
                     <!-- WHEN CLICK ON AN EVENT -->
                     <p:ajax event="eventSelect"
                             listener="#{agendaBean.onEventSelect}"
-                            update="eventDetails"
+                            update="eventDialogContainer"
                             oncomplete="PF('eventDialog').show();"/>
 
                     <!-- WHEN DRAGGING AN EVENT -->
@@ -61,7 +61,7 @@
             </h:panelGrid>
 
             <p:dialog widgetVar="eventDialog"
-                      id="eventDialog"
+                      id="eventDialogContainer"
                       header="Event Details"
                       styleClass="event-detail-container"
                       showEffect="size"
@@ -69,6 +69,7 @@
                       blockScroll="true"
                       responsive="true"
                       minimizable="true"
+                      dynamic="true"
                       closeOnEscape="true">
                 <h:panelGrid id="eventDetails"
                              columns="1"
@@ -85,10 +86,12 @@
                                       itemValue="SESSION"/>
                         <f:selectItem itemLabel="Tâche"
                                       itemValue="TASK"/>
+                        <p:ajax update="eventDetails"/>
                     </p:selectOneMenu>
 
                     <p:outputLabel value="Patient"
                                    for="patient"
+                                   id="patientField"
                                    style="font-weight:bold"/>
                     <p:autoComplete id="patient"
                                     value="#{ agendaBean.event.data.patient }"
@@ -99,6 +102,7 @@
                                     forceSelection="true"
                                     scrollHeight="250"
                                     var="patient"
+                                    required="#{ agendaBean.event.data.type != 'TASK' }"
                                     itemValue="#{ patient }"
                                     itemLabel="#{ agendaBean.displayPatientLabel(patient) }"/>
 
@@ -118,7 +122,8 @@
                                   pattern="dd/MM/yyyy"
                                   showTime="true"
                                   appendTo="@(body)"
-                                  required="true"/>
+                                  required="true"
+                                  disabled="#{ agendaBean.event.allDay }"/>
 
                     <p:outputLabel for="to"
                                    value="To"
@@ -128,13 +133,16 @@
                                   pattern="dd/MM/yyyy"
                                   showTime="true"
                                   appendTo="@(body)"
-                                  required="true"/>
+                                  required="true"
+                                  disabled="#{ agendaBean.event.allDay }"/>
 
                     <p:outputLabel for="allDay"
                                    value="All Day"
                                    style="font-weight:bold"/>
                     <h:selectBooleanCheckbox id="allDay"
-                                             value="#{ agendaBean.event.allDay }"/>
+                                             value="#{ agendaBean.event.allDay }">
+                        <p:ajax update="eventDetails"/>
+                    </h:selectBooleanCheckbox>
 
                 </h:panelGrid>
                 <h:panelGrid id="eventActions"
@@ -144,17 +152,15 @@
                     <p:commandButton id="deleteButton"
                                      icon="fas fa-trash-alt"
                                      action="#{ agendaBean.onEventDelete }"
+                                     rendered="#{ agendaBean.event.data.getId() != 0 }"
+                                     update="eventDetails"
                                      oncomplete="PF('myschedule').update();PF('eventDialog').hide();"/>
                     <p:commandButton id="addButton"
                                      style="float: right"
                                      icon="fas fa-save"
+                                     update="eventDetails"
                                      action="#{ agendaBean.addEvent }"
-                                     oncomplete="if (!args.validationFailed) {
-                                                    PF('myschedule').update();
-                                                    PF('eventDialog').hide();
-                                                } else {
-                                                    PF('eventDialog').jq.effect('shake', {times:5}, 100);
-                                                }"/>
+                                     oncomplete="if (!args.validationFailed) {PF('myschedule').update();PF('eventDialog').hide();}"/>
                 </h:panelGrid>
             </p:dialog>
         </h:form>

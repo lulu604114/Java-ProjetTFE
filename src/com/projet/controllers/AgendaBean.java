@@ -33,6 +33,7 @@ import java.util.List;
 @ViewScoped
 public class AgendaBean implements Serializable {
     private Message message = Message.getMessage(App.BUNDLE_MESSAGE);
+    private FacesMessage PFMessages = null;
     private LazyScheduleModel events;
 
     private ScheduleEvent<Meeting> event = new DefaultScheduleEvent<Meeting>();
@@ -89,6 +90,7 @@ public class AgendaBean implements Serializable {
                             .startDate(DateManager.toLocalDateTime(meeting.getStartDate()))
                             .endDate(DateManager.toLocalDateTime(meeting.getEndDate()))
                             .description(meeting.getDescription())
+                            .styleClass(meeting.getType().toString().toLowerCase())
                             .data(meeting)
                             .allDay(meeting.isAllDay())
                             .overlapAllowed(true)
