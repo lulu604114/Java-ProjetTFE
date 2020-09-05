@@ -309,22 +309,23 @@
                                     <div class="ui-g-12 ui-md-12 ui-lg-12 ui-xl-6">
                                         <p:panel header="#{ dashboard[card.label] }" styleClass="messages ui-g">
                                             <ul>
-                                                <ui:repeat value="#{ dashboardBean.getCardContent(card) }" var="email">
+                                                <ui:repeat value="#{ dashboardBean.getCardContent(card) }"
+                                                           var="message">
                                                     <li>
                                                         <div class="image-container">
-                                                            <p:graphicImage name="images/avatar/#{email.getAvatar()}"
+                                                            <p:graphicImage name="images/avatar/#{message.avatar}"
                                                                             library="own-layout"/>
                                                         </div>
                                                         <div class="seperator"></div>
                                                         <div class="message-box">
                                                             <span class="messager">
-                                                                #{ email.getSender() }
+                                                                #{ message.getSender() }
                                                             </span>
                                                             <span class="time">
-                                                                #{ email.getSendTimeFromNow() }
+                                                                #{ message.getSendTimeFromNow() }
                                                             </span>
                                                             <span class="message">
-                                                                #{ email.getContent() }
+                                                                #{ message.getContent() }
                                                             </span>
                                                         </div>
                                                     </li>

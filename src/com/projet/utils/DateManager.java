@@ -21,7 +21,8 @@ import java.util.TimeZone;
  */
 public class DateManager {
 
-    public static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM, FormatStyle.SHORT);
+    public static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd MMM YYYY");
+    public static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd MMM hh:mm");
     public static DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
 
     public static int compareToCurrentDate(Date date) {
