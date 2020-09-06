@@ -1,13 +1,13 @@
-$primaryColor:#AB44BC;
-$primaryTextColor:#ffffff;
+$primaryColor: #AB44BC;
+$primaryTextColor: #ffffff;
 
-$topbarBgLeftColor:#B721FF;
-$topbarBgRightColor:#21D4FD;
-$topbarSidebarButtonColor:#ffffff;
-$topbarIconHoverBgColor:#891CBD;
-$topbarMenuHoverBgColor:#2892B0;
-$topbarProfileTextColor:#ffffff;
-$activeSubMenuItemTextColor:$primaryColor;
+$topbarBgLeftColor: #B721FF;
+$topbarBgRightColor: #21D4FD;
+$topbarSidebarButtonColor: #ffffff;
+$topbarIconHoverBgColor: #891CBD;
+$topbarMenuHoverBgColor: #2892B0;
+$topbarProfileTextColor: #ffffff;
+$activeSubMenuItemTextColor: $primaryColor;
 
 ::-webkit-scrollbar {
   width: 10px;
@@ -34,21 +34,46 @@ $activeSubMenuItemTextColor:$primaryColor;
 }
 
 ::-webkit-scrollbar-track {
-  background:  $topbarSidebarButtonColor;
-  border: 0px dotted  $topbarSidebarButtonColor;
+  background: $topbarSidebarButtonColor;
+  border: 0px dotted $topbarSidebarButtonColor;
   border-radius: 100px;
 }
 
 ::-webkit-scrollbar-track:hover {
-  background:  $topbarSidebarButtonColor;
+  background: $topbarSidebarButtonColor;
 }
 
 ::-webkit-scrollbar-track:active {
-  background:  $topbarSidebarButtonColor;
+  background: $topbarSidebarButtonColor;
 }
 
 ::-webkit-scrollbar-corner {
   background: transparent;
+}
+
+// agenda
+.fc-button-primary {
+  color: #fff;
+  background-color: $primaryColor;
+  border-color: $primaryColor;
+}
+
+.fc-button-primary:not(:disabled):active, .fc-button-primary:not(:disabled).fc-button-active {
+  color: #fff;
+  background-color: $topbarBgLeftColor;
+  border-color: $topbarBgLeftColor;
+}
+
+.fc-button-primary:disabled {
+  color: #fff;
+  background-color: transparentize($primaryColor, 0.5);
+  border-color: transparentize($primaryColor, 0.5);
+}
+
+.fc-button-primary:not(:disabled).fc-button-primary:hover {
+  color: #fff;
+  background-color: $topbarBgLeftColor;
+  border-color: $topbarBgLeftColor;
 }
 
 @import '../../sass/layout/_layout';

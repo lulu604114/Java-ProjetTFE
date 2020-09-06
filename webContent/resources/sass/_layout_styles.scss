@@ -2,47 +2,100 @@
 /* Add your customizations of layout here */
 
 /* AGENDA EVENT TYPE */
+$appointment-start-color: #efa318;
+$appointment-end-color: #ea582b;
+$session-start-color: #7DC931;
+$session-end-color: #14A143;
+$task-start-color: #E02364;
+$task-end-color: #A22650;
+
 body .appointment {
-  $start-color: #f39611;
-  $end-color: #fc4576;
-  background-color: $start-color;
-  background-image: -webkit-gradient(linear, left top, right top, from($start-color), to($end-color));
-  background-image: -webkit-linear-gradient(left, $start-color, $end-color);
-  background-image: -moz-linear-gradient(left, $start-color, $end-color);
-  background-image: -ms-linear-gradient(left, $start-color, $end-color);
-  background-image: -o-linear-gradient(left, $start-color, $end-color);
-  background-image: linear-gradient(left, $start-color, $end-color);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$start-color}', endColorstr='#{$end-color}', gradientType='1');
+
+  &.fc-list-item {
+    background: white !important;
+  }
+
+  background-color: $appointment-start-color;
+  background-image: -webkit-gradient(linear, left top, right top, from($appointment-start-color), to($appointment-end-color));
+  background-image: -webkit-linear-gradient(left, $appointment-start-color, $appointment-end-color);
+  background-image: -moz-linear-gradient(left, $appointment-start-color, $appointment-end-color);
+  background-image: -ms-linear-gradient(left, $appointment-start-color, $appointment-end-color);
+  background-image: -o-linear-gradient(left, $appointment-start-color, $appointment-end-color);
+  background-image: linear-gradient(left, $appointment-start-color, $appointment-end-color);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$appointment-start-color}', endColorstr='#{$appointment-end-color}', gradientType='1');
   border: 1px solid transparent !important;
   padding: 3px;
+
+  .fc-event-dot {
+    background-color: $appointment-start-color !important;
+    background-image: -webkit-gradient(linear, left top, right top, from($appointment-start-color), to($appointment-end-color)) !important;
+    background-image: -webkit-linear-gradient(left, $appointment-start-color, $appointment-end-color) !important;
+    background-image: -moz-linear-gradient(left, $appointment-start-color, $appointment-end-color) !important;
+    background-image: -ms-linear-gradient(left, $appointment-start-color, $appointment-end-color) !important;
+    background-image: -o-linear-gradient(left, $appointment-start-color, $appointment-end-color) !important;
+    background-image: linear-gradient(left, $appointment-start-color, $appointment-end-color) !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$appointment-start-color}', endColorstr='#{$appointment-end-color}', gradientType='1') !important;
+  }
+
 }
 
 body .session {
-  $start-color: #7DC931;
-  $end-color: #14A143;
-  background-color: $start-color !important;
-  background-image: -webkit-gradient(linear, left top, right top, from($start-color), to($end-color)) !important;
-  background-image: -webkit-linear-gradient(left, $start-color, $end-color) !important;
-  background-image: -moz-linear-gradient(left, $start-color, $end-color) !important;
-  background-image: -ms-linear-gradient(left, $start-color, $end-color) !important;
-  background-image: -o-linear-gradient(left, $start-color, $end-color) !important;
-  background-image: linear-gradient(left, $start-color, $end-color) !important;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$start-color}', endColorstr='#{$end-color}', gradientType='1') !important;
+
+  &.fc-list-item {
+    background: white !important;
+  }
+
+  background-color: $session-start-color !important;
+  background-image: -webkit-gradient(linear, left top, right top, from($session-start-color), to($session-end-color)) !important;
+  background-image: -webkit-linear-gradient(left, $session-start-color, $session-end-color) !important;
+  background-image: -moz-linear-gradient(left, $session-start-color, $session-end-color) !important;
+  background-image: -ms-linear-gradient(left, $session-start-color, $session-end-color) !important;
+  background-image: -o-linear-gradient(left, $session-start-color, $session-end-color) !important;
+  background-image: linear-gradient(left, $session-start-color, $session-end-color) !important;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$session-start-color}', endColorstr='#{$session-end-color}', gradientType='1') !important;
   border: 1px solid transparent !important;
   padding: 3px;
+
+  .fc-event-dot {
+    background-color: $session-start-color !important;
+    background-image: -webkit-gradient(linear, left top, right top, from($session-start-color), to($session-end-color)) !important;
+    background-image: -webkit-linear-gradient(left, $session-start-color, $session-end-color) !important;
+    background-image: -moz-linear-gradient(left, $session-start-color, $session-end-color) !important;
+    background-image: -ms-linear-gradient(left, $session-start-color, $session-end-color) !important;
+    background-image: -o-linear-gradient(left, $session-start-color, $session-end-color) !important;
+    background-image: linear-gradient(left, $session-start-color, $session-end-color) !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$session-start-color}', endColorstr='#{$session-end-color}', gradientType='1') !important;
+  }
+
 }
 
 body .task {
-  $start-color: #E02364;
-  $end-color: #A22650;
-  background-color: $start-color !important;
-  background-image: -webkit-gradient(linear, left top, right top, from($start-color), to($end-color)) !important;
-  background-image: -webkit-linear-gradient(left, $start-color, $end-color) !important;
-  background-image: -moz-linear-gradient(left, $start-color, $end-color) !important;
-  background-image: -ms-linear-gradient(left, $start-color, $end-color) !important;
-  background-image: -o-linear-gradient(left, $start-color, $end-color) !important;
-  background-image: linear-gradient(left, $start-color, $end-color) !important;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$start-color}', endColorstr='#{$end-color}', gradientType='1') !important;
+
+  &.fc-list-item {
+    background: white !important;
+  }
+
+  background-color: $task-start-color !important;
+  background-image: -webkit-gradient(linear, left top, right top, from($task-start-color), to($task-end-color)) !important;
+  background-image: -webkit-linear-gradient(left, $task-start-color, $task-end-color) !important;
+  background-image: -moz-linear-gradient(left, $task-start-color, $task-end-color) !important;
+  background-image: -ms-linear-gradient(left, $task-start-color, $task-end-color) !important;
+  background-image: -o-linear-gradient(left, $task-start-color, $task-end-color) !important;
+  background-image: linear-gradient(left, $task-start-color, $task-end-color) !important;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$task-start-color}', endColorstr='#{$task-end-color}', gradientType='1') !important;
   border: 1px solid transparent !important;
   padding: 3px;
+
+  .fc-event-dot {
+    background-color: $task-start-color !important;
+    background-image: -webkit-gradient(linear, left top, right top, from($task-start-color), to($task-end-color)) !important;
+    background-image: -webkit-linear-gradient(left, $task-start-color, $task-end-color) !important;
+    background-image: -moz-linear-gradient(left, $task-start-color, $task-end-color) !important;
+    background-image: -ms-linear-gradient(left, $task-start-color, $task-end-color) !important;
+    background-image: -o-linear-gradient(left, $task-start-color, $task-end-color) !important;
+    background-image: linear-gradient(left, $task-start-color, $task-end-color) !important;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#{$task-start-color}', endColorstr='#{$task-end-color}', gradientType='1') !important;
+  }
+
 }
+
