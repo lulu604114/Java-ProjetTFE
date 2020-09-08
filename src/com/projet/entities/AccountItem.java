@@ -1,6 +1,9 @@
 package com.projet.entities;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -15,7 +18,7 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "AccountItems", schema = "jsf_tfe")
-public class AccountItem {
+public class AccountItem implements Cloneable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -40,7 +43,7 @@ public class AccountItem {
     @JoinColumn(name = "user_account", referencedColumnName = "id", nullable = false)
     private UserAccount userAccount;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "financial_year", referencedColumnName = "id", nullable = false)
     private FinancialYear financialYear;
 
@@ -48,8 +51,15 @@ public class AccountItem {
     @JoinColumn(name = "charge", referencedColumnName = "id", nullable = false)
     private Charge charge;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent", referencedColumnName = "id")
+    private AccountItem parent;
 
+    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<AccountItem> accountItems;
 
+    @Transient
+    private int redeemableYear;
 
     public int getId() {
         return id;
@@ -91,8 +101,6 @@ public class AccountItem {
         this.privatePart = privatePartPercent;
     }
 
-
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -110,7 +118,16 @@ public class AccountItem {
         return Objects.hash(id, description, amount, taxDeductible, privatePart);
     }
 
+    @Override
+    public AccountItem  clone() throws CloneNotSupportedException {
+        AccountItem accountItem = (AccountItem) super.clone();
 
+        accountItem.setUserAccount(getUserAccount());
+        accountItem.setFinancialYear(getFinancialYear());
+        accountItem.setCharge(getCharge());
+
+        return accountItem;
+    }
 
     public UserAccount getUserAccount() {
         return userAccount;
@@ -134,5 +151,39 @@ public class AccountItem {
 
     public void setCharge(Charge charge) {
         this.charge = charge;
+    }
+
+    public AccountItem getParent() {
+        return parent;
+    }
+
+    public void setParent(AccountItem parent) {
+        this.parent = parent;
+    }
+
+    public List<AccountItem> getAccountItems() {
+        return accountItems;
+    }
+
+    public void setAccountItems(List<AccountItem> accountItems) {
+        this.accountItems = accountItems;
+    }
+
+    public AccountItem addAccountItem(AccountItem accountItem) {
+        if (getAccountItems() == null)
+            setAccountItems(new ArrayList<>());
+
+        accountItem.setParent(this);
+        getAccountItems().add(accountItem);
+
+        return accountItem;
+    }
+
+    public int getRedeemableYear() {
+        return redeemableYear;
+    }
+
+    public void setRedeemableYear(int redeemableYear) {
+        this.redeemableYear = redeemableYear;
     }
 }

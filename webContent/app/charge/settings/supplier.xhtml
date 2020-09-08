@@ -23,41 +23,37 @@
                                           </span>
 
                             <p:commandButton icon="fas fa-wrench" styleClass="warning-btn" oncomplete="PF('sidebar2').show()"/>
-                            <p:commandButton id="supplier-creation-btn" value="Créer une catégorie" icon="fas fa-window-maximize" styleClass="success-btn"
-                                             onclick="PF('supplierCreation-modal').show();" ajax="true" update="supplierCreation-modal-form"/>
+                            <p:commandButton id="supplier-creation-btn" value="Créer un fournisseur" icon="fas fa-truck"
+                                             styleClass="success-btn" onclick="PF('supplierCreation-modal').show(100);" ajax="true"
+                                             update="supplierCreation-modal-form"/>
                         </f:facet>
 
                         <br/>
 
-                        <p:dataTable var="userAccount" value="#{category.userAccounts}" emptyMessage="no data found">
-                            <p:column>
-                                <f:facet name="header">Code</f:facet>
-                                <h:outputText value="#{userAccount.financialAccount.code}"/>
-                            </p:column>
+                        <p:dataTable var="userSupplier" value="#{supplierListView.userSuppliers}" emptyMessage="no data found">
                             <p:column colspan="2">
                                 <f:facet name="header">Dénomination</f:facet>
-                                <h:outputText value="#{userAccount.financialAccount.label}"/>
+                                <h:outputText value="#{userSupplier.supplier.label}"/>
                             </p:column>
                             <p:column>
-                                <f:facet name="header">Deductabilité</f:facet>
-                                <h:outputText value="#{userAccount.taxDeductible}">
+                                <f:facet name="header">N° TVA</f:facet>
+                                <h:outputText value="#{userSupplier.supplier.tva}"/>
+                            </p:column>
+                            <p:column>
+                                <f:facet name="header">N° IBAN</f:facet>
+                                <h:outputText value="#{userSupplier.supplier.iban}">
                                     <f:convertNumber type="currency" currencySymbol="%" maxFractionDigits="2"/>
                                 </h:outputText>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">Quote-part privé</f:facet>
-                                <h:outputText value="#{userAccount.privatePart}">
-                                    <f:convertNumber type="currency" currencySymbol="%" maxFractionDigits="2"/>
-                                </h:outputText>
-                            </p:column>
-                            <p:column>
-                                <f:facet name="header">Ammortissable</f:facet>
-                                <i class="#{userAccount.financialAccount.redeemable ? 'fas fa-times icon-danger' : 'fas fa-check icon-success'}"/>
                             </p:column>
                             <p:column style="text-align: right">
                                 <f:facet name="header">Action</f:facet>
-                                <p:splitButton  value=" Modifier" icon="far fa-edit">
-                                    <p:menuitem value=" Supprimer" icon="fas fa-trash-alt" />
+                                <p:splitButton  value=" Modifier" icon="far fa-edit" rendered="#{! userSupplier.supplier.default_sup}"
+                                                onclick="PF('supplierEdit-modal').show(100);" update=":supplierEdit-modal-form"
+                                                actionListener="#{supplierCrud.editSupplier(userSupplier)}" style="font-size: 10px">
+                                    <p:menuitem value=" Supprimer" icon="fas fa-trash-alt" action="#{supplierCrud.deleteSupplier(userSupplier)}"
+                                                update=":supplier-list-form:msgs, :supplier-list-form" style="font-size: 10px">
+                                        <p:confirm header="Confirmation" message="Êtes-vous sur de vouloir supprimer ce fournisseur ?" icon="pi pi-exclamation-triangle" />
+                                    </p:menuitem>
                                 </p:splitButton>
                             </p:column>
                         </p:dataTable>
@@ -65,40 +61,40 @@
                 </div>
             </div>
         </h:form>
+
         <!-- SUPPLIER CREATION MODAL -->
-        <p:dialog header="Ajouter un fournisseur" widgetVar="supplierCreation-modal" modal="true"
-                  responsive="true" width="500" draggable="false" closable="false"
-                  focus="supplierCreation-modal-close-btn" dynamic="true">
+        <p:dialog header="Ajouter un fournisseur" widgetVar="supplierCreation-modal" modal="true" width="500"
+                  responsive="true" draggable="false" closable="false" dynamic="true" focus="supplierCreation-modal-close-btn"
+                  onShow="#{supplierCrud.create_new_supplier()}">
             <h:form id="supplierCreation-modal-form">
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-12 p-md-12">
                         <p:outputLabel for="supplier-label" value="Description"/>
-                        <p:inputText id="supplier-label"/>
+                        <p:inputText id="supplier-label" value="#{supplierCrud.userSupplier.supplier.label}"/>
                     </div>
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="tva" value="N° de TVA"/>
-                        <p:inputMask id="tva" mask="BE9999999999" placeholder="ex: BE0676548769"/>
+                        <p:inputMask id="tva" mask="BE9999999999" placeholder="ex: BE0676548769" value="#{supplierCrud.userSupplier.supplier.tva}"/>
                     </div>
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="paiement" value="Condition de paiement"/>
-                        <p:selectOneMenu id="paiement" disabled="true">
-                            <f:selectItem itemLabel="Select One" itemValue="" />
-                            <f:selectItem itemLabel="Xbox One" itemValue="Xbox One" />
-                            <f:selectItem itemLabel="PS4" itemValue="PS4" />
-                            <f:selectItem itemLabel="Wii U" itemValue="Wii U" />
+                        <p:selectOneMenu id="paiement" value="#{supplierCrud.userSupplier.supplier.paimentCondition}" >
+                            <p:importEnum type="com.projet.enumeration.SupplierPaimentCondition" var="paimentConditions" allSuffix="VALUES"/>
+                            <f:selectItem noSelectionOption="true" itemLabel="Sélectionner un délai"/>
+                            <f:selectItems var="paimentCondition" value="#{paimentConditions.VALUES}" itemLabel="#{paimentCondition}" itemValue="#{paimentCondition}"/>
                         </p:selectOneMenu>
                     </div>
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="iban" value="N° IBAN"/>
-                        <p:inputMask id="iban" mask="BE99 9999 9999 9999" placeholder="ex: BE06 7654 8769 4543"/>
+                        <p:inputMask id="iban" mask="BE99 9999 9999 9999" placeholder="ex: BE06 7654 8769 4543" value="#{supplierCrud.userSupplier.supplier.iban}"/>
                     </div>
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="iban-bis" value="N° IBAN alternatif"/>
-                        <p:inputMask id="iban-bis" mask="BE99 9999 9999 9999" placeholder="ex: BE06 7654 8769 4543"/>
+                        <p:inputMask id="iban-bis" mask="BE99 9999 9999 9999" placeholder="ex: BE06 7654 8769 4543" value="#{supplierCrud.userSupplier.supplier.ibanBis}"/>
                     </div>
                 </div>
             </h:form>
@@ -108,10 +104,63 @@
                                  update=":supplier-list-form:msgs"/>
                 <p:commandButton form="supplierCreation-modal-form" value="Modfier" styleClass="success-btn"
                                  icon="fa fa-check" onclick="PF('supplierCreation-modal').hide();"
-                                 update=":supplier-list-form:msgs"/>
+                                 update=":supplier-list-form:msgs, :supplier-list-form" action="#{supplierCrud.createSupplier}"/>
 
             </f:facet>
         </p:dialog>
+
+
+        <!-- SUPPLIER EDIT MODAL -->
+        <p:dialog header="Modifier un fournisseur" widgetVar="supplierEdit-modal" modal="true"
+                  responsive="true" width="500" draggable="false" closable="false"
+                  focus="supplierEdit-modal-close-btn" dynamic="true" >
+            <h:form id="supplierEdit-modal-form">
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-12 p-md-12">
+                        <p:outputLabel for="supplierEdit-label" value="Description"/>
+                        <p:inputText id="supplierEdit-label" value="#{supplierCrud.userSupplier.supplier.label}"/>
+                    </div>
+                </div>
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="supplierEdit-tva" value="N° de TVA"/>
+                        <p:inputMask id="supplierEdit-tva" mask="BE9999999999" placeholder="ex: BE0676548769" value="#{supplierCrud.userSupplier.supplier.tva}"/>
+                    </div>
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="supplierEdit-paiement" value="Condition de paiement"/>
+                        <p:selectOneMenu id="supplierEdit-paiement" value="#{supplierCrud.userSupplier.supplier.paimentCondition}" >
+                            <p:importEnum type="com.projet.enumeration.SupplierPaimentCondition" var="paimentConditions" allSuffix="VALUES"/>
+                            <f:selectItem noSelectionOption="true" itemLabel="Sélectionner un délai"/>
+                            <f:selectItems var="paimentCondition" value="#{paimentConditions.VALUES}" itemLabel="#{paimentCondition}" itemValue="#{paimentCondition}"/>
+                        </p:selectOneMenu>
+                    </div>
+                </div>
+                <div class="ui-fluid p-formgrid p-grid">
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="supplierEdit-iban" value="N° IBAN"/>
+                        <p:inputMask id="supplierEdit-iban" mask="BE99 9999 9999 9999" placeholder="ex: BE06 7654 8769 4543" value="#{supplierCrud.userSupplier.supplier.iban}"/>
+                    </div>
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="supplierEdit-iban-bis" value="N° IBAN alternatif"/>
+                        <p:inputMask id="supplierEdit-iban-bis" mask="BE99 9999 9999 9999" placeholder="ex: BE06 7654 8769 4543" value="#{supplierCrud.userSupplier.supplier.ibanBis}"/>
+                    </div>
+                </div>
+            </h:form>
+            <f:facet name="footer">
+                <p:commandButton id="supplierEdit-modal-close-btn" form="supplierEdit-modal-form" type="button" value="Fermer"
+                                 styleClass="secondary-button" onclick="PF('supplierEdit-modal').hide();"
+                                 update=":supplier-list-form:msgs"/>
+                <p:commandButton form="supplierEdit-modal-form" value="Modfier" styleClass="success-btn"
+                                 icon="fa fa-check" onclick="PF('supplierEdit-modal').hide();"
+                                 update=":supplier-list-form:msgs, :supplier-list-form" action="#{supplierCrud.updateSupplier}"/>
+
+            </f:facet>
+        </p:dialog>
+
+        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+            <p:commandButton value="oui" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+            <p:commandButton value="non" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+        </p:confirmDialog>
 
     </ui:define>
 

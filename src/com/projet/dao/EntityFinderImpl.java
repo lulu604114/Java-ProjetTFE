@@ -3,11 +3,11 @@ package com.projet.dao;
 import com.projet.connection.EMF;
 import com.projet.entities.Patient;
 import org.apache.log4j.Logger;
+import org.eclipse.persistence.config.CacheUsage;
+import org.eclipse.persistence.config.HintValues;
+import org.eclipse.persistence.config.QueryHints;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.*;
 
@@ -61,7 +61,10 @@ public class EntityFinderImpl<T> implements EntityFinder<T>, Serializable {
 			setParameters(query, param);
 		}
 
-		listT = (List<T>) query.getResultList();
+
+		// Update the JPA session cache with objects that the query returns.
+		// Hence the entity objects in the returned collection always updated.
+		listT = (List<T>) query.setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList();
 
 		log.debug("List " + ec.getSimpleName() + " size: " + listT.size());
 		log.debug("Named query " + namedQuery + " find from database: Ok");
@@ -98,7 +101,7 @@ public class EntityFinderImpl<T> implements EntityFinder<T>, Serializable {
 			setParameters(query, param);
 		}
 
-		listT = (List<T>) query.getResultList();
+		listT = (List<T>) query.setHint(QueryHints.REFRESH, HintValues.TRUE).getResultList();
 
 		log.debug("List " + ec.getSimpleName() + " size: " + listT.size());
 		log.debug("Custom query " + customQuery + " find from database: Ok");

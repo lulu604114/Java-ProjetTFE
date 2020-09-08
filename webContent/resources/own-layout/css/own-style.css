@@ -1,3 +1,4 @@
+
 .flex {
     display: flex;
 }
@@ -170,6 +171,9 @@ body .ui-panel .ui-panel-content {
     color: #efefef;
 }
 
+.item-label-secondary {
+    color: #dedede;
+}
 /* TITLE BAR */
 body .ui-panel-titlebar {
     border: solid 1px white !important;
@@ -292,11 +296,18 @@ body .ui-panel .ui-panel-actions .ui-button {
     display: flex;
     flex-direction: column;
     padding: 20px;
+    width: 25%;
+    margin: 19px auto 19px auto;
 }
 
 .emptyMessage p {
     width: 40%;
     margin: 25px auto;
+}
+
+.boolean-field {
+    display: flex;
+    justify-content: space-between;
 }
 
 .ui-dialog-content {

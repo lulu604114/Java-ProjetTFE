@@ -35,30 +35,21 @@ import java.util.*;
  */
 @Named("chargeListView")
 @ViewScoped
-public class ChargeListView implements Serializable {
+public class ChargeList implements Serializable {
     private static final long serialVersionUID = 1L;
     private Message message = Message.getMessage(App.BUNDLE_MESSAGE);
 
-    private ChargeService service = new ChargeService(Charge.class);
-    private FinancialYearService faService = new FinancialYearService(FinancialYear.class);
-    private AccountItemService accountItemService = new AccountItemService(AccountItem.class);
-
-    @Inject
-    private ChargeDetailView chargeDetailView;
-
     private User user;
     private List<Charge> chargeList;
-    private Charge charge;
     private ChargeFilterEnum filter;
 
     @PostConstruct
     public void init() {
-
+        ChargeService service = new ChargeService(Charge.class);
         this.user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
         this.chargeList = service.getByUser(user);
         Collections.sort(chargeList);
         Collections.reverse(chargeList);
-        this.charge = new Charge();
     }
 
     public List<Charge> getChargeList() {
@@ -69,24 +60,12 @@ public class ChargeListView implements Serializable {
         this.chargeList = chargeList;
     }
 
-    public Charge getCharge() {
-        return charge;
-    }
-
-    public void setCharge(Charge charge) {
-        this.charge = charge;
-    }
-
     public ChargeFilterEnum getFilter() {
         return filter;
     }
 
     public void setFilter(ChargeFilterEnum filter) {
         this.filter = filter;
-    }
-
-    public void initilizeCharge() {
-        this.charge = new Charge();
     }
 
     /**
@@ -115,69 +94,36 @@ public class ChargeListView implements Serializable {
         return DateManager.getMonthAndYearDate(charge.getCreatedAt());
     }
 
-    public List<Diary> getDiaries() {
-        return user.getDiaries();
-    }
-
-    public List<UserSupplier> completeSupplier(String query) {
-        List<UserSupplier> userSuppliers = user.getUserSuppliers();
-
-        List<UserSupplier> suppliers = new ArrayList<>();
-        for (UserSupplier userSupplier : userSuppliers) {
-            if (userSupplier.getSupplier().getLabel().startsWith(query)) {
-                suppliers.add(userSupplier);
-            }
-        }
-        return suppliers;
-    }
-
-    public String CreateCharge() {
-
-        EntityTransaction transaction = service.getTransaction();
-
-        transaction.begin();
-
-        try {
-            Charge charge = service.createcharge(this.charge, user);
-
-            service.save(charge);
-
-            transaction.commit();
-
-            message.display(FacesMessage.SEVERITY_INFO, "Success", charge.getLabel() + " is added");
-
-            return chargeDetailView.edit(charge);
-        }finally {
-            if (transaction.isActive()){
-                transaction.rollback();
-
-                message.display(FacesMessage.SEVERITY_ERROR, "Unknown error", "Please retry");
-            }
-
-            service.close();
-        }
-    }
-
     public double getTotalLateCharge() {
+        ChargeService service = new ChargeService(Charge.class);
+
         return service.totalCharge(chargeList, ChargeStatus.LATE);
     }
 
     public double getTotalNotPayedCharge() {
+        ChargeService service = new ChargeService(Charge.class);
 
         return service.totalCharge(chargeList, ChargeStatus.NOTPAYED) + service.totalCharge(chargeList, ChargeStatus.LATE);
     }
 
     public double getTotalCharge() {
+        ChargeService service = new ChargeService(Charge.class);
+
         return service.totalCharge(chargeList, null);
     }
 
     public double getTotalDeductibleCharge() {
+        FinancialYearService faService = new FinancialYearService(FinancialYear.class);
+        ChargeService service = new ChargeService(Charge.class);
+
         FinancialYear financialYear = faService.getCurrentFinancialYearByUser(user);
 
         return service.calculate_total_deductible_amount_by_financialYear(financialYear);
     }
 
     public double getAccountItemsIcon(Charge charge) {
+        AccountItemService accountItemService = new AccountItemService(AccountItem.class);
+
         return charge.getAmount() - accountItemService.calculate_imputed_amount(charge.getAccountItems());
     }
 
@@ -185,8 +131,4 @@ public class ChargeListView implements Serializable {
 
        return null;
     }
-
-
-
-
 }

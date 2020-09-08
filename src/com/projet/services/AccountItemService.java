@@ -2,7 +2,10 @@ package com.projet.services;
 
 import com.projet.entities.AccountItem;
 import com.projet.entities.Charge;
+import com.projet.entities.FinancialYear;
+import com.projet.entities.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,11 +26,17 @@ public class AccountItemService extends Service<AccountItem>{
 
     @Override
     public AccountItem save(AccountItem accountItem) {
-        return null;
+        if (accountItem.getId() == 0) {
+            em.persist(accountItem);
+        } else {
+            accountItem = em.merge(accountItem);
+        }
+
+        return accountItem;
     }
 
     public AccountItem finalizeAccountItem(Charge charge, AccountItem accountItem) {
-        accountItem.setFinancialYear(charge.getFinancialYear());
+        accountItem.setFinancialYear(em.merge(charge.getFinancialYear()));
 
         return accountItem;
     }
@@ -42,8 +51,20 @@ public class AccountItemService extends Service<AccountItem>{
         double amount = accountItem.getAmount();
         double privatePart = accountItem.getPrivatePart();
         double deductible = accountItem.getTaxDeductible();
+        double result = 0;
 
-        return ((amount - ((amount / 100) * privatePart)) / 100) * deductible;
+        result = ((amount - ((amount / 100) * privatePart)) / 100) * deductible;
+
+        // if accountItem have a parent the parent became the base of the calcul
+        if (accountItem.getParent() != null) {
+            accountItem = accountItem.getParent();
+        }
+
+        // if accountItem is redeemable the deductible amount is devided by the number of accountItem
+        if (accountItem.getAccountItems() != null && accountItem.getAccountItems().size() != 0)
+            return result / (accountItem.getAccountItems().size() + 1);
+        else
+            return result;
     }
 
     /**
@@ -55,6 +76,7 @@ public class AccountItemService extends Service<AccountItem>{
         double total = 0;
 
         for (AccountItem item : accountItems) {
+
             total += calculate_deductible_amount_of_accountItem(item);
         }
 
@@ -70,11 +92,36 @@ public class AccountItemService extends Service<AccountItem>{
         double total = 0;
 
         for (AccountItem item : accountItems) {
+            if (item.getParent() != null)
+                continue;
+
             total += item.getAmount();
         }
 
         return total;
     }
 
+    public AccountItem create_redeemable_accountItem(AccountItem accountItem, int redeemableDuration, User user) throws CloneNotSupportedException {
+        FinancialYearService service = new FinancialYearService(FinancialYear.class);
 
+        int parentAccountItemfinancialYear = accountItem.getFinancialYear().getBeginAt();
+
+        for (int i = 1; i < redeemableDuration; i++) {
+            AccountItem accountItemClone = accountItem.clone();
+
+            FinancialYear financialYear = service.getUserFinancialYearByDate(user, parentAccountItemfinancialYear + i);
+
+            if (financialYear == null) {
+                financialYear = service.createFinancialYear(parentAccountItemfinancialYear + i, user);
+            } else {
+                financialYear = em.merge(financialYear);
+            }
+
+            accountItemClone.setFinancialYear(financialYear);
+
+            accountItem.getCharge().addAccountItem(accountItem.addAccountItem(accountItemClone));
+        }
+
+        return accountItem;
+    }
 }
