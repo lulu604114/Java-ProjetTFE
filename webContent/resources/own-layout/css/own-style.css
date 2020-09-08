@@ -330,6 +330,33 @@ body .ui-panel .ui-panel-actions .ui-button {
     color: white !important;
 }
 
+.column-center {
+    display: flex;
+    flex-direction: column;
+    place-content: center space-around;
+    align-items: center;
+}
+
+/* CUSTOM STYLE FOR DATALIST IN THE DASHBOARD */
+body .dashboard-data-list {
+    height: 100%;
+}
+
+body .dashboard-data-list .ui-datalist-content {
+    padding: 0;
+    border: none;
+    height: 100%;
+}
+
+body .dashboard-data-list .ui-datalist-content .ui-datalist-empty-message {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    place-content: center;
+    font-weight: 600;
+    font-style: italic;
+}
+
 @media only screen and (max-width: 715px) {
     body .ui-tabs.ui-tabs-top .ui-tabs-nav,
     body .ui-tabmenu .ui-tabmenu-nav {

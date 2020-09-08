@@ -1478,7 +1478,7 @@ body .layout-wrapper .layout-main .layout-content {
   color: white;
 }
 .layout-content .layout-dashboard .appointments .ui-panel-content {
-  padding: 14px;
+  padding: 10px;
   height: 300px;
   overflow-x: auto;
 }
@@ -1574,7 +1574,7 @@ body .layout-wrapper .layout-main .layout-content {
   color: white;
 }
 .layout-content .layout-dashboard .documents .ui-panel-content {
-  padding: 14px;
+  padding: 10px;
   height: 300px;
   overflow-x: auto;
 }
@@ -1671,7 +1671,7 @@ body .layout-wrapper .layout-main .layout-content {
   color: white;
 }
 .layout-content .layout-dashboard .tasks .ui-panel-content {
-  padding: 14px;
+  padding: 10px;
   height: 300px;
   overflow-x: auto;
 }
@@ -1692,7 +1692,14 @@ body .layout-wrapper .layout-main .layout-content {
   vertical-align: middle;
 }
 .layout-content .layout-dashboard .tasks .ui-panel-content ul li .time-badge {
-  background-color: #3DB281;
+  background-color: #E02364;
+  background-image: -webkit-gradient(linear, left top, right top, from(#E02364), to(#A22650));
+  background-image: -webkit-linear-gradient(left, #E02364, #A22650);
+  background-image: -moz-linear-gradient(left, #E02364, #A22650);
+  background-image: -ms-linear-gradient(left, #E02364, #A22650);
+  background-image: -o-linear-gradient(left, #E02364, #A22650);
+  background-image: linear-gradient(left, #E02364, #A22650);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#E02364", endColorstr="#A22650", gradientType="1");
   border-radius: 12px;
   padding: 3px 8px;
   min-width: 50px;
@@ -1736,7 +1743,7 @@ body .layout-wrapper .layout-main .layout-content {
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#E02364", endColorstr="#A22650");
 }
 .layout-content .layout-dashboard .resolution-center .ui-panel-content {
-  padding: 14px;
+  padding: 10px;
   min-height: 236px;
 }
 .layout-content .layout-dashboard .resolution-center .ui-panel-content .ui-inputtext {

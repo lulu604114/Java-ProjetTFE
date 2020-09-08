@@ -129,7 +129,7 @@
             }
 
             .ui-panel-content {
-                padding: 14px;
+                padding: 10px;
                 height: 300px;
                 overflow-x: auto;
 
@@ -215,7 +215,7 @@
             }
 
             .ui-panel-content {
-                padding: 14px;
+                padding: 10px;
                 height: 300px;
                 overflow-x: auto;
 
@@ -302,7 +302,7 @@
             }
 
             .ui-panel-content {
-                padding: 14px;
+                padding: 10px;
                 height: 300px;
                 overflow-x: auto;
 
@@ -325,7 +325,7 @@
                         }
 
                         .time-badge {
-                            background-color: $primaryColor;
+                            @include background-gradient-left2right($color1, $color2);
                             border-radius: 12px;
                             padding: 3px 8px;
                             min-width: 50px;
@@ -358,7 +358,7 @@
 
         .resolution-center {
             .ui-panel-content {
-                padding: 14px;
+                padding: 10px;
                 min-height: 236px;
 
                 .ui-inputtext {

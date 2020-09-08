@@ -40,30 +40,30 @@
                                     <!-- APPOINTMENT CARD -->
                                     <div class="ui-g-12 ui-md-12 ui-lg-4">
                                         <p:panel header="#{ dashboard[card.label] }" styleClass="appointments">
-                                            <ul>
-                                                <ui:repeat value="#{ dashboardBean.getCardContent(card) }"
-                                                           var="meeting">
-                                                    <li>
-                                                        <p:graphicImage name="images/icons/calendar.svg"
-                                                                        library="own-layout"/>
-                                                        <div class="seperator"></div>
-                                                        <div class="team-box">
-                                                            <div>
-                                                                <i class="fas fa-user-injured"></i>
-                                                                <span class="team-member">#{ meeting.patient.lastName } #{ meeting.patient.firstName }</span>
-                                                            </div>
-                                                            <div>
-                                                                <i class="far fa-clock"></i>
-                                                                <span class="team-member-mail">#{ dashboardBean.displayMeetingTime(meeting) }</span>
-                                                            </div>
-                                                            <div>
-                                                                <i class="far fa-comment"></i>
-                                                                <span class="team-member-address">#{ meeting.title }</span>
-                                                            </div>
+                                            <p:dataList value="#{ dashboardBean.getCardContent(card) }"
+                                                        styleClass="dashboard-data-list"
+                                                        var="meeting"
+                                                        emptyMessage="Aucun rendez-vous !">
+                                                <li>
+                                                    <p:graphicImage name="images/icons/calendar.svg"
+                                                                    library="own-layout"/>
+                                                    <div class="seperator"></div>
+                                                    <div class="team-box">
+                                                        <div>
+                                                            <i class="fas fa-user-injured"></i>
+                                                            <span class="team-member">#{ meeting.patient.lastName } #{ meeting.patient.firstName }</span>
                                                         </div>
-                                                    </li>
-                                                </ui:repeat>
-                                            </ul>
+                                                        <div>
+                                                            <i class="far fa-clock"></i>
+                                                            <span class="team-member-mail">#{ dashboardBean.displayMeetingTime(meeting) }</span>
+                                                        </div>
+                                                        <div>
+                                                            <i class="far fa-comment"></i>
+                                                            <span class="team-member-address">#{ meeting.title }</span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </p:dataList>
                                         </p:panel>
                                     </div>
                                 </h:panelGroup>
@@ -73,17 +73,17 @@
                                     <!-- TASK CARD -->
                                     <div class="ui-g-12 ui-md-12 ui-lg-4">
                                         <p:panel header="#{ dashboard[card.label] }" styleClass="tasks">
-                                            <ul>
-                                                <ui:repeat value="#{ dashboardBean.getCardContent(card) }"
-                                                           var="task">
-                                                    <li>
-                                                        <span>#{ task.title }</span>
-                                                        <div class="time-badge">
-                                                            <span>#{ dashboardBean.displayTaskTime(task) }</span>
-                                                        </div>
-                                                    </li>
-                                                </ui:repeat>
-                                            </ul>
+                                            <p:dataList value="#{ dashboardBean.getCardContent(card) }"
+                                                        styleClass="dashboard-data-list"
+                                                        var="task"
+                                                        emptyMessage="Aucune tâche !">
+                                                <li>
+                                                    <span>#{ task.title }</span>
+                                                    <div class="time-badge">
+                                                        <span>#{ dashboardBean.displayTaskTime(task) }</span>
+                                                    </div>
+                                                </li>
+                                            </p:dataList>
                                         </p:panel>
                                     </div>
                                 </h:panelGroup>
