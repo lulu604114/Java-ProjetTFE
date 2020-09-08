@@ -4,6 +4,7 @@ import com.projet.conf.App;
 import com.projet.enumeration.ChargeFilterEnum;
 import com.projet.services.AccountItemService;
 import com.projet.services.FinancialYearService;
+import com.projet.services.UserService;
 import com.projet.utils.Message;
 import com.projet.entities.*;
 import com.projet.enumeration.ChargeStatus;
@@ -46,7 +47,9 @@ public class ChargeList implements Serializable {
     @PostConstruct
     public void init() {
         ChargeService service = new ChargeService(Charge.class);
+        UserService userService = new UserService(User.class);
         this.user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
+        userService.refreshEntity(this.user);
         this.chargeList = service.getByUser(user);
         Collections.sort(chargeList);
         Collections.reverse(chargeList);

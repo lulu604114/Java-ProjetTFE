@@ -82,7 +82,6 @@ public class User implements Serializable, Cloneable {
     private String phone;
 
     @Column(name = "mobile")
-    @Nullable
     @Size(min = 10, max = 13)
     private String mobile;
 
@@ -96,11 +95,11 @@ public class User implements Serializable, Cloneable {
     @Nullable
     private Date birthdate;
 
-    @Column(name = "charge_config_set")
+    @Column(columnDefinition = "boolean default 1", name = "charge_config_set")
     private boolean chargeConfigSet;
 
     @Column(columnDefinition = "varchar(255) default 'avatar.svg'", name = "avatar")
-    private String avatar;
+    private String avatar = "avatar.svg";
 
 
     // ENUMERATION

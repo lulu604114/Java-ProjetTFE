@@ -55,10 +55,14 @@ public abstract class Service<E> implements IService<E> {
 
     public void refreshCollection(List<E> entityCollection) {
         for (E entity : entityCollection) {
-            if ( ! em.contains(entity))
-                entity = em.merge(entity);
-
-            em.refresh(entity);
+            refreshEntity(entity);
         }
+    }
+
+    public void refreshEntity(E entity) {
+        if ( ! em.contains(entity))
+            entity = em.merge(entity);
+
+        em.refresh(entity);
     }
 }
