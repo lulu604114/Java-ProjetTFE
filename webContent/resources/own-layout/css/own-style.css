@@ -262,6 +262,7 @@ body .ui-datatable thead th {
     border-bottom: 2px solid #dedede;
 }
 
+/* PLANNING VIEW */
 .layout-content form table {
     width: 100% !important;
 }
