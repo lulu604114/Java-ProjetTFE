@@ -49,9 +49,9 @@
                                 <f:facet name="header">Action</f:facet>
                                 <p:splitButton  value=" Modifier" icon="far fa-edit" rendered="#{! userSupplier.supplier.default_sup}"
                                                 onclick="PF('supplierEdit-modal').show(100);" update=":supplierEdit-modal-form"
-                                                actionListener="#{supplierCrud.editSupplier(userSupplier)}" >
+                                                actionListener="#{supplierCrud.editSupplier(userSupplier)}" style="font-size: 10px">
                                     <p:menuitem value=" Supprimer" icon="fas fa-trash-alt" action="#{supplierCrud.deleteSupplier(userSupplier)}"
-                                                update=":supplier-list-form:msgs, :supplier-list-form">
+                                                update=":supplier-list-form:msgs, :supplier-list-form" style="font-size: 10px">
                                         <p:confirm header="Confirmation" message="Êtes-vous sur de vouloir supprimer ce fournisseur ?" icon="pi pi-exclamation-triangle" />
                                     </p:menuitem>
                                 </p:splitButton>

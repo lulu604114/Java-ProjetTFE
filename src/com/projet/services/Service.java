@@ -9,6 +9,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 
 /**
  * =================================================================
@@ -50,5 +51,14 @@ public abstract class Service<E> implements IService<E> {
 
     public void close() {
         em.close();
+    }
+
+    public void refreshCollection(List<E> entityCollection) {
+        for (E entity : entityCollection) {
+            if ( ! em.contains(entity))
+                entity = em.merge(entity);
+
+            em.refresh(entity);
+        }
     }
 }

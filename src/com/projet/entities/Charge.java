@@ -88,7 +88,7 @@ public class Charge implements Comparable<Charge>{
     @JoinColumn(name = "financial_year", referencedColumnName = "id", nullable = false)
     private FinancialYear financialYear;
 
-    @OneToMany(mappedBy = "charge", cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "charge", cascade = {CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     private List<AccountItem> accountItems;
 
 
@@ -219,7 +219,7 @@ public class Charge implements Comparable<Charge>{
         this.structeredCommunication = structeredCommunication;
     }
 
-    public Object getPaiementMethod() {
+    public PaiementMethodEnum getPaiementMethod() {
         return paiementMethod;
     }
 
@@ -249,6 +249,13 @@ public class Charge implements Comparable<Charge>{
 
         getAccountItems().add(accountItem);
         accountItem.setCharge(this);
+
+        return accountItem;
+    }
+
+    public AccountItem removeAccountItem(AccountItem accountItem) {
+        getAccountItems().remove(accountItem);
+        accountItem.setCharge(null);
 
         return accountItem;
     }

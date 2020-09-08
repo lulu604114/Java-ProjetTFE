@@ -4,7 +4,6 @@ import com.projet.conf.App;
 import com.projet.entities.*;
 import com.projet.security.SecurityManager;
 import com.projet.services.AccountItemService;
-import com.projet.services.ChargeService;
 import com.projet.utils.Message;
 import org.primefaces.event.SelectEvent;
 import javax.annotation.PostConstruct;
@@ -42,11 +41,15 @@ public class ChargeDetail implements Serializable {
     private boolean accountItem_amount_has_been_set;
     private boolean accountItem_privatePart_has_been_set;
     private boolean accountItem_taxDeductible_has_been_set;
+    private boolean accountItem_is_redeemable;
+    private boolean userAccount_is_redeemable;
 
     @PostConstruct
     public void init() {
         this.accountItem = new AccountItem();
         this.user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
+        this.accountItem_is_redeemable = false;
+        this.userAccount_is_redeemable = false;
     }
 
     /**
@@ -56,20 +59,39 @@ public class ChargeDetail implements Serializable {
      * It give the possibility to hidden the deductible amount simulation until
      * all required fields are set.
      */
-    public void newItem() {
+    public void initialize_new_accountItem() {
+        AccountItemService service = new AccountItemService(AccountItem.class);
+
         accountItem = new AccountItem();
-        accountItem.setAmount(charge.getAmount());
+        accountItem.setAmount(charge.getAmount() - service.calculate_imputed_amount(charge.getAccountItems()));
         accountItem.setDescription(charge.getLabel());
 
         accountItem_amount_is_set();
         accountItem_taxDeductible_is_not_set();
         accountItem_privatePart_is_not_set();
+        setUserAccount_is_redeemable(false);
+        setAccountItem_is_redeemable(false);
     }
 
     public String getChargeDetail(Charge charge) {
         this.charge = charge;
 
         return "/app/charge/chargeDetail?faces-redirect=true";
+    }
+
+    public void editAccountItem(AccountItem accountItem) {
+        this.accountItem = accountItem;
+
+        accountItem_amount_is_set();
+        accountItem_privatePart_is_set();
+        accountItem_taxDeductible_is_set();
+
+        if (! accountItem.getAccountItems().isEmpty())
+            setAccountItem_is_redeemable(true);
+        else
+            setAccountItem_is_redeemable(false);
+
+        setUserAccount_is_redeemable(accountItem.getUserAccount().getFinancialAccount().isRedeemable());
     }
 
     public boolean does_accountItem_amount_has_been_set() {
@@ -106,6 +128,32 @@ public class ChargeDetail implements Serializable {
 
     public void accountItem_taxDeductible_is_set() {
         this.accountItem_taxDeductible_has_been_set = true;
+    }
+
+    public boolean isAccountItem_is_redeemable() {
+        return accountItem_is_redeemable;
+    }
+
+    public void setAccountItem_is_redeemable(boolean value) {
+        accountItem_is_redeemable = value;
+    }
+
+    public boolean does_userAccount_is_redeemable() {
+        return userAccount_is_redeemable;
+    }
+
+    public void setUserAccount_is_redeemable(boolean value) {
+        this.userAccount_is_redeemable = value;
+    }
+
+    public int[] getRedeemableYearList(int beginYear, int endYear) {
+        int[] yearList = new int[endYear - beginYear];
+
+        for (int i = 0; i < yearList.length; i++) {
+            yearList[i] = i + beginYear;
+        }
+
+        return yearList;
     }
 
     /**
@@ -166,6 +214,8 @@ public class ChargeDetail implements Serializable {
         UserAccount userAccount = (UserAccount) event.getObject();
 
         if (userAccount != null) {
+            setUserAccount_is_redeemable(userAccount.getFinancialAccount().isRedeemable());
+
             accountItem.setPrivatePart(userAccount.getPrivatePart());
             accountItem_privatePart_is_set();
 
@@ -199,33 +249,67 @@ public class ChargeDetail implements Serializable {
     }
 
     public void addAccountItem() {
-        AccountItemService accountItemService = new AccountItemService(AccountItem.class);
-        ChargeService service = new ChargeService(Charge.class);
+        AccountItemService service = new AccountItemService(AccountItem.class);
+
         EntityTransaction transaction = service.getTransaction();
 
         transaction.begin();
 
         try {
-            AccountItem accountItem = accountItemService.finalizeAccountItem(this.charge, this.accountItem);
+            AccountItem accountItem = service.finalizeAccountItem(this.charge, this.accountItem);
 
             charge.addAccountItem(accountItem);
 
-            service.save(charge);
+            if (accountItem_is_redeemable) {
+                accountItem = service.create_redeemable_accountItem(accountItem, accountItem.getRedeemableYear(), user);
+            }
+
+            service.save(accountItem);
 
             transaction.commit();
 
             message.display(FacesMessage.SEVERITY_INFO, "Success", accountItem.getDescription() + " is added");
+
+        } catch (CloneNotSupportedException e) {
+
         } finally {
             if (transaction.isActive())
                 transaction.rollback();
 
             service.close();
-            accountItemService.close();
         }
     }
 
+    public void updateAccountItem() {
 
+    }
 
+    public void deleteAccountItem(AccountItem accountItem) {
+        AccountItemService service = new AccountItemService(AccountItem.class);
+
+        EntityTransaction transaction = service.getTransaction();
+
+        transaction.begin();
+
+        try {
+            charge.removeAccountItem(accountItem);
+
+            if ( ! accountItem.getAccountItems().isEmpty()) {
+                charge.getAccountItems().removeAll(accountItem.getAccountItems());
+            }
+
+            service.delete(accountItem.getId());
+
+            transaction.commit();
+
+            message.display(FacesMessage.SEVERITY_INFO, "Success", accountItem.getDescription() + " est supprimé");
+        } finally {
+            if (transaction.isActive())
+                transaction.rollback();
+
+            service.close();
+        }
+    }
 
     /* GETTER SETTER */
     public Charge getCharge() {

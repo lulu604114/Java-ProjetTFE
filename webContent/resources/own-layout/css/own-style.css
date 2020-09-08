@@ -169,6 +169,10 @@ body .ui-panel .ui-panel-content {
 .icon-secondary {
     color: #efefef;
 }
+
+.item-label-secondary {
+    color: #dedede;
+}
 /* TITLE BAR */
 body .ui-panel-titlebar img {
     height: 25px;
@@ -284,6 +288,11 @@ body .ui-panel .ui-panel-actions .ui-button {
 
 .emptyMessage p {
     margin: 25px auto;
+}
+
+.boolean-field {
+    display: flex;
+    justify-content: space-between;
 }
 
 .ui-dialog-content {

@@ -167,7 +167,7 @@
                                                 actionListener="#{chargeCrud.editCharge(charge)}" onclick="PF('chargeEdit-modal').show(100)"/>
                                     <p:menuitem value=" Supprimer" icon="fas fa-trash-alt" action="#{chargeCrud.deleteCharge(charge)}"
                                                 update=":chargeListForm, :chargeListForm:msgs" style="font-size: 10px">
-                                        <p:confirm header="Confirmation" message="Êtes-vous sur de vouloir supprimer ce frais ?" icon="pi pi-exclamation-triangle" />
+                                        <p:confirm header="Confirmation" message="Êtes-vous sur de vouloir supprimer ce frais ?" icon="fas fa-5x fa-exclamation-triangle icon-warning" />
                                     </p:menuitem>
                                 </p:splitButton>
                             </p:column>
@@ -231,10 +231,25 @@
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="status" value="Statut de paiement"/>
                         <p:selectOneMenu id="status" value="#{chargeCrud.charge.status}">
-                            <f:selectItems var="status" value="#{chargeCrud.chargeStatus}" itemLabel="#{cmp[status.status]}" itemValue="#{status}" />
+                            <p:ajax event="itemSelect" update="chargeCreation-modal-form" listener="#{chargeCrud.onStatusSelect}"/>
+                            <f:selectItems var="status" value="#{chargeCrud.chargeStatus}" itemLabel="#{cmp[status.status]}" itemValue="#{status}"/>
                         </p:selectOneMenu>
                     </div>
                 </div>
+                <h:panelGroup styleClass="ui-fluid p-formgrid p-grid" rendered="#{chargeCrud.chargePayed}">
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="paidAt" value="Date de paiement"/>
+                        <p:datePicker id="paidAt" value="#{chargeCrud.charge.payedAt}" />
+                    </div>
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="method" value="Moyen de paiement"/>
+                        <p:selectOneMenu id="method" value="#{chargeCrud.charge.paiementMethod}">
+                            <p:importEnum type="com.projet.enumeration.PaiementMethodEnum" var="PaiementMethods" allSuffix="VALUES"/>
+                            <f:selectItem noSelectionOption="true" itemLabel="Sélectionner un moyen de paiement"/>
+                            <f:selectItems var="paiementMethod" value="#{PaiementMethods.VALUES}"  itemLabel="#{paiementMethod.label}" itemValue="#{paiementMethod}"/>
+                        </p:selectOneMenu>
+                    </div>
+                </h:panelGroup>
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="freeCom" value="Communication libre"/>
@@ -304,10 +319,25 @@
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="chargeEdit-status" value="Statut de paiement"/>
                         <p:selectOneMenu id="chargeEdit-status" value="#{chargeCrud.charge.status}">
-                            <f:selectItems var="chargeEdit-status" value="#{chargeCrud.chargeStatus}" itemLabel="#{cmp[status.status]}" itemValue="#{status}" />
+                            <p:ajax event="itemSelect" update="chargeEdit-modal-form" listener="#{chargeCrud.onStatusSelect}"/>
+                            <f:selectItems var="status" value="#{chargeCrud.chargeStatus}" itemLabel="#{cmp[status.status]}" itemValue="#{status}"/>
                         </p:selectOneMenu>
                     </div>
                 </div>
+                <h:panelGroup styleClass="ui-fluid p-formgrid p-grid" rendered="#{chargeCrud.chargePayed}">
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="chargeEdit-paidAt" value="Date de paiement"/>
+                        <p:datePicker id="chargeEdit-paidAt" value="#{chargeCrud.charge.payedAt}" />
+                    </div>
+                    <div class="p-field p-col-6 p-md-6">
+                        <p:outputLabel for="chargeEdit-method" value="Moyen de paiement"/>
+                        <p:selectOneMenu id="chargeEdit-method" value="#{chargeCrud.charge.paiementMethod}">
+                            <p:importEnum type="com.projet.enumeration.PaiementMethodEnum" var="PaiementMethods" allSuffix="VALUES"/>
+                            <f:selectItem noSelectionOption="true" itemLabel="Sélectionner un moyen de paiement"/>
+                            <f:selectItems var="paiementMethod" value="#{PaiementMethods.VALUES}"  itemLabel="#{paiementMethod.label}" itemValue="#{paiementMethod}"/>
+                        </p:selectOneMenu>
+                    </div>
+                </h:panelGroup>
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="chargeEdit-freeCom" value="Communication libre"/>
@@ -380,8 +410,8 @@
         </p:dialog>
 
         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-            <p:commandButton value="oui" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
-            <p:commandButton value="non" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+            <p:commandButton value="oui" type="button" styleClass="ui-confirmdialog-yes success-btn" icon="fas fa-check"/>
+            <p:commandButton value="non" type="button" styleClass="ui-confirmdialog-no danger-btn" icon="fas fa-times" />
         </p:confirmDialog>
 
         <p:sidebar widgetVar="sidebar2" position="right" baseZIndex="10000" style="width: 28em;">

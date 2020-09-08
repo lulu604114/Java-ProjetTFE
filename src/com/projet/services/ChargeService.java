@@ -176,5 +176,25 @@ public class ChargeService extends Service<Charge> {
         return total;
     }
 
+    public Charge mark_charge_as_payed(Charge charge) {
+        charge.setPayed(true);
+
+        charge.setStatus(ChargeStatus.PAYED);
+
+        return charge;
+    }
+
+    public Charge mark_charge_as_not_payed(Charge charge) {
+        charge.setPayed(false);
+
+        charge.setStatus(ChargeStatus.NOTPAYED);
+
+        charge.setPaiementMethod(null);
+
+        charge.setPayedAt(null);
+
+        return charge;
+    }
+
 
 }

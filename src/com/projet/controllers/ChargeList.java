@@ -39,18 +39,13 @@ public class ChargeList implements Serializable {
     private static final long serialVersionUID = 1L;
     private Message message = Message.getMessage(App.BUNDLE_MESSAGE);
 
-    private ChargeService service = new ChargeService(Charge.class);
-    private FinancialYearService faService = new FinancialYearService(FinancialYear.class);
-    private AccountItemService accountItemService = new AccountItemService(AccountItem.class);
-
-
     private User user;
     private List<Charge> chargeList;
     private ChargeFilterEnum filter;
 
     @PostConstruct
     public void init() {
-
+        ChargeService service = new ChargeService(Charge.class);
         this.user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
         this.chargeList = service.getByUser(user);
         Collections.sort(chargeList);
@@ -100,25 +95,35 @@ public class ChargeList implements Serializable {
     }
 
     public double getTotalLateCharge() {
+        ChargeService service = new ChargeService(Charge.class);
+
         return service.totalCharge(chargeList, ChargeStatus.LATE);
     }
 
     public double getTotalNotPayedCharge() {
+        ChargeService service = new ChargeService(Charge.class);
 
         return service.totalCharge(chargeList, ChargeStatus.NOTPAYED) + service.totalCharge(chargeList, ChargeStatus.LATE);
     }
 
     public double getTotalCharge() {
+        ChargeService service = new ChargeService(Charge.class);
+
         return service.totalCharge(chargeList, null);
     }
 
     public double getTotalDeductibleCharge() {
+        FinancialYearService faService = new FinancialYearService(FinancialYear.class);
+        ChargeService service = new ChargeService(Charge.class);
+
         FinancialYear financialYear = faService.getCurrentFinancialYearByUser(user);
 
         return service.calculate_total_deductible_amount_by_financialYear(financialYear);
     }
 
     public double getAccountItemsIcon(Charge charge) {
+        AccountItemService accountItemService = new AccountItemService(AccountItem.class);
+
         return charge.getAmount() - accountItemService.calculate_imputed_amount(charge.getAccountItems());
     }
 

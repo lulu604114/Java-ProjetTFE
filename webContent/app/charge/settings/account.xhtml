@@ -148,7 +148,7 @@
                   focus="userAccountCreation-modal-close-btn" dynamic="true">
             <h:form id="userAccountCreation-modal-form">
                 <div class="ui-fluid p-formgrid p-grid">
-                    <div class="p-field p-col-12 p-md-12">
+                    <div class="p-field p-col-12">
                         <p:outputLabel for="userAccount-category" value="Categorie"/>
                         <p:selectOneMenu id="userAccount-category" value="#{chargeSettings.userAccount.financialAccount.accountCategory}" converter="accountCategoryConverter">
                             <f:selectItems value="#{chargeSettings.accountCategories}" var="accountCategory"
@@ -157,27 +157,27 @@
                     </div>
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
-                    <div class="p-field p-col-4 p-md-4">
+                    <div class="p-field p-col-4" style="padding-top: 0; padding-bottom: 0;">
                         <p:outputLabel for="userAccount-code" value="Code"/>
                         <p:inputNumber id="userAccount-code" value="#{chargeSettings.userAccount.financialAccount.code}"/>
                     </div>
-                    <div class="p-field p-col-8 p-md-8">
+                    <div class="p-field p-col-8">
                         <p:outputLabel for="userAccount-label" value="Nom de la charge"/>
                         <p:inputText id="userAccount-label" value="#{chargeSettings.userAccount.financialAccount.label}"/>
                     </div>
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
-                    <div class="p-field p-col-6 p-md-6">
+                    <div class="p-field p-col-6">
                         <p:outputLabel for="userAccount-privatePart" value="% Déductabilité"/>
                         <p:inputNumber id="userAccount-taxDeductible" value="#{chargeSettings.userAccount.taxDeductible}"/>
                     </div>
-                    <div class="p-field p-col-6 p-md-6">
+                    <div class="p-field p-col-6">
                         <p:outputLabel for="userAccount-privatePart" value="% Quote-part privé"/>
                         <p:inputText id="userAccount-privatePart" value="#{chargeSettings.userAccount.privatePart}"/>
                     </div>
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
-                    <div class="p-field p-col-12 p-md-12">
+                    <div class="p-field p-col-12 boolean-field">
                         <p:outputLabel for="userAccount-redeemable" value="Ammortissable"/>
                         <p:toggleSwitch id="userAccount-redeemable" value="#{chargeSettings.userAccount.financialAccount.redeemable}" />
                     </div>
