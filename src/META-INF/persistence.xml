@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-    <persistence-unit name="jsf_tfe" transaction-type="JTA">
-
-
-        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-
-        <jta-data-source>java:comp/env/jdbc/jsf_tfe</jta-data-source>
+  <persistence-unit name="jsf_tfe" transaction-type="JTA">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <jta-data-source>java:comp/env/jdbc/jsf_tfe</jta-data-source>
 
         <class>com.projet.entities.User</class>
         <class>com.projet.entities.Patient</class>
@@ -45,6 +42,9 @@
         <class>com.projet.entities.FinancialAccount</class>
         <class>com.projet.entities.UserAccount</class>
         <class>com.projet.entities.UserSupplier</class>
-<!--        <validation-mode>NONE</validation-mode>-->
+
+        <properties>
+          <property name="eclipselink.logging.level" value="FINE"/>
+        </properties>
     </persistence-unit>
 </persistence>

@@ -1,7 +1,13 @@
 package com.projet.controllers;
 
+import com.projet.conf.App;
 import com.projet.entities.Meeting;
+import com.projet.entities.Patient;
+import com.projet.entities.User;
+import com.projet.security.SecurityManager;
 import com.projet.services.MeetingService;
+import com.projet.utils.DateManager;
+import com.projet.utils.Message;
 import org.primefaces.event.ScheduleEntryMoveEvent;
 import org.primefaces.event.ScheduleEntryResizeEvent;
 import org.primefaces.event.SelectEvent;
@@ -12,9 +18,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import javax.persistence.EntityTransaction;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,10 +32,11 @@ import java.util.List;
 @Named("agendaBean")
 @ViewScoped
 public class AgendaBean implements Serializable {
+    private Message message = Message.getMessage(App.BUNDLE_MESSAGE);
+    private FacesMessage PFMessages = null;
+    private LazyScheduleModel events;
 
-    private ScheduleModel eventModel;
-
-    private ScheduleEvent event = new DefaultScheduleEvent();
+    private ScheduleEvent<Meeting> event = new DefaultScheduleEvent<Meeting>();
 
     private boolean slotEventOverlap = true;
     private boolean showWeekNumbers = false;
@@ -49,17 +57,19 @@ public class AgendaBean implements Serializable {
     private String weekNumberCalculator = "date.getTime()";
     private String displayEventEnd;
     private String timeFormat;
-    private String slotDuration = "00:30:00";
+    private String slotDuration = "00:15:00";
     private String slotLabelInterval;
     private String slotLabelFormat;
-    private String scrollTime = "06:00:00";
-    private String minTime = "08:00:00";
-    private String maxTime = "17:30:00";
+    private String scrollTime = "17:30:00";
+    private String minTime = "06:00:00";
+    private String maxTime = "20:00:00";
     private String locale = "fr";
     private String timeZone = "";
     private String clientTimeZone = "local";
-    private String columnHeaderFormat = "";
+    private String columnHeaderFormat = "timeGridWeek: {weekday: 'short'}";
     private String view = "timeGridWeek";
+
+    private User user;
 
     private MeetingService meetingService = new MeetingService(Meeting.class);
 
@@ -68,111 +78,27 @@ public class AgendaBean implements Serializable {
      */
     @PostConstruct
     public void init() {
-        eventModel = new DefaultScheduleModel();
-        List<Meeting> meetings = this.meetingService.getMeetings();
-
-        if (!meetings.isEmpty()) {
-            meetings.forEach(meeting -> {
-                event = DefaultScheduleEvent.builder()
-                        .title(meeting.getTitle())
-                        .startDate(this.meetingService.toLocalDateTime(meeting.getStartDate()))
-                        .endDate(this.meetingService.toLocalDateTime(meeting.getEndDate()))
-                        .description(meeting.getDescription())
-                        .data(meeting)
-                        .allDay(meeting.isAllDay())
-                        .overlapAllowed(true)
-                        .build();
-                eventModel.addEvent(event);
-            });
-        }
-    }
-
-    /**
-     * Gets random date time.
-     *
-     * @param base the base
-     *
-     * @return the random date time
-     */
-    public LocalDateTime getRandomDateTime(LocalDateTime base) {
-        LocalDateTime dateTime = base.withMinute(0).withSecond(0).withNano(0);
-        return dateTime.plusDays(((int) (Math.random() * 30)));
-    }
-
-    /**
-     * Gets event model.
-     *
-     * @return the event model
-     */
-    public ScheduleModel getEventModel() {
-        return eventModel;
-    }
-
-    private LocalDateTime previousDay8Pm() {
-        return LocalDateTime.now().minusDays(1).withHour(20).withMinute(0).withSecond(0).withNano(0);
-    }
-
-    private LocalDateTime previousDay11Pm() {
-        return LocalDateTime.now().minusDays(1).withHour(23).withMinute(0).withSecond(0).withNano(0);
-    }
-
-    private LocalDateTime today1Pm() {
-        return LocalDateTime.now().withHour(13).withMinute(0).withSecond(0).withNano(0);
-    }
-
-    private LocalDateTime theDayAfter3Pm() {
-        return LocalDateTime.now().plusDays(1).withHour(15).withMinute(0).withSecond(0).withNano(0);
-    }
-
-    private LocalDateTime today6Pm() {
-        return LocalDateTime.now().withHour(18).withMinute(0).withSecond(0).withNano(0);
-    }
-
-    private LocalDateTime nextDay9Am() {
-        return LocalDateTime.now().plusDays(1).withHour(9).withMinute(0).withSecond(0).withNano(0);
-    }
-
-    private LocalDateTime nextDay11Am() {
-        return LocalDateTime.now().plusDays(1).withHour(11).withMinute(0).withSecond(0).withNano(0);
-    }
-
-    private LocalDateTime fourDaysLater3pm() {
-        return LocalDateTime.now().plusDays(4).withHour(15).withMinute(0).withSecond(0).withNano(0);
-    }
-
-    private LocalDateTime sevenDaysLater0am() {
-        return LocalDateTime.now().plusDays(7).withHour(0).withMinute(0).withSecond(0).withNano(0);
-    }
-
-    private LocalDateTime eightDaysLater0am() {
-        return LocalDateTime.now().plusDays(7).withHour(0).withMinute(0).withSecond(0).withNano(0);
-    }
-
-    /**
-     * Gets initial date.
-     *
-     * @return the initial date
-     */
-    public LocalDate getInitialDate() {
-        return LocalDate.now().plusDays(1);
-    }
-
-    /**
-     * Gets event.
-     *
-     * @return the event
-     */
-    public ScheduleEvent<?> getEvent() {
-        return event;
-    }
-
-    /**
-     * Sets event.
-     *
-     * @param event the event
-     */
-    public void setEvent(ScheduleEvent<?> event) {
-        this.event = event;
+        user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
+        this.events = new LazyScheduleModel() {
+            @Override
+            public void loadEvents(LocalDateTime startDate, LocalDateTime endDate) {
+                List<Meeting> meetings = meetingService.getMeetings(startDate, endDate, user);
+                if (meetings.isEmpty()) return;
+                meetings.forEach(meeting -> {
+                    addEvent(DefaultScheduleEvent.builder()
+                            .title(meeting.getTitle())
+                            .startDate(DateManager.toLocalDateTime(meeting.getStartDate()))
+                            .endDate(DateManager.toLocalDateTime(meeting.getEndDate()))
+                            .description(meeting.getDescription())
+                            .styleClass(meeting.getType().toString().toLowerCase())
+                            .data(meeting)
+                            .allDay(meeting.isAllDay())
+                            .overlapAllowed(true)
+                            .build()
+                    );
+                });
+            }
+        };
     }
 
     /**
@@ -180,17 +106,11 @@ public class AgendaBean implements Serializable {
      */
     public void addEvent() {
         if (event.isAllDay()) {
-            // see https://github.com/primefaces/primefaces/issues/1164
             if (event.getStartDate().toLocalDate().equals(event.getEndDate().toLocalDate())) {
                 event.setEndDate(event.getEndDate().plusDays(1));
             }
         }
-
-        if (event.getId() == null)
-            eventModel.addEvent(event);
-        else
-            eventModel.updateEvent(event);
-
+        this.saveMeeting(event);
         event = new DefaultScheduleEvent<>();
     }
 
@@ -199,7 +119,7 @@ public class AgendaBean implements Serializable {
      *
      * @param selectEvent the select event
      */
-    public void onEventSelect(SelectEvent<ScheduleEvent<?>> selectEvent) {
+    public void onEventSelect(SelectEvent<ScheduleEvent<Meeting>> selectEvent) {
         event = selectEvent.getObject();
     }
 
@@ -218,7 +138,12 @@ public class AgendaBean implements Serializable {
      * @param selectEvent the select event
      */
     public void onDateSelect(SelectEvent<LocalDateTime> selectEvent) {
-        event = DefaultScheduleEvent.builder().startDate(selectEvent.getObject()).endDate(selectEvent.getObject().plusHours(1)).build();
+        event = DefaultScheduleEvent.builder()
+                .startDate(selectEvent.getObject())
+                .endDate(selectEvent.getObject().plusHours(1))
+                .overlapAllowed(true)
+                .data(new Meeting())
+                .build();
     }
 
     /**
@@ -227,9 +152,7 @@ public class AgendaBean implements Serializable {
      * @param event the event
      */
     public void onEventMove(ScheduleEntryMoveEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event moved", "Delta:" + event.getDeltaAsDuration());
-
-        addMessage(message);
+        this.saveMeeting(event.getScheduleEvent());
     }
 
     /**
@@ -238,42 +161,172 @@ public class AgendaBean implements Serializable {
      * @param event the event
      */
     public void onEventResize(ScheduleEntryResizeEvent event) {
-        FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Event resized", "Start-Delta:" + event.getDeltaStartAsDuration() + ", End-Delta: " + event.getDeltaEndAsDuration());
+        this.saveMeeting(event.getScheduleEvent());
+    }
 
+    /**
+     * Update meeting.
+     *
+     * @param event the event
+     */
+    public void saveMeeting(ScheduleEvent event) {
+        MeetingService service = new MeetingService(Meeting.class);
+        EntityTransaction transaction = service.getTransaction();
+        FacesMessage message;
+
+        transaction.begin();
+
+        try {
+            Meeting meeting = service.initMeeting(event);
+
+            service.save(meeting);
+
+            transaction.commit();
+
+            if (meeting.getId() != 0) {
+                message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Événement modifié", event.getTitle() + "a été mis à jour");
+            } else {
+                message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Événement ", event.getTitle() + "a été ajouté");
+            }
+        } finally {
+            if (transaction.isActive()) {
+                transaction.rollback();
+                message = new FacesMessage(FacesMessage.SEVERITY_ERROR, null, "Une erreur est survenue");
+            }
+
+            service.close();
+        }
         addMessage(message);
+
     }
 
     /**
      * On event delete.
      */
     public void onEventDelete() {
-        String eventId = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("eventId");
-        if (event != null) {
-            ScheduleEvent<?> event = eventModel.getEvent(eventId);
-            eventModel.deleteEvent(event);
+        if (this.event != null) {
+            MeetingService service = new MeetingService(Meeting.class);
+            EntityTransaction transaction = service.getTransaction();
+
+            transaction.begin();
+
+            try {
+                Meeting meeting = this.event.getData();
+                service.remove(meeting);
+
+                transaction.commit();
+
+                events.deleteEvent(this.event);
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Événement ", this.event.getTitle() + "a été supprimé");
+                addMessage(message);
+            } finally {
+                if (transaction.isActive()) {
+                    transaction.rollback();
+                    message.display(FacesMessage.SEVERITY_ERROR, "Unknown error", "Please retry");
+                }
+                service.close();
+            }
         }
+    }
+
+    /**
+     * Complete patient.
+     *
+     * @param query the query
+     *
+     * @return the list
+     */
+    public List<Patient> completePatient(String query) {
+        User user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
+        List<Patient> patients = user.getPatients();
+        List<Patient> results = new ArrayList<>();
+        // check if there are some userAccounts who match with the query
+        for (Patient patient : patients) {
+            String concatLastFirst = patient.getLastName() + " " + patient.getFirstName();
+            String concatFirstLast = patient.getFirstName() + " " + patient.getLastName();
+            // check if the firstName or lastName startWith the query received
+            if ((patient.getFirstName().toLowerCase().startsWith(query.toLowerCase()) || patient.getLastName().toLowerCase().startsWith(query.toLowerCase())))
+                results.add(patient);
+            else if (concatFirstLast.toLowerCase().startsWith(query.toLowerCase()) || concatLastFirst.toLowerCase().startsWith(query.toLowerCase()))
+                results.add(patient);
+        }
+        return results;
+    }
+
+    /**
+     * Display patient label string.
+     *
+     * @param patient the patient
+     *
+     * @return the string
+     */
+    public String displayPatientLabel(Patient patient) {
+        String value = "";
+        if (patient != null) {
+            value = patient.getLastName() + " " + patient.getFirstName();
+        }
+        return value;
     }
 
     private void addMessage(FacesMessage message) {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
+
+    /* GETTER && SETTERS FOR THE VIEW */
+
     /**
-     * Is show weekends boolean.
+     * Gets message.
      *
-     * @return the boolean
+     * @return the message
      */
-    public boolean isShowWeekends() {
-        return showWeekends;
+    public Message getMessage() {
+        return message;
     }
 
     /**
-     * Sets show weekends.
+     * Sets message.
      *
-     * @param showWeekends the show weekends
+     * @param message the message
      */
-    public void setShowWeekends(boolean showWeekends) {
-        this.showWeekends = showWeekends;
+    public void setMessage(Message message) {
+        this.message = message;
+    }
+
+    /**
+     * Gets events.
+     *
+     * @return the events
+     */
+    public LazyScheduleModel getEvents() {
+        return events;
+    }
+
+    /**
+     * Sets events.
+     *
+     * @param events the events
+     */
+    public void setEvents(LazyScheduleModel events) {
+        this.events = events;
+    }
+
+    /**
+     * Gets event.
+     *
+     * @return the event
+     */
+    public ScheduleEvent<Meeting> getEvent() {
+        return event;
+    }
+
+    /**
+     * Sets event.
+     *
+     * @param event the event
+     */
+    public void setEvent(ScheduleEvent<Meeting> event) {
+        this.event = event;
     }
 
     /**
@@ -367,6 +420,24 @@ public class AgendaBean implements Serializable {
     }
 
     /**
+     * Is show weekends boolean.
+     *
+     * @return the boolean
+     */
+    public boolean isShowWeekends() {
+        return showWeekends;
+    }
+
+    /**
+     * Sets show weekends.
+     *
+     * @param showWeekends the show weekends
+     */
+    public void setShowWeekends(boolean showWeekends) {
+        this.showWeekends = showWeekends;
+    }
+
+    /**
      * Is tooltip boolean.
      *
      * @return the boolean
@@ -408,7 +479,7 @@ public class AgendaBean implements Serializable {
      * @return the aspect ratio
      */
     public double getAspectRatio() {
-        return aspectRatio == 0 ? Double.MIN_VALUE : aspectRatio;
+        return aspectRatio;
     }
 
     /**
@@ -475,24 +546,6 @@ public class AgendaBean implements Serializable {
     }
 
     /**
-     * Gets view.
-     *
-     * @return the view
-     */
-    public String getView() {
-        return view;
-    }
-
-    /**
-     * Sets view.
-     *
-     * @param view the view
-     */
-    public void setView(String view) {
-        this.view = view;
-    }
-
-    /**
      * Gets next day threshold.
      *
      * @return the next day threshold
@@ -544,6 +597,24 @@ public class AgendaBean implements Serializable {
      */
     public void setWeekNumberCalculator(String weekNumberCalculator) {
         this.weekNumberCalculator = weekNumberCalculator;
+    }
+
+    /**
+     * Gets display event end.
+     *
+     * @return the display event end
+     */
+    public String getDisplayEventEnd() {
+        return displayEventEnd;
+    }
+
+    /**
+     * Sets display event end.
+     *
+     * @param displayEventEnd the display event end
+     */
+    public void setDisplayEventEnd(String displayEventEnd) {
+        this.displayEventEnd = displayEventEnd;
     }
 
     /**
@@ -616,24 +687,6 @@ public class AgendaBean implements Serializable {
      */
     public void setSlotLabelFormat(String slotLabelFormat) {
         this.slotLabelFormat = slotLabelFormat;
-    }
-
-    /**
-     * Gets display event end.
-     *
-     * @return the display event end
-     */
-    public String getDisplayEventEnd() {
-        return displayEventEnd;
-    }
-
-    /**
-     * Sets display event end.
-     *
-     * @param displayEventEnd the display event end
-     */
-    public void setDisplayEventEnd(String displayEventEnd) {
-        this.displayEventEnd = displayEventEnd;
     }
 
     /**
@@ -760,5 +813,59 @@ public class AgendaBean implements Serializable {
      */
     public void setColumnHeaderFormat(String columnHeaderFormat) {
         this.columnHeaderFormat = columnHeaderFormat;
+    }
+
+    /**
+     * Gets view.
+     *
+     * @return the view
+     */
+    public String getView() {
+        return view;
+    }
+
+    /**
+     * Sets view.
+     *
+     * @param view the view
+     */
+    public void setView(String view) {
+        this.view = view;
+    }
+
+    /**
+     * Gets meeting service.
+     *
+     * @return the meeting service
+     */
+    public MeetingService getMeetingService() {
+        return meetingService;
+    }
+
+    /**
+     * Sets meeting service.
+     *
+     * @param meetingService the meeting service
+     */
+    public void setMeetingService(MeetingService meetingService) {
+        this.meetingService = meetingService;
+    }
+
+    /**
+     * Gets user.
+     *
+     * @return the user
+     */
+    public User getUser() {
+        return user;
+    }
+
+    /**
+     * Sets user.
+     *
+     * @param user the user
+     */
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -1,15 +1,11 @@
 package com.projet.entities;
 
+import com.projet.conf.App;
 import com.projet.enumeration.MeetingTypeEnum;
-import com.projet.enumeration.UserTitle;
+import com.projet.security.SecurityManager;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Objects;
-
 
 /**
  * The type Meeting.
@@ -19,7 +15,26 @@ import java.util.Objects;
 @Entity
 @Table(name = "Meetings", schema = "jsf_tfe")
 @NamedQueries({
-        @NamedQuery(name = "Meeting.findAll", query = "SELECT m FROM Meeting m"),
+        @NamedQuery(
+                name = "Meeting.findAll",
+                query = "SELECT m FROM Meeting m"
+        ),
+        @NamedQuery(
+                name = "Meeting.findAllByUser",
+                query = "SELECT m FROM Meeting m WHERE m.user=:user"
+        ),
+        @NamedQuery(
+                name = "Meeting.findByUserAndStartDateAndEndDate",
+                query = "SELECT m FROM Meeting m WHERE m.user=:user AND ((m.startDate BETWEEN :startDate AND :endDate) OR (m.endDate BETWEEN :startDate AND :endDate)) ORDER BY m.startDate"
+        ),
+        @NamedQuery(
+                name = "Meeting.findTaskByUserAndStartDateAndEndDate",
+                query = "SELECT m from Meeting m WHERE m.type=com.projet.enumeration.MeetingTypeEnum.TASK AND m.user=:user AND ((m.startDate BETWEEN :startDate AND :endDate) OR (m.endDate BETWEEN :startDate AND :endDate)) ORDER BY m.startDate"
+        ),
+        @NamedQuery(
+                name = "Meeting.findEventByUserAndStartDateAndEndDate",
+                query = "SELECT m from Meeting m WHERE m.user=:user AND (m.type=com.projet.enumeration.MeetingTypeEnum.APPOINTMENT OR m.type=com.projet.enumeration.MeetingTypeEnum.SESSION) AND ((m.startDate BETWEEN :startDate AND :endDate) OR (m.endDate BETWEEN :startDate AND :endDate)) ORDER BY m.startDate"
+        )
 })
 public class Meeting {
 
@@ -57,16 +72,22 @@ public class Meeting {
     @JoinColumn(name = "place", referencedColumnName = "id", nullable = true)
     private Place place;
     @ManyToOne
-    @JoinColumn(name = "patient", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "patient", referencedColumnName = "id", nullable = true)
     private Patient patient;
     @ManyToOne
     @JoinColumn(name = "bill", referencedColumnName = "id", nullable = true)
     private Billing bill;
+    @ManyToOne
+    @JoinColumn(name = "user", referencedColumnName = "id", nullable = false)
+    private User user;
 
     /**
      * Instantiates a new Meeting.
      */
     public Meeting() {
+        this.type = MeetingTypeEnum.APPOINTMENT;
+        this.allDay = false;
+        this.user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
     }
 
     /**
@@ -90,6 +111,8 @@ public class Meeting {
         this.allDay = allDay;
         this.type = type;
         this.patient = patient;
+        this.user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
+
     }
 
     /**
@@ -117,6 +140,7 @@ public class Meeting {
         this.place = place;
         this.patient = patient;
         this.bill = bill;
+        this.user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
     }
 
     /**
@@ -315,5 +339,23 @@ public class Meeting {
      */
     public void setBill(Billing bill) {
         this.bill = bill;
+    }
+
+    /**
+     * Gets user.
+     *
+     * @return the user
+     */
+    public User getUser() {
+        return user;
+    }
+
+    /**
+     * Sets user.
+     *
+     * @param user the user
+     */
+    public void setUser(User user) {
+        this.user = user;
     }
 }

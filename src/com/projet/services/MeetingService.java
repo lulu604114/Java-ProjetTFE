@@ -1,9 +1,10 @@
 package com.projet.services;
 
-import com.projet.conf.App;
+import com.projet.entities.Meeting;
 import com.projet.entities.User;
+import com.projet.utils.DateManager;
 import org.apache.log4j.Logger;
-import com.projet.security.SecurityManager;
+import org.primefaces.model.ScheduleEvent;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -15,7 +16,7 @@ import java.util.*;
  *
  * @author Amaury Lapaque
  */
-public class MeetingService extends Service implements Serializable {
+public class MeetingService extends Service<Meeting> implements Serializable {
     private static final Logger log = Logger.getLogger(MeetingService.class);
     private static final long serialVersionUID = 1L;
 
@@ -24,38 +25,101 @@ public class MeetingService extends Service implements Serializable {
      *
      * @param ec the ec
      */
-    public MeetingService(Class<?> ec ) {
+    public MeetingService(Class<?> ec) {
         super(ec);
     }
 
+    /**
+     * Init meeting meeting.
+     *
+     * @param event the event
+     *
+     * @return the meeting
+     */
+    public Meeting initMeeting(ScheduleEvent<Meeting> event) {
+        Meeting meeting = event.getData();
+
+        meeting.setStartDate(DateManager.toCalendar(event.getStartDate()));
+        meeting.setEndDate(DateManager.toCalendar(event.getEndDate()));
+        meeting.setAllDay(event.isAllDay());
+        meeting.setTitle(event.getTitle());
+
+        return meeting;
+    }
+
     @Override
-    public Object save(Object o) {
-        return null;
+    public Meeting save(Meeting meeting) {
+        if (meeting.getId() == 0) {
+            em.persist(meeting);
+        } else {
+            meeting = em.merge(meeting);
+        }
+        return meeting;
+    }
+
+    /**
+     * Remove.
+     *
+     * @param meeting the meeting
+     */
+    public void remove(Meeting meeting) {
+        Meeting meetingDB = em.find(Meeting.class, meeting.getId());
+        if (meetingDB != null) {
+            em.remove(meetingDB);
+        }
     }
 
     /**
      * Gets meetings.
      *
+     * @param startDate the start date
+     * @param endDate   the end date
+     * @param user      the user
+     *
      * @return the meetings
      */
-    public List getMeetings() {
-        Map<String, Integer> params = new HashMap<>();
-        return finder.findByNamedQuery("Meeting.findAll", null);
+    public List<Meeting> getMeetings(LocalDateTime startDate, LocalDateTime endDate, User user) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("user", user);
+        params.put("startDate", DateManager.toDate(startDate));
+        params.put("endDate", DateManager.toDate(endDate));
+
+        return finder.findByNamedQuery("Meeting.findByUserAndStartDateAndEndDate", params);
     }
 
     /**
-     * To local date time local date time.
+     * Gets meetings for card.
      *
-     * @param calendar the calendar
+     * @param startDate the start date
+     * @param endDate   the end date
+     * @param user      the user
      *
-     * @return the local date time
+     * @return the meetings for card
      */
-    public LocalDateTime toLocalDateTime(Calendar calendar) {
-        if (calendar == null) {
-            return null;
-        }
-        TimeZone tz = calendar.getTimeZone();
-        ZoneId zid = tz == null ? ZoneId.systemDefault() : tz.toZoneId();
-        return LocalDateTime.ofInstant(calendar.toInstant(), zid);
+    public List<Meeting> getMeetingsForCard(LocalDateTime startDate, LocalDateTime endDate, User user) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("user", user);
+        params.put("startDate", DateManager.toDate(startDate));
+        params.put("endDate", DateManager.toDate(endDate));
+
+        return finder.findByNamedQuery("Meeting.findEventByUserAndStartDateAndEndDate", params);
+    }
+
+    /**
+     * Gets task for card.
+     *
+     * @param startDate the start date
+     * @param endDate   the end date
+     * @param user      the user
+     *
+     * @return the task for card
+     */
+    public List<Meeting> getTaskForCard(LocalDateTime startDate, LocalDateTime endDate, User user) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("user", user);
+        params.put("startDate", DateManager.toDate(startDate));
+        params.put("endDate", DateManager.toDate(endDate));
+
+        return finder.findByNamedQuery("Meeting.findTaskByUserAndStartDateAndEndDate", params);
     }
 }

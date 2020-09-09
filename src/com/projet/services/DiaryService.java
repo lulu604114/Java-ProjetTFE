@@ -4,6 +4,9 @@ import com.projet.entities.Diary;
 import com.projet.entities.User;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * =================================================================
@@ -20,6 +23,13 @@ public class DiaryService extends Service<Diary> implements Serializable {
 
     public DiaryService(Class<?> ec) {
         super(ec);
+    }
+
+    public List<Diary> getByUser(User user) {
+        Map<String, User> param = new HashMap<>();
+        param.put("user", user);
+
+        return finder.findByNamedQuery("Diary.findByUser", param);
     }
 
     @Override

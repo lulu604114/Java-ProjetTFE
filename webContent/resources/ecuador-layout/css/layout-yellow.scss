@@ -9,4 +9,46 @@ $topbarMenuHoverBgColor:#C3A004;
 $topbarProfileTextColor:#333333;
 $activeSubMenuItemTextColor:#c28304;
 
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $primaryColor;
+  border: 100px none $primaryColor;
+  border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: $topbarBgLeftColor;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: $primaryColor;
+}
+
+::-webkit-scrollbar-track {
+  background:  $topbarSidebarButtonColor;
+  border: 0px dotted  $topbarSidebarButtonColor;
+  border-radius: 100px;
+}
+
+::-webkit-scrollbar-track:hover {
+  background:  $topbarSidebarButtonColor;
+}
+
+::-webkit-scrollbar-track:active {
+  background:  $topbarSidebarButtonColor;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
 @import '../../sass/layout/_layout';

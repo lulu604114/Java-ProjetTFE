@@ -47,8 +47,8 @@
 
             .overview-numbers {
                 margin-left: 12px;
-                margin-bottom: 20px;
                 font-size: 20px;
+                font-weight: 600;
             }
 
             .overview-subinfo {
@@ -119,12 +119,15 @@
         }
 
         .appointments {
+            $color1: #f39611;
+            $color2: #fc4576;
             .ui-panel-titlebar {
                 border-top-left-radius: 6px;
                 border-top-right-radius: 6px;
-                @include background-gradient-left2right(#f39611, #fc4576);
+                @include background-gradient-left2right($color1, $color2);
                 color: white;
             }
+
             .ui-panel-content {
                 padding: 14px;
                 height: 300px;
@@ -163,7 +166,7 @@
                             .team-member {
                                 color: #323232;
                                 font-weight: 500;
-                                display: block;
+                                display: inline-block;
                             }
 
                             .team-member-mail {
@@ -176,7 +179,6 @@
                                 color: #888888;
                                 display: inline-block;
                                 font-weight: 400;
-                                margin-left: 6px;
                             }
 
                             i {
@@ -187,15 +189,31 @@
                     }
                 }
             }
+
+            ::-webkit-scrollbar-thumb {
+                @include background-gradient-bottom2top($color1, $color2);
+                border-radius: 100px;
+            }
+
+            ::-webkit-scrollbar-thumb:hover {
+                @include background-gradient-bottom2top($color1, $color2);
+            }
+
+            ::-webkit-scrollbar-thumb:active {
+                @include background-gradient-bottom2top($color1, $color2);
+            }
         }
 
         .documents {
+            $color1: #8868e0;
+            $color2: #6236a0;
             .ui-panel-titlebar {
                 border-top-left-radius: 6px;
                 border-top-right-radius: 6px;
-                @include background-gradient-left2right(#8868e0, #6236a0);
+                @include background-gradient-left2right($color1, $color2);
                 color: white;
             }
+
             .ui-panel-content {
                 padding: 14px;
                 height: 300px;
@@ -258,15 +276,31 @@
                     }
                 }
             }
+
+            ::-webkit-scrollbar-thumb {
+                @include background-gradient-bottom2top($color1, $color2);
+                border-radius: 100px;
+            }
+
+            ::-webkit-scrollbar-thumb:hover {
+                @include background-gradient-bottom2top($color1, $color2);
+            }
+
+            ::-webkit-scrollbar-thumb:active {
+                @include background-gradient-bottom2top($color1, $color2);
+            }
         }
 
         .tasks {
+            $color1: #E02364;
+            $color2: #A22650;
             .ui-panel-titlebar {
                 border-top-left-radius: 6px;
                 border-top-right-radius: 6px;
-                @include background-gradient-left2right(#E02364, #A22650);
+                @include background-gradient-left2right($color1, $color2);
                 color: white;
             }
+
             .ui-panel-content {
                 padding: 14px;
                 height: 300px;
@@ -307,6 +341,19 @@
                     }
                 }
             }
+
+            ::-webkit-scrollbar-thumb {
+                @include background-gradient-bottom2top($color1, $color2);
+                border-radius: 100px;
+            }
+
+            ::-webkit-scrollbar-thumb:hover {
+                @include background-gradient-bottom2top($color1, $color2);
+            }
+
+            ::-webkit-scrollbar-thumb:active {
+                @include background-gradient-bottom2top($color1, $color2);
+            }
         }
 
         .resolution-center {
@@ -336,10 +383,12 @@
         }
 
         .charges {
+            $color1: #e0d123;
+            $color2: #a28d26;
             .ui-panel-titlebar {
                 border-top-left-radius: 6px;
                 border-top-right-radius: 6px;
-                @include background-gradient-left2right(#e0d123, #a28d26);
+                @include background-gradient-left2right($color1, $color2);
                 color: white;
                 width: 100%;
             }
@@ -434,13 +483,28 @@
                     }
                 }
             }
+
+            ::-webkit-scrollbar-thumb {
+                @include background-gradient-bottom2top($color1, $color2);
+                border-radius: 100px;
+            }
+
+            ::-webkit-scrollbar-thumb:hover {
+                @include background-gradient-bottom2top($color1, $color2);
+            }
+
+            ::-webkit-scrollbar-thumb:active {
+                @include background-gradient-bottom2top($color1, $color2);
+            }
         }
 
         .messages {
+            $color1: #326DDF;
+            $color2: #214B9C;
             .ui-panel-titlebar {
                 border-top-left-radius: 6px;
                 border-top-right-radius: 6px;
-                @include background-gradient-left2right(#326DDF, #214B9C);
+                @include background-gradient-left2right($color1, $color2);
                 color: white;
                 width: 100%;
             }
@@ -531,6 +595,19 @@
                         }
                     }
                 }
+            }
+
+            ::-webkit-scrollbar-thumb {
+                @include background-gradient-bottom2top($color1, $color2);
+                border-radius: 100px;
+            }
+
+            ::-webkit-scrollbar-thumb:hover {
+                @include background-gradient-bottom2top($color1, $color2);
+            }
+
+            ::-webkit-scrollbar-thumb:active {
+                @include background-gradient-bottom2top($color1, $color2);
             }
         }
 

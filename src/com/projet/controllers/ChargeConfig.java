@@ -75,7 +75,9 @@ public class ChargeConfig implements Serializable {
 
             user.setChargeConfigSet(true);
 
-            service.save(user);
+            this.user = service.save(user);
+
+            SecurityManager.saveAttributeInSession(App.SESSION_USER, this.user);
 
             transaction.commit();
         } finally {
