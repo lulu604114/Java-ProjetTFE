@@ -144,7 +144,7 @@
                         <f:facet name="header">
                             <i class="fa fa-fw fa-file-text"></i>
                             <text/>
-                            <h:outputText value="Informations médicales"/>
+                            <h:outputText value="Informations diverses et médicales"/>
                         </f:facet>
                         <f:facet name="actions">
                             <p:commandLink id="info-medical-card-edit-btn" type="button" onclick="PF('medical-modal').show();" ajax="true"
@@ -247,7 +247,7 @@
                     <div class="ui-g-12 ui-md-12 ui-lg-12">
                         <i class="fa fa-fw fa-envelope"></i>
                         <p:outputLabel value=" N° de téléphone :"/>
-                        <p:inputText value="#{patientBean.patient.phone}" disabled="false"/>
+                        <p:inputText placeholder="(exemple :  0494/12.36.36)" value="#{patientBean.patient.phone}" mask="9999/99.99.99" disabled="false"   />
                     </div>
                     <div class="ui-g-12 ui-md-12 ui-lg-12">
                         <i class="fa fa-fw fa-envelope"></i>
@@ -273,11 +273,11 @@
                 <div class="ui-g">
                     <div class="ui-g-12">
                         <p:outputLabel for="Niss" value=" Numéro Niss" />
-                        <p:inputMask id="Niss" placeholder="(exemple : 0694.456.432)" value="#{patientBean.patient.niss}" mask="9999.999.999"/>
+                        <p:inputMask id="Niss" placeholder="(exemple :  94.03.17/245-76)" value="#{patientBean.patient.niss}" mask=" 99.99.99/999-99"/>
                     </div>
                     <div class="ui-g-12">
                         <p:outputLabel for="tiersPayant" value=" Tiers payant" />
-                        <p:inputMask id="tiersPayant" placeholder="(exemple : 0694.456.432)" value="#{patientBean.patient.tiersPayant}" mask="9999.999.999"/>
+                        <p:inputMask id="tiersPayant" placeholder="(exemple : 94.03.17/245-76)" value="#{patientBean.patient.tiersPayant}" mask="9999.999.999"/>
                     </div>
 
                 </div>
@@ -288,7 +288,7 @@
                                  actionListener="#{patientBean.cancel}" update=":content:msgs" ajax="true"/>
                 <p:commandButton form="info-medical-modal-form" value="Modifier" styleClass="success-btn"
                                  icon="fa fa-check" onclick="PF('medical-modal').hide()"
-                                 actionListener="#{patientBean.save}" update=":content:status-card, :content:msgs" ajax="true"/>
+                                 actionListener="#{patientBean.save}" update=":content:invoice-card, :content:msgs" ajax="true"/>
             </f:facet>
         </p:dialog>
     </ui:define>

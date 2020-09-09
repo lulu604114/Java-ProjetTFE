@@ -26,10 +26,10 @@
                         <f:facet name="header">
                             <i class="fa fa-fw fa-address-card"/>
                             <text/>
-                            <h:outputText value="Ajouter un document"/>
+                            <h:outputText value="Ajouter un document "/>
                         </f:facet>
                         <div class="panel-content">
-                            <p:fileUpload listener="#{fileUploadBean.handleFileUpload}" mode="advanced" dragDropSupport="false"
+                            <p:fileUpload listener="#{fileBean.handleFileUpload}" mode="advanced" dragDropSupport="false"
                                           update="messages" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|doc|docx)$/" />
 
                             <p:growl id="messages" showDetail="true" />
@@ -39,11 +39,11 @@
 
                 <!-- Liste des documents -->
                 <div class="ui-g-12 ui-md-12 ui-lg-6">
-                    <p:dataTable id="tablePatient" var="patient" value="#{patientBean.patients}" widgetVar="patientTable" multiViewState="true"
+                    <p:dataTable id="tablePatient" var="document" value="#{fileBean.documents}" widgetVar="patientTable" multiViewState="true"
                                  rows="10" paginator="true"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
-                                 emptyMessage="Aucun patient trouvé" filteredValue="#{patientBean.filteredPatients}"
+                                 emptyMessage="Aucun patient trouvé" filteredValue="#{fileBean.filteredDocuments}"
                     >
                         <!--                                         selectionMode="single" selection="#{patientBean.selectedPatient}" rowKey="#{patient.id}"-->
                         <f:facet name="header">
@@ -53,20 +53,25 @@
                             </p:outputPanel>
                         </f:facet>
 
-                        <p:column headerText="Id" filterBy="#{patient.id}" sortBy="#{patient.id}" filterMatchMode="contains">
-                            <h:outputText value="#{patient.id}" />
+                        <p:column headerText="N°" filterBy="#{document.id}" sortBy="#{document.id}" filterMatchMode="contains">
+                            <h:outputText value="#{document.id}" />
                         </p:column>
 
-                        <p:column headerText="Prénom" filterBy="#{patient.firstName}" sortBy="#{patient.firstName}" filterMatchMode="startsWith">
-                            <h:outputText value="#{patient.firstName}" />
+                        <p:column headerText="Fichiers" filterBy="#{document.nom}" sortBy="#{document.nom}" filterMatchMode="startsWith">
+                            <h:outputText value="#{document.nom}" />
                         </p:column>
 
-                        <p:column headerText="Nom" filterBy="#{patient.lastName}" sortBy="#{patient.lastName}" filterMatchMode="startsWith">
-                            <h:outputText value="#{patient.lastName}" />
+                        <p:column headerText="Action" >
+                            <p:commandButton value="Download4" ajax="false">
+                                <p:fileDownload value="#{fileBean.download(document)}" />
+                            </p:commandButton>
+                            <p:commandButton update=":content:tablePatient" action="#{fileBean.delete}" oncomplete="PF('patientDialog').show()" icon="fas fa-trash-alt" title="Supprimer">
+                                <f:setPropertyActionListener value="#{document}"  target="#{fileBean.document}"  />
+                            </p:commandButton>
                         </p:column>
 
                         <f:facet name="paginatorTopRight">
-                            <p:commandButton value="Réinitialiser les filtres" action="#{patientBean.clearTableState}" update="@form" />
+                            <p:commandButton value="Réinitialiser les filtres" action="#{fileBean.clearTableState}" update="@form" />
                         </f:facet>
 
                     </p:dataTable>

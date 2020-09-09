@@ -7,14 +7,19 @@ import java.util.Objects;
  * =================================================================
  * Created by Intellij IDEA.
  *
- * @author lucas
+ * @author nathan
  * @project TFE
- * Date: 27/01/2020
+ * Date: 27/07/2020
  * Time: 19:28
  * =================================================================
  */
 @Entity
 @Table(name = "Documents", schema = "jsf_tfe")
+
+@NamedQueries({
+        @NamedQuery(name = "Document.findByUser", query = "SELECT d FROM Document d WHERE d.user=:user AND d.patient=:patient"),
+        @NamedQuery(name = "Document.findAll", query = "SELECT d FROM Document d")
+})
 public class Document {
     @Id
     @Column(name = "id")
@@ -23,11 +28,17 @@ public class Document {
     @Basic
     @Column(name = "path")
     private String path;
+    @Basic
+    @Column(name = "nom")
+    private String nom;
     @ManyToOne
     @JoinColumn(name = "user", referencedColumnName = "id", nullable = false)
     private User user;
     @ManyToOne
-    @JoinColumn(name = "type", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "patient", referencedColumnName = "id", nullable = false)
+    private Patient patient;
+    @ManyToOne
+    @JoinColumn(name = "type", referencedColumnName = "id", nullable = true)
     private DocumentType type;
 
     public int getId() {
@@ -46,6 +57,14 @@ public class Document {
         this.path = path;
     }
 
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -57,7 +76,7 @@ public class Document {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, path);
+        return Objects.hash(id, path, nom);
     }
 
     public User getUser() {
@@ -66,6 +85,14 @@ public class Document {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
     }
 
     public DocumentType getType() {

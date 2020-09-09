@@ -89,6 +89,8 @@ public class Patient {
     @JoinColumn(name = "user", nullable = false)
     private User user;
     @OneToMany(mappedBy = "patient")
+    private List<Document> documents;
+    @OneToMany(mappedBy = "patient")
     private List<Information> informations;
     @OneToMany(mappedBy = "patient")
     private List<Meeting> meetings;
@@ -315,6 +317,14 @@ public class Patient {
 
     public void setToDos(List<ToDo> toDos) {
         this.toDos = toDos;
+    }
+
+    public List<Document> getDocuments() {
+        return documents;
+    }
+
+    public void setDocuments(List<Document> documents) {
+        this.documents = documents;
     }
 
     public void setFields(Patient patient) {

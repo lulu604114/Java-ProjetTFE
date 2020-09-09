@@ -53,6 +53,12 @@ public class PatientService extends Service<Patient> implements Serializable {
         return patient;
     }
 
+    public Patient deletePatient(Patient patient){
+        System.out.println("Je delete le patient :" + patient.getFirstName());
+        patient.setActive(false);
+        return patient;
+    }
+
     public Patient createPatient(Patient patient, User user){
         System.out.println("Je crée le patient :" + patient.getFirstName() + " date " + patient.getBirthdate() );
         patient.setUser(user);

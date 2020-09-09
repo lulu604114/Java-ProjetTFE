@@ -1,25 +1,19 @@
 package com.projet.controllers;
 import com.projet.conf.App;
-import com.projet.connection.EMF;
-import com.projet.entities.Charge;
 import com.projet.entities.Patient;
 import com.projet.entities.User;
 import com.projet.services.PatientService;
 import com.projet.security.SecurityManager;
 import org.primefaces.PrimeFaces;
 import com.projet.utils.Message;
-
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author nathan
@@ -33,6 +27,7 @@ public class PatientBean implements Serializable {
     private static final Message message = Message.getMessage(App.BUNDLE_MESSAGE);
 
     PatientService service = new PatientService(Patient.class);
+    EntityTransaction transaction = this.service.getTransaction();
     private Patient patient;
     private List<Patient> patients;
     private List<Patient> filteredPatients;
@@ -49,19 +44,17 @@ public class PatientBean implements Serializable {
         this.patients = this.service.getAllByUser(user);
     }
 
-    public void patientDetail(Patient patient)
-    {
-        this.patient = patient;
-    }
-    //Redirection
-
     public String openRedirection()
     {
         System.out.println("Je reçois le patient :" + patient.getId());
         this.patientTemp = new Patient(this.patient);
         return "/app/patient/viewPatient.xhtml";
     }
-    //création d'un nouveau patient
+
+    /**
+     * Create patient
+     * @return
+     */
     public String createPatient()
     {
         FacesMessage message = null;
@@ -89,34 +82,46 @@ public class PatientBean implements Serializable {
         PrimeFaces.current().ajax().addCallbackParam("loggedIn", succes);
         return "app/patient/viewPatient.xhtml";
     }
-    //Sauvegarde des modifications d'un patients
+
+    /**
+     * Update a patient
+     */
     public void save()
     {
-        System.out.println("Je reçois le patient temporaire :" + patientTemp.getId() + "Le patient est " + patient.getId());
-        PatientService service = new PatientService(Patient.class);
-        EntityTransaction transaction = service.getTransaction();
-        transaction.begin();
+        this.transaction.begin();
         try {
             patientTemp.setFields(patient);
-            System.out.println("patient db modif" + patientTemp.getNiss());
             service.save(patientTemp);
             transaction.commit();
-            System.out.println("transaction commit ok");
 
         } finally {
             if (transaction.isActive()) {
-                System.out.println("probleme");
                 transaction.rollback();
             }
             service.close();
         }
-//        patientDb = em.find(Patient.class, patient.getId());
-//        em.getTransaction().begin();
-//        patientDb.setFirstName(patient.getFirstName());
-//        em.getTransaction().commit();
 
     }
-    //Annulation de l'enregistrement ou de la modification d'un patient
+    public void deletePatient(Patient patient)
+    {
+        this.transaction.begin();
+        try {
+            Patient patientDeleted = service.deletePatient(patient);
+            service.save(patientDeleted);
+            transaction.commit();
+
+        } finally {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            service.close();
+        }
+
+    }
+
+    /**
+     * Cancel an creation, update or delete
+     */
     public void cancel() {
         message.display(FacesMessage.SEVERITY_WARN, "Annulation", "Aucunes modifications réalisées");
     }

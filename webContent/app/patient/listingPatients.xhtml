@@ -67,9 +67,7 @@
                                     <p:commandButton type="submit" action="#{patientBean.openRedirection()}" icon="fas fa-book-open">
                                         <f:setPropertyActionListener target="#{patientBean.patient}" value="#{patient}"    />
                                     </p:commandButton>
-                                    <p:commandButton update=":form:patientDetail" oncomplete="PF('patientDialog').show()" icon="fas fa-trash-alt" title="Supprimer">
-                                        <f:setPropertyActionListener value="#{patient}"  target="#{patientBean.selectedPatient}"  />
-                                    </p:commandButton>
+                                    <p:commandButton update=":form:patientDetail" action="#{patientBean.deletePatient(patient)}" icon="fas fa-trash-alt" title="Supprimer"/>
                                 </p:column>
 
                                 <f:facet name="paginatorTopLeft">
@@ -203,9 +201,9 @@
                                     <p:commandButton id="creation-modal-close-btn" form="creation-modal-form" type="button" value="Fermer"
                                                      styleClass="secondary-button" onclick="PF('patientCreation').hide()"
                                                      actionListener="#{patientBean.cancel}" update=":content:msgs" ajax="true"/>
-                                    <p:commandButton form="creation-modal-form" value="Enregistrer" update="growl"   styleClass="success-btn"
+                                    <p:commandButton form="creation-modal-form" value="Enregistrer" update=":form:tablePatient"   styleClass="success-btn"
                                                      icon="fa fa-check" actionListener="#{patientBean.createPatient()}"
-                                                     oncomplete="handleLoginRequest(xhr, status, args)"/>
+                                                     oncomplete="handleLoginRequest(xhr, status, args)"   ajax="true"/>
                                 </f:facet>
 
                         </p:dialog>
