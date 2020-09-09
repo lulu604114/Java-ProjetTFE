@@ -72,9 +72,6 @@ public class Charge implements Comparable<Charge>{
     @Temporal(TemporalType.DATE)
     private Date payedAt;
 
-    @Column(name = "month")
-    private int month;
-
     @ManyToOne
     @JoinColumn(name = "user", referencedColumnName = "id", nullable = false)
     private User user;
@@ -91,7 +88,7 @@ public class Charge implements Comparable<Charge>{
     @JoinColumn(name = "financial_year", referencedColumnName = "id", nullable = false)
     private FinancialYear financialYear;
 
-    @OneToMany(mappedBy = "charge", cascade = CascadeType.MERGE)
+    @OneToMany(mappedBy = "charge", cascade = {CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     private List<AccountItem> accountItems;
 
 
@@ -178,7 +175,6 @@ public class Charge implements Comparable<Charge>{
         return id == charge.id &&
                 Double.compare(charge.amount, amount) == 0 &&
                 payed == charge.payed &&
-                month == charge.month &&
                 label.equals(charge.label) &&
                 createdAt.equals(charge.createdAt) &&
                 Objects.equals(dueAt, charge.dueAt) &&
@@ -196,7 +192,7 @@ public class Charge implements Comparable<Charge>{
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, label, createdAt, amount, dueAt, status, payed, freeCommunication, structeredCommunication, paiementMethod, payedAt, month, user, userSupplier, diary, financialYear, accountItems);
+        return Objects.hash(id, label, createdAt, amount, dueAt, status, payed, freeCommunication, structeredCommunication, paiementMethod, payedAt, user, userSupplier, diary, financialYear, accountItems);
     }
 
     @Override
@@ -223,7 +219,7 @@ public class Charge implements Comparable<Charge>{
         this.structeredCommunication = structeredCommunication;
     }
 
-    public Object getPaiementMethod() {
+    public PaiementMethodEnum getPaiementMethod() {
         return paiementMethod;
     }
 
@@ -257,6 +253,13 @@ public class Charge implements Comparable<Charge>{
         return accountItem;
     }
 
+    public AccountItem removeAccountItem(AccountItem accountItem) {
+        getAccountItems().remove(accountItem);
+        accountItem.setCharge(null);
+
+        return accountItem;
+    }
+
     public Diary getDiary() {
         return diary;
     }
@@ -271,13 +274,5 @@ public class Charge implements Comparable<Charge>{
 
     public void setFinancialYear(FinancialYear financialYear) {
         this.financialYear = financialYear;
-    }
-
-    public int getMonth() {
-        return month;
-    }
-
-    public void setMonth(int month) {
-        this.month = month;
     }
 }

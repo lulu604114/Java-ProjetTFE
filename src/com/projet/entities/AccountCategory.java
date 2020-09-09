@@ -58,6 +58,14 @@ public class AccountCategory implements Comparable<AccountCategory>{
         this.userAccounts = userAccounts;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -74,6 +82,9 @@ public class AccountCategory implements Comparable<AccountCategory>{
 
     @Override
     public int compareTo(AccountCategory o) {
-        return 0;
+        if (getLabel().isEmpty() || o.getLabel().isEmpty())
+            return 0;
+
+        return getLabel().compareTo(o.getLabel());
     }
 }

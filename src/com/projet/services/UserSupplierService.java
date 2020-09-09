@@ -5,7 +5,9 @@ import com.projet.entities.User;
 import com.projet.entities.UserSupplier;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * =================================================================
@@ -21,6 +23,13 @@ public class UserSupplierService extends Service<UserSupplier>{
 
     public UserSupplierService(Class<?> ec) {
         super(ec);
+    }
+
+    public List<UserSupplier> getSupplierByUser(User user) {
+        Map<String, User> param = new HashMap<>();
+        param.put("user", user);
+
+        return finder.findByNamedQuery("US.findByUser", param);
     }
 
     @Override

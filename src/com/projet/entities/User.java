@@ -18,7 +18,7 @@ import java.util.*;
  * Created by Intellij IDEA.
  *
  * @author lucas Lapaque
- * @project TFE  Date: 27/01/2020 Time: 19:28 =================================================================
+ * @project TFE Date: 27/01/2020 Time: 19:28 =================================================================
  */
 @Entity
 @Table(name = "Users", schema = "jsf_tfe")
@@ -82,7 +82,6 @@ public class User implements Serializable, Cloneable {
     private String phone;
 
     @Column(name = "mobile")
-    @Nullable
     @Size(min = 10, max = 13)
     private String mobile;
 
@@ -96,11 +95,11 @@ public class User implements Serializable, Cloneable {
     @Nullable
     private Date birthdate;
 
-    @Column(name = "charge_config_set")
+    @Column(columnDefinition = "boolean default 1", name = "charge_config_set")
     private boolean chargeConfigSet;
 
     @Column(columnDefinition = "varchar(255) default 'avatar.svg'", name = "avatar")
-    private String avatar;
+    private String avatar = "avatar.svg";
 
 
     // ENUMERATION
@@ -611,37 +610,6 @@ public class User implements Serializable, Cloneable {
     }
 
     /**
-     * Add meetings meeting.
-     *
-     * @param meeting the meeting
-     *
-     * @return the meeting
-     */
-    public Meeting addMeetings(Meeting meeting) {
-        if (this.getMeetings() == null)
-            setMeetings(new ArrayList<>());
-
-        this.getMeetings().add(meeting);
-        meeting.setUser(this);
-
-        return meeting;
-    }
-
-    /**
-     * Remove meeting meeting.
-     *
-     * @param meeting the meeting
-     *
-     * @return the meeting
-     */
-    public Meeting removeMeeting(Meeting meeting) {
-        this.getMeetings().remove(meeting);
-        meeting.setUser(null);
-
-        return meeting;
-    }
-
-    /**
      * Gets meetings.
      *
      * @return the meetings
@@ -947,5 +915,22 @@ public class User implements Serializable, Cloneable {
      */
     public void setUserSuppliers(List<UserSupplier> userSuppliers) {
         this.userSuppliers = userSuppliers;
+    }
+
+    public UserSupplier addUserSupplier(UserSupplier userSupplier) {
+        if (getUserSuppliers() == null)
+            setUserSuppliers(new ArrayList<>());
+
+        getUserSuppliers().add(userSupplier);
+        userSupplier.setUser(this);
+
+        return userSupplier;
+    }
+
+    public UserSupplier removeSupplier(UserSupplier userSupplier) {
+        getUserSuppliers().remove(userSupplier);
+        userSupplier.setUser(null);
+
+        return userSupplier;
     }
 }

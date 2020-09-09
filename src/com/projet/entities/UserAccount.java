@@ -32,7 +32,7 @@ public class UserAccount implements Comparable<UserAccount>{
     @ManyToOne
     @JoinColumn(name = "user", referencedColumnName = "ID", nullable = false)
     private User user;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "financialAccount", referencedColumnName = "id", nullable = false)
     private FinancialAccount financialAccount;
 

@@ -1,12 +1,12 @@
 package com.projet.controllers;
 
 import com.projet.conf.App;
-import com.projet.connection.EMF;
 import com.projet.entities.Meeting;
 import com.projet.entities.Patient;
 import com.projet.entities.User;
 import com.projet.security.SecurityManager;
 import com.projet.services.MeetingService;
+import com.projet.utils.DateManager;
 import com.projet.utils.Message;
 import org.primefaces.event.ScheduleEntryMoveEvent;
 import org.primefaces.event.ScheduleEntryResizeEvent;
@@ -18,7 +18,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -34,7 +33,8 @@ import java.util.List;
 @ViewScoped
 public class AgendaBean implements Serializable {
     private Message message = Message.getMessage(App.BUNDLE_MESSAGE);
-    private ScheduleModel eventModel;
+    private FacesMessage PFMessages = null;
+    private LazyScheduleModel events;
 
     private ScheduleEvent<Meeting> event = new DefaultScheduleEvent<Meeting>();
 
@@ -57,16 +57,16 @@ public class AgendaBean implements Serializable {
     private String weekNumberCalculator = "date.getTime()";
     private String displayEventEnd;
     private String timeFormat;
-    private String slotDuration = "00:30:00";
+    private String slotDuration = "00:15:00";
     private String slotLabelInterval;
     private String slotLabelFormat;
-    private String scrollTime = "06:00:00";
-    private String minTime = "08:00:00";
-    private String maxTime = "17:30:00";
+    private String scrollTime = "17:30:00";
+    private String minTime = "06:00:00";
+    private String maxTime = "20:00:00";
     private String locale = "fr";
     private String timeZone = "";
     private String clientTimeZone = "local";
-    private String columnHeaderFormat = "";
+    private String columnHeaderFormat = "timeGridWeek: {weekday: 'short'}";
     private String view = "timeGridWeek";
 
     private User user;
@@ -79,24 +79,26 @@ public class AgendaBean implements Serializable {
     @PostConstruct
     public void init() {
         user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
-        eventModel = new DefaultScheduleModel();
-
-        List<Meeting> meetings = user.getMeetings();
-
-        if (!meetings.isEmpty()) {
-            meetings.forEach(meeting -> {
-                event = DefaultScheduleEvent.builder()
-                        .title(meeting.getTitle())
-                        .startDate(this.meetingService.toLocalDateTime(meeting.getStartDate()))
-                        .endDate(this.meetingService.toLocalDateTime(meeting.getEndDate()))
-                        .description(meeting.getDescription())
-                        .data(meeting)
-                        .allDay(meeting.isAllDay())
-                        .overlapAllowed(true)
-                        .build();
-                eventModel.addEvent(event);
-            });
-        }
+        this.events = new LazyScheduleModel() {
+            @Override
+            public void loadEvents(LocalDateTime startDate, LocalDateTime endDate) {
+                List<Meeting> meetings = meetingService.getMeetings(startDate, endDate, user);
+                if (meetings.isEmpty()) return;
+                meetings.forEach(meeting -> {
+                    addEvent(DefaultScheduleEvent.builder()
+                            .title(meeting.getTitle())
+                            .startDate(DateManager.toLocalDateTime(meeting.getStartDate()))
+                            .endDate(DateManager.toLocalDateTime(meeting.getEndDate()))
+                            .description(meeting.getDescription())
+                            .styleClass(meeting.getType().toString().toLowerCase())
+                            .data(meeting)
+                            .allDay(meeting.isAllDay())
+                            .overlapAllowed(true)
+                            .build()
+                    );
+                });
+            }
+        };
     }
 
     /**
@@ -104,17 +106,11 @@ public class AgendaBean implements Serializable {
      */
     public void addEvent() {
         if (event.isAllDay()) {
-            // see https://github.com/primefaces/primefaces/issues/1164
             if (event.getStartDate().toLocalDate().equals(event.getEndDate().toLocalDate())) {
                 event.setEndDate(event.getEndDate().plusDays(1));
             }
         }
         this.saveMeeting(event);
-        if (event.getId() == null)
-            eventModel.addEvent(event);
-        else
-            eventModel.updateEvent(event);
-
         event = new DefaultScheduleEvent<>();
     }
 
@@ -169,6 +165,42 @@ public class AgendaBean implements Serializable {
     }
 
     /**
+     * Update meeting.
+     *
+     * @param event the event
+     */
+    public void saveMeeting(ScheduleEvent event) {
+        MeetingService service = new MeetingService(Meeting.class);
+        EntityTransaction transaction = service.getTransaction();
+        FacesMessage message;
+
+        transaction.begin();
+
+        try {
+            Meeting meeting = service.initMeeting(event);
+
+            service.save(meeting);
+
+            transaction.commit();
+
+            if (meeting.getId() != 0) {
+                message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Événement modifié", event.getTitle() + "a été mis à jour");
+            } else {
+                message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Événement ", event.getTitle() + "a été ajouté");
+            }
+        } finally {
+            if (transaction.isActive()) {
+                transaction.rollback();
+                message = new FacesMessage(FacesMessage.SEVERITY_ERROR, null, "Une erreur est survenue");
+            }
+
+            service.close();
+        }
+        addMessage(message);
+
+    }
+
+    /**
      * On event delete.
      */
     public void onEventDelete() {
@@ -180,12 +212,11 @@ public class AgendaBean implements Serializable {
 
             try {
                 Meeting meeting = this.event.getData();
-                user.removeMeeting(meeting);
                 service.remove(meeting);
 
                 transaction.commit();
 
-                eventModel.deleteEvent(this.event);
+                events.deleteEvent(this.event);
                 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Événement ", this.event.getTitle() + "a été supprimé");
                 addMessage(message);
             } finally {
@@ -195,37 +226,6 @@ public class AgendaBean implements Serializable {
                 }
                 service.close();
             }
-        }
-    }
-
-    /**
-     * Update meeting.
-     *
-     * @param event the event
-     */
-    public void saveMeeting(ScheduleEvent event) {
-        MeetingService service = new MeetingService(Meeting.class);
-        EntityTransaction transaction = service.getTransaction();
-
-        transaction.begin();
-
-        try {
-            Meeting meeting = service.initMeeting(event);
-
-            user.addMeetings(meeting);
-            service.save(meeting);
-
-            transaction.commit();
-
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Événement modifié", event.getTitle() + "a été mis à jour");
-            addMessage(message);
-        } finally {
-            if (transaction.isActive()) {
-                transaction.rollback();
-                message.display(FacesMessage.SEVERITY_ERROR, "Unknown error", "Please retry");
-            }
-
-            service.close();
         }
     }
 
@@ -294,21 +294,21 @@ public class AgendaBean implements Serializable {
     }
 
     /**
-     * Gets event model.
+     * Gets events.
      *
-     * @return the event model
+     * @return the events
      */
-    public ScheduleModel getEventModel() {
-        return eventModel;
+    public LazyScheduleModel getEvents() {
+        return events;
     }
 
     /**
-     * Sets event model.
+     * Sets events.
      *
-     * @param eventModel the event model
+     * @param events the events
      */
-    public void setEventModel(ScheduleModel eventModel) {
-        this.eventModel = eventModel;
+    public void setEvents(LazyScheduleModel events) {
+        this.events = events;
     }
 
     /**
@@ -849,5 +849,23 @@ public class AgendaBean implements Serializable {
      */
     public void setMeetingService(MeetingService meetingService) {
         this.meetingService = meetingService;
+    }
+
+    /**
+     * Gets user.
+     *
+     * @return the user
+     */
+    public User getUser() {
+        return user;
+    }
+
+    /**
+     * Sets user.
+     *
+     * @param user the user
+     */
+    public void setUser(User user) {
+        this.user = user;
     }
 }

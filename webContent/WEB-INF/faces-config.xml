@@ -28,4 +28,12 @@
             <var>dashboard</var>
         </resource-bundle>
     </application>
+    <navigation-rule>
+        <from-view-id>/app/charge/chargeDetail.xhtml</from-view-id>
+        <navigation-case>
+            <from-action>#{chargeCrud.deleteCharge(chargeDetailView.charge)}</from-action>
+            <from-outcome>success</from-outcome>
+            <to-view-id>/app/charge/chargeList.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>

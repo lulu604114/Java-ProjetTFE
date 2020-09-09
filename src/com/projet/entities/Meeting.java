@@ -15,8 +15,26 @@ import java.util.Calendar;
 @Entity
 @Table(name = "Meetings", schema = "jsf_tfe")
 @NamedQueries({
-        @NamedQuery(name = "Meeting.findAll", query = "SELECT m FROM Meeting m"),
-        @NamedQuery(name = "Meeting.findAllByUser", query = "SELECT m FROM Meeting m WHERE m.user=:user")
+        @NamedQuery(
+                name = "Meeting.findAll",
+                query = "SELECT m FROM Meeting m"
+        ),
+        @NamedQuery(
+                name = "Meeting.findAllByUser",
+                query = "SELECT m FROM Meeting m WHERE m.user=:user"
+        ),
+        @NamedQuery(
+                name = "Meeting.findByUserAndStartDateAndEndDate",
+                query = "SELECT m FROM Meeting m WHERE m.user=:user AND ((m.startDate BETWEEN :startDate AND :endDate) OR (m.endDate BETWEEN :startDate AND :endDate)) ORDER BY m.startDate"
+        ),
+        @NamedQuery(
+                name = "Meeting.findTaskByUserAndStartDateAndEndDate",
+                query = "SELECT m from Meeting m WHERE m.type=com.projet.enumeration.MeetingTypeEnum.TASK AND m.user=:user AND ((m.startDate BETWEEN :startDate AND :endDate) OR (m.endDate BETWEEN :startDate AND :endDate)) ORDER BY m.startDate"
+        ),
+        @NamedQuery(
+                name = "Meeting.findEventByUserAndStartDateAndEndDate",
+                query = "SELECT m from Meeting m WHERE m.user=:user AND (m.type=com.projet.enumeration.MeetingTypeEnum.APPOINTMENT OR m.type=com.projet.enumeration.MeetingTypeEnum.SESSION) AND ((m.startDate BETWEEN :startDate AND :endDate) OR (m.endDate BETWEEN :startDate AND :endDate)) ORDER BY m.startDate"
+        )
 })
 public class Meeting {
 
@@ -69,6 +87,7 @@ public class Meeting {
     public Meeting() {
         this.type = MeetingTypeEnum.APPOINTMENT;
         this.allDay = false;
+        this.user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
     }
 
     /**
@@ -92,6 +111,8 @@ public class Meeting {
         this.allDay = allDay;
         this.type = type;
         this.patient = patient;
+        this.user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
+
     }
 
     /**
@@ -119,6 +140,7 @@ public class Meeting {
         this.place = place;
         this.patient = patient;
         this.bill = bill;
+        this.user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
     }
 
     /**
