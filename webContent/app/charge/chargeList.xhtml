@@ -188,7 +188,11 @@
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-12 p-md-12">
                         <p:outputLabel for="charge-label" value="Description"/>
-                        <p:inputText id="charge-label" value="#{chargeCrud.charge.label}"/>
+                        <p:inputText id="charge-label" value="#{chargeCrud.charge.label}" required="true"
+                                     requiredMessage="Veuillez renseignez ce champs">
+                            <p:ajax event="keyup" process="@this" update="charge-label-msg"/>
+                        </p:inputText>
+                        <p:message id="charge-label-msg" for="charge-label" />
                     </div>
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
@@ -208,17 +212,28 @@
                         </small>
                         <p:autoComplete id="supplier" value="#{chargeCrud.charge.userSupplier}" completeMethod="#{chargeCrud.completeSupplier}"
                                         dropdown="true" var="userSupplier" itemLabel="#{userSupplier.supplier.label}" itemValue="#{userSupplier}"
-                                        converter="userSupplierConverter" minQueryLength="2"/>
+                                        converter="userSupplierConverter" minQueryLength="2" required="true"
+                                        requiredMessage="Veuillez renseigner ce champ">
+                            <p:ajax event="itemSelect" process="@this" update="supplier-msg"/>
+                        </p:autoComplete>
+                        <p:message id="supplier-msg" for="supplier" />
                     </div>
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="createdAt" value="Date de facturation"/>
-                        <p:datePicker id="createdAt" value="#{chargeCrud.charge.createdAt}" />
+                        <p:datePicker id="createdAt" value="#{chargeCrud.charge.createdAt}">
+                            <p:ajax event="dateSelect" process="@this" update="createdAt-msg"/>
+                        </p:datePicker>
+                        <p:message id="createdAt-msg" for="createdAt"/>
                     </div>
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="dueAt" value="Date limite de paiement"/>
-                        <p:datePicker id="dueAt" value="#{chargeCrud.charge.dueAt}" />
+                        <p:datePicker id="dueAt" value="#{chargeCrud.charge.dueAt}" >
+                            <f:validator validatorId="dueAtDateValidator"/>
+                            <p:ajax event="dateSelect" process="@this" update="dueAt-msg"/>
+                        </p:datePicker>
+                        <p:message id="dueAt-msg" for="dueAt" />
                     </div>
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
@@ -226,7 +241,10 @@
                         <p:outputLabel for="amount" value="Montant total TTC"/>
                         <p:inputNumber id="amount" value="#{chargeCrud.charge.amount}" symbol=" €" symbolPosition="s"
                                        decimalSeparator="," thousandSeparator=" ">
+                            <f:validator validatorId="positiveAmountValidator"/>
+                            <p:ajax event="keyup" process="@this" update="amount-msg"/>
                         </p:inputNumber>
+                        <p:message id="amount-msg" for="amount" />
                     </div>
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="status" value="Statut de paiement"/>
@@ -240,7 +258,10 @@
                     <h:panelGroup styleClass="ui-fluid p-formgrid p-grid" rendered="#{chargeCrud.chargePayed}">
                         <div class="p-field p-col-6 p-md-6">
                             <p:outputLabel for="paidAt" value="Date de paiement"/>
-                            <p:datePicker id="paidAt" value="#{chargeCrud.charge.payedAt}" />
+                            <p:datePicker id="paidAt" value="#{chargeCrud.charge.payedAt}" required="#{chargeCrud.chargePayed}" requiredMessage="Veuillez renseigner ce champ">
+                                <f:validator validatorId="dueAtDateValidator"/>
+                            </p:datePicker>
+                            <p:message for="paidAt" />
                         </div>
                         <div class="p-field p-col-6 p-md-6">
                             <p:outputLabel for="method" value="Moyen de paiement"/>
@@ -265,11 +286,13 @@
                 </div>
             </h:form>
             <f:facet name="footer">
-                <p:commandButton id="chargeCreation-modal-close-btn" form="chargeCreation-modal-form" type="reset" value="Fermer"
+                <p:commandButton id="chargeCreation-modal-close-btn" value="Fermer"
                                  styleClass="secondary-button" onclick="PF('chargeCreation-modal').hide()"
-                                 update=":chargeListForm:msgs"/>
-                <p:commandButton form="chargeCreation-modal-form" value="Modfier" styleClass="success-btn"
-                                 icon="fa fa-check" action="#{chargeCrud.createCharge}" onclick="PF('chargeCreation-modal').hide()"/>
+                                 update=":chargeListForm:msgs chargeCreation-modal-form" process="@this">
+                    <p:resetInput target="chargeCreation-modal-form" />
+                </p:commandButton>
+                <p:commandButton form="chargeCreation-modal-form" value="Modfier" styleClass="success-btn" update="chargeCreation-modal-form"
+                                 icon="fa fa-check" action="#{chargeCrud.createCharge}" oncomplete=" if (! args.validationFailed) { PF('chargeCreation-modal').hide() }"/>
             </f:facet>
         </p:dialog>
 
@@ -304,11 +327,14 @@
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="chargeEdit-createdAt" value="Date de facturation"/>
-                        <p:datePicker id="chargeEdit-createdAt" value="#{chargeCrud.charge.createdAt}" />
+                        <p:datePicker id="chargeEdit-createdAt" value="#{chargeCrud.charge.createdAt}" binding="#{createdAt}"/>
                     </div>
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="chargeEdit-dueAt" value="Date limite de paiement"/>
-                        <p:datePicker id="chargeEdit-dueAt" value="#{chargeCrud.charge.dueAt}" />
+                        <p:datePicker id="chargeEdit-dueAt" value="#{chargeCrud.charge.dueAt}">
+                            <f:validator validatorId="dueAtDateValidator"/>
+                            <f:attribute name="createdAt" value="#{createdAt.value}"/>
+                        </p:datePicker>
                     </div>
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">

@@ -17,7 +17,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "AccountCategories", schema = "jsf_tfe")
 @NamedQueries({
-        @NamedQuery(name = "AC.findByUser", query = "SELECT a FROM AccountCategory a WHERE a.user=:user"),
+        @NamedQuery(name = "AC.findByUser", query = "SELECT DISTINCT u.financialAccount.accountCategory FROM UserAccount u WHERE u.user=:user"),
         @NamedQuery(name = "AC.findDefault", query = "SELECT a FROM AccountCategory a WHERE a.user=null")
 })
 public class AccountCategory implements Comparable<AccountCategory>{

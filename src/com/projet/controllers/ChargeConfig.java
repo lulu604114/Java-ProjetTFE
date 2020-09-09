@@ -9,12 +9,10 @@ import com.projet.services.UserService;
 import com.projet.services.UserSupplierService;
 
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.persistence.EntityTransaction;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -33,10 +31,9 @@ import java.util.List;
 public class ChargeConfig implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private User user;
-
     private boolean addFinancialAccount;
     private boolean addSupplier;
+    private User user;
 
     @PostConstruct
     public void init() {

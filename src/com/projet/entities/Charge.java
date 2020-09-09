@@ -4,7 +4,10 @@ import com.projet.enumeration.ChargeStatus;
 import com.projet.enumeration.PaiementMethodEnum;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Positive;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,25 +35,26 @@ public class Charge implements Comparable<Charge>{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Basic
+    @NotNull(message = "Veuillez renseigner ce champs")
+    @NotEmpty
     @Column(name = "label")
     private String label;
 
-    @Basic
-    @Past
+    @NotNull (message = "Veuillez renseigner ce champ")
     @Temporal(TemporalType.DATE)
     @Column(name = "created_at")
     private Date createdAt;
 
-    @Basic
+    @NotNull (message = "Veuillez renseigner ce champ")
+    @Positive (message = "Le montant doit être strictement supérieur à zéro")
     @Column(name = "amount")
     private double amount;
 
-    @Basic
     @Temporal(TemporalType.DATE)
     @Column(name = "due_at")
     private Date dueAt;
 
+    @NotNull
     @Column(name = "status")
     @Enumerated(EnumType.STRING)
     private ChargeStatus status;
@@ -80,6 +84,7 @@ public class Charge implements Comparable<Charge>{
     @JoinColumn(name = "user_supplier", referencedColumnName = "id", nullable = false)
     private UserSupplier userSupplier;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "diary", referencedColumnName = "id", nullable = false)
     private Diary diary;
