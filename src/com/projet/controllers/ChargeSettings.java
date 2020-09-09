@@ -68,7 +68,6 @@ public class ChargeSettings implements Serializable {
         Collections.sort(userAccounts);
 
         List<AccountCategory> accountCategories = accountCategoryService.getUserAccountCategory(user);
-        accountCategories.addAll(accountCategoryService.getAccountCategorybyDefault());
         Collections.sort(accountCategories);
 
         for (AccountCategory accountCategory:accountCategories) {

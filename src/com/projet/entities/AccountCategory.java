@@ -32,6 +32,7 @@ public class AccountCategory implements Comparable<AccountCategory>{
     @JoinColumn(name = "user", referencedColumnName = "ID", nullable = true)
     private User user;
 
+    @Transient
     private List<UserAccount> userAccounts;
 
     public int getId() {
