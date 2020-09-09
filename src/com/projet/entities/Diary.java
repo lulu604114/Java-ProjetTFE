@@ -17,6 +17,9 @@ import java.util.Objects;
  */
 @Entity
 @Table(name = "Diaries", schema = "jsf_tfe")
+@NamedQueries({
+        @NamedQuery(name = "Diary.findByUser", query = "SELECT d FROM Diary d WHERE d.user=:user")
+})
 public class Diary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

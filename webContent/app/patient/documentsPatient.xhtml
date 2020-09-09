@@ -26,10 +26,10 @@
                         <f:facet name="header">
                             <i class="fa fa-fw fa-address-card"/>
                             <text/>
-                            <h:outputText value="Ajouter un document"/>
+                            <h:outputText value="Ajouter un document "/>
                         </f:facet>
                         <div class="panel-content">
-                            <p:fileUpload listener="#{fileUploadBean.handleFileUpload}" mode="advanced" dragDropSupport="false"
+                            <p:fileUpload listener="#{fileBean.handleFileUpload}" mode="advanced" dragDropSupport="false"
                                           update="messages" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|doc|docx)$/" />
 
                             <p:growl id="messages" showDetail="true" />
@@ -39,32 +39,42 @@
 
                 <!-- Liste des documents -->
                 <div class="ui-g-12 ui-md-12 ui-lg-6">
-                    <p:panel id="invoice-card">
+                    <p:dataTable id="tablePatient" var="document" value="#{fileBean.documents}" widgetVar="patientTable" multiViewState="true"
+                                 rows="10" paginator="true"
+                                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                 rowsPerPageTemplate="5,10,15"
+                                 emptyMessage="Aucun patient trouvé" filteredValue="#{fileBean.filteredDocuments}"
+                    >
+                        <!--                                         selectionMode="single" selection="#{patientBean.selectedPatient}" rowKey="#{patient.id}"-->
                         <f:facet name="header">
-                            <i class="fa fa-fw fa-file-text"></i>
-                            <text/>
-                            <h:outputText value="Documents du patient"/>
+                            <p:outputPanel>
+                                <h:outputText value="Search all fields:" />
+                                <p:inputText id="globalFilter" onkeyup="PF('patientTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                            </p:outputPanel>
                         </f:facet>
 
-                        <div class="panel-content">
-                            <ul>
-                                <li>
-                                    <div><i class="fa fa-fw fa-user"/></div>
-                                    <div class="panel-content-info">
-                                        <small>Niss</small>
-                                        <div>#{patientBean.patient.niss}</div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div><i class="fa fa-fw fa-user"/></div>
-                                    <div class="panel-content-info">
-                                        <small>Tiers Payant</small>
-                                        <div>#{patientBean.patient.tiersPayant}</div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                    </p:panel>
+                        <p:column headerText="N°" filterBy="#{document.id}" sortBy="#{document.id}" filterMatchMode="contains">
+                            <h:outputText value="#{document.id}" />
+                        </p:column>
+
+                        <p:column headerText="Fichiers" filterBy="#{document.nom}" sortBy="#{document.nom}" filterMatchMode="startsWith">
+                            <h:outputText value="#{document.nom}" />
+                        </p:column>
+
+                        <p:column headerText="Action" >
+                            <p:commandButton value="Download4" ajax="false">
+                                <p:fileDownload value="#{fileBean.download(document)}" />
+                            </p:commandButton>
+                            <p:commandButton update=":content:tablePatient" action="#{fileBean.delete}" oncomplete="PF('patientDialog').show()" icon="fas fa-trash-alt" title="Supprimer">
+                                <f:setPropertyActionListener value="#{document}"  target="#{fileBean.document}"  />
+                            </p:commandButton>
+                        </p:column>
+
+                        <f:facet name="paginatorTopRight">
+                            <p:commandButton value="Réinitialiser les filtres" action="#{fileBean.clearTableState}" update="@form" />
+                        </f:facet>
+
+                    </p:dataTable>
                 </div>
             </div>
         </h:form>

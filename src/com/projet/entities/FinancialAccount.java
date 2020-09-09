@@ -38,7 +38,7 @@ public class FinancialAccount {
     @Basic
     @Column(name = "redeemable")
     private boolean redeemable;
-    @Column(name = "default_fa")
+    @Column(name = "default_fa", columnDefinition = "boolean default 0")
     private boolean defaultFa;
 
     @ManyToOne

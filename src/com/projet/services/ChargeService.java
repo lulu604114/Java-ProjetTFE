@@ -62,20 +62,37 @@ public class ChargeService extends Service<Charge> {
     }
 
     /**
-     * Method finalize the charge creation. User and financialYear is added.
+     * Method create a new charge. User and financialYear is added.
      *
      * @param charge charge who need to be completed
      * @param user user who is concerned by the charge
      * @return Charge ready to be persisted
      */
     public Charge createcharge(Charge charge, User user) {
+
+        finalizeCharge(charge, user);
+
+        // set user and return charge
+        return user.addCharge(charge);
+    }
+
+    public Charge modifyCharge(Charge charge, User user) {
+
+        return finalizeCharge(charge, user);
+    }
+
+    /**
+     * Method who complete all the required field of a charge. The returned charge
+     * is ready to be persisted
+     *
+     * @param charge
+     * @return
+     */
+    private Charge finalizeCharge(Charge charge, User user) {
         FinancialYearService faService = new FinancialYearService(FinancialYear.class);
 
-        Calendar calendar = new GregorianCalendar();
-        calendar.setTime(charge.getCreatedAt());
-
         // year of the created charge
-        int financialYearDate = calendar.get(Calendar.YEAR);
+        int financialYearDate = DateManager.getYear(charge.getCreatedAt());
 
         // financial with same year from database
         FinancialYear year = faService.getUserFinancialYearByDate(user, financialYearDate);
@@ -91,8 +108,7 @@ public class ChargeService extends Service<Charge> {
         // set charge status
         charge = checkStatus(charge);
 
-        // set user and return charge
-        return user.addCharge(charge);
+        return charge;
     }
 
     /**
@@ -144,6 +160,12 @@ public class ChargeService extends Service<Charge> {
         double total = 0;
 
         if (financialYear != null) {
+            //put in the persistence context
+            financialYear = em.merge(financialYear);
+
+            //synchronize data with DB
+            em.refresh(financialYear);
+
             List<AccountItem> accountItems = financialYear.getAccountItems();
 
             if (! accountItems.isEmpty()) {
@@ -152,6 +174,26 @@ public class ChargeService extends Service<Charge> {
         }
 
         return total;
+    }
+
+    public Charge mark_charge_as_payed(Charge charge) {
+        charge.setPayed(true);
+
+        charge.setStatus(ChargeStatus.PAYED);
+
+        return charge;
+    }
+
+    public Charge mark_charge_as_not_payed(Charge charge) {
+        charge.setPayed(false);
+
+        charge.setStatus(ChargeStatus.NOTPAYED);
+
+        charge.setPaiementMethod(null);
+
+        charge.setPayedAt(null);
+
+        return charge;
     }
 
 

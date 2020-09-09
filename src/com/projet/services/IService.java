@@ -19,5 +19,5 @@ public interface IService<E> {
 
     public abstract E save(E e);
 
-    public void delete(E e);
+    public void delete(int id);
 }

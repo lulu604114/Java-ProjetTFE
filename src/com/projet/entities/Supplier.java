@@ -1,6 +1,9 @@
 package com.projet.entities;
 
+import com.projet.enumeration.SupplierPaimentCondition;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -26,6 +29,7 @@ public class Supplier {
     @Column(name = "ID")
     private int id;
 
+    @NotNull
     @Column(name = "LABEL")
     private String label;
 
@@ -38,8 +42,12 @@ public class Supplier {
     @Column(name = "IBAN_BIS")
     private String ibanBis;
 
-    @Column(name = "default_sup")
+    @Column(name = "default_sup", columnDefinition = "boolean default 0")
     private Boolean default_sup;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "paiement_condition")
+    private SupplierPaimentCondition paimentCondition;
 
     public int getId() {
         return id;
@@ -100,5 +108,13 @@ public class Supplier {
 
     public void setDefault_sup(Boolean default_sup) {
         this.default_sup = default_sup;
+    }
+
+    public SupplierPaimentCondition getPaimentCondition() {
+        return paimentCondition;
+    }
+
+    public void setPaimentCondition(SupplierPaimentCondition paimentCondition) {
+        this.paimentCondition = paimentCondition;
     }
 }

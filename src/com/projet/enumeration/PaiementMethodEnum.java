@@ -11,4 +11,21 @@ package com.projet.enumeration;
  * =================================================================
  */
 public enum PaiementMethodEnum {
+    TRANSFER("Virement"),
+    CREDIT("Carte de credit"),
+    DEBIT("Carte de debit"),
+    MONEY("Liquide"),
+    PAYCONIQ("Payconiq"),
+    DOMICILIATION("Domiciliation"),
+    OTHER("Autre");
+
+    private String label;
+
+    PaiementMethodEnum(String label) {
+        this.label = label;
+    }
+
+    public String getLabel() {
+        return label;
+    }
 }
