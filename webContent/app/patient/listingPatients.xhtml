@@ -67,7 +67,7 @@
                                     <p:commandButton type="submit" action="#{patientBean.openRedirection()}" icon="fas fa-book-open">
                                         <f:setPropertyActionListener target="#{patientBean.patient}" value="#{patient}"    />
                                     </p:commandButton>
-                                    <p:commandButton update=":form:patientDetail" action="#{patientBean.deletePatient(patient)}" icon="fas fa-trash-alt" title="Supprimer"/>
+                                    <p:commandButton ajax="true" update=":form:tablePatient" action="#{patientBean.deletePatient(patient)}" icon="fas fa-trash-alt" title="Supprimer"/>
                                 </p:column>
 
                                 <f:facet name="paginatorTopLeft">

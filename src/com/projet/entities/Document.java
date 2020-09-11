@@ -17,7 +17,7 @@ import java.util.Objects;
 @Table(name = "Documents", schema = "jsf_tfe")
 
 @NamedQueries({
-        @NamedQuery(name = "Document.findByUser", query = "SELECT d FROM Document d WHERE d.user=:user AND d.patient=:patient"),
+        @NamedQuery(name = "Document.findByUser", query = "SELECT d FROM Document d WHERE d.user=:user AND d.patient=:patient AND d.active=true"),
         @NamedQuery(name = "Document.findAll", query = "SELECT d FROM Document d")
 })
 public class Document {
@@ -31,6 +31,9 @@ public class Document {
     @Basic
     @Column(name = "nom")
     private String nom;
+    @Basic
+    @Column(name = "active")
+    private boolean active;
     @ManyToOne
     @JoinColumn(name = "user", referencedColumnName = "id", nullable = false)
     private User user;
@@ -63,6 +66,13 @@ public class Document {
 
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     @Override

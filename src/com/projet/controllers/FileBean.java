@@ -39,6 +39,7 @@ public class FileBean implements Serializable {
     private StreamedContent file;
     private DefaultStreamedContent download;
     DocumentService service = new DocumentService(Document.class);
+    EntityTransaction transaction = this.service.getTransaction();
     FacesContext context = FacesContext.getCurrentInstance();
     PatientBean patientBean = context.getApplication().evaluateExpressionGet(context, "#{patientBean}", PatientBean.class);
     Patient patient = patientBean.getPatient();
@@ -177,6 +178,19 @@ public class FileBean implements Serializable {
 
     public void delete() {
         System.out.println("suppression du document n) " + document.getId());
+        this.transaction.begin();
+        try {
+            Document documentDeleted = service.deleteDocument(document);
+            service.save(documentDeleted);
+            transaction.commit();
+
+        } finally {
+            if (transaction.isActive()) {
+                transaction.rollback();
+            }
+            service.close();
+        }
+        this.documents.remove(document);
     }
     public Document getDocument() {
         return document;

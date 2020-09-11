@@ -52,4 +52,8 @@ public class DocumentService extends Service<Document> implements Serializable {
         document.setUser(user);
         return document;
     }
+    public Document deleteDocument(Document document){
+        document.setActive(false);
+        return document;
+    }
 }

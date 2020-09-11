@@ -116,7 +116,7 @@ public class PatientBean implements Serializable {
             }
             service.close();
         }
-
+        this.patients.remove(patient);
     }
 
     /**
