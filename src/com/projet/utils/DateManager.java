@@ -25,10 +25,10 @@ public class DateManager {
     public static DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd MMM hh:mm");
     public static DateTimeFormatter timeFormatter = DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT);
 
-    public static int compareToCurrentDate(Date date) {
+    public static boolean compareToCurrentDate(Date date) {
         Date currentDate = new Date();
 
-        return date.compareTo(currentDate);
+        return date.before(currentDate);
     }
 
     public static int getYear(Date date) {

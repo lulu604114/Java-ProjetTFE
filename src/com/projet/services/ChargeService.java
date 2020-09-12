@@ -61,6 +61,13 @@ public class ChargeService extends Service<Charge> {
         return null;
     }
 
+    public List<Charge> getByDueAtDate(Date date) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("date", date);
+
+        return finder.findByNamedQuery("Charge.findByDueAtDate", param);
+    }
+
     /**
      * Method create a new charge. User and financialYear is added.
      *
@@ -116,11 +123,11 @@ public class ChargeService extends Service<Charge> {
      * @param charge charge to check
      * @return charge with correct status
      */
-    private Charge checkStatus(Charge charge) {
+    public Charge checkStatus(Charge charge) {
         // if there is a due date and the status is not payed then it check if the status need to be modify
         if (charge.getDueAt() != null && !charge.getStatus().equals(ChargeStatus.PAYED)) {
             // if the due date is outdated then the status is modify
-            if (DateManager.compareToCurrentDate(charge.getDueAt()) < 0 )
+            if (DateManager.compareToCurrentDate(charge.getDueAt()))
                 charge.setStatus(ChargeStatus.LATE);
         }
 

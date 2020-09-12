@@ -1,9 +1,11 @@
 package com.projet.services;
 
+import com.projet.entities.AccountCategory;
 import com.projet.entities.FinancialAccount;
 import com.projet.entities.User;
 import com.projet.entities.UserAccount;
 
+import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +32,22 @@ public class UserAccountService extends Service<UserAccount> {
         param.put("user", user);
 
         return finder.findByNamedQuery("UA.findByUser", param);
+    }
+
+    public List<UserAccount> getByUserAndCategory(User user, AccountCategory category) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("user", user);
+        param.put("accountCategory", category);
+
+        return finder.findByNamedQuery("UA.findByCategory", param);
+    }
+
+    public int deleteById(User user, List<AccountCategory> accountCategories) {
+        Query query = em.createNamedQuery("UA.deleteById");
+        query.setParameter("user", user);
+        query.setParameter("accountCategory", accountCategories);
+
+        return query.executeUpdate();
     }
 
     @Override

@@ -51,6 +51,9 @@
     <listener>
         <listener-class>org.apache.shiro.web.env.EnvironmentLoaderListener</listener-class>
     </listener>
+    <listener>
+        <listener-class> org.quartz.ee.servlet.QuartzInitializerListener</listener-class>
+    </listener>
 
     <session-config>
         <session-timeout>60</session-timeout>
@@ -68,18 +71,6 @@
         <dispatcher>FORWARD</dispatcher>
         <dispatcher>INCLUDE</dispatcher>
         <dispatcher>ERROR</dispatcher>
-    </filter-mapping>
-    <filter>
-        <filter-name>SetCharacterEncodingFilter</filter-name>
-        <filter-class>com.projet.filter.SetCharacterEncodingFilter</filter-class>
-        <init-param>
-            <param-name>encoding</param-name>
-            <param-value>UTF-8</param-value>
-        </init-param>
-    </filter>
-    <filter-mapping>
-        <filter-name>SetCharacterEncodingFilter</filter-name>
-        <url-pattern>*.xhtml</url-pattern>
     </filter-mapping>
 
     <servlet>

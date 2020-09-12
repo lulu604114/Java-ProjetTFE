@@ -65,4 +65,12 @@ public abstract class Service<E> implements IService<E> {
 
         em.refresh(entity);
     }
+
+    public EntityManager getEm() {
+        return em;
+    }
+
+    public void setEm(EntityManager em) {
+        this.em = em;
+    }
 }

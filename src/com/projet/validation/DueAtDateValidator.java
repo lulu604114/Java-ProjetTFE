@@ -32,7 +32,17 @@ public class DueAtDateValidator implements Validator {
     public void validate(FacesContext facesContext, UIComponent uiComponent, Object o) throws ValidatorException {
         if (o != null) {
 
-            UIInput createdAtInput = (UIInput) uiComponent.findComponent("createdAt");
+            UIInput input1 = (UIInput) uiComponent.findComponent("createdAt");
+            UIInput input2 = (UIInput) uiComponent.findComponent("chargeEdit-createdAt");
+
+            UIInput createdAtInput;
+
+            if (input1 == null)
+                createdAtInput = input2;
+            else
+                createdAtInput = input1;
+
+
 
             Date dueAt = (Date) o;
             Date createdAt = null;

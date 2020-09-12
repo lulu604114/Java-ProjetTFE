@@ -9,7 +9,7 @@
 
     <ui:define name="content">
         <h:form id="chargeDetailForm">
-            <p:growl id="msgs" showDetail="true"/>
+            <p:growl id="msgs" showDetail="true" globalOnly="true"/>
             <div class="ui-g">
                 <div class="ui-g-12">
                     <p:panel>
@@ -380,7 +380,10 @@
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-12 p-md-12">
                         <p:outputLabel for="chargeEdit-label" value="Description"/>
-                        <p:inputText id="chargeEdit-label" value="#{chargeCrud.charge.label}"/>
+                        <p:inputText id="chargeEdit-label" value="#{chargeCrud.charge.label}">
+                            <p:ajax event="keyup" process="@this" update="chargeEdit-label-msg" delay="1000"/>
+                        </p:inputText>
+                        <p:message id="chargeEdit-label-msg" for="chargeEdit-label" />
                     </div>
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
@@ -394,17 +397,28 @@
                         <p:outputLabel for="chargeEdit-supplier" value="Fournisseurs"/>
                         <p:autoComplete id="chargeEdit-supplier" value="#{chargeCrud.charge.userSupplier}" completeMethod="#{chargeCrud.completeSupplier}"
                                         dropdown="true" var="userSupplier" itemLabel="#{userSupplier.supplier.label}" itemValue="#{userSupplier}"
-                                        converter="userSupplierConverter" minQueryLength="2"/>
+                                        converter="userSupplierConverter" minQueryLength="2" required="true"
+                                        requiredMessage="Veuillez renseigner ce champ">
+                            <p:ajax event="itemSelect" process="@this" update="chargeEdit-supplier-msg"/>
+                        </p:autoComplete>
+                        <p:message id="chargeEdit-supplier-msg" for="chargeEdit-supplier" />
                     </div>
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="chargeEdit-createdAt" value="Date de facturation"/>
-                        <p:datePicker id="chargeEdit-createdAt" value="#{chargeCrud.charge.createdAt}" />
+                        <p:datePicker id="chargeEdit-createdAt" value="#{chargeCrud.charge.createdAt}">
+                            <p:ajax event="dateSelect" process="@this" update="chargeEdit-createdAt-msg"/>
+                        </p:datePicker>
+                        <p:message id="chargeEdit-createdAt-msg" for="chargeEdit-createdAt" />
                     </div>
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="chargeEdit-dueAt" value="Date limite de paiement"/>
-                        <p:datePicker id="chargeEdit-dueAt" value="#{chargeCrud.charge.dueAt}" />
+                        <p:datePicker id="chargeEdit-dueAt" value="#{chargeCrud.charge.dueAt}">
+                            <f:validator validatorId="dueAtDateValidator"/>
+                            <p:ajax event="dateSelect" process="@this" update="chargeEdit-dueAt-msg"/>
+                        </p:datePicker>
+                        <p:message id="chargeEdit-dueAt-msg" for="chargeEdit-dueAt" />
                     </div>
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
@@ -412,7 +426,10 @@
                         <p:outputLabel for="chargeEdit-amount" value="Montant total TTC"/>
                         <p:inputNumber id="chargeEdit-amount" value="#{chargeCrud.charge.amount}" symbol=" €" symbolPosition="s"
                                        decimalSeparator="," thousandSeparator=" ">
+                            <f:validator validatorId="positiveAmountValidator"/>
+                            <p:ajax event="keyup" process="@this" update="chargeEdit-amount-msg" delay="1000"/>
                         </p:inputNumber>
+                        <p:message id="chargeEdit-amount-msg" for="chargeEdit-amount" />
                     </div>
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="chargeEdit-status" value="Statut de paiement"/>
@@ -426,7 +443,11 @@
                     <h:panelGroup styleClass="ui-fluid p-formgrid p-grid" rendered="#{chargeCrud.chargePayed}">
                         <div class="p-field p-col-6 p-md-6">
                             <p:outputLabel for="chargeEdit-paidAt" value="Date de paiement"/>
-                            <p:datePicker id="chargeEdit-paidAt" value="#{chargeCrud.charge.payedAt}" />
+                            <p:datePicker id="chargeEdit-paidAt" value="#{chargeCrud.charge.payedAt}" required="#{chargeCrud.chargePayed}" requiredMessage="Veuillez renseigner ce champ">
+                                <f:validator validatorId="dueAtDateValidator"/>
+                                <p:ajax event="dateSelect" process="@this" update="chargeEdit-dueAt-msg"/>
+                            </p:datePicker>
+                            <p:message for="chargeEdit-paidAt" id="chargeEdit-paidAt-msg"/>
                         </div>
                         <div class="p-field p-col-6 p-md-6">
                             <p:outputLabel for="chargeEdit-method" value="Moyen de paiement"/>
@@ -451,12 +472,14 @@
                 </div>
             </h:form>
             <f:facet name="footer">
-                <p:commandButton id="chargeEdit-modal-close-btn" form="chargeEdit-modal-form" type="reset" value="Fermer"
-                                 styleClass="secondary-button" onclick="PF('chargeEdit-modal').hide()"
-                                 update=":chargeDetailForm:msgs"/>
+                <p:commandButton id="chargeEdit-modal-close-btn" form="chargeEdit-modal-form" value="Fermer"
+                                 styleClass="secondary-button" oncomplete="PF('chargeEdit-modal').hide()"
+                                 update=":chargeDetailForm:msgs" process="@this">
+                    <p:resetInput target="chargeEdit-modal-form" />
+                </p:commandButton>
                 <p:commandButton form="chargeEdit-modal-form" value="Modfier" styleClass="success-btn"
-                                 icon="fa fa-check" action="#{chargeCrud.updateCharge}" onclick="PF('chargeEdit-modal').hide()"
-                                 update=":chargeDetailForm:charge-card, :chargeDetailForm:detail-card, :chargeDetailForm"/>
+                                 icon="fa fa-check" action="#{chargeCrud.updateCharge}" oncomplete=" if (! args.validationFailed) { PF('chargeEdit-modal').hide() }"
+                                 update="chargeEdit-modal-form chargeDetailForm:msgs"/>
             </f:facet>
         </p:dialog>
 
@@ -625,10 +648,15 @@
                   responsive="true" width="600" draggable="false" closable="false"
                   focus="marquedPaid-modal-close-btn" dynamic="true">
             <h:form id="marquedPaid-modal-form">
+                <p:datePicker id="createdAt" value="#{chargeCrud.charge.createdAt}"/>
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="charge-paidAt" value="Date de paiement"/>
-                        <p:datePicker id="charge-paidAt" value="#{chargeCrud.charge.payedAt}" />
+                        <p:datePicker id="charge-paidAt" value="#{chargeCrud.charge.payedAt}">
+                            <f:validator validatorId="dueAtDateValidator"/>
+                            <p:ajax event="dateSelect" process="@this" update="charge-paidAt-msg"/>
+                        </p:datePicker>
+                        <p:message for="charge-paidAt" id="charge-paidAt-msg"/>
                     </div>
                     <div class="p-field p-col-6 p-md-6">
                         <p:outputLabel for="charge-method" value="Moyen de paiement"/>
@@ -653,12 +681,14 @@
                 </div>
             </h:form>
             <f:facet name="footer">
-                <p:commandButton id="marquedPaid-modal-close-btn" form="marquedPaid-modal-form" type="reset" value="Fermer"
-                                 styleClass="secondary-button" onclick="PF('marquedPaid-modal').hide()"
-                                 update=":chargeDetailForm:msgs"/>
+                <p:commandButton id="marquedPaid-modal-close-btn" form="marquedPaid-modal-form" value="Fermer"
+                                 styleClass="secondary-button" oncomplete="PF('marquedPaid-modal').hide()"
+                                 update=":chargeDetailForm:msgs" process="@this">
+                    <p:resetInput target="chargeEdit-modal-form" />
+                </p:commandButton>
                 <p:commandButton form="marquedPaid-modal-form" value="Modfier" styleClass="success-btn"
-                                 icon="fa fa-check" action="#{chargeCrud.markAsPayed}" onclick="PF('marquedPaid-modal').hide()"
-                                 update=":chargeDetailForm:msgs, :chargeDetailForm:detail-card, :chargeDetailForm"/>
+                                 icon="fa fa-check" action="#{chargeCrud.markAsPayed}" oncomplete=" if (! args.validationFailed) { PF('marquedPaid-modal').hide() }"
+                                 update="chargeDetailForm marquedPaid-modal-form"/>
             </f:facet>
         </p:dialog>
 

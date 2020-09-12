@@ -3,6 +3,7 @@ package com.projet.services;
 import com.projet.entities.AccountCategory;
 import com.projet.entities.User;
 
+import javax.persistence.Query;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,8 +32,18 @@ public class AccountCategoryService extends Service<AccountCategory>{
         return finder.findByNamedQuery("AC.findByUser", param);
     }
 
-    public List<AccountCategory> getAccountCategorybyDefault() {
-        return finder.findByNamedQuery("AC.findDefault", null);
+    public List<AccountCategory> getAccountCategoryByDefault(User user) {
+        Map<String, User> param = new HashMap<>();
+        param.put("user", user);
+
+        return finder.findByNamedQuery("AC.findDefault", param);
+    }
+
+    public int deleteById(List<Integer> ids) {
+        Query query = em.createNamedQuery("AC.deleteById");
+        query.setParameter("ident", ids);
+
+        return query.executeUpdate();
     }
 
     @Override

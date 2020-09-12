@@ -29,6 +29,7 @@ import java.util.Objects;
         @NamedQuery(name = "Charge.findByUser", query = "SELECT c FROM Charge c WHERE c.user=:user"),
         @NamedQuery(name = "Charge.findByUserOrderByDate", query = "SELECT c FROM Charge c WHERE c.user=:user ORDER BY c.dueAt DESC"),
         @NamedQuery(name = "Charge.findPayedByUser", query = "SELECT c FROM Charge c WHERE c.user=:user AND c.payed=true"),
+        @NamedQuery(name = "Charge.findByDueAtDate", query = "SELECT c FROM Charge c WHERE c.dueAt=:date")
 })
 public class Charge implements Comparable<Charge>{
     @Id

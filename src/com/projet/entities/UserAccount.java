@@ -16,7 +16,9 @@ import java.util.Objects;
 @Entity
 @Table(name = "User_Accounts", schema = "jsf_tfe")
 @NamedQueries({
-        @NamedQuery(name = "UA.findByUser", query = "SELECT u  FROM UserAccount u WHERE u.user=:user")
+        @NamedQuery(name = "UA.findByUser", query = "SELECT u  FROM UserAccount u WHERE u.user=:user"),
+        @NamedQuery(name = "UA.findByCategory", query = "SELECT u FROM UserAccount u WHERE u.user=:user AND u.financialAccount.accountCategory=:accountCategory"),
+        @NamedQuery(name = "UA.deleteById", query = "DELETE FROM UserAccount u  WHERE u.user=:user AND u.financialAccount.accountCategory IN :accountCategory")
 })
 public class UserAccount implements Comparable<UserAccount>{
     @Id
@@ -80,7 +82,7 @@ public class UserAccount implements Comparable<UserAccount>{
         if (financialAccount.getCode() == null || o.financialAccount.getCode() == null)
             return 0;
 
-        return financialAccount.getCode().compareTo(o.financialAccount.getCode());
+        return Integer.valueOf(financialAccount.getCode()).compareTo(Integer.valueOf(o.financialAccount.getCode()));
     }
 
     public User getUser() {
