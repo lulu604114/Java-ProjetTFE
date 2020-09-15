@@ -1,6 +1,7 @@
 package com.projet.controllers;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -18,7 +19,7 @@ import java.util.Locale;
  * =================================================================
  */
 @Named("i18n")
-@ApplicationScoped
+@SessionScoped
 public class I18n implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -75,6 +75,7 @@
                       minimizable="true"
                       dynamic="true"
                       closeOnEscape="true">
+                <p:ajax event="close" update="eventDetails" resetValues="true"/>
                 <h:panelGrid id="eventDetails"
                              columns="1"
                              cellpadding="2">
@@ -118,27 +119,31 @@
                                  value="#{ agendaBean.event.title }"
                                  required="true"/>
 
-                    <p:outputLabel for="from"
+                    <p:outputLabel for="startDate"
                                    value="From"
                                    style="font-weight:bold"/>
-                    <p:datePicker id="from"
+                    <p:datePicker id="startDate"
                                   value="#{ agendaBean.event.startDate }"
                                   pattern="dd/MM/yyyy"
+                                  maxdate="#{ agendaBean.event.endDate }"
                                   showTime="true"
                                   appendTo="@(body)"
                                   required="true"
-                                  disabled="#{ agendaBean.event.allDay }"/>
+                                  disabled="#{ agendaBean.event.allDay }">
+                    </p:datePicker>
 
-                    <p:outputLabel for="to"
+                    <p:outputLabel for="endDate"
                                    value="To"
                                    style="font-weight:bold"/>
-                    <p:datePicker id="to"
+                    <p:datePicker id="endDate"
                                   value="#{ agendaBean.event.endDate }"
                                   pattern="dd/MM/yyyy"
+                                  mindate="#{ agendaBean.event.startDate }"
                                   showTime="true"
                                   appendTo="@(body)"
                                   required="true"
-                                  disabled="#{ agendaBean.event.allDay }"/>
+                                  disabled="#{ agendaBean.event.allDay }">
+                    </p:datePicker>
 
                     <p:outputLabel for="allDay"
                                    value="All Day"

@@ -1,11 +1,11 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" 
-                xmlns:h="http://java.sun.com/jsf/html" 
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
                 xmlns:f="http://java.sun.com/jsf/core"
-                xmlns:ui="http://java.sun.com/jsf/facelets" 
+                xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 xmlns:pe="http://primefaces.org/ecuador">
 
-<div class="layout-sidebar">
+    <div class="layout-sidebar">
         <div class="nano">
             <div class="nano-content menu-scroll-content">
                 <h:form id="menuform">
@@ -13,19 +13,19 @@
                     <pe:menu widgetVar="me">
                         <p:menuitem outcome="/app/dashboard/dashboard"
                                     id="om_dashboard"
-                                    value="Dashboard"
+                                    value="#{ nav['dashboard'] }"
                                     icon="fa fa-fw fa-dashboard"/>
                         <p:menuitem outcome="/app/agenda/agenda"
                                     id="om_agenda"
-                                    value="Agenda"
+                                    value="#{ nav['agenda'] }"
                                     icon="fa fa-fw fa-calendar"/>
                         <p:menuitem id="om_patient"
                                     outcome="/app/patient/listingPatients"
-                                    value="Patient"
+                                    value="#{ nav['patient'] }"
                                     icon="fa fa-fw fa-user-plus"/>
                         <p:menuitem outcome="#{checkConfig.userChargeIsSet()}"
                                     id="om_charge"
-                                    value="Frais"
+                                    value="#{ nav['charge'] }"
                                     icon="fas fa-shopping-basket"/>
                     </pe:menu>
                 </h:form>

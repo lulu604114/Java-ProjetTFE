@@ -15,10 +15,13 @@ import org.primefaces.model.*;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.persistence.EntityTransaction;
+import javax.validation.ValidationException;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -106,8 +109,7 @@ public class AgendaBean implements Serializable {
          */
         FacesContext context = FacesContext.getCurrentInstance();
         PatientBean patientBean = context.getApplication().evaluateExpressionGet(context, "#{patientBean}", PatientBean.class);
-        if(patientBean != null)
-        {
+        if (patientBean != null) {
             Patient selectedpatient = patientBean.getPatient();
             this.eventsPatient = new LazyScheduleModel() {
                 @Override
@@ -903,19 +905,22 @@ public class AgendaBean implements Serializable {
     }
 
     /**
-     * @author Nathan
-     * Get eventsPatient
+     * Gets events patient.
      *
-     * @return
+     * @return events patient
+     *
+     * @author Nathan Get eventsPatient
      */
     public LazyScheduleModel getEventsPatient() {
         return eventsPatient;
     }
 
     /**
-     * @author Nathan
-     * Set patient
-     * @param eventsPatient
+     * Sets events patient.
+     *
+     * @param eventsPatient the events patient
+     *
+     * @author Nathan Set patient
      */
     public void setEventsPatient(LazyScheduleModel eventsPatient) {
         this.eventsPatient = eventsPatient;
