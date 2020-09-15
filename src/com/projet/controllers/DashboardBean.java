@@ -128,12 +128,29 @@ public class DashboardBean implements Serializable {
             break;
             case "calendar": {
                 TemporalField fieldISO = WeekFields.of(Locale.FRANCE).dayOfWeek();
-                LocalDateTime startOfWeek = LocalDateTime.now().withHour(0).withMinute(0).withSecond(1);
-                LocalDateTime endOfWeek = LocalDateTime.now().with(fieldISO, 7).withHour(23).withMinute(59).withSecond(59).plusDays(1);
+
                 if (card.getSize().equals("small")) {
-                    value = this.meetingService.getMeetingsForCard(startOfWeek, endOfWeek, this.user).size();
+                    LocalDateTime startOfDay = LocalDateTime.now().withHour(0).withMinute(0).withSecond(1);
+                    LocalDateTime endOfDay = LocalDateTime.now().withHour(23).withMinute(59).withSecond(59).plusDays(1);
+                    value = this.meetingService.getMeetingsForCard(startOfDay, endOfDay, this.user).size();
                 } else if (card.getSize().equals("large")) {
+                    LocalDateTime startOfWeek = LocalDateTime.now().withHour(0).withMinute(0).withSecond(1);
+                    LocalDateTime endOfWeek = LocalDateTime.now().with(fieldISO, 7).withHour(23).withMinute(59).withSecond(59).plusDays(1);
                     value = this.meetingService.getMeetingsForCard(startOfWeek, endOfWeek, this.user);
+                }
+            }
+            break;
+            case "validation": {
+                TemporalField fieldISO = WeekFields.of(Locale.FRANCE).dayOfWeek();
+
+                if (card.getSize().equals("small")) {
+                    LocalDateTime startOfDay = LocalDateTime.now().withHour(0).withMinute(0).withSecond(1);
+                    LocalDateTime endOfDay = LocalDateTime.now().withHour(23).withMinute(59).withSecond(59).plusDays(1);
+                    value = this.meetingService.getSessionForCard(startOfDay, endOfDay, this.user).size();
+                } else if (card.getSize().equals("large")) {
+                    LocalDateTime startOfWeek = LocalDateTime.now().withHour(0).withMinute(0).withSecond(1);
+                    LocalDateTime endOfWeek = LocalDateTime.now().with(fieldISO, 7).withHour(23).withMinute(59).withSecond(59).plusDays(1);
+                    value = this.meetingService.getSessionForCard(startOfWeek, endOfWeek, this.user);
                 }
             }
             break;

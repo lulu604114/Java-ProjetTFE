@@ -102,7 +102,25 @@ public class MeetingService extends Service<Meeting> implements Serializable {
         params.put("startDate", DateManager.toDate(startDate));
         params.put("endDate", DateManager.toDate(endDate));
 
-        return finder.findByNamedQuery("Meeting.findEventByUserAndStartDateAndEndDate", params);
+        return finder.findByNamedQuery("Meeting.findMeetingByUserAndStartDateAndEndDate", params);
+    }
+
+    /**
+     * Gets session for card.
+     *
+     * @param startDate the start date
+     * @param endDate   the end date
+     * @param user      the user
+     *
+     * @return the session for card
+     */
+    public List<Meeting> getSessionForCard(LocalDateTime startDate, LocalDateTime endDate, User user) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("user", user);
+        params.put("startDate", DateManager.toDate(startDate));
+        params.put("endDate", DateManager.toDate(endDate));
+
+        return finder.findByNamedQuery("Meeting.findSessionByUserAndStartDateAndEndDate", params);
     }
 
     /**

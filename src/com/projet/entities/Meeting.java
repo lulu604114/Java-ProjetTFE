@@ -32,8 +32,12 @@ import java.util.Calendar;
                 query = "SELECT m from Meeting m WHERE m.type=com.projet.enumeration.MeetingTypeEnum.TASK AND m.user=:user AND ((m.startDate BETWEEN :startDate AND :endDate) OR (m.endDate BETWEEN :startDate AND :endDate)) ORDER BY m.startDate"
         ),
         @NamedQuery(
-                name = "Meeting.findEventByUserAndStartDateAndEndDate",
-                query = "SELECT m from Meeting m WHERE m.user=:user AND (m.type=com.projet.enumeration.MeetingTypeEnum.APPOINTMENT OR m.type=com.projet.enumeration.MeetingTypeEnum.SESSION) AND ((m.startDate BETWEEN :startDate AND :endDate) OR (m.endDate BETWEEN :startDate AND :endDate)) ORDER BY m.startDate"
+                name = "Meeting.findMeetingByUserAndStartDateAndEndDate",
+                query = "SELECT m from Meeting m WHERE m.user=:user AND m.type=com.projet.enumeration.MeetingTypeEnum.APPOINTMENT AND ((m.startDate BETWEEN :startDate AND :endDate) OR (m.endDate BETWEEN :startDate AND :endDate)) ORDER BY m.startDate"
+        ),
+        @NamedQuery(
+                name = "Meeting.findSessionByUserAndStartDateAndEndDate",
+                query = "SELECT m from Meeting m WHERE m.user=:user AND m.type=com.projet.enumeration.MeetingTypeEnum.SESSION AND ((m.startDate BETWEEN :startDate AND :endDate) OR (m.endDate BETWEEN :startDate AND :endDate)) ORDER BY m.startDate"
         )
 })
 public class Meeting {
