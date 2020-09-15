@@ -1,6 +1,7 @@
 package com.projet.services;
 
 import com.projet.entities.Meeting;
+import com.projet.entities.Patient;
 import com.projet.entities.User;
 import com.projet.utils.DateManager;
 import org.apache.log4j.Logger;
@@ -85,6 +86,14 @@ public class MeetingService extends Service<Meeting> implements Serializable {
         params.put("endDate", DateManager.toDate(endDate));
 
         return finder.findByNamedQuery("Meeting.findByUserAndStartDateAndEndDate", params);
+    }
+    public List<Meeting> getMeetingsByPatient(LocalDateTime startDate, LocalDateTime endDate, User user, Patient patient) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("user", user);
+        params.put("startDate", DateManager.toDate(startDate));
+        params.put("endDate", DateManager.toDate(endDate));
+        params.put("patient", patient);
+        return finder.findByNamedQuery("Meeting.findByUserAndStartDateAndEndDateAndPatient", params);
     }
 
     /**

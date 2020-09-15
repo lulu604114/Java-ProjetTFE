@@ -30,7 +30,7 @@
                         </f:facet>
                         <div class="panel-content">
                             <p:fileUpload listener="#{fileBean.handleFileUpload}" mode="advanced" dragDropSupport="false"
-                                          update="messages" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|doc|docx)$/" />
+                                          update="messages :content:tablePatient" fileLimit="3" allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|doc|docx)$/" ajax="true" />
 
                             <p:growl id="messages" showDetail="true" />
                         </div>

@@ -38,7 +38,11 @@ import java.util.Calendar;
         @NamedQuery(
                 name = "Meeting.findSessionByUserAndStartDateAndEndDate",
                 query = "SELECT m from Meeting m WHERE m.user=:user AND m.type=com.projet.enumeration.MeetingTypeEnum.SESSION AND ((m.startDate BETWEEN :startDate AND :endDate) OR (m.endDate BETWEEN :startDate AND :endDate)) ORDER BY m.startDate"
-        )
+        ),
+        @NamedQuery(
+                name = "Meeting.findByUserAndStartDateAndEndDateAndPatient",
+                query = "SELECT m FROM Meeting m WHERE m.user=:user AND m.patient=:patient AND ((m.startDate BETWEEN :startDate AND :endDate) OR (m.endDate BETWEEN :startDate AND :endDate)) ORDER BY m.startDate"
+        ),
 })
 public class Meeting {
 

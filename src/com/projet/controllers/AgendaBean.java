@@ -35,6 +35,7 @@ public class AgendaBean implements Serializable {
     private Message message = Message.getMessage(App.BUNDLE_MESSAGE);
     private FacesMessage PFMessages = null;
     private LazyScheduleModel events;
+    private LazyScheduleModel eventsPatient;
 
     private ScheduleEvent<Meeting> event = new DefaultScheduleEvent<Meeting>();
 
@@ -99,7 +100,39 @@ public class AgendaBean implements Serializable {
                 });
             }
         };
+        /**
+         * @author Nathan
+         * init eventsPatient for get all events by the Selectedpatient
+         */
+        FacesContext context = FacesContext.getCurrentInstance();
+        PatientBean patientBean = context.getApplication().evaluateExpressionGet(context, "#{patientBean}", PatientBean.class);
+        if(patientBean != null)
+        {
+            Patient selectedpatient = patientBean.getPatient();
+            this.eventsPatient = new LazyScheduleModel() {
+                @Override
+                public void loadEvents(LocalDateTime startDate, LocalDateTime endDate) {
+                    List<Meeting> meetings = meetingService.getMeetingsByPatient(startDate, endDate, user, selectedpatient);
+                    if (meetings.isEmpty()) return;
+                    meetings.forEach(meeting -> {
+                        addEvent(DefaultScheduleEvent.builder()
+                                .title(meeting.getTitle())
+                                .startDate(DateManager.toLocalDateTime(meeting.getStartDate()))
+                                .endDate(DateManager.toLocalDateTime(meeting.getEndDate()))
+                                .description(meeting.getDescription())
+                                .styleClass(meeting.getType().toString().toLowerCase())
+                                .data(meeting)
+                                .allDay(meeting.isAllDay())
+                                .overlapAllowed(true)
+                                .build()
+                        );
+                    });
+                }
+            };
+        }
+
     }
+
 
     /**
      * Add event.
@@ -867,5 +900,24 @@ public class AgendaBean implements Serializable {
      */
     public void setUser(User user) {
         this.user = user;
+    }
+
+    /**
+     * @author Nathan
+     * Get eventsPatient
+     *
+     * @return
+     */
+    public LazyScheduleModel getEventsPatient() {
+        return eventsPatient;
+    }
+
+    /**
+     * @author Nathan
+     * Set patient
+     * @param eventsPatient
+     */
+    public void setEventsPatient(LazyScheduleModel eventsPatient) {
+        this.eventsPatient = eventsPatient;
     }
 }
