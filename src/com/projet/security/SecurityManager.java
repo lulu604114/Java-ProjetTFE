@@ -15,7 +15,7 @@ import javax.faces.application.FacesMessage;
  * =================================================================
  * Created by Intellij IDEA.
  *
- * @author Amaury Lapaque
+ * @author lucas
  * @project TFE -Template Date: 05/04/2020 Time: 12:16 =================================================================
  */
 public class SecurityManager {

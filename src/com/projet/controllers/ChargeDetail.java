@@ -9,6 +9,10 @@ import org.primefaces.event.SelectEvent;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.Validator;
+import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 import javax.persistence.EntityTransaction;
 import java.io.Serializable;
@@ -327,4 +331,29 @@ public class ChargeDetail implements Serializable {
     public void setAccountItem(AccountItem accountItem) {
         this.accountItem = accountItem;
     }
+
+    public void imputedAmount_dont_exceed_chargeAmount(FacesContext context, UIComponent comp, Object value) {
+        if (value != null) {
+
+            double itemAmount = Double.parseDouble(value.toString());
+
+            if (itemAmount <= 0) {
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Ce montant doit être supérieur à 0");
+                throw new ValidatorException(message);
+            } else {
+                List<AccountItem> accountItems = charge.getAccountItems();
+
+                AccountItemService service = new AccountItemService(AccountItem.class);
+
+                double imputedAmount = service.calculate_imputed_amount(accountItems);
+
+                if ((imputedAmount + itemAmount) > charge.getAmount()) {
+                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Le montant total imputé ne peut être supérieur au montant du frais");
+                    throw new ValidatorException(message);
+                }
+
+            }
+        }
+    }
+
 }

@@ -16,8 +16,11 @@ import javax.annotation.PostConstruct;
 import javax.el.MethodExpression;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.faces.validator.Validator;
+import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -25,6 +28,7 @@ import javax.persistence.EntityTransaction;
 import javax.xml.stream.events.EndElement;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -228,5 +232,18 @@ public class ChargeCrud implements Serializable {
 
     public void setChargePayed(boolean chargePayed) {
         this.chargePayed = chargePayed;
+    }
+
+    public void date_not_before_createdAt_date(FacesContext context, UIComponent comp, Object value) {
+        if (charge.getCreatedAt() != null) {
+            Date paidAt = (Date) value;
+
+            if (paidAt != null) {
+                if (paidAt.before(charge.getCreatedAt())) {
+                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Ce champ ne peut être antérieur à la date d'achat");
+                    throw new ValidatorException(message);
+                }
+            }
+        }
     }
 }

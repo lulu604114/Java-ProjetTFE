@@ -1,6 +1,10 @@
 package com.projet.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -23,10 +27,13 @@ public class AccountItem implements Cloneable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-
+    
+    @NotNull
+    @NotEmpty
     @Column(name = "description")
     private String description;
-
+    
+    @Positive
     @Column(name = "amount")
     private double amount;
 
@@ -39,6 +46,7 @@ public class AccountItem implements Cloneable{
 
 
     //MANY TO ONE
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "user_account", referencedColumnName = "id", nullable = false)
     private UserAccount userAccount;

@@ -130,7 +130,8 @@
                             </p:column>
                             <p:column style="text-align: right">
                                 <f:facet name="header">Action</f:facet>
-                                <p:commandButton  value=" Rapport" icon="fas fa-file-alt" styleClass="success-btn" style="font-size: 10px"/>
+                                <p:commandButton  value=" Rapport" icon="fas fa-file-alt" action="#{chargeExport.generatePdf}"
+                                                  ajax="false" styleClass="success-btn" style="font-size: 10px"/>
                                 <p:commandButton  value=" Exporter" icon="fas fa-file-export" styleClass="info-btn" style="font-size: 10px; margin-left: 10px"/>
                             </p:column>
                         </p:dataTable>
