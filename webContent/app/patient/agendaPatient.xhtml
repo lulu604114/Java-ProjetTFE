@@ -14,161 +14,41 @@
     <ui:define name="content">
         <!-- TITLE BAR -->
         <ui:include src="patientMenu.xhtml"/>
-
-        <h:form>
-            <p:growl id="messages" showDetail="true"/>
-
-            <h:panelGrid columnClasses="value">
-                <p:schedule id="schedule"
-                            styleClass="schedule"
-                            widgetVar="myschedule"
-                            value="#{agendaBean.eventsPatient}"
-                            view="#{agendaBean.view}"
-                            locale="#{agendaBean.locale}"
-                            minTime="#{agendaBean.minTime}"
-                            maxTime="#{agendaBean.maxTime}"
-                            tooltip="#{agendaBean.tooltip}"
-                            leftHeaderTemplate="#{agendaBean.leftHeaderTemplate}"
-                            rightHeaderTemplate="#{agendaBean.rightHeaderTemplate}"
-                            weekNumberCalculation="#{agendaBean.weekNumberCalculation}"
-                            weekNumberCalculator="#{agendaBean.weekNumberCalculator}"
-                            slotDuration="#{agendaBean.slotDuration}"
-                            clientTimeZone="#{agendaBean.clientTimeZone}">
-
-                    <!-- WHEN CLICK ON A CELL -->
-                    <p:ajax event="dateSelect"
-                            listener="#{agendaBean.onDateSelect}"
-                            update="eventDialogContainer"
-                            oncomplete="PF('eventDialog').show();"/>
-
-                    <!-- WHEN CLICK ON AN EVENT -->
-                    <p:ajax event="eventSelect"
-                            listener="#{agendaBean.onEventSelect}"
-                            update="eventDialogContainer"
-                            oncomplete="PF('eventDialog').show();"/>
-
-                    <!-- WHEN DRAGGING AN EVENT -->
-                    <p:ajax event="eventMove"
-                            listener="#{agendaBean.onEventMove}"
-                            update="messages"/>
-
-                    <!-- WHEN RESIZING AN EVENT -->
-                    <p:ajax event="eventResize"
-                            listener="#{agendaBean.onEventResize}"
-                            update="messages"/>
-
-                    <!-- WHEN SWITCHING THE VIEW -->
-                    <p:ajax event="viewChange"
-                            listener="#{agendaBean.onViewChange}"/>
-
-                </p:schedule>
-            </h:panelGrid>
-
-            <p:dialog widgetVar="eventDialog"
-                      id="eventDialogContainer"
-                      header="Event Details"
-                      styleClass="event-detail-container"
-                      showEffect="size"
-                      hideEffect="size"
-                      blockScroll="true"
-                      responsive="true"
-                      minimizable="true"
-                      dynamic="true"
-                      closeOnEscape="true">
-                <h:panelGrid id="eventDetails"
-                             columns="1"
-                             cellpadding="2">
-                    <p:outputLabel value="Type"
-                                   for="type"
-                                   style="font-weight:bold"/>
-
-                    <p:selectOneMenu id="type"
-                                     value="#{ agendaBean.event.data.type}">
-                        <f:selectItem itemLabel="Rendez-vous"
-                                      itemValue="APPOINTMENT"/>
-                        <f:selectItem itemLabel="Séance"
-                                      itemValue="SESSION"/>
-                        <f:selectItem itemLabel="Tâche"
-                                      itemValue="TASK"/>
-                        <p:ajax update="eventDetails"/>
-                    </p:selectOneMenu>
-
-                    <p:outputLabel value="Patient"
-                                   for="patient"
-                                   id="patientField"
-                                   style="font-weight:bold"/>
-                    <p:autoComplete id="patient"
-                                    value="#{ agendaBean.event.data.patient }"
-                                    completeMethod="#{ agendaBean.completePatient }"
-                                    converter="patientConverter"
-                                    dropdown="true"
-                                    minQueryLength="2"
-                                    forceSelection="true"
-                                    scrollHeight="250"
-                                    var="patient"
-                                    required="#{ agendaBean.event.data.type != 'TASK' }"
-                                    itemValue="#{ patient }"
-                                    itemLabel="#{ agendaBean.displayPatientLabel(patient) }"/>
-
-                    <p:outputLabel for="title"
-                                   value="Titles"
-                                   style="font-weight:bold"/>
-                    <p:inputText id="title"
-                                 label="title"
-                                 value="#{ agendaBean.event.title }"
-                                 required="true"/>
-
-                    <p:outputLabel for="from"
-                                   value="From"
-                                   style="font-weight:bold"/>
-                    <p:datePicker id="from"
-                                  value="#{ agendaBean.event.startDate }"
-                                  pattern="dd/MM/yyyy"
-                                  showTime="true"
-                                  appendTo="@(body)"
-                                  required="true"
-                                  disabled="#{ agendaBean.event.allDay }"/>
-
-                    <p:outputLabel for="to"
-                                   value="To"
-                                   style="font-weight:bold"/>
-                    <p:datePicker id="to"
-                                  value="#{ agendaBean.event.endDate }"
-                                  pattern="dd/MM/yyyy"
-                                  showTime="true"
-                                  appendTo="@(body)"
-                                  required="true"
-                                  disabled="#{ agendaBean.event.allDay }"/>
-
-                    <p:outputLabel for="allDay"
-                                   value="All Day"
-                                   style="font-weight:bold"/>
-                    <h:selectBooleanCheckbox id="allDay"
-                                             value="#{ agendaBean.event.allDay }">
-                        <p:ajax update="eventDetails"/>
-                    </h:selectBooleanCheckbox>
-
-                </h:panelGrid>
-                <h:panelGrid id="eventActions"
-                             style="width: 100%"
-                             columns="2"
-                             cellpadding="2">
-                    <p:commandButton id="deleteButton"
-                                     icon="fas fa-trash-alt"
-                                     action="#{ agendaBean.onEventDelete }"
-                                     rendered="#{ agendaBean.event.data.getId() != 0 }"
-                                     update="eventDetails"
-                                     oncomplete="PF('myschedule').update();PF('eventDialog').hide();"/>
-                    <p:commandButton id="addButton"
-                                     style="float: right"
-                                     icon="fas fa-save"
-                                     update="eventDetails"
-                                     action="#{ agendaBean.addEvent }"
-                                     oncomplete="if (!args.validationFailed) {PF('myschedule').update();PF('eventDialog').hide();}"/>
-                </h:panelGrid>
-            </p:dialog>
-        </h:form>
-
+        <div class="layout-dashboard">
+        <div class="ui-g">
+        <h:panelGroup layout="block">
+        <!-- APPOINTMENT CARD -->
+        <div class="ui-g-12 ui-md-12 ui-lg-4">
+            <p:panel header="Rendez-vous du patient" styleClass="appointments">
+                <ul>
+                    <ui:repeat value="#{ patientBean.getAppointment()}"
+                               var="meeting">
+                        <li>
+                            <p:graphicImage name="images/icons/calendar.svg"
+                                            library="own-layout"/>
+                            <div class="seperator"></div>
+                            <div class="team-box">
+                                <div>
+                                    <i class="fas fa-user-injured"></i>
+                                    <span class="team-member">#{ meeting.patient.lastName } #{ meeting.patient.firstName }</span>
+                                </div>
+                                <div>
+                                    <i class="far fa-clock"></i>
+                                    <span class="team-member-mail">#{ dashboardBean.displayMeetingTime(meeting) }</span>
+                                </div>
+                                <div>
+                                    <i class="far fa-comment"></i>
+                                    <span class="team-member-address">#{ meeting.title }</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ui:repeat>
+                </ul>
+            </p:panel>
+        </div>
+        </h:panelGroup>
+        </div>
+        </div>
     </ui:define>
 
 </ui:composition>

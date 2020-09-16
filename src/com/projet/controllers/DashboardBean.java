@@ -8,6 +8,7 @@ import com.projet.services.MeetingService;
 import com.projet.utils.DateManager;
 
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -134,6 +135,20 @@ public class DashboardBean implements Serializable {
                     value = this.meetingService.getMeetingsForCard(startOfWeek, endOfWeek, this.user).size();
                 } else if (card.getSize().equals("large")) {
                     value = this.meetingService.getMeetingsForCard(startOfWeek, endOfWeek, this.user);
+                }
+            }
+            break;
+            case "patient": {
+                FacesContext context = FacesContext.getCurrentInstance();
+                PatientBean patientBean = context.getApplication().evaluateExpressionGet(context, "#{patientBean}", PatientBean.class);
+                Patient patient = patientBean.getPatient();
+                TemporalField fieldISO = WeekFields.of(Locale.FRANCE).dayOfWeek();
+                LocalDateTime startOfWeek = LocalDateTime.now().withHour(0).withMinute(0).withSecond(1);
+                LocalDateTime endOfWeek = LocalDateTime.now().with(fieldISO, 7).withHour(23).withMinute(59).withSecond(59).plusDays(1);
+                if (card.getSize().equals("small")) {
+                    value = this.meetingService. getMeetingsByPatient(startOfWeek, endOfWeek, this.user, patient);
+                } else if (card.getSize().equals("large")) {
+                    value = this.meetingService. getMeetingsByPatient(startOfWeek, endOfWeek, this.user,  patient);
                 }
             }
             break;
