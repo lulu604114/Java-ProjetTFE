@@ -19,9 +19,9 @@
         <h:panelGroup layout="block">
         <!-- APPOINTMENT CARD -->
         <div class="ui-g-12 ui-md-12 ui-lg-4">
-            <p:panel header="Rendez-vous du patient" styleClass="appointments">
+            <p:panel header="Rendez-vous passé du patient" styleClass="appointments">
                 <ul>
-                    <ui:repeat value="#{ patientBean.getAppointment()}"
+                    <ui:repeat value="#{ patientBean.getPastAppointment()}"
                                var="meeting">
                         <li>
                             <p:graphicImage name="images/icons/calendar.svg"
@@ -46,6 +46,34 @@
                 </ul>
             </p:panel>
         </div>
+            <div class="ui-g-12 ui-md-12 ui-lg-4">
+                <p:panel header="Rendez-vous future du patient" styleClass="appointments">
+                    <ul>
+                        <ui:repeat value="#{ patientBean.getFuturAppointment()}"
+                                   var="meeting">
+                            <li>
+                                <p:graphicImage name="images/icons/calendar.svg"
+                                                library="own-layout"/>
+                                <div class="seperator"></div>
+                                <div class="team-box">
+                                    <div>
+                                        <i class="fas fa-user-injured"></i>
+                                        <span class="team-member">#{ meeting.patient.lastName } #{ meeting.patient.firstName }</span>
+                                    </div>
+                                    <div>
+                                        <i class="far fa-clock"></i>
+                                        <span class="team-member-mail">#{ dashboardBean.displayMeetingTime(meeting) }</span>
+                                    </div>
+                                    <div>
+                                        <i class="far fa-comment"></i>
+                                        <span class="team-member-address">#{ meeting.title }</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ui:repeat>
+                    </ul>
+                </p:panel>
+            </div>
         </h:panelGroup>
         </div>
         </div>

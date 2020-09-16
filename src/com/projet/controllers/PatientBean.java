@@ -155,11 +155,21 @@ public class PatientBean implements Serializable {
      * Get appointment by user
      * @return
      */
-    public List<Meeting> getAppointment(){
+    public List<Meeting> getPastAppointment(){
+        MeetingService meetingService = new MeetingService(Meeting.class);
+        TemporalField fieldISO = WeekFields.of(Locale.FRANCE).dayOfWeek();
+        //LocalDateTime startOfWeek = LocalDateTime.now().withHour(0).withMinute(0).withSecond(1);
+        LocalDateTime startOfWeek = LocalDateTime.of(2020, 01, 01,00,00);
+        //LocalDateTime endOfWeek = LocalDateTime.now().with(fieldISO, 7).withHour(23).withMinute(59).withSecond(59).plusDays(1);
+        LocalDateTime endOfWeek = LocalDateTime.now();
+        this.meetings = meetingService. getMeetingsByPatient(startOfWeek, endOfWeek,this.user,  patient);
+        return meetings;
+    }
+    public List<Meeting> getFuturAppointment(){
         MeetingService meetingService = new MeetingService(Meeting.class);
         TemporalField fieldISO = WeekFields.of(Locale.FRANCE).dayOfWeek();
         LocalDateTime startOfWeek = LocalDateTime.now().withHour(0).withMinute(0).withSecond(1);
-        LocalDateTime endOfWeek = LocalDateTime.now().with(fieldISO, 7).withHour(23).withMinute(59).withSecond(59).plusDays(1);
+        LocalDateTime endOfWeek = LocalDateTime.of(2050,12,31,00,00);
         this.meetings = meetingService. getMeetingsByPatient(startOfWeek, endOfWeek,this.user,  patient);
         return meetings;
     }
