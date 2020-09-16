@@ -55,6 +55,10 @@ public class PatientBean implements Serializable {
         edit();
     }
 
+    /**
+     * Redirection with selected patient
+     * @return
+     */
     public String openRedirection()
     {
         this.patientTemp = new Patient(this.patient);
@@ -115,10 +119,19 @@ public class PatientBean implements Serializable {
         }
 
     }
+
+    /**
+     * Clone patient for update
+     */
     public void edit()
     {
         this.patientTemp = patient.clone();
     }
+
+    /**
+     * make patient inactive
+     * @param patient
+     */
     public void deletePatient(Patient patient)
     {
         PatientService service = new PatientService(Patient.class);
@@ -137,6 +150,11 @@ public class PatientBean implements Serializable {
         }
         this.patients.remove(patient);
     }
+
+    /**
+     * Get appointment by user
+     * @return
+     */
     public List<Meeting> getAppointment(){
         MeetingService meetingService = new MeetingService(Meeting.class);
         TemporalField fieldISO = WeekFields.of(Locale.FRANCE).dayOfWeek();
@@ -145,6 +163,10 @@ public class PatientBean implements Serializable {
         this.meetings = meetingService. getMeetingsByPatient(startOfWeek, endOfWeek,this.user,  patient);
         return meetings;
     }
+
+    /**
+     * reset var patient
+     */
     public void reset(){
         this.patient = new Patient();
     }
@@ -155,6 +177,10 @@ public class PatientBean implements Serializable {
         message.display(FacesMessage.SEVERITY_WARN, "Annulation", "Aucunes modifications réalisées");
     }
 
+    /**
+     * get the invoices
+     * @return
+     */
     public List<Billing> getInvoices(){
         List<Billing> invoices = new ArrayList<Billing>();
         invoices.add(new Billing(1,

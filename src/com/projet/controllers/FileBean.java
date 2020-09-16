@@ -16,15 +16,13 @@ import org.primefaces.model.file.UploadedFile;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-
 import javax.inject.Named;
+import javax.persistence.EntityTransaction;
 import java.io.*;
 import java.util.List;
-import javax.persistence.EntityTransaction;
 
 
 @Named("fileBean")
@@ -247,28 +245,9 @@ public class FileBean implements Serializable {
         }
     }
 
-    public OutputStream getFile() throws IOException {
-        FacesContext context = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = context.getExternalContext();
-
-        externalContext.responseReset();
-        externalContext.setResponseContentType(document.getFormat());
-        externalContext.setResponseHeader("Content-Disposition", "attachment;filename=" + document.getNom());
-
-        FileInputStream inputStream = new FileInputStream(new File(document.getPath()));
-        OutputStream outputStream = externalContext.getResponseOutputStream();
-
-        byte[] buffer = new byte[1024];
-        int length;
-        while ((length = inputStream.read(buffer)) > 0) {
-            outputStream.write(buffer, 0, length);
-        }
-
-        inputStream.close();
-        context.responseComplete();
-        return outputStream;
-    }
-
+    /**
+     * makes files inactive
+     */
     public void delete() {
         DocumentService service = new DocumentService(Document.class);
         EntityTransaction transaction = this.service.getTransaction();
@@ -287,6 +266,7 @@ public class FileBean implements Serializable {
         }
         this.documents.remove(document);
     }
+
     public Document getDocument() {
         return document;
     }

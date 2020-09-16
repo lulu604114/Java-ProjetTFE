@@ -48,10 +48,10 @@
                         </p:column>
 
                         <p:column headerText="Action" >
-                            <p:commandButton value="Download4" ajax="false">
+                            <p:commandButton style="margin-right:20px;" value="Download4" ajax="false">
                                 <p:fileDownload value="#{fileBean.download(document)}" />
                             </p:commandButton>
-                            <p:commandButton update=":content:tablePatient" action="#{fileBean.delete}"  icon="fas fa-trash-alt" title="Supprimer">
+                            <p:commandButton style="margin-right:20px;" update=":content:tablePatient" action="#{fileBean.delete}"  icon="fas fa-trash-alt" title="Supprimer">
                                 <f:setPropertyActionListener value="#{document}"  target="#{fileBean.document}"  />
                             </p:commandButton>
                         </p:column>
