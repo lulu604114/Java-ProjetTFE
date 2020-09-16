@@ -33,8 +33,10 @@ public class FileBean implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final Message message = Message.getMessage(App.BUNDLE_MESSAGE);
     private Document document;
+    private Document documentPerso;
     private List<Document> documents;
     private List<Document> filteredDocuments;
+    private List<Document> documentsPerso;
     private User user;
     private StreamedContent file;
     private DefaultStreamedContent download;
@@ -48,10 +50,11 @@ public class FileBean implements Serializable {
     {
         user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
         this.documents = this.service.getAllByPatient(user, this.patient);
+        this.documentsPerso = this.service.getAllByUser(user);
     }
 
     /**
-     * Send the file to the server
+     * Send the patient file to the server
      * @param event
      * @throws IOException
      */
@@ -60,6 +63,7 @@ public class FileBean implements Serializable {
         String fileName = file.getFileName();
         String path = "C:\\Patientfiles\\" + fileName;
         long fileSize = file.getSize();
+        String format = file.getContentType();
         InputStream myInputStream = file.getInputStream();
         FileOutputStream output = null;
         try {
@@ -98,7 +102,61 @@ public class FileBean implements Serializable {
         }
         FacesMessage msg = new FacesMessage("Successful", event.getFile().getFileName() + " is uploaded.");
         FacesContext.getCurrentInstance().addMessage(null, msg);
-        saveinDB(path, fileName);
+        boolean perso = false;
+        saveinDB(path, fileName, format, perso);
+    }
+
+    /**
+     * Send the user file to the server
+     * @param event
+     * @throws IOException
+     */
+    public void handleFileUploadPerso(FileUploadEvent event) throws IOException {
+        UploadedFile file = event.getFile();
+        String fileName = file.getFileName();
+        String path = "C:\\Userfiles\\" + fileName;
+        long fileSize = file.getSize();
+        String format = file.getContentType();
+        InputStream myInputStream = file.getInputStream();
+        FileOutputStream output = null;
+        try {
+            // Create folder (if it doesn't already exist)
+            File folder = new File("C:\\Userfiles");
+            if (!folder.exists()) {
+                folder.mkdirs();
+            }
+
+            // Create output file
+            output = new FileOutputStream(new File(folder, fileName));
+            // Write data from input stream to output file.
+            int bytesRead = 0;
+            byte[] buffer = new byte[4096];
+            while ((bytesRead = myInputStream.read(buffer)) != -1) {
+                output.write(buffer, 0, bytesRead);
+            }
+        } catch (IOException ioex) {
+            ioex.printStackTrace();
+        } finally {
+            try {
+                if (output != null) {
+                    output.close();
+                }
+            } catch (IOException ioex) {
+                ioex.printStackTrace();
+            }
+            // Also close InputStream if no longer needed.
+            try {
+                if (myInputStream != null) {
+                    myInputStream.close();
+                }
+            } catch (IOException ioex) {
+                ioex.printStackTrace();
+            }
+        }
+        FacesMessage msg = new FacesMessage("Successful", event.getFile().getFileName() + " is uploaded.");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+        boolean perso = true;
+        saveinDB(path, fileName, format, perso);
     }
 
     /**
@@ -107,21 +165,39 @@ public class FileBean implements Serializable {
      * @param fileName
      * @return
      */
-    public String saveinDB(String path, String fileName){
+    public String saveinDB(String path, String fileName, String format, boolean perso){
 
         FacesContext context = FacesContext.getCurrentInstance();
         PatientBean patientBean = context.getApplication().evaluateExpressionGet(context, "#{patientBean}", PatientBean.class);
         int idPatient = patientBean.getPatient().getId();
-        FacesMessage message = null;
-        boolean succes = false;
         PatientService servicePatient = new PatientService(Patient.class);
         Patient patient = servicePatient.getById(idPatient) ;
+        FacesMessage message = null;
+        boolean succes = false;
+        switch (format){
+            case "application/pdf":
+                format = "pdf";
+            case "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+                format = "word";
+            case "image/jpeg":
+                format = "jpeg";
+            default :
+                format = "file";
+        }
         DocumentService service = new DocumentService(Document.class);
         EntityTransaction transaction = service.getTransaction();
         transaction.begin();
         try {
-            Document document = service.saveFile(fileName, path, patient, this.user);
-            this.document = service.save(document);
+            if(perso)
+            {
+                Document documentUploaded = service.saveFilePerso(fileName, path, this.user, format);
+                this.document = service.save(documentUploaded);
+            }
+            else{
+                Document documentUploaded = service.saveFile(fileName, path, patient, this.user, format);
+                this.document = service.save(documentUploaded);
+            }
+
             transaction.commit();
             System.out.println("Je commit");
             succes = true;
@@ -151,7 +227,7 @@ public class FileBean implements Serializable {
             ExternalContext externalContext = context.getExternalContext();
 
             externalContext.responseReset();
-            externalContext.setResponseContentType("multipart/form-data");
+            externalContext.setResponseContentType(document.getFormat());
             externalContext.setResponseHeader("Content-Disposition", "attachment;filename=" + document.getNom());
 
             FileInputStream inputStream = new FileInputStream(new File(document.getPath()));
@@ -171,14 +247,33 @@ public class FileBean implements Serializable {
         }
     }
 
-    public StreamedContent getFile() {
-        System.out.println("getting file");
-        return file;
+    public OutputStream getFile() throws IOException {
+        FacesContext context = FacesContext.getCurrentInstance();
+        ExternalContext externalContext = context.getExternalContext();
+
+        externalContext.responseReset();
+        externalContext.setResponseContentType(document.getFormat());
+        externalContext.setResponseHeader("Content-Disposition", "attachment;filename=" + document.getNom());
+
+        FileInputStream inputStream = new FileInputStream(new File(document.getPath()));
+        OutputStream outputStream = externalContext.getResponseOutputStream();
+
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = inputStream.read(buffer)) > 0) {
+            outputStream.write(buffer, 0, length);
+        }
+
+        inputStream.close();
+        context.responseComplete();
+        return outputStream;
     }
 
     public void delete() {
-        System.out.println("suppression du document n) " + document.getId());
-        this.transaction.begin();
+        DocumentService service = new DocumentService(Document.class);
+        EntityTransaction transaction = this.service.getTransaction();
+        System.out.println("suppression du document n " + document.getId());
+        transaction.begin();
         try {
             Document documentDeleted = service.deleteDocument(document);
             service.save(documentDeleted);
@@ -224,8 +319,23 @@ public class FileBean implements Serializable {
         this.user = user;
     }
 
-
     public void setFile(StreamedContent file) {
         this.file = file;
+    }
+
+    public Document getDocumentPerso() {
+        return documentPerso;
+    }
+
+    public void setDocumentPerso(Document documentPerso) {
+        this.documentPerso = documentPerso;
+    }
+
+    public List<Document> getDocumentsPerso() {
+        return documentsPerso;
+    }
+
+    public void setDocumentsPerso(List<Document> documentsPerso) {
+        this.documentsPerso = documentsPerso;
     }
 }

@@ -344,5 +344,15 @@ public class Patient {
         this.active = patient.active;
         this.user = patient.user;
     }
+    @Override
+    public Patient clone(){
+        Patient patient = null;
+        try{
+            patient = (Patient) super.clone();
+        }catch (CloneNotSupportedException e) {
+            e.printStackTrace(System.err);
+        }
+        return patient;
+    }
 
 }

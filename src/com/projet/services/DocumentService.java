@@ -29,6 +29,12 @@ public class DocumentService extends Service<Document> implements Serializable {
         Map<String, Object> param = new HashMap<>();
         param.put("patient", patient);
         param.put("user", user);
+        return finder.findByNamedQuery("Document.findByUserAndPatient",param);
+    }
+
+    public List<Document> getAllByUser(User user) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("user", user);
         return finder.findByNamedQuery("Document.findByUser",param);
     }
 
@@ -44,12 +50,23 @@ public class DocumentService extends Service<Document> implements Serializable {
         return document;
     }
 
-    public Document saveFile(String fileName, String path, Patient patient, User user){
+    public Document saveFile(String fileName, String path, Patient patient, User user, String format){
         Document document = new Document();
         document.setNom(fileName);
         document.setPath(path);
         document.setPatient(patient);
         document.setUser(user);
+        document.setActive(true);
+        document.setFormat(format);
+        return document;
+    }
+    public Document saveFilePerso(String fileName, String path, User user, String format){
+        Document document = new Document();
+        document.setNom(fileName);
+        document.setPath(path);
+        document.setUser(user);
+        document.setActive(true);
+        document.setFormat(format);
         return document;
     }
     public Document deleteDocument(Document document){

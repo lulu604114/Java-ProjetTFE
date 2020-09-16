@@ -1,0 +1,76 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://java.sun.com/jsp/jstl/core"
+                xmlns:shiro="http://shiro.apache.org/tags"
+                template="../../WEB-INF/template/template.xhtml">
+
+    <style type="text/css">
+        .ui-datatable .ui-datatable-header {
+            text-align: right !important;
+        }
+
+        .ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-header .ui-chkbox {
+            display: none;
+        }
+    </style>
+
+    <ui:define name="title">Dossier du patient</ui:define>
+    <ui:define name="viewname">
+        <li>Pages</li>
+        <li>/</li>
+    </ui:define>
+
+    <ui:define name="content">
+        <!-- TITLE BAR -->
+        <ui:include src="patientMenu.xhtml"/>
+
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <div class="card">
+                    <h:form id="form">
+                        <p:messages id="messages" />
+
+                        <p:dataTable id="tablePatient" var="invoice" value="#{patientBean.getInvoices()}" widgetVar="invoiceTable" multiViewState="true"
+                                     rows="10" paginator="true"
+                                     paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                     rowsPerPageTemplate="5,10,15"
+                                     emptyMessage="Aucun patient trouvé" filteredValue="#{patientBean.filteredInvoices}"
+                        >
+                            <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true" />
+
+                            <p:column headerText="Numéro" filterBy="#{invoice.id}" sortBy="#{invoice.id}" filterMatchMode="contains">
+                                <h:outputText value="#{invoice.id}" />
+                            </p:column>
+
+                            <p:column headerText="Référence" filterBy="#{invoice.reference}" sortBy="#{invoice.reference}" filterMatchMode="startsWith">
+                                <h:outputText value="#{invoice.reference}" />
+                            </p:column>
+
+                            <p:column headerText="Date de la facture" filterBy="#{invoice.createdAt}" sortBy="#{invoice.createdAt}" filterMatchMode="startsWith">
+                                <h:outputText value="#{invoice.createdAt}" >
+                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                </h:outputText>
+                            </p:column>
+                            <p:column headerText="Communicaiton" filterBy="#{invoice.communication}" sortBy="#{invoice.communication}" filterMatchMode="startsWith">
+                                <h:outputText value="#{invoice.communication}" />
+                            </p:column>
+
+                        </p:dataTable>
+
+
+                    </h:form>
+                    <!--                        Alerte de création-->
+                    <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+                    <!--                        Modal de création patient-->
+
+
+                </div>
+            </div>
+        </div>
+
+    </ui:define>
+
+</ui:composition>
