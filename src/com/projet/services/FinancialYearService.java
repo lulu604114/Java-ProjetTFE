@@ -35,6 +35,13 @@ public class FinancialYearService extends Service<FinancialYear> {
         return getUserFinancialYearByDate(user, DateManager.getYear(new Date()));
     }
 
+    public List<FinancialYear> getFinancialYearByUser(User user) {
+        Map<String, User> param = new HashMap<>();
+        param.put("user", user);
+
+        return finder.findByNamedQuery("FY.findByUser", param);
+    }
+
     @Override
     public FinancialYear save(FinancialYear financialYear) {
         if (financialYear.getId() == 0) {

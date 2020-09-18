@@ -20,8 +20,11 @@ import java.util.Objects;
  * Time: 11:47
  * =================================================================
  */
+@NamedQueries({
+        @NamedQuery(name = "AI.findByUserAccountAndFinancialYear", query = "SELECT a FROM AccountItem a WHERE a.userAccount=:userAccount AND a.financialYear=:financialYear")
+})
 @Entity
-@Table(name = "AccountItems", schema = "jsf_tfe")
+@Table(name = "AccountItems", schema = "jsf_tfe", catalog = "")
 public class AccountItem implements Cloneable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

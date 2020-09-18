@@ -52,13 +52,13 @@ public class ChargeService extends Service<Charge> {
         return finder.findByNamedQuery("Charge.findByUserOrderByDate", param);
     }
 
-    public List<Charge> getByUserAndFilter(User user, Date startDate, Date endDate, ChargeStatus status, int pageSize, int pageNumber) {
-        CriteriaBuilder builder = em.getCriteriaBuilder();
+    public List<Charge> getByUserAndUserAccount(User user, UserAccount userAccount, FinancialYear financialYear) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("user", user);
+        param.put("userAccount", userAccount);
+        param.put("financialYear", financialYear);
 
-        CriteriaQuery<Charge> query = builder.createQuery(Charge.class);
-        Root<Charge> i = query.from(Charge.class);
-
-        return null;
+        return finder.findByNamedQuery("Charge.findByUserAndUserAccount", param);
     }
 
     public List<Charge> getByDueAtDate(Date date) {

@@ -18,7 +18,8 @@ import java.util.Objects;
 @Entity
 @Table(name = "FinancialYears", schema = "jsf_tfe")
 @NamedQueries({
-        @NamedQuery(name = "FY.FindByUserAndYear", query = "SELECT f FROM FinancialYear f WHERE f.user=:user AND f.beginAt=:year")
+        @NamedQuery(name = "FY.FindByUserAndYear", query = "SELECT f FROM FinancialYear f WHERE f.user=:user AND f.beginAt=:year"),
+        @NamedQuery(name = "FY.findByUser", query = "SELECT f FROM FinancialYear f WHERE f.user=:user")
 })
 public class FinancialYear {
 

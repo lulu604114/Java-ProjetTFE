@@ -1,6 +1,8 @@
 package com.projet.entities;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -37,6 +39,11 @@ public class UserAccount implements Comparable<UserAccount>{
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "financialAccount", referencedColumnName = "id", nullable = false)
     private FinancialAccount financialAccount;
+
+    @OneToMany(mappedBy = "userAccount")
+    private List<AccountItem> accountItems;
+
+
 
     public int getId() {
         return id;
@@ -99,5 +106,13 @@ public class UserAccount implements Comparable<UserAccount>{
 
     public void setFinancialAccount(FinancialAccount financialAccount) {
         this.financialAccount = financialAccount;
+    }
+
+    public List<AccountItem> getAccountItems() {
+        return accountItems;
+    }
+
+    public void setAccountItems(List<AccountItem> accountItems) {
+        this.accountItems = accountItems;
     }
 }

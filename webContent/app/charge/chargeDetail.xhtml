@@ -477,7 +477,7 @@
                 </p:commandButton>
                 <p:commandButton form="chargeEdit-modal-form" value="Modfier" styleClass="success-btn"
                                  icon="fa fa-check" action="#{chargeCrud.updateCharge}" oncomplete=" if (! args.validationFailed) { PF('chargeEdit-modal').hide() }"
-                                 update="chargeEdit-modal-form chargeDetailForm:msgs chargeDetailForm:charge-card   chargeDetailForm:detail-card"/>
+                                 update="chargeEdit-modal-form chargeDetailForm:msgs chargeDetailForm:charge-card chargeDetailForm:detail-card"/>
             </f:facet>
         </p:dialog>
 
@@ -573,7 +573,7 @@
                 <p:commandButton form="itemEdit-modal-form" value="Modfier" styleClass="success-btn"
                                  icon="fa fa-check" oncomplete="if (! args.validationFailed) { PF('itemEdit-modal').hide()}"
                                  update="chargeDetailForm:itemList itemEdit-modal-form" action="#{chargeDetailView.addAccountItem}">
-                    <p:ajax update="panel" resetValues="true" />                </p:commandButton>
+                </p:commandButton>
             </f:facet>
         </p:dialog>
 

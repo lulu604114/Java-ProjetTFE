@@ -1,12 +1,11 @@
 package com.projet.services;
 
-import com.projet.entities.AccountItem;
-import com.projet.entities.Charge;
-import com.projet.entities.FinancialYear;
-import com.projet.entities.User;
+import com.projet.entities.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * =================================================================
@@ -22,6 +21,14 @@ public class AccountItemService extends Service<AccountItem>{
 
     public AccountItemService(Class<?> ec) {
         super(ec);
+    }
+
+    public List<AccountItem> getByUserAccountAndFinancialYear(UserAccount userAccount, FinancialYear financialYear) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("userAccount", userAccount);
+        param.put("financialYear", financialYear);
+
+        return finder.findByNamedQuery("AI.findByUserAccountAndFinancialYear", param);
     }
 
     @Override

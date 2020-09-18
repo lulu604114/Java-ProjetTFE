@@ -1,13 +1,12 @@
 package com.projet.utils;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
+import java.util.*;
 
 /**
  * =================================================================
@@ -52,6 +51,15 @@ public class DateManager {
         calendar.set(Calendar.DATE, 0);
 
         return calendar.getTime();
+    }
+
+
+    public static String formatMonth(int month, Locale locale) {
+        DateFormat formatter = new SimpleDateFormat("MMMM", locale);
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.set(Calendar.DAY_OF_MONTH, 1);
+        calendar.set(Calendar.MONTH, month-1);
+        return formatter.format(calendar.getTime());
     }
 
     /**

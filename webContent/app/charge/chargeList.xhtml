@@ -168,7 +168,7 @@
                                            <p:menuitem value=" Modifier" icon="far fa-edit" update="chargeEdit-modal-form" style="font-size: 10px"
                                                        actionListener="#{chargeCrud.editCharge(charge)}" oncomplete="PF('chargeEdit-modal').show(100)"/>
                                            <p:menuitem value=" Supprimer" icon="fas fa-trash-alt" action="#{chargeCrud.deleteCharge(charge)}"
-                                                       update="chargeListForm:chargeList chargeListForm:msgs" style="font-size: 10px">
+                                                       update="chargeListForm" style="font-size: 10px">
                                                <p:confirm header="Confirmation" message="Êtes-vous sur de vouloir supprimer ce frais ?" icon="fas fa-5x fa-exclamation-triangle icon-warning" />
                                            </p:menuitem>
                                        </p:splitButton>

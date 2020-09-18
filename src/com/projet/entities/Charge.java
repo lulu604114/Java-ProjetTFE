@@ -29,11 +29,13 @@ import java.util.Objects;
         @NamedQuery(name = "Charge.findByUser", query = "SELECT c FROM Charge c WHERE c.user=:user"),
         @NamedQuery(name = "Charge.findByUserOrderByDate", query = "SELECT c FROM Charge c WHERE c.user=:user ORDER BY c.dueAt DESC"),
         @NamedQuery(name = "Charge.findPayedByUser", query = "SELECT c FROM Charge c WHERE c.user=:user AND c.payed=true"),
-        @NamedQuery(name = "Charge.findByDueAtDate", query = "SELECT c FROM Charge c WHERE c.dueAt=:date")
+        @NamedQuery(name = "Charge.findByDueAtDate", query = "SELECT c FROM Charge c WHERE c.dueAt=:date"),
+        @NamedQuery(name = "Charge.findByUserAndUserAccount", query = "SELECT DISTINCT c FROM Charge c JOIN AccountItem a ON c=a.charge WHERE c.user =:user AND a.userAccount =:userAccount AND c.financialYear =:financialYear")
 })
 public class Charge implements Comparable<Charge>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
 
     @NotNull(message = "Veuillez renseigner ce champs")

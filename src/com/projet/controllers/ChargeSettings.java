@@ -3,10 +3,7 @@ package com.projet.controllers;
 import com.projet.conf.App;
 import com.projet.entities.*;
 import com.projet.security.SecurityManager;
-import com.projet.services.AccountCategoryService;
-import com.projet.services.DiaryService;
-import com.projet.services.UserAccountService;
-import com.projet.services.UserService;
+import com.projet.services.*;
 import com.projet.utils.Message;
 
 import javax.annotation.PostConstruct;
@@ -52,7 +49,9 @@ public class ChargeSettings implements Serializable {
         this.user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
         this.accountCategories = map_userAccountList_by_account_category();
         this.diaries = user.getDiaries();
-        this.financialYears = user.getFinancialYears();
+
+        FinancialYearService financialYearService = new FinancialYearService(FinancialYear.class);
+        this.financialYears = financialYearService.getFinancialYearByUser(user);
 
         this.accountCategory = new AccountCategory();
         this.diary = new Diary();

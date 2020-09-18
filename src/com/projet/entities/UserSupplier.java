@@ -1,6 +1,8 @@
 package com.projet.entities;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -29,6 +31,8 @@ public class UserSupplier {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "supplier", referencedColumnName = "ID", nullable = false)
     private Supplier supplier;
+    @OneToMany(mappedBy = "userSupplier")
+    private List<Charge> charges;
 
     public int getId() {
         return id;
@@ -65,5 +69,13 @@ public class UserSupplier {
 
     public void setSupplier(Supplier supplier) {
         this.supplier = supplier;
+    }
+
+    public List<Charge> getCharges() {
+        return charges;
+    }
+
+    public void setCharges(List<Charge> charges) {
+        this.charges = charges;
     }
 }
