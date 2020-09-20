@@ -1,13 +1,14 @@
 package com.projet.services;
 
 import com.projet.entities.*;
+import com.projet.enumeration.ChargeDateFilterEnum;
 import com.projet.enumeration.ChargeStatus;
 import com.projet.utils.DateManager;
 import org.apache.shiro.authc.Account;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.TemporalType;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
 import java.util.*;
 
 /**
@@ -66,6 +67,106 @@ public class ChargeService extends Service<Charge> {
         param.put("date", date);
 
         return finder.findByNamedQuery("Charge.findByDueAtDate", param);
+    }
+
+    public List<Charge> getFilteredChargeList(ChargeStatus status, Date date_period_start, Date date_period_end,
+                                              int pageNumber, int pageSize, User user) {
+
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+
+        CriteriaQuery<Charge> query = criteriaBuilder.createQuery(Charge.class);
+        Root<Charge> charge = query.from(Charge.class);
+
+        ParameterExpression<User> paramUser = criteriaBuilder.parameter(User.class);
+        Predicate pUser = criteriaBuilder.and(criteriaBuilder.equal(charge.get("user"), paramUser));
+
+        ParameterExpression<Date> paramDateStart = criteriaBuilder.parameter(Date.class);
+        ParameterExpression<Date> paramDateEnd = criteriaBuilder.parameter(Date.class);
+        Predicate pBetween = criteriaBuilder.and(criteriaBuilder.between(charge.get("createdAt"), paramDateStart, paramDateEnd));
+
+        ParameterExpression<ChargeStatus> paramStatus = criteriaBuilder.parameter(ChargeStatus.class);
+        Predicate pChargeStatus = criteriaBuilder.and(criteriaBuilder.equal(charge.get("status"), paramStatus));
+
+        List<Predicate> predList = new LinkedList<>();
+
+        if (date_period_start != null && date_period_end != null)
+            predList.add(pBetween);
+
+        if (status != null)
+            predList.add(pChargeStatus);
+
+        predList.add(pUser);
+
+        Predicate[] predArray = new Predicate[predList.size()];
+        predList.toArray(predArray);
+
+        query.select(charge).where(predArray);
+
+        TypedQuery<Charge> typedQuery = em.createQuery(query);
+
+        typedQuery.setParameter(paramUser, user);
+
+        if (date_period_start != null && date_period_end != null) {
+            typedQuery.setParameter(paramDateStart, date_period_start, TemporalType.DATE);
+            typedQuery.setParameter(paramDateEnd, date_period_end, TemporalType.DATE);
+        }
+
+        if (status != null)
+            typedQuery.setParameter(paramStatus, status);
+
+        if (pageSize != 0 && pageNumber != 0) {
+            typedQuery.setFirstResult(pageNumber);
+            typedQuery.setMaxResults(pageSize);
+        }
+
+        return typedQuery.getResultList();
+    }
+
+    public int countChargeList (ChargeStatus status, Date date_period_start, Date date_period_end, User user) {
+
+        CriteriaBuilder criteriaBuilder = em.getCriteriaBuilder();
+
+        CriteriaQuery<Long> query = criteriaBuilder.createQuery(Long.class);
+        Root<Charge> charge = query.from(Charge.class);
+
+        ParameterExpression<User> paramUser = criteriaBuilder.parameter(User.class);
+        Predicate pUser = criteriaBuilder.and(criteriaBuilder.equal(charge.get("user"), paramUser));
+
+        ParameterExpression<Date> paramDateStart = criteriaBuilder.parameter(Date.class);
+        ParameterExpression<Date> paramDateEnd = criteriaBuilder.parameter(Date.class);
+        Predicate pBetween = criteriaBuilder.and(criteriaBuilder.between(charge.get("createdAt"), paramDateStart, paramDateEnd));
+
+        ParameterExpression<ChargeStatus> paramStatus = criteriaBuilder.parameter(ChargeStatus.class);
+        Predicate pChargeStatus = criteriaBuilder.and(criteriaBuilder.equal(charge.get("status"), paramStatus));
+
+        List<Predicate> predList = new LinkedList<>();
+
+        if (date_period_start != null && date_period_end != null)
+            predList.add(pBetween);
+
+        if (status != null)
+            predList.add(pChargeStatus);
+
+        predList.add(pUser);
+
+        Predicate[] predArray = new Predicate[predList.size()];
+        predList.toArray(predArray);
+
+        query.select(criteriaBuilder.count(charge)).where(predArray);
+
+        TypedQuery<Long> typedQuery = em.createQuery(query);
+
+        typedQuery.setParameter(paramUser, user);
+
+        if (date_period_start != null && date_period_end != null) {
+            typedQuery.setParameter(paramDateStart, date_period_start, TemporalType.DATE);
+            typedQuery.setParameter(paramDateEnd, date_period_end, TemporalType.DATE);
+        }
+
+        if (status != null)
+            typedQuery.setParameter(paramStatus, status);
+
+        return typedQuery.getSingleResult().intValue();
     }
 
     /**

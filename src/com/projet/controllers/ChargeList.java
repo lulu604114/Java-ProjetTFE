@@ -1,7 +1,6 @@
 package com.projet.controllers;
 
 import com.projet.conf.App;
-import com.projet.enumeration.ChargeFilterEnum;
 import com.projet.services.AccountItemService;
 import com.projet.services.FinancialYearService;
 import com.projet.services.UserService;
@@ -11,14 +10,15 @@ import com.projet.enumeration.ChargeStatus;
 import com.projet.security.SecurityManager;
 import com.projet.services.ChargeService;
 import com.projet.utils.DateManager;
+import org.primefaces.model.FilterMeta;
+import org.primefaces.model.LazyDataModel;
+import org.primefaces.model.SortMeta;
 
 import javax.annotation.PostConstruct;
-import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.persistence.EntityTransaction;
 import java.io.Serializable;
 import java.time.Month;
 import java.time.format.TextStyle;
@@ -40,9 +40,12 @@ public class ChargeList implements Serializable {
     private static final long serialVersionUID = 1L;
     private Message message = Message.getMessage(App.BUNDLE_MESSAGE);
 
+    @Inject
+    private ChargeListFilter filter;
+
     private User user;
     private List<Charge> chargeList;
-    private ChargeFilterEnum filter;
+    private LazyDataModel<Charge> chargeLazyList;
 
     @PostConstruct
     public void init() {
@@ -50,25 +53,34 @@ public class ChargeList implements Serializable {
         UserService userService = new UserService(User.class);
         this.user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
         userService.refreshEntity(this.user);
-        this.chargeList = service.getByUser(user);
-        Collections.sort(chargeList);
-        Collections.reverse(chargeList);
+        applyFilter();
+
+        this.chargeLazyList = new LazyDataModel<Charge>() {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public List<Charge> load(int first, int pageSize, Map<String, SortMeta> sortBy, Map<String, FilterMeta> filterBy) {
+                List<Charge> charges = service.getFilteredChargeList(filter.getChargeStatus(), filter.getDate_period_start_at(), filter.getDate_period_end_at(), first, pageSize, user);
+                chargeLazyList.setRowCount(service.countChargeList(filter.getChargeStatus(), filter.getDate_period_start_at(), filter.getDate_period_end_at(), user));
+                return charges;
+            }
+        };
     }
 
     public List<Charge> getChargeList() {
-        return chargeList;
+        return this.chargeList;
     }
 
     public void setChargeList(List<Charge> chargeList) {
         this.chargeList = chargeList;
     }
 
-    public ChargeFilterEnum getFilter() {
-        return filter;
+    public LazyDataModel<Charge> getChargeLazyList() {
+        return chargeLazyList;
     }
 
-    public void setFilter(ChargeFilterEnum filter) {
-        this.filter = filter;
+    public void setChargeLazyList(LazyDataModel<Charge> chargeLazyList) {
+        this.chargeLazyList = chargeLazyList;
     }
 
     /**
@@ -130,8 +142,12 @@ public class ChargeList implements Serializable {
         return charge.getAmount() - accountItemService.calculate_imputed_amount(charge.getAccountItems());
     }
 
-    public List<Charge> loadChargeList(ChargeFilterEnum filter) {
+    public void applyFilter() {
+        this.chargeList = filter.getUserChargeList();
+    }
 
-       return null;
+    public void resetFilter() {
+        filter.resetFilter();
+        applyFilter();
     }
 }

@@ -58,7 +58,7 @@ public class DateManager {
         DateFormat formatter = new SimpleDateFormat("MMMM", locale);
         GregorianCalendar calendar = new GregorianCalendar();
         calendar.set(Calendar.DAY_OF_MONTH, 1);
-        calendar.set(Calendar.MONTH, month-1);
+        calendar.set(Calendar.MONTH, month - 1);
         return formatter.format(calendar.getTime());
     }
 
@@ -66,7 +66,6 @@ public class DateManager {
      * To date date.
      *
      * @param localDateTime the local date time
-     *
      * @return the date
      */
     public static Date toDate(LocalDateTime localDateTime) {
@@ -80,7 +79,6 @@ public class DateManager {
      * To local date time local date time.
      *
      * @param calendar the calendar
-     *
      * @return the local date time
      */
     public static LocalDateTime toLocalDateTime(Calendar calendar) {
@@ -96,7 +94,6 @@ public class DateManager {
      * To calendar calendar.
      *
      * @param localDateTime the local date time
-     *
      * @return the calendar
      */
     public static Calendar toCalendar(LocalDateTime localDateTime) {
@@ -105,5 +102,54 @@ public class DateManager {
         calendar.setTime(date);
 
         return calendar;
+    }
+
+    public static Date addYear(Date date, int nbYear) {
+        return addToDate(date, Calendar.YEAR, nbYear);
+    }
+
+    public static Date addMonth(Date date, int nbMonth) {
+        return addToDate(date, Calendar.MONTH, nbMonth);
+    }
+
+    public static Date addDay(Date date, int nbDay) {
+        return addToDate(date, Calendar.DAY_OF_MONTH, nbDay);
+    }
+
+    private static Date addToDate(Date date, int type, int numberToAdd) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(type, numberToAdd);
+        return cal.getTime();
+    }
+
+    public static Date getFirstDateOfMonth(Date date) {
+        return getFirstDateOf(date, Calendar.DAY_OF_MONTH);
+    }
+
+    public static Date getLastDateOfMonth(Date date) {
+        return getLastDateOf(date, Calendar.DAY_OF_MONTH);
+    }
+
+    public static Date getLastDateOfYear(Date date) {
+        return getLastDateOf(date, Calendar.DAY_OF_YEAR);
+    }
+
+    public static Date getFirstDateOfYear(Date date) {
+        return getFirstDateOf(date, Calendar.DAY_OF_YEAR);
+    }
+
+    private static Date getLastDateOf(Date date, int type) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(type, cal.getActualMaximum(type));
+        return cal.getTime();
+    }
+
+    private static Date getFirstDateOf(Date date, int type) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.set(type, cal.getActualMinimum(type));
+        return cal.getTime();
     }
 }
