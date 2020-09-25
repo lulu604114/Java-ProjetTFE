@@ -1,9 +1,7 @@
 package com.projet.converter;
 
 import com.projet.entities.Diary;
-import com.projet.entities.Supplier;
 import com.projet.services.DiaryService;
-import com.projet.services.SupplierService;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -24,7 +22,7 @@ import javax.inject.Named;
 @Named
 @FacesConverter(value = "diaryConverter")
 public class DiaryConverter implements Converter {
-    private DiaryService service = new DiaryService(Diary.class);
+    private DiaryService service = new DiaryService();
 
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent uiComponent, String s) {

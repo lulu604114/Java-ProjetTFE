@@ -1,9 +1,6 @@
 package com.projet.converter;
 
-import com.projet.entities.FinancialAccount;
-import com.projet.entities.Supplier;
 import com.projet.entities.UserAccount;
-import com.projet.services.FinancialAccountService;
 import com.projet.services.UserAccountService;
 
 import javax.faces.component.UIComponent;
@@ -25,7 +22,7 @@ import javax.inject.Named;
 @Named
 @FacesConverter(value = "userAccountConverter")
 public class UserAccountConverter implements Converter {
-    private UserAccountService service = new UserAccountService(UserAccount.class);
+    private UserAccountService service = new UserAccountService();
 
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent uiComponent, String s) {

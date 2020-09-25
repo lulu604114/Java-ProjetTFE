@@ -18,7 +18,7 @@ import javax.inject.Named;
 @Named
 @FacesConverter(value = "patientConverter")
 public class PatientConverter implements Converter {
-    private PatientService service = new PatientService(Patient.class);
+    private PatientService service = new PatientService();
 
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent uiComponent, String s) {

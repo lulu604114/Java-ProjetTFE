@@ -1,6 +1,8 @@
 package com.projet.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.Objects;
 
 /**
@@ -23,24 +25,31 @@ public class FinancialAccount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    @Basic
+
+    @NotNull
+    @Pattern(regexp = "^((?!(0))[0-9]{1,6})$", message = "Doit être compris entre 1 et 999999")
     @Column(name = "code")
     private String code;
-    @Basic
+
+    @NotNull
     @Column(name = "label")
     private String label;
-    @Basic
+
     @Column(name = "default_tax_deductible")
     private Double defaultTaxDeductible;
-    @Basic
+
     @Column(name = "default_private_part")
     private Double defaultPrivatePart;
-    @Basic
+
+    @NotNull
     @Column(name = "redeemable")
     private boolean redeemable;
+
+    @NotNull
     @Column(name = "default_fa", columnDefinition = "boolean default 0")
     private boolean defaultFa;
 
+    @NotNull
     @ManyToOne
     @JoinColumn(name = "category", referencedColumnName = "id", nullable = false)
     private AccountCategory accountCategory;

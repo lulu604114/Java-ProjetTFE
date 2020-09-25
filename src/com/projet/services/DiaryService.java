@@ -21,8 +21,8 @@ import java.util.Map;
 public class DiaryService extends Service<Diary> implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    public DiaryService(Class<?> ec) {
-        super(ec);
+    public DiaryService() {
+        super();
     }
 
     public List<Diary> getByUser(User user) {

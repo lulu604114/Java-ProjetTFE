@@ -1,14 +1,15 @@
 package com.projet.services;
 
 import com.projet.entities.*;
-import com.projet.enumeration.ChargeDateFilterEnum;
 import com.projet.enumeration.ChargeStatus;
 import com.projet.utils.DateManager;
-import org.apache.shiro.authc.Account;
 
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Named;
 import javax.persistence.TemporalType;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.*;
+import javax.transaction.Transactional;
 import java.util.*;
 
 /**
@@ -24,8 +25,8 @@ import java.util.*;
 public class ChargeService extends Service<Charge> {
 
 
-    public ChargeService(Class<?> ec) {
-        super(ec);
+    public ChargeService() {
+        super();
     }
 
     @Override
@@ -100,7 +101,9 @@ public class ChargeService extends Service<Charge> {
         Predicate[] predArray = new Predicate[predList.size()];
         predList.toArray(predArray);
 
-        query.select(charge).where(predArray);
+        Order date = criteriaBuilder.desc(charge.get("createdAt"));
+
+        query.select(charge).where(predArray).orderBy(date);
 
         TypedQuery<Charge> typedQuery = em.createQuery(query);
 
@@ -114,12 +117,17 @@ public class ChargeService extends Service<Charge> {
         if (status != null)
             typedQuery.setParameter(paramStatus, status);
 
-        if (pageSize != 0 && pageNumber != 0) {
-            typedQuery.setFirstResult(pageNumber);
-            typedQuery.setMaxResults(pageSize);
+        typedQuery.setFirstResult(pageNumber);
+
+        typedQuery.setMaxResults(pageSize);
+
+        List<Charge> charges = typedQuery.getResultList();
+
+        if (charges != null) {
+            refreshCollection(charges);
         }
 
-        return typedQuery.getResultList();
+        return charges;
     }
 
     public int countChargeList (ChargeStatus status, Date date_period_start, Date date_period_end, User user) {
@@ -197,7 +205,7 @@ public class ChargeService extends Service<Charge> {
      * @return
      */
     private Charge finalizeCharge(Charge charge, User user) {
-        FinancialYearService faService = new FinancialYearService(FinancialYear.class);
+        FinancialYearService faService = new FinancialYearService();
 
         // year of the created charge
         int financialYearDate = DateManager.getYear(charge.getCreatedAt());
@@ -263,7 +271,7 @@ public class ChargeService extends Service<Charge> {
     }
 
     public double calculate_total_deductible_amount_by_financialYear(FinancialYear financialYear) {
-        AccountItemService accountItemService = new AccountItemService(AccountItem.class);
+        AccountItemService accountItemService = new AccountItemService();
 
         double total = 0;
 

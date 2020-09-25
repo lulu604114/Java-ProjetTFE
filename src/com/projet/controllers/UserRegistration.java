@@ -1,7 +1,6 @@
 package com.projet.controllers;
 
 import com.projet.conf.App;
-import com.projet.entities.Dashboard;
 import com.projet.services.DashboardService;
 import com.projet.utils.Message;
 import com.projet.entities.User;
@@ -39,8 +38,8 @@ public class UserRegistration implements Serializable {
     }
 
     public String registrate() {
-        UserService service = new UserService(User.class);
-        DashboardService dashboardService = new DashboardService(Dashboard.class);
+        UserService service = new UserService();
+        DashboardService dashboardService = new DashboardService();
 
         EntityTransaction transaction = service.getTransaction();
 

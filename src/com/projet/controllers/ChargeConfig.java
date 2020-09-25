@@ -41,10 +41,10 @@ public class ChargeConfig implements Serializable {
     }
 
     public String setConfig() {
-        UserService service = new UserService(User.class);
-        DiaryService diaryService = new DiaryService(Diary.class);
-        UserAccountService userAccountService = new UserAccountService(UserAccount.class);
-        UserSupplierService userSupplierService = new UserSupplierService(UserSupplier.class);
+        UserService service = new UserService();
+        DiaryService diaryService = new DiaryService();
+        UserAccountService userAccountService = new UserAccountService();
+        UserSupplierService userSupplierService = new UserSupplierService();
 
 
 

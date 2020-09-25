@@ -40,7 +40,7 @@ public class ProfileSettings implements Serializable {
     }
 
     public void save() {
-        UserService service = new UserService(User.class);
+        UserService service = new UserService();
 
         EntityTransaction transaction = service.getTransaction();
 

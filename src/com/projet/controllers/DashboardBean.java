@@ -12,8 +12,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.*;
@@ -30,11 +28,11 @@ public class DashboardBean implements Serializable {
     /**
      * The Dashboard service.
      */
-    DashboardService dashboardService = new DashboardService(Dashboard.class);
+    DashboardService dashboardService = new DashboardService();
     /**
      * The Meeting service.
      */
-    MeetingService meetingService = new MeetingService(Meeting.class);
+    MeetingService meetingService = new MeetingService();
 
     private Dashboard dashboard;
     private List<Meeting> meetings = new ArrayList<Meeting>();

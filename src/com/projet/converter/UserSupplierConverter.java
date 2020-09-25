@@ -1,8 +1,6 @@
 package com.projet.converter;
 
-import com.projet.entities.Supplier;
 import com.projet.entities.UserSupplier;
-import com.projet.services.SupplierService;
 import com.projet.services.UserSupplierService;
 
 import javax.faces.component.UIComponent;
@@ -24,7 +22,7 @@ import javax.inject.Named;
 @Named
 @FacesConverter(value = "userSupplierConverter")
 public class UserSupplierConverter implements Converter {
-    private UserSupplierService service = new UserSupplierService(UserSupplier.class);
+    private UserSupplierService service = new UserSupplierService();
 
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent uiComponent, String s) {

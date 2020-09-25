@@ -1,7 +1,5 @@
 package com.projet.controllers;
 
-import com.itextpdf.io.font.FontProgram;
-import com.itextpdf.io.font.FontProgramFactory;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.kernel.font.PdfFont;
 import com.itextpdf.kernel.font.PdfFontFactory;
@@ -15,25 +13,18 @@ import com.projet.entities.*;
 import com.projet.security.SecurityManager;
 import com.projet.services.AccountItemService;
 import com.projet.services.ChargeService;
-import com.projet.services.UserAccountService;
 import com.projet.utils.DateManager;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import java.awt.*;
 import java.io.IOException;
 import java.io.Serializable;
-import java.text.NumberFormat;
-import java.time.Month;
-import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 
 /**
@@ -133,7 +124,7 @@ public class chargeReportPdfGenerator implements Serializable {
     }
 
     private void addTotalCharge(PdfCanvas canvas, PdfFont font) {
-        ChargeService service = new ChargeService(Charge.class);
+        ChargeService service = new ChargeService();
 
         canvas.setFontAndSize(font, 18);
         canvas.setTextMatrix(51, 637);
@@ -147,7 +138,7 @@ public class chargeReportPdfGenerator implements Serializable {
     }
 
     private void addTotalDeductibleAmount(PdfCanvas canvas, PdfFont font) {
-        AccountItemService service = new AccountItemService(AccountItem.class);
+        AccountItemService service = new AccountItemService();
 
         canvas.setFontAndSize(font, 18);
         canvas.setTextMatrix(320, 637);
@@ -193,7 +184,7 @@ public class chargeReportPdfGenerator implements Serializable {
             }
 
             if (!results.isEmpty()) {
-                ChargeService service = new ChargeService(Charge.class);
+                ChargeService service = new ChargeService();
 
                 canvas.setTextMatrix(44, top);
                 canvas.showText(userSupplier.getSupplier().getLabel());
@@ -252,7 +243,7 @@ public class chargeReportPdfGenerator implements Serializable {
             }
 
             if (!results.isEmpty()) {
-                ChargeService service = new ChargeService(Charge.class);
+                ChargeService service = new ChargeService();
 
                 canvas.setTextMatrix(44, top);
                 canvas.showText(DateManager.formatMonth(i, i18n.getLocale()));
@@ -281,8 +272,8 @@ public class chargeReportPdfGenerator implements Serializable {
     private void addUserAccountTable(PdfCanvas canvas) throws IOException {
         PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLD);
 
-        ChargeService service = new ChargeService(Charge.class);
-        AccountItemService accountItemService = new AccountItemService(AccountItem.class);
+        ChargeService service = new ChargeService();
+        AccountItemService accountItemService = new AccountItemService();
 
         top -= 20;
 

@@ -24,7 +24,7 @@ public class PatientBean implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final Message message = Message.getMessage(App.BUNDLE_MESSAGE);
 
-    PatientService service = new PatientService(Patient.class);
+    PatientService service = new PatientService();
     private Patient patient;
     private List<Patient> patients;
     private List<Patient> filteredPatients;

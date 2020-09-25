@@ -175,9 +175,6 @@ body .ui-panel .ui-panel-content {
     color: #dedede;
 }
 /* TITLE BAR */
-body .ui-panel-titlebar {
-    border: solid 1px white !important;
-}
 
 body .ui-panel-titlebar img {
     height: 25px;

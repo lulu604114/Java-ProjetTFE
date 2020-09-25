@@ -13,8 +13,8 @@ public class CardService extends Service<Card> implements Serializable {
     private static final long serialVersionUID = 1L;
     Map<String, Object> params = new HashMap<String, Object>();
 
-    public CardService(Class<?> ec) {
-        super(ec);
+    public CardService() {
+        super();
     }
 
     public List<Card> findAllCards() {

@@ -4,7 +4,6 @@ import com.projet.entities.FinancialYear;
 import com.projet.entities.User;
 import com.projet.utils.DateManager;
 
-import java.time.Year;
 import java.util.*;
 
 /**
@@ -19,8 +18,8 @@ import java.util.*;
  */
 public class FinancialYearService extends Service<FinancialYear> {
 
-    public FinancialYearService(Class<?> ec) {
-        super(ec);
+    public FinancialYearService() {
+        super();
     }
 
     public FinancialYear getUserFinancialYearByDate(User user, int year) {

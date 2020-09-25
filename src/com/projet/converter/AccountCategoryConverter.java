@@ -1,11 +1,7 @@
 package com.projet.converter;
 
 import com.projet.entities.AccountCategory;
-import com.projet.entities.Diary;
-import com.projet.entities.Supplier;
 import com.projet.services.AccountCategoryService;
-import com.projet.services.DiaryService;
-import com.projet.services.SupplierService;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -26,7 +22,7 @@ import javax.inject.Named;
 @Named
 @FacesConverter(value = "accountCategoryConverter")
 public class AccountCategoryConverter implements Converter {
-    private AccountCategoryService service = new AccountCategoryService(AccountCategory.class);
+    private AccountCategoryService service = new AccountCategoryService();
 
     @Override
     public Object getAsObject(FacesContext facesContext, UIComponent uiComponent, String s) {

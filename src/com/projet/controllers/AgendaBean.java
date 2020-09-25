@@ -71,7 +71,7 @@ public class AgendaBean implements Serializable {
 
     private User user;
 
-    private MeetingService meetingService = new MeetingService(Meeting.class);
+    private MeetingService meetingService = new MeetingService();
 
     /**
      * Init.
@@ -170,7 +170,7 @@ public class AgendaBean implements Serializable {
      * @param event the event
      */
     public void saveMeeting(ScheduleEvent event) {
-        MeetingService service = new MeetingService(Meeting.class);
+        MeetingService service = new MeetingService();
         EntityTransaction transaction = service.getTransaction();
         FacesMessage message;
 
@@ -205,7 +205,7 @@ public class AgendaBean implements Serializable {
      */
     public void onEventDelete() {
         if (this.event != null) {
-            MeetingService service = new MeetingService(Meeting.class);
+            MeetingService service = new MeetingService();
             EntityTransaction transaction = service.getTransaction();
 
             transaction.begin();

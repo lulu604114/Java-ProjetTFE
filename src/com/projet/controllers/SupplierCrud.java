@@ -4,22 +4,16 @@ import com.projet.conf.App;
 import com.projet.entities.Supplier;
 import com.projet.entities.User;
 import com.projet.entities.UserSupplier;
-import com.projet.enumeration.ChargeStatus;
 import com.projet.security.SecurityManager;
-import com.projet.services.UserService;
 import com.projet.services.UserSupplierService;
 import com.projet.utils.Message;
 
 import javax.annotation.PostConstruct;
-import javax.el.MethodExpression;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.persistence.EntityTransaction;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -57,7 +51,7 @@ public class SupplierCrud implements Serializable {
 
 
     public void createSupplier() {
-        UserSupplierService service = new UserSupplierService(UserSupplier.class);
+        UserSupplierService service = new UserSupplierService();
 
         EntityTransaction transaction = service.getTransaction();
 
@@ -84,7 +78,7 @@ public class SupplierCrud implements Serializable {
     }
 
     public void updateSupplier() {
-        UserSupplierService service = new UserSupplierService(UserSupplier.class);
+        UserSupplierService service = new UserSupplierService();
 
         EntityTransaction transaction = service.getTransaction();
 
@@ -110,7 +104,7 @@ public class SupplierCrud implements Serializable {
     }
 
     public void deleteSupplier(UserSupplier userSupplier) {
-        UserSupplierService service = new UserSupplierService(UserSupplier.class);
+        UserSupplierService service = new UserSupplierService();
 
         EntityTransaction transaction = service.getTransaction();
 

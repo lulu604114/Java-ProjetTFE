@@ -1,6 +1,7 @@
 package com.projet.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -25,7 +26,8 @@ public class Diary {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    @Basic
+
+    @NotNull
     @Column(name = "Label")
     private String label;
     @OneToMany(mappedBy = "diary")

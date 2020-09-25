@@ -8,7 +8,6 @@ import org.primefaces.model.ScheduleEvent;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.*;
 
 /**
@@ -23,10 +22,9 @@ public class MeetingService extends Service<Meeting> implements Serializable {
     /**
      * Instantiates a new Meeting service.
      *
-     * @param ec the ec
      */
-    public MeetingService(Class<?> ec) {
-        super(ec);
+    public MeetingService() {
+        super();
     }
 
     /**

@@ -17,7 +17,8 @@
                             <h1>Gestion des frais</h1>
                         </f:facet>
                         <f:facet name="actions">
-                            <p:commandButton icon="fas fa-filter" styleClass="help-btn" oncomplete="PF('filter-modal').show(100);"/>
+                            <p:commandButton icon="fas fa-filter" styleClass="help-btn" oncomplete="PF('filter-modal').show(100);"
+                                             actionListener="#{chargeListFilter.iniFilter()}" update="filter-modal-form"/>
                             <span class="ui-separator" style="padding-right: 10px">
                                 <span class="fa fa-ellipsis-v SoftGray" />
                             </span>
@@ -106,18 +107,20 @@
                        <div class="ui-g">
                            <div class="ui-g-12">
                                <p:dataTable id="chargeList"
+                                            widgetVar="chargeList"
                                             var="charge"
-                                            value="#{chargeListView.chargeLazyList}"
+                                            rowKey="#{charge.id}"
+                                            value="#{chargeListView.model}"
                                             sortBy="#{chargeListView.getChargeSortDate(charge)}"
-                                            sortOrder="descending"
                                             scrollable="true"
                                             scrollWidth="100%"
                                             paginator="true"
                                             paginatorPosition="bottom"
                                             lazy="true"
+                                            paginatorAlwaysVisible="false"
                                             paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-                                            rowsPerPageTemplate="2,4,6"
-                                            rows="2">
+                                            rowsPerPageTemplate="5,10,15"
+                                            rows="5">
                                    <f:facet name="emptyMessage">
                                        <div class="card emptyMessage">
                                            <i class="fas fa-ban fa-5x icon-secondary"></i>
@@ -263,8 +266,8 @@
                         </div>
                         <div class="p-field p-col-12 p-md-6 p-lg-6">
                             <p:outputLabel for="status" value="Statut de paiement"/>
-                            <p:selectOneMenu id="status" value="#{chargeCrud.charge.status}">
-                                <p:ajax event="itemSelect" update="payed-form-group" listener="#{chargeCrud.onStatusSelect}" />
+                            <p:selectOneMenu id="status" value="#{chargeCrud.charge.status}" valueChangeListener="#{chargeCrud.onStatusSelect}">
+                                <p:ajax event="change" update="payed-form-group"/>
                                 <f:selectItems var="status" value="#{chargeCrud.chargeStatus}" itemLabel="#{cmp[status.status]}" itemValue="#{status}"/>
                             </p:selectOneMenu>
                         </div>
@@ -305,7 +308,7 @@
             <f:facet name="footer">
                 <p:commandButton id="chargeCreation-modal-close-btn" value="Fermer"
                                  styleClass="secondary-button" oncomplete="PF('chargeCreation-modal').hide()"
-                                 update=":chargeListForm:msgs chargeCreation-modal-form" process="@this">
+                                 update="chargeListForm:msgs chargeCreation-modal-form" process="@this">
                     <p:resetInput target="chargeCreation-modal-form" />
                 </p:commandButton>
                 <p:commandButton form="chargeCreation-modal-form" value="Modfier" styleClass="success-btn" update="chargeCreation-modal-form"
@@ -344,7 +347,7 @@
                                             dropdown="true" var="userSupplier" itemLabel="#{userSupplier.supplier.label}" itemValue="#{userSupplier}"
                                             converter="userSupplierConverter" minQueryLength="2" required="true"
                                             requiredMessage="Veuillez renseigner ce champ">
-                                <p:ajax event="itemSelect" process="@this" update="chargeEdit-supplier-msg"/>
+                                <p:ajax event="itemSelect" process="@none" update="chargeEdit-supplier-msg"/>
                             </p:autoComplete>
                             <p:message id="chargeEdit-supplier-msg" for="chargeEdit-supplier" />
                         </div>
@@ -377,8 +380,8 @@
                         </div>
                         <div class="p-field p-col-12 p-md-6 p-lg-6">
                             <p:outputLabel for="chargeEdit-status" value="Statut de paiement"/>
-                            <p:selectOneMenu id="chargeEdit-status" value="#{chargeCrud.charge.status}">
-                                <p:ajax event="itemSelect" update="chargeEdit-payed-form-group" listener="#{chargeCrud.onStatusSelect}"/>
+                            <p:selectOneMenu id="chargeEdit-status" value="#{chargeCrud.charge.status}" valueChangeListener="#{chargeCrud.onStatusSelect}">
+                                <p:ajax event="change" update="chargeEdit-payed-form-group"/>
                                 <f:selectItems var="status" value="#{chargeCrud.chargeStatus}" itemLabel="#{cmp[status.status]}" itemValue="#{status}"/>
                             </p:selectOneMenu>
                         </div>
@@ -389,7 +392,7 @@
                                 <p:outputLabel for="chargeEdit-paidAt" value="Date de paiement"/>
                                 <p:datePicker id="chargeEdit-paidAt" value="#{chargeCrud.charge.payedAt}" validator="#{chargeCrud.date_not_before_createdAt_date}"
                                               required="#{chargeCrud.chargePayed}" requiredMessage="Veuillez renseigner ce champ">
-                                    <p:ajax event="dateSelect" process="@this" update="chargeEdit-paidAt-msg"/>
+                                    <p:ajax event="dateSelect" update="chargeEdit-paidAt-msg"/>
                                 </p:datePicker>
                                 <p:message for="chargeEdit-paidAt" id="chargeEdit-paidAt-msg"/>
                             </div>
@@ -418,7 +421,7 @@
             </h:form>
             <f:facet name="footer">
                 <p:commandButton id="chargeEdit-modal-close-btn" value="Fermer" styleClass="secondary-button" oncomplete="PF('chargeEdit-modal').hide()"
-                                 update="chargeListForm:msgs chargeEdit-modal-form" process="@this">
+                                 update="chargeListForm:msgs chargeEdit-modal-form">
                     <p:resetInput target="chargeEdit-modal-form"/>
                 </p:commandButton>
                 <p:commandButton form="chargeEdit-modal-form" value="Modfier" styleClass="success-btn"
@@ -437,46 +440,48 @@
                     <div class="ui-fluid p-formgrid p-grid">
                         <div class="p-field p-col-12">
                             <p:outputLabel for="period" value="Période"/>
-                            <p:selectOneMenu id="period" value="#{chargeListFilter.dateFilter}">
+                            <p:selectOneMenu id="period" value="#{chargeListFilter.choosenFilter}">
                                 <p:importEnum type="com.projet.enumeration.ChargeDateFilterEnum" var="Filters" allSuffix="VALUES"/>
                                 <f:selectItem noSelectionOption="true" itemLabel="Tout afficher" itemValue="#{null}"/>
                                 <f:selectItems var="filter" value="#{Filters.VALUES}"  itemLabel="#{filter.label}" itemValue="#{filter}"/>
-                                <p:ajax event="itemSelect" update="filter-form-group" listener="#{chargeListFilter.onStatusSelect}" partialSubmit="true"/>
+                                <p:ajax event="itemSelect" update="filter-form-group"/>
                             </p:selectOneMenu>
                         </div>
-                        <h:panelGroup id="filter-form-group" layout="block">
-                            <h:panelGroup styleClass="ui-fluid p-formgrid p-grid" rendered="#{chargeListFilter.choosenFilter.equals(chargeListFilter.personnalizedFilter)}">
-                                <div class="p-field p-col-12 p-md-6 p-lg-6">
-                                    <p:outputLabel for="filter-begin" value="Date de paiement"/>
-                                    <p:datePicker id="filter-begin" value="#{chargeListFilter.date_period_start_at}"
-                                                  required="#{chargeListFilter.choosenFilter.equals(chargeListFilter.personnalizedFilter)}" requiredMessage="Veuillez renseigner ce champ">
-                                    </p:datePicker>
-                                    <p:message for="filter-begin" id="filter-begin-msg"/>
-                                </div>
-                                <div class="p-field p-col-12 p-md-6 p-lg-6">
-                                    <p:outputLabel for="filter-end" value="Moyen de paiement"/>
-                                    <p:datePicker id="filter-end" value="#{chargeListFilter.date_period_end_at}" validator="#{chargeListFilter.date_not_before_start_date}"
-                                                  required="#{chargeListFilter.choosenFilter.equals(chargeListFilter.personnalizedFilter)}" requiredMessage="Veuillez renseigner ce champ">
-                                    </p:datePicker>
-                                    <p:message for="filter-end" id="filter-end-msg"/>
-                                </div>
-                            </h:panelGroup>
-                        </h:panelGroup>
                     </div>
+                    <h:panelGroup id="filter-form-group" layout="block">
+                        <h:panelGroup styleClass="ui-fluid p-formgrid p-grid" rendered="#{chargeListFilter.choosenFilter.equals(chargeListFilter.personnalizedFilter)}">
+                            <div class="p-field p-col-12 p-md-6 p-lg-6">
+                                <p:outputLabel for="filter-begin" value="Début"/>
+                                <p:datePicker id="filter-begin" value="#{chargeListFilter.start_at}"
+                                              required="#{chargeListFilter.choosenFilter.equals(chargeListFilter.personnalizedFilter)}" requiredMessage="Veuillez renseigner ce champ">
+                                    <p:ajax event="dateSelect" update="filter-begin-msg"/>
+                                </p:datePicker>
+                                <p:message for="filter-begin" id="filter-begin-msg"/>
+                            </div>
+                            <div class="p-field p-col-12 p-md-6 p-lg-6">
+                                <p:outputLabel for="filter-end" value="Fin"/>
+                                <p:datePicker id="filter-end" value="#{chargeListFilter.end_at}" validator="#{chargeListFilter.date_not_before_start_date}"
+                                              required="#{chargeListFilter.choosenFilter.equals(chargeListFilter.personnalizedFilter)}" requiredMessage="Veuillez renseigner ce champ" mindate="#{chargeListFilter.start_at}">
+                                    <p:ajax event="dateSelect" update="filter-end-msg"/>
+                                </p:datePicker>
+                                <p:message for="filter-end" id="filter-end-msg"/>
+                            </div>
+                        </h:panelGroup>
+                    </h:panelGroup>
                     <div class="ui-fluid p-formgrid p-grid">
                         <div class="p-field p-col-12">
                             <p:outputLabel for="filter-status" value="Statut"/>
-                            <p:selectOneMenu id="filter-status" value="#{chargeListFilter.chargeStatus}">
+                            <p:selectOneMenu id="filter-status" value="#{chargeListFilter.choosenStatus}">
                                 <p:importEnum type="com.projet.enumeration.ChargeStatus" var="Status" allSuffix="VALUES"/>
                                 <f:selectItem noSelectionOption="true" itemLabel="Tout afficher" itemValue="#{null}"/>
-                                <f:selectItems var="status" value="#{Status.VALUES}"  itemLabel="#{status.status}" itemValue="#{status}"/>
+                                <f:selectItems var="status" value="#{Status.VALUES}"  itemLabel="#{cmp[status.status]}" itemValue="#{status}"/>
                             </p:selectOneMenu>
                         </div>
                     </div>
                     <div class="ui-fluid p-formgrid p-grid">
                         <div class="p-field p-col-12">
                             <p:commandLink actionListener="#{chargeListView.resetFilter}" update="chargeListForm filter-modal-form"
-                                           oncomplete="PF('filter-modal').hide();" ajax="true">
+                                           oncomplete="PF('filter-modal').hide();" ajax="true" immediate="true">
                                 <i class="fas fa-eraser"></i>   Enlever le(s) filtre(s)
                             </p:commandLink>
                         </div>
@@ -485,13 +490,13 @@
                 </p:scrollPanel>
             </h:form>
             <f:facet name="footer">
-                <p:commandButton id="filter-modal-close-btn" value="Fermer" type="reset"
-                                 styleClass="secondary-button" onclick="PF('filter-modal').hide()"
+                <p:commandButton id="filter-modal-close-btn" value="Fermer" styleClass="secondary-button"
+                                 oncomplete="PF('filter-modal').hide()"
                                  update="filter-modal-form" process="@this">
                     <p:resetInput target="filter-modal-form" />
                 </p:commandButton>
-                <p:commandButton form="filter-modal-form" value="Modfier" styleClass="success-btn" update="filter-modal-form chargeListForm"
-                                 icon="fa fa-check"  action="#{chargeListView.applyFilter}" oncomplete=" if (! args.validationFailed) { PF('filter-modal').hide() }"/>
+                <p:commandButton form="filter-modal-form" value="Modfier" styleClass="success-btn" update="filter-modal-form chargeListForm" ajax="true"
+                                 icon="fa fa-check"  action="#{chargeListView.applyFilter()}" oncomplete=" if (! args.validationFailed) { PF('filter-modal').hide() }"/>
             </f:facet>
         </p:dialog>
 
@@ -546,7 +551,7 @@
 
         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
             <p:commandButton value="oui" type="button" styleClass="ui-confirmdialog-yes success-btn" icon="fas fa-check"/>
-            <p:commandButton value="non" type="button" styleClass="ui-confirmdialog-no danger-btn" icon="fas fa-times" />
+            <p:commandButton value="non" type="button" styleClass="ui-confirmdialog-no danger-btn" icon="fas fa-times"/>
         </p:confirmDialog>
 
         <p:sidebar widgetVar="sidebar2" position="right" baseZIndex="10000" style="width: 28em;">

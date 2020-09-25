@@ -3,12 +3,10 @@ package com.projet.services;
 import com.projet.connection.EMF;
 import com.projet.dao.EntityFinder;
 import com.projet.dao.EntityFinderImpl;
-import com.projet.entities.User;
 
-import javax.enterprise.context.SessionScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
-import javax.persistence.PersistenceContext;
+import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 /**
@@ -28,9 +26,9 @@ public abstract class Service<E> implements IService<E> {
 
     private Class<?> ec;
 
-    Service(Class<?> ec) {
+    Service() {
         this.em = EMF.getEM();
-        this.ec = ec;
+        this.ec = (Class) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         this.finder = new EntityFinderImpl<>(ec, this.em);
     }
 

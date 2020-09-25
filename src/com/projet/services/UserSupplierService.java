@@ -21,8 +21,8 @@ import java.util.Map;
  */
 public class UserSupplierService extends Service<UserSupplier>{
 
-    public UserSupplierService(Class<?> ec) {
-        super(ec);
+    public UserSupplierService() {
+        super();
     }
 
     public List<UserSupplier> getSupplierByUser(User user) {
@@ -44,7 +44,7 @@ public class UserSupplierService extends Service<UserSupplier>{
     }
 
     public List<UserSupplier> createDefaultSupplier(User user) {
-        SupplierService service = new SupplierService(Supplier.class);
+        SupplierService service = new SupplierService();
         List<Supplier> suppliers = service.findDefaultSupplier();
         List<UserSupplier> userSuppliers = new ArrayList<>();
 

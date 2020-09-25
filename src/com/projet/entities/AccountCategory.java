@@ -1,6 +1,7 @@
 package com.projet.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,9 +27,11 @@ public class AccountCategory implements Comparable<AccountCategory>{
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Basic
+
+    @NotNull
     @Column(name = "label")
     private String label;
+
     @ManyToOne
     @JoinColumn(name = "user", referencedColumnName = "ID", nullable = true)
     private User user;
@@ -84,7 +87,8 @@ public class AccountCategory implements Comparable<AccountCategory>{
 
     @Override
     public int compareTo(AccountCategory o) {
-        if (getLabel().isEmpty() || o.getLabel().isEmpty())
+
+        if (getLabel() == null || o.getLabel() == null)
             return 0;
 
         return getLabel().compareTo(o.getLabel());

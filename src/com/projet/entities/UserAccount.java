@@ -1,6 +1,7 @@
 package com.projet.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -27,16 +28,20 @@ public class UserAccount implements Comparable<UserAccount>{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
-    @Basic
+
+    @NotNull
     @Column(name = "tax_deductible")
     private double taxDeductible;
-    @Basic
+
+    @NotNull
     @Column(name = "private_part")
     private double privatePart;
     @ManyToOne
     @JoinColumn(name = "user", referencedColumnName = "ID", nullable = false)
     private User user;
-    @ManyToOne(cascade = CascadeType.ALL)
+
+    @NotNull
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "financialAccount", referencedColumnName = "id", nullable = false)
     private FinancialAccount financialAccount;
 
@@ -86,7 +91,7 @@ public class UserAccount implements Comparable<UserAccount>{
 
     @Override
     public int compareTo(UserAccount o) {
-        if (financialAccount.getCode() == null || o.financialAccount.getCode() == null)
+        if (financialAccount == null || o.financialAccount == null)
             return 0;
 
         return Integer.valueOf(financialAccount.getCode()).compareTo(Integer.valueOf(o.financialAccount.getCode()));

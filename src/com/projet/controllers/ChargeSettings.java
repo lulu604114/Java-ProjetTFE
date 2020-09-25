@@ -7,10 +7,7 @@ import com.projet.services.*;
 import com.projet.utils.Message;
 
 import javax.annotation.PostConstruct;
-import javax.el.MethodExpression;
-import javax.enterprise.context.RequestScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.event.ActionListener;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.persistence.EntityTransaction;
@@ -50,7 +47,7 @@ public class ChargeSettings implements Serializable {
         this.accountCategories = map_userAccountList_by_account_category();
         this.diaries = user.getDiaries();
 
-        FinancialYearService financialYearService = new FinancialYearService(FinancialYear.class);
+        FinancialYearService financialYearService = new FinancialYearService();
         this.financialYears = financialYearService.getFinancialYearByUser(user);
 
         this.accountCategory = new AccountCategory();
@@ -60,7 +57,7 @@ public class ChargeSettings implements Serializable {
     }
 
     public List<AccountCategory> getUserAccountCategories() {
-        AccountCategoryService service = new AccountCategoryService(AccountCategory.class);
+        AccountCategoryService service = new AccountCategoryService();
 
         return service.getUserAccountCategory(user);
     }
@@ -91,9 +88,9 @@ public class ChargeSettings implements Serializable {
     }
 
     private List<AccountCategory> map_userAccountList_by_account_category() {
-        UserAccountService service = new UserAccountService(UserAccount.class);
+        UserAccountService service = new UserAccountService();
 
-        AccountCategoryService accountCategoryService = new AccountCategoryService(AccountCategory.class);
+        AccountCategoryService accountCategoryService = new AccountCategoryService();
 
         List<UserAccount> userAccounts = service.getByUser(user);
         Collections.sort(userAccounts);
@@ -168,7 +165,7 @@ public class ChargeSettings implements Serializable {
     }
 
     public void addAccountCategory() {
-        AccountCategoryService service = new AccountCategoryService(AccountCategory.class);
+        AccountCategoryService service = new AccountCategoryService();
 
         EntityTransaction transaction = service.getTransaction();
 
@@ -193,7 +190,7 @@ public class ChargeSettings implements Serializable {
     }
 
     public void updateAccountCategory() {
-        AccountCategoryService service = new AccountCategoryService(AccountCategory.class);
+        AccountCategoryService service = new AccountCategoryService();
 
         EntityTransaction transaction = service.getTransaction();
 
@@ -217,8 +214,8 @@ public class ChargeSettings implements Serializable {
     }
 
     public void deleteAccountCategory(AccountCategory accountCategory) {
-        AccountCategoryService accountCategoryService = new AccountCategoryService(AccountCategory.class);
-        UserAccountService service = new UserAccountService(UserAccount.class);
+        AccountCategoryService accountCategoryService = new AccountCategoryService();
+        UserAccountService service = new UserAccountService();
         accountCategoryService.setEm(service.getEm());
 
         EntityTransaction transaction = service.getTransaction();
@@ -230,8 +227,9 @@ public class ChargeSettings implements Serializable {
             List<UserAccount> userAccounts = service.getByUserAndCategory(user, accountCategory);
 
             if (userAccounts != null && !userAccounts.isEmpty()) {
-                for (UserAccount account : userAccounts)
-                    service.delete(account.getId());
+                for (UserAccount userAccount : userAccounts) {
+                    service.delete(userAccount);
+                }
             }
 
             accountCategoryService.delete(accountCategory.getId());
@@ -257,7 +255,7 @@ public class ChargeSettings implements Serializable {
     }
 
     public void addUserAccount() {
-        UserAccountService service = new UserAccountService(UserAccount.class);
+        UserAccountService service = new UserAccountService();
 
         EntityTransaction transaction = service.getTransaction();
 
@@ -283,7 +281,7 @@ public class ChargeSettings implements Serializable {
     }
 
     public void updateUserAccount() {
-        UserAccountService service = new UserAccountService(UserAccount.class);
+        UserAccountService service = new UserAccountService();
 
         EntityTransaction transaction = service.getTransaction();
 
@@ -294,7 +292,7 @@ public class ChargeSettings implements Serializable {
 
             transaction.commit();
 
-            message.display(FacesMessage.SEVERITY_INFO, "Success", "charge " + userAccount.getFinancialAccount().getLabel() + " ajoutée");
+            message.display(FacesMessage.SEVERITY_INFO, "Success", "charge " + userAccount.getFinancialAccount().getLabel() + " Modifiée");
 
             this.accountCategories = map_userAccountList_by_account_category();
 
@@ -307,14 +305,15 @@ public class ChargeSettings implements Serializable {
     }
 
     public void deleteUserAccount(UserAccount userAccount) {
-        UserAccountService service = new UserAccountService(UserAccount.class);
+        UserAccountService service = new UserAccountService();
 
         EntityTransaction transaction = service.getTransaction();
 
         transaction.begin();
 
         try {
-            service.delete(userAccount.getId());
+
+            service.delete(userAccount);
 
             transaction.commit();
 
@@ -324,9 +323,6 @@ public class ChargeSettings implements Serializable {
 
         } catch(Exception e) {
             message.display(FacesMessage.SEVERITY_ERROR, "Erreur", "Impossible de supprimer cette charge.");
-
-            transaction.rollback();
-
         } finally {
             if(transaction.isActive())
                 transaction.rollback();
@@ -336,7 +332,7 @@ public class ChargeSettings implements Serializable {
     }
 
     public void addDiary() {
-        DiaryService service = new DiaryService(Diary.class);
+        DiaryService service = new DiaryService();
 
         EntityTransaction transaction = service.getTransaction();
 
@@ -360,7 +356,7 @@ public class ChargeSettings implements Serializable {
     }
 
     public void updateDiary() {
-        DiaryService service = new DiaryService(Diary.class);
+        DiaryService service = new DiaryService();
 
         EntityTransaction transaction = service.getTransaction();
 
@@ -373,6 +369,36 @@ public class ChargeSettings implements Serializable {
 
             message.display(FacesMessage.SEVERITY_INFO, "Success", "journal " + diary.getLabel() + " modifié");
 
+        } finally {
+            if (transaction.isActive())
+                transaction.rollback();
+
+            service.close();
+        }
+    }
+
+    public void synchronizeAccountItems() {
+        UserAccountService accountService = new UserAccountService();
+        AccountItemService service = new AccountItemService();
+
+
+        accountService.refreshEntity(userAccount);
+
+        EntityTransaction transaction = service.getTransaction();
+
+        transaction.begin();
+
+        try {
+            for (AccountItem item : userAccount.getAccountItems()) {
+                item.setTaxDeductible(userAccount.getTaxDeductible());
+                item.setPrivatePart(userAccount.getPrivatePart());
+
+                service.save(item);
+            }
+
+            transaction.commit();
+
+            message.display(FacesMessage.SEVERITY_INFO, "Success", userAccount.getAccountItems().size() + " synchronisé");
         } finally {
             if (transaction.isActive())
                 transaction.rollback();

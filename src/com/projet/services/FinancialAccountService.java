@@ -20,8 +20,8 @@ import java.util.Map;
 public class FinancialAccountService extends Service<FinancialAccount>{
 
 
-    public FinancialAccountService(Class<?> ec) {
-        super(ec);
+    public FinancialAccountService() {
+        super();
     }
 
     public List<FinancialAccount> findByLabelOrCode(User user, String label, String label2) {

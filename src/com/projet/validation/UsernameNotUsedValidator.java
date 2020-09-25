@@ -2,7 +2,6 @@ package com.projet.validation;
 
 import com.projet.conf.App;
 import com.projet.utils.Message;
-import com.projet.entities.User;
 import com.projet.services.UserService;
 
 import javax.faces.application.FacesMessage;
@@ -30,7 +29,7 @@ public class UsernameNotUsedValidator implements Validator {
     public void validate(FacesContext facesContext, UIComponent uiComponent, Object o) throws ValidatorException {
         String username = (String) o;
 
-        UserService service = new UserService(User.class);
+        UserService service = new UserService();
 
         try {
             if (service.getByUsername(username) != null)

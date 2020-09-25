@@ -21,8 +21,8 @@ import java.util.Map;
 public class AccountCategoryService extends Service<AccountCategory>{
 
 
-    public AccountCategoryService(Class<?> ec) {
-        super(ec);
+    public AccountCategoryService() {
+        super();
     }
 
     public List<AccountCategory> getUserAccountCategory(User user) {

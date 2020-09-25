@@ -23,8 +23,8 @@ import java.util.Map;
  */
 public class UserAccountService extends Service<UserAccount> {
 
-    public UserAccountService(Class<?> ec) {
-        super(ec);
+    public UserAccountService() {
+        super();
     }
 
     public List<UserAccount> getByUser(User user) {
@@ -61,8 +61,18 @@ public class UserAccountService extends Service<UserAccount> {
         return userAccount;
     }
 
+    public void delete(UserAccount userAccount) {
+
+        FinancialAccount financialAccount = em.find(FinancialAccount.class, userAccount.getFinancialAccount().getId());
+
+        delete(userAccount.getId());
+
+        if (! financialAccount.isDefaultFa())
+            em.remove(financialAccount);
+    }
+
     public List<UserAccount> createDefaultUserAccount(User user) {
-        FinancialAccountService service = new FinancialAccountService(FinancialAccount.class);
+        FinancialAccountService service = new FinancialAccountService();
 
         List<FinancialAccount> financialAccounts = service.getDefaultFinancialAccount();
         List<UserAccount> userAccounts = new ArrayList<>();

@@ -19,8 +19,8 @@ import java.util.Map;
  */
 public class SupplierService extends Service<Supplier> {
 
-    public SupplierService(Class<?> ec) {
-        super(ec);
+    public SupplierService() {
+        super();
     }
 
     public List<Supplier> findByLabel(User user, String label) {

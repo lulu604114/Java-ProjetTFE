@@ -9,23 +9,17 @@ import com.projet.enumeration.ChargeStatus;
 import com.projet.security.SecurityManager;
 import com.projet.services.ChargeService;
 import com.projet.utils.Message;
-import com.sun.org.apache.bcel.internal.generic.Select;
-import org.primefaces.event.SelectEvent;
 
 import javax.annotation.PostConstruct;
-import javax.el.MethodExpression;
-import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
-import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityTransaction;
-import javax.xml.stream.events.EndElement;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -94,14 +88,13 @@ public class ChargeCrud implements Serializable {
         return status;
     }
 
-    public void onStatusSelect(SelectEvent event) {
-        ChargeStatus status = (ChargeStatus) event.getObject();
+    public void onStatusSelect(ValueChangeEvent event) {
+        ChargeStatus status = (ChargeStatus) event.getNewValue();
 
         if (status.equals(ChargeStatus.NOTPAYED))
             setChargePayed(false);
         else if (status.equals(ChargeStatus.PAYED))
             setChargePayed(true);
-
     }
 
     public List<Diary> getDiaries() {
@@ -109,7 +102,7 @@ public class ChargeCrud implements Serializable {
     }
 
     public String createCharge() {
-        ChargeService service = new ChargeService(Charge.class);
+        ChargeService service = new ChargeService();
 
         EntityTransaction transaction = service.getTransaction();
 
@@ -138,7 +131,7 @@ public class ChargeCrud implements Serializable {
     }
 
     public void updateCharge() {
-        ChargeService service = new ChargeService(Charge.class);
+        ChargeService service = new ChargeService();
 
         EntityTransaction transaction = service.getTransaction();
 
@@ -168,7 +161,7 @@ public class ChargeCrud implements Serializable {
     }
 
     public String deleteCharge(Charge charge) {
-        ChargeService service = new ChargeService(Charge.class);
+        ChargeService service = new ChargeService();
 
         EntityTransaction transaction = service.getTransaction();
 
@@ -183,6 +176,8 @@ public class ChargeCrud implements Serializable {
 
             transaction.commit();
 
+            chargeList.applyFilter();
+
             message.display(FacesMessage.SEVERITY_INFO, "Success", "Frais supprimer");
 
             return "success";
@@ -195,7 +190,7 @@ public class ChargeCrud implements Serializable {
     }
 
     public void markAsPayed() {
-        ChargeService service = new ChargeService(Charge.class);
+        ChargeService service = new ChargeService();
 
         EntityTransaction transaction = service.getTransaction();
 

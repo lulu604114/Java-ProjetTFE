@@ -19,8 +19,8 @@ import java.util.Map;
  */
 public class RoleService extends Service<Role> implements Serializable {
 
-    RoleService(Class<?> ec) {
-        super(ec);
+    RoleService() {
+        super();
     }
 
     public Role findByLabel(RoleEnum label) {

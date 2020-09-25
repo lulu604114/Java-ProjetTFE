@@ -2,12 +2,10 @@ package com.projet.job;
 
 import com.projet.entities.Charge;
 import com.projet.services.ChargeService;
-import com.projet.utils.DateManager;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
 
-import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import java.util.Date;
 import java.util.List;
@@ -28,7 +26,7 @@ public class UpdateChargeStatusJob implements Job {
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         Date currentDate = new Date();
 
-        ChargeService service = new ChargeService(Charge.class);
+        ChargeService service = new ChargeService();
 
         EntityTransaction transaction = service.getTransaction();
 

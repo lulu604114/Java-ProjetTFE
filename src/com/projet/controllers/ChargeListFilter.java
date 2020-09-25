@@ -9,6 +9,7 @@ import com.projet.security.SecurityManager;
 import com.projet.services.ChargeService;
 import com.projet.utils.DateManager;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.event.data.PageEvent;
 
 import javax.annotation.PostConstruct;
 import javax.el.MethodExpression;
@@ -16,7 +17,6 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ActionListener;
 import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -42,12 +42,14 @@ public class ChargeListFilter implements Serializable {
     private ChargeDateFilterEnum dateFilter;
     private ChargeStatus chargeStatus;
     private ChargeDateFilterEnum choosenFilter;
+    private ChargeStatus choosenStatus;
+    private Date start_at;
+    private Date end_at;
     private Date date_period_start_at;
     private Date date_period_end_at;
-    private int pageNumber;
-    private int pageSize;
-
     private User user;
+
+    private int currentPage;
 
     @PostConstruct
     public void init() {
@@ -55,14 +57,23 @@ public class ChargeListFilter implements Serializable {
         this.user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
     }
 
-    public List<Charge> getUserChargeList() {
-        ChargeService service = new ChargeService(Charge.class);
+    public void applyFilter() {
+        dateFilter = choosenFilter;
+        chargeStatus = choosenStatus;
 
-        if (dateFilter != null)
-            if (! dateFilter.equals(ChargeDateFilterEnum.PERSONALIZED))
+        if (dateFilter != null) {
+
+            if (!dateFilter.equals(ChargeDateFilterEnum.PERSONALIZED)) {
                 setPeriodFromFilter();
+            } else {
+                date_period_start_at = start_at;
+                date_period_end_at = end_at;
+            }
+        } else {
+            date_period_start_at = null;
+            date_period_end_at = null;
+        }
 
-         return service.getFilteredChargeList(chargeStatus, date_period_start_at, date_period_end_at, 0, 0, user);
     }
 
     private void setPeriodFromFilter() {
@@ -92,6 +103,7 @@ public class ChargeListFilter implements Serializable {
         this.dateFilter = null;
         this.chargeStatus = null;
         this.choosenFilter = null;
+        this.choosenStatus = null;
         this.date_period_start_at = null;
         this.date_period_end_at = null;
     }
@@ -109,10 +121,15 @@ public class ChargeListFilter implements Serializable {
         }
     }
 
-    public void onStatusSelect(SelectEvent event) {
-        ChargeDateFilterEnum filter = (ChargeDateFilterEnum) event.getObject();
+    public void iniFilter() {
+        this.choosenFilter = this.dateFilter;
+        this.choosenStatus = this.chargeStatus;
+        this.start_at = null;
+        this.end_at = null;
+    }
 
-        setChoosenFilter(filter);
+    public void onPageChange(PageEvent event) {
+        currentPage = event.getPage();
     }
 
     public ChargeDateFilterEnum getPersonnalizedFilter() {
@@ -135,6 +152,30 @@ public class ChargeListFilter implements Serializable {
         this.chargeStatus = chargeStatus;
     }
 
+    public ChargeStatus getChoosenStatus() {
+        return choosenStatus;
+    }
+
+    public void setChoosenStatus(ChargeStatus choosenStatus) {
+        this.choosenStatus = choosenStatus;
+    }
+
+    public Date getStart_at() {
+        return start_at;
+    }
+
+    public void setStart_at(Date start_at) {
+        this.start_at = start_at;
+    }
+
+    public Date getEnd_at() {
+        return end_at;
+    }
+
+    public void setEnd_at(Date end_at) {
+        this.end_at = end_at;
+    }
+
     public Date getDate_period_start_at() {
         return date_period_start_at;
     }
@@ -151,22 +192,6 @@ public class ChargeListFilter implements Serializable {
         this.date_period_end_at = date_period_end_at;
     }
 
-    public int getPageNumber() {
-        return pageNumber;
-    }
-
-    public void setPageNumber(int pageNumber) {
-        this.pageNumber = pageNumber;
-    }
-
-    public int getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
-
     public ChargeDateFilterEnum getChoosenFilter() {
         return choosenFilter;
     }
@@ -175,11 +200,11 @@ public class ChargeListFilter implements Serializable {
         this.choosenFilter = choosenFilter;
     }
 
-    public User getUser() {
-        return user;
+    public int getCurrentPage() {
+        return currentPage;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
     }
 }

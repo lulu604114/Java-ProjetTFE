@@ -2,7 +2,6 @@ package com.projet.services;
 
 import com.projet.entities.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,8 +18,8 @@ import java.util.Map;
  */
 public class AccountItemService extends Service<AccountItem>{
 
-    public AccountItemService(Class<?> ec) {
-        super(ec);
+    public AccountItemService() {
+        super();
     }
 
     public List<AccountItem> getByUserAccountAndFinancialYear(UserAccount userAccount, FinancialYear financialYear) {
@@ -109,7 +108,7 @@ public class AccountItemService extends Service<AccountItem>{
     }
 
     public AccountItem create_redeemable_accountItem(AccountItem accountItem, int redeemableDuration, User user) throws CloneNotSupportedException {
-        FinancialYearService service = new FinancialYearService(FinancialYear.class);
+        FinancialYearService service = new FinancialYearService();
 
         int parentAccountItemfinancialYear = accountItem.getFinancialYear().getBeginAt();
 

@@ -6,13 +6,15 @@ import com.projet.security.SecurityManager;
 import com.projet.services.AccountItemService;
 import com.projet.utils.Message;
 import org.primefaces.event.SelectEvent;
+import org.primefaces.event.data.PageEvent;
+
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.validator.Validator;
 import javax.faces.validator.ValidatorException;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityTransaction;
 import java.io.Serializable;
@@ -36,7 +38,7 @@ import java.util.List;
 public class ChargeDetail implements Serializable {
     private static final long serialVersionUID = 1L;
     private Message message = Message.getMessage(App.BUNDLE_MESSAGE);
-    private AccountItemService accountItemService = new AccountItemService(AccountItemService.class);
+    private AccountItemService accountItemService = new AccountItemService();
 
     private Charge charge;
     private AccountItem accountItem;
@@ -64,7 +66,7 @@ public class ChargeDetail implements Serializable {
      * all required fields are set.
      */
     public void initialize_new_accountItem() {
-        AccountItemService service = new AccountItemService(AccountItem.class);
+        AccountItemService service = new AccountItemService();
 
         accountItem = new AccountItem();
         accountItem.setAmount(charge.getAmount() - service.calculate_imputed_amount(charge.getAccountItems()));
@@ -81,21 +83,6 @@ public class ChargeDetail implements Serializable {
         this.charge = charge;
 
         return "/app/charge/chargeDetail?faces-redirect=true";
-    }
-
-    public void editAccountItem(AccountItem accountItem) {
-        this.accountItem = accountItem;
-
-        accountItem_amount_is_set();
-        accountItem_privatePart_is_set();
-        accountItem_taxDeductible_is_set();
-
-        if (! accountItem.getAccountItems().isEmpty())
-            setAccountItem_is_redeemable(true);
-        else
-            setAccountItem_is_redeemable(false);
-
-        setUserAccount_is_redeemable(accountItem.getUserAccount().getFinancialAccount().isRedeemable());
     }
 
     public boolean does_accountItem_amount_has_been_set() {
@@ -253,7 +240,7 @@ public class ChargeDetail implements Serializable {
     }
 
     public void addAccountItem() {
-        AccountItemService service = new AccountItemService(AccountItem.class);
+        AccountItemService service = new AccountItemService();
 
         EntityTransaction transaction = service.getTransaction();
 
@@ -284,12 +271,8 @@ public class ChargeDetail implements Serializable {
         }
     }
 
-    public void updateAccountItem() {
-
-    }
-
     public void deleteAccountItem(AccountItem accountItem) {
-        AccountItemService service = new AccountItemService(AccountItem.class);
+        AccountItemService service = new AccountItemService();
 
         EntityTransaction transaction = service.getTransaction();
 
@@ -343,7 +326,7 @@ public class ChargeDetail implements Serializable {
             } else {
                 List<AccountItem> accountItems = charge.getAccountItems();
 
-                AccountItemService service = new AccountItemService(AccountItem.class);
+                AccountItemService service = new AccountItemService();
 
                 double imputedAmount = service.calculate_imputed_amount(accountItems);
 

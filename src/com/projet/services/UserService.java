@@ -4,7 +4,6 @@ import com.projet.entities.Card;
 import com.projet.entities.Dashboard;
 import com.projet.entities.Role;
 import com.projet.entities.User;
-import com.projet.entities.UserAccount;
 import com.projet.enumeration.RoleEnum;
 import org.apache.log4j.Logger;
 
@@ -28,10 +27,10 @@ public class UserService extends Service<User> implements Serializable {
     private static final Logger log = Logger.getLogger(UserService.class);
     private static final long serialVersionUID = 1L;
 
-    public CardService cardService =  new CardService(Card.class);
+    public CardService cardService =  new CardService();
 
-    public UserService(Class<?> ec) {
-        super(ec);
+    public UserService() {
+        super();
     }
 
     public List<User> getAll() {
@@ -81,7 +80,7 @@ public class UserService extends Service<User> implements Serializable {
         dashboard.setCards(cards);
         user.addDashboard(dashboard);
 
-        RoleService service = new RoleService(Role.class);
+        RoleService service = new RoleService();
 
         Role role = service.findByLabel(RoleEnum.USER);
 
