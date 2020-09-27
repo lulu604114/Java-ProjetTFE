@@ -1,10 +1,10 @@
 package com.projet.entities;
 
 import com.projet.enumeration.SupplierPaimentCondition;
+import com.projet.utils.Formatter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Collection;
 import java.util.Objects;
 
 /**
@@ -87,19 +87,26 @@ public class Supplier {
     }
 
     public String getIban() {
-        return iban;
+        if (this.iban != null) {
+            return Formatter.formatIbanToDisplay(this.iban);
+        }
+
+        return null;
     }
 
     public void setIban(String iban) {
-        this.iban = iban;
+        this.iban = Formatter.formatIbanForPersist(iban);
     }
 
     public String getIbanBis() {
-        return ibanBis;
+        if (this.ibanBis != null) {
+            return Formatter.formatIbanToDisplay(this.ibanBis);
+        }
+        return null;
     }
 
     public void setIbanBis(String ibanBis) {
-        this.ibanBis = ibanBis;
+        this.ibanBis = Formatter.formatIbanForPersist(ibanBis);
     }
 
     public Boolean getDefault_sup() {
