@@ -51,4 +51,29 @@ $activeSubMenuItemTextColor:#3DB281;
   background: transparent;
 }
 
+// agenda
+.fc-button-primary {
+  color: #fff;
+  background-color: $primaryColor;
+  border-color: $primaryColor;
+}
+
+.fc-button-primary:not(:disabled):active, .fc-button-primary:not(:disabled).fc-button-active {
+  color: #fff;
+  background-color: $topbarBgLeftColor;
+  border-color: $topbarBgLeftColor;
+}
+
+.fc-button-primary:disabled {
+  color: #fff;
+  background-color: transparentize($primaryColor, 0.5);
+  border-color: transparentize($primaryColor, 0.5);
+}
+
+.fc-button-primary:not(:disabled).fc-button-primary:hover {
+  color: #fff;
+  background-color: $topbarBgLeftColor;
+  border-color: $topbarBgLeftColor;
+}
+
 @import '../../sass/layout/_layout';

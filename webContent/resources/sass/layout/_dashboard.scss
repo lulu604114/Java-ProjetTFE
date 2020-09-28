@@ -77,7 +77,7 @@
 
                         &.sale {
                             width: 75%;
-                            @include background-gradient-left2right(#F39611, #EE4F10);
+                            @include background-gradient-left2right(#efa318, #ff5200);
                         }
 
                         &.view {
@@ -102,7 +102,7 @@
             }
 
             &.calendar {
-                @include background-gradient-left2right(#f39611, #fc4576);
+                @include background-gradient-left2right(#efa318, #ea582b);
             }
 
             &.message {
@@ -119,8 +119,8 @@
         }
 
         .appointments {
-            $color1: #f39611;
-            $color2: #fc4576;
+            $color1: #efa318;
+            $color2: #ea582b;
             .ui-panel-titlebar {
                 border-top-left-radius: 6px;
                 border-top-right-radius: 6px;
@@ -129,7 +129,7 @@
             }
 
             .ui-panel-content {
-                padding: 14px;
+                padding: 10px;
                 height: 300px;
                 overflow-x: auto;
 
@@ -215,7 +215,7 @@
             }
 
             .ui-panel-content {
-                padding: 14px;
+                padding: 10px;
                 height: 300px;
                 overflow-x: auto;
 
@@ -302,7 +302,7 @@
             }
 
             .ui-panel-content {
-                padding: 14px;
+                padding: 10px;
                 height: 300px;
                 overflow-x: auto;
 
@@ -325,7 +325,7 @@
                         }
 
                         .time-badge {
-                            background-color: $primaryColor;
+                            @include background-gradient-left2right($color1, $color2);
                             border-radius: 12px;
                             padding: 3px 8px;
                             min-width: 50px;
@@ -358,7 +358,7 @@
 
         .resolution-center {
             .ui-panel-content {
-                padding: 14px;
+                padding: 10px;
                 min-height: 236px;
 
                 .ui-inputtext {

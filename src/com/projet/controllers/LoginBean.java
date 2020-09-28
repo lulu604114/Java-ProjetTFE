@@ -25,7 +25,7 @@ import java.io.Serializable;
  */
 @Named("loginBean")
 @SessionScoped
-public class LoginBean implements Serializable {
+public class  LoginBean implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final Logger log = Logger.getLogger(LoginBean.class);
     private static final Message message = Message.getMessage(App.BUNDLE_MESSAGE);

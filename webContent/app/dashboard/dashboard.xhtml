@@ -40,30 +40,30 @@
                                     <!-- APPOINTMENT CARD -->
                                     <div class="ui-g-12 ui-md-12 ui-lg-4">
                                         <p:panel header="#{ dashboard[card.label] }" styleClass="appointments">
-                                            <ul>
-                                                <ui:repeat value="#{ dashboardBean.getCardContent(card) }"
-                                                           var="meeting">
-                                                    <li>
-                                                        <p:graphicImage name="images/icons/calendar.svg"
-                                                                        library="own-layout"/>
-                                                        <div class="seperator"></div>
-                                                        <div class="team-box">
-                                                            <div>
-                                                                <i class="fas fa-user-injured"></i>
-                                                                <span class="team-member">#{ meeting.patient.lastName } #{ meeting.patient.firstName }</span>
-                                                            </div>
-                                                            <div>
-                                                                <i class="far fa-clock"></i>
-                                                                <span class="team-member-mail">#{ dashboardBean.displayMeetingTime(meeting) }</span>
-                                                            </div>
-                                                            <div>
-                                                                <i class="far fa-comment"></i>
-                                                                <span class="team-member-address">#{ meeting.title }</span>
-                                                            </div>
+                                            <p:dataList value="#{ dashboardBean.getCardContent(card) }"
+                                                        styleClass="dashboard-data-list"
+                                                        var="meeting"
+                                                        emptyMessage="Aucun rendez-vous !">
+                                                <li>
+                                                    <p:graphicImage name="images/icons/calendar.svg"
+                                                                    library="own-layout"/>
+                                                    <div class="seperator"></div>
+                                                    <div class="team-box">
+                                                        <div>
+                                                            <i class="fas fa-user-injured"></i>
+                                                            <span class="team-member">#{ meeting.patient.lastName } #{ meeting.patient.firstName }</span>
                                                         </div>
-                                                    </li>
-                                                </ui:repeat>
-                                            </ul>
+                                                        <div>
+                                                            <i class="far fa-clock"></i>
+                                                            <span class="team-member-mail">#{ dashboardBean.displayMeetingTime(meeting) }</span>
+                                                        </div>
+                                                        <div>
+                                                            <i class="far fa-comment"></i>
+                                                            <span class="team-member-address">#{ meeting.title }</span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </p:dataList>
                                         </p:panel>
                                     </div>
                                 </h:panelGroup>
@@ -73,17 +73,17 @@
                                     <!-- TASK CARD -->
                                     <div class="ui-g-12 ui-md-12 ui-lg-4">
                                         <p:panel header="#{ dashboard[card.label] }" styleClass="tasks">
-                                            <ul>
-                                                <ui:repeat value="#{ dashboardBean.getCardContent(card) }"
-                                                           var="task">
-                                                    <li>
-                                                        <span>#{ task.title }</span>
-                                                        <div class="time-badge">
-                                                            <span>#{ dashboardBean.displayTaskTime(task) }</span>
-                                                        </div>
-                                                    </li>
-                                                </ui:repeat>
-                                            </ul>
+                                            <p:dataList value="#{ dashboardBean.getCardContent(card) }"
+                                                        styleClass="dashboard-data-list"
+                                                        var="task"
+                                                        emptyMessage="Aucune tâche !">
+                                                <li>
+                                                    <span>#{ task.title }</span>
+                                                    <div class="time-badge">
+                                                        <span>#{ dashboardBean.displayTaskTime(task) }</span>
+                                                    </div>
+                                                </li>
+                                            </p:dataList>
                                         </p:panel>
                                     </div>
                                 </h:panelGroup>
@@ -94,66 +94,17 @@
                                     <div class="ui-g-12 ui-md-12 ui-lg-4">
                                         <p:panel header="#{ dashboard[card.label] }" styleClass="documents">
                                             <ul>
-                                                <li>
-                                                    <p:graphicImage name="images/icons/documents/word.svg"
-                                                                    library="own-layout"/>
-                                                    <div class="seperator"></div>
-                                                    <div class="document-box">
-                                                        <span class="document-name">template_charge.docx</span>
-                                                        <div>
-                                                            <i class="fa fa-ellipsis-v"></i>
-                                                            <span class="document-details">3.8 Mo</span>
+                                                <ui:repeat value="#{fileBean.documentsPerso}" var="document">
+                                                    <li>
+                                                        <p:graphicImage name="images/icons/documents/#{document.format}.svg"
+                                                                        library="own-layout"/>
+                                                        <div class="seperator"></div>
+                                                        <div class="document-box">
+                                                            <span class="document-name">#{document.nom}</span>
+                                                            images/icons/documents/#{document.format}.svg
                                                         </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <p:graphicImage name="images/icons/documents/excel.svg"
-                                                                    library="own-layout"/>
-                                                    <div class="seperator"></div>
-                                                    <div class="document-box">
-                                                        <span class="document-name">frais_08_2020.xlsx</span>
-                                                        <div>
-                                                            <i class="fa fa-ellipsis-v"></i>
-                                                            <span class="document-details">23.4 Mo</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <p:graphicImage name="images/icons/documents/word.svg"
-                                                                    library="own-layout"/>
-                                                    <div class="seperator"></div>
-                                                    <div class="document-box">
-                                                        <span class="document-name">template_mutuel.docx</span>
-                                                        <div>
-                                                            <i class="fa fa-ellipsis-v"></i>
-                                                            <span class="document-details">7.9 Mo</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <p:graphicImage name="images/icons/documents/powerpoint.svg"
-                                                                    library="own-layout"/>
-                                                    <div class="seperator"></div>
-                                                    <div class="document-box">
-                                                        <span class="document-name">coronavirus_règles.ppt</span>
-                                                        <div>
-                                                            <i class="fa fa-ellipsis-v"></i>
-                                                            <span class="document-details">29.1 Mo</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <p:graphicImage name="images/icons/documents/word.svg"
-                                                                    library="own-layout"/>
-                                                    <div class="seperator"></div>
-                                                    <div class="document-box">
-                                                        <span class="document-name">rapport_patient.docx</span>
-                                                        <div>
-                                                            <i class="fa fa-ellipsis-v"></i>
-                                                            <span class="document-details">12.6 Mo</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
+                                                    </li>
+                                                </ui:repeat>
                                             </ul>
                                         </p:panel>
                                     </div>

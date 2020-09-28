@@ -16,6 +16,7 @@
                 display: none;
             }
         </style>
+
         <ui:define name="title">Listing patient</ui:define>
         <ui:define name="viewname">
             <li>Pages</li>
@@ -31,21 +32,25 @@
 
                             <p:dataTable id="tablePatient" var="patient" value="#{patientBean.patients}" widgetVar="patientTable" multiViewState="true"
                                          rows="10" paginator="true"
-                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+                                         paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} {Exporters}"
                                          rowsPerPageTemplate="5,10,15"
                                          emptyMessage="Aucun patient trouvé" filteredValue="#{patientBean.filteredPatients}"
                             >
-<!--                                         selectionMode="single" selection="#{patientBean.selectedPatient}" rowKey="#{patient.id}"-->
+                                <f:facet name="{Exporters}">
+                                    <div style="float:right;padding-top: 5px;">
+                                        <p:commandButton value="Export as PDF" ajax="false" >
+                                            <p:dataExporter type="pdf" target="tablePatient" fileName="patients"/>
+                                        </p:commandButton>
 
+                                    </div>
+                                </f:facet>
                                 <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true" />
                                 <f:facet name="header">
                                     <p:outputPanel>
-                                        <h:outputText value="Search all fields:" />
-                                        <p:inputText id="globalFilter" onkeyup="PF('patientTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                        <h:outputText value="Recherche générale : " />
+                                        <p:inputText id="globalFilter" onkeyup="PF('patientTable').filter()" style="width:150px" placeholder="Recherche"/>
                                     </p:outputPanel>
                                 </f:facet>
-
-<!--                                <p:ajax event="rowSelect" update=":form:patientDetail" oncomplete="PF('patientDialog').show()" />-->
 
                                 <p:column headerText="Id" filterBy="#{patient.id}" sortBy="#{patient.id}" filterMatchMode="contains">
                                     <h:outputText value="#{patient.id}" />
@@ -59,26 +64,18 @@
                                     <h:outputText value="#{patient.lastName}" />
                                 </p:column>
 
-                                <p:column headerText="Action" >
-                                    <p:commandButton update=":form:patientDetail" oncomplete="PF('patientDialog').show()" icon="fas fa-eye" title="Détails">
+                                <p:column headerText="Action" exportable="false" >
+                                    <p:commandButton style="margin-right:20px;" update=":form:patientDetail" oncomplete="PF('patientDialog').show()" icon="fas fa-eye" title="Détails">
                                         <f:setPropertyActionListener value="#{patient}"  target="#{patientBean.selectedPatient}"  />
                                     </p:commandButton>
-                                    <p:commandButton type="submit" action="#{patientBean.openRedirection()}" icon="fas fa-book-open">
+                                    <p:commandButton style="margin-right:20px;" type="submit" action="#{patientBean.openRedirection()}" icon="fas fa-book-open" title="Dossier patient">
                                         <f:setPropertyActionListener target="#{patientBean.patient}" value="#{patient}"    />
                                     </p:commandButton>
-                                    <p:commandButton update=":form:patientDetail" oncomplete="PF('patientDialog').show()" icon="fas fa-trash-alt" title="Supprimer">
-                                        <f:setPropertyActionListener value="#{patient}"  target="#{patientBean.selectedPatient}"  />
-                                    </p:commandButton>
+                                    <p:commandButton style="margin-right:20px;" ajax="true" update=":form:tablePatient" action="#{patientBean.deletePatient(patient)}" icon="fas fa-trash-alt" title="Supprimer"/>
                                 </p:column>
 
                                 <f:facet name="paginatorTopLeft">
-                                    <p:commandButton update=":modal-creation" oncomplete="PF('patientCreation').show()"  value="Ajouter un patient">
-                                        <f:setPropertyActionListener value="#{patient}"  target="#{patientBean.selectedPatient}"  />
-                                    </p:commandButton>
-                                </f:facet>
-
-                                <f:facet name="paginatorTopRight">
-                                    <p:commandButton value="Réinitialiser les filtres" action="#{patientBean.clearTableState}" update="@form" />
+                                    <p:commandButton update=":modal-creation" oncomplete="PF('patientCreation').show()"  value="Ajouter un patient" action="#{patientBean.reset()}"/>
                                 </f:facet>
 
                             </p:dataTable>
@@ -115,7 +112,10 @@
                                 </p:outputPanel>
                             </p:dialog>
                         </h:form>
-                        <p:dialog id="modal-creation" header="Création patient" widgetVar="patientCreation" width="500"  modal="true" responsive="true" draggable="false" closable="true" >
+<!--                        Alerte de création-->
+                        <p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+<!--                        Modal de création patient-->
+                        <p:dialog id="modal-creation" header="Création patient" widgetVar="patientCreation" width="500"   responsive="true" draggable="true" closable="true" >
 
                                 <h:form id="creation-modal-form">
                                     <div class="ui-g">
@@ -124,64 +124,93 @@
                                         </div>
                                         <div class="ui-g-12 ui-md-12 ui-lg-6">
                                             <i class="fa fa-fw fa-user"></i>
-                                            <p:outputLabel value=" Prénom :" />
-                                            <p:inputText value="#{patientBean.patient.firstName}" disabled="false"/>
+                                            <p:outputLabel  for="firstName" value=" Prénom :" />
+                                            <p:inputText id="firstName" value="#{patientBean.patient.firstName}" required="true" label="firstName" requiredMessage="Entrez un Prénom"/>
+                                            <p:message for="firstName" />
+                                            <h:outputText value="#{patientBean.patient.firstName}"  style="color: red" />
                                         </div>
                                         <div class="ui-g-12 ui-md-12 ui-lg-6">
                                             <i class="fa fa-fw fa-envelope"></i>
-                                            <p:outputLabel value=" Nom :"/>
-                                            <p:inputText value="#{patientBean.patient.lastName}" disabled="false"/>
+                                            <p:outputLabel for="lastName" value=" Nom :"/>
+                                            <p:inputText id="lastName" value="#{patientBean.patient.lastName}" required="true" requiredMessage="Entrez un nom"/>
+                                            <p:message for="lastName" />
+                                            <h:outputText value="#{patientBean.patient.lastName}"  style="color: red" />
+                                        </div>
+                                        <div class="ui-g-12 ui-md-12 ui-lg-12">
+                                            <i class="fa fa-fw fa-envelope"></i>
+                                            <p:outputLabel for="birthday" value=" Date d'anniversaire :"/>
+                                            <p:calendar id="birthday" pattern="dd/MM/yyyy"  value="#{patientBean.patient.birthdate}" required="true" requiredMessage="Entrez la date d'anniversaire">
+                                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                            </p:calendar>
+                                            <p:message for="birthday" />
+                                            <h:outputText value="#{patientBean.patient.birthdate}"  style="color: red">
+                                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                            </h:outputText>
                                         </div>
                                         <div class="ui-g-12 ui-md-12 ui-lg-4">
                                             <i class="fa fa-fw fa-envelope"></i>
-                                            <p:outputLabel value=" Adresse :"/>
-                                            <p:inputText value="#{patientBean.patient.adress}" disabled="false"/>
+                                            <p:outputLabel for="address" value=" Adresse :"/>
+                                            <p:inputText id="address" value="#{patientBean.patient.adress}" required="true" requiredMessage="Entrez une adresse"/>
+                                            <p:message for="address" />
+                                            <h:outputText value="#{patientBean.patient.adress}"  style="color: red" />
                                         </div>
                                         <div class="ui-g-12 ui-md-12 ui-lg-4">
                                             <i class="fa fa-fw fa-envelope"></i>
-                                            <p:outputLabel value=" N° :"/>
-                                            <p:inputText value="#{patientBean.patient.streetNumber}" disabled="false"/>
+                                            <p:outputLabel for="number" value=" N° :"/>
+                                            <p:inputText id="number" value="#{patientBean.patient.streetNumber}" required="true" requiredMessage="Entrez le numéro de maison"/>
+                                            <p:message for="number" />
+                                            <h:outputText value="#{patientBean.patient.streetNumber}"  style="color: red" />
                                         </div>
                                         <div class="ui-g-12 ui-md-12 ui-lg-4">
                                             <i class="fa fa-fw fa-envelope"></i>
-                                            <p:outputLabel value=" Bte :"/>
-                                            <p:inputText value="#{patientBean.patient.streetBox}" disabled="false"/>
+                                            <p:outputLabel for="bte" value=" Bte :"/>
+                                            <p:inputText id="bte" value="#{patientBean.patient.streetBox}" disabled="false"/>
                                         </div>
                                         <div class="ui-g-12 ui-md-12 ui-lg-6">
                                             <i class="fa fa-fw fa-envelope"></i>
-                                            <p:outputLabel value=" Code Postal :"/>
-                                            <p:inputText value="#{patientBean.patient.postalCode}" disabled="false"/>
+                                            <p:outputLabel for="cp" value=" Code Postal :"/>
+                                            <p:inputText id="cp" value="#{patientBean.patient.postalCode}" required="true" requiredMessage="Entrez le code postal"/>
+                                            <p:message for="cp" />
+                                            <h:outputText value="#{patientBean.patient.postalCode}"  style="color: red" />
                                         </div>
                                         <div class="ui-g-12 ui-md-12 ui-lg-6">
                                             <i class="fa fa-fw fa-envelope"></i>
-                                            <p:outputLabel value=" Ville :"/>
-                                            <p:inputText value="#{patientBean.patient.city}" disabled="false"/>
+                                            <p:outputLabel for="city" value=" Ville :"/>
+                                            <p:inputText id="city" value="#{patientBean.patient.city}" required="true" requiredMessage="Entrez la ville"/>
+                                            <p:message for="city" />
+                                            <h:outputText value="#{patientBean.patient.city}"  style="color: red" />
                                         </div>
                                         <div class="ui-g-12" style="border: 1px solid #dedede; border-radius: 10px">
                                             <h4>Contact</h4>
                                         </div>
                                         <div class="ui-g-12 ui-md-12 ui-lg-6">
                                             <i class="fa fa-fw fa-user"></i>
-                                            <p:outputLabel value=" Téléphone :" />
-                                            <p:inputText value="#{patientBean.patient.phone}" disabled="false"/>
+                                            <p:outputLabel for="phone" value=" Téléphone :" />
+                                            <p:inputText id="phone" placeholder="(exemple :  0494/12.36.36)" value="#{patientBean.patient.phone}" mask="9999/99.99.99" disabled="false" required="true" requiredMessage="Entrez un numéro de téléphone"  />
+                                            <p:message for="phone" />
+                                            <h:outputText value="#{patientBean.patient.phone}"  style="color: red" />
                                         </div>
                                         <div class="ui-g-12 ui-md-12 ui-lg-6">
                                             <i class="fa fa-fw fa-envelope"></i>
-                                            <p:outputLabel value=" Email :"/>
-                                            <p:inputText value="#{patientBean.patient.email}" disabled="false"/>
+                                            <p:outputLabel for="email" value=" Email :"/>
+                                            <p:inputText id="email" placeholder="(exemple : email@email.com)" value="#{patientBean.patient.email}" required="true" requiredMessage="Entrez un email"/>
+                                            <p:message for="email" />
+                                            <h:outputText value="#{patientBean.patient.email}"  style="color: red" />
                                         </div>
                                         <div class="ui-g-12" style="border: 1px solid #dedede; border-radius: 10px">
                                             <h4>Informations médicales</h4>
                                         </div>
                                         <div class="ui-g-12 ui-md-12 ui-lg-6">
                                             <i class="fa fa-fw fa-user"></i>
-                                            <p:outputLabel value=" Niss :" />
-                                            <p:inputText value="#{patientBean.patient.niss}" disabled="false"/>
+                                            <p:outputLabel for="niss" value=" Niss :" />
+                                            <p:inputText id="niss" value="#{patientBean.patient.niss}" required="true" requiredMessage="Entrez le Niss"/>
+                                            <p:message for="niss" />
+                                            <h:outputText value="#{patientBean.patient.niss}"  style="color: red" />
                                         </div>
                                         <div class="ui-g-12 ui-md-12 ui-lg-6">
                                             <i class="fa fa-fw fa-envelope"></i>
-                                            <p:outputLabel value=" Tiers payant :"/>
-                                            <p:inputText value="#{patientBean.patient.tiersPayant}" disabled="false"/>
+                                            <p:outputLabel for="tp" value=" Tiers payant :  "/>
+                                            <p:selectBooleanCheckbox id="tp" value="#{patientBean.patient.tiersPayant}" />
                                         </div>
                                     </div>
                                 </h:form>
@@ -192,9 +221,9 @@
                                     <p:commandButton id="creation-modal-close-btn" form="creation-modal-form" type="button" value="Fermer"
                                                      styleClass="secondary-button" onclick="PF('patientCreation').hide()"
                                                      actionListener="#{patientBean.cancel}" update=":content:msgs" ajax="true"/>
-                                    <p:commandButton form="creation-modal-form" value="Enregistrer" styleClass="success-btn"
-                                                     icon="fa fa-check" onclick="PF('patientCreation').hide()"
-                                                     actionListener="#{profileSettings.save}"/>
+                                    <p:commandButton form="creation-modal-form" value="Enregistrer" update=":form:tablePatient :creation-modal-form"   styleClass="success-btn"
+                                                     icon="fa fa-check" actionListener="#{patientBean.createPatient()}"
+                                                     oncomplete="handleLoginRequest(xhr, status, args)"   ajax="true" validateClient="true"/>
                                 </f:facet>
 
                         </p:dialog>

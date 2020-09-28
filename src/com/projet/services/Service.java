@@ -32,6 +32,10 @@ public abstract class Service<E> implements IService<E> {
         this.finder = new EntityFinderImpl<>(ec, this.em);
     }
 
+    public Service() {
+
+    }
+
     public E getById (int id) {
         return finder.findOne(id);
     }

@@ -34,13 +34,13 @@
                     <!-- WHEN CLICK ON A CELL -->
                     <p:ajax event="dateSelect"
                             listener="#{agendaBean.onDateSelect}"
-                            update="eventDialogContainer"
+                            update="eventDialogContainer eventDetails "
                             oncomplete="PF('eventDialog').show();"/>
 
                     <!-- WHEN CLICK ON AN EVENT -->
                     <p:ajax event="eventSelect"
                             listener="#{agendaBean.onEventSelect}"
-                            update="eventDialogContainer"
+                            update="eventDialogContainer eventDetails patient title"
                             oncomplete="PF('eventDialog').show();"/>
 
                     <!-- WHEN DRAGGING AN EVENT -->
@@ -86,12 +86,11 @@
                                       itemValue="SESSION"/>
                         <f:selectItem itemLabel="Tâche"
                                       itemValue="TASK"/>
-                        <p:ajax update="eventDetails"/>
+                        <p:ajax update="patient"/>
                     </p:selectOneMenu>
 
                     <p:outputLabel value="Patient"
                                    for="patient"
-                                   id="patientField"
                                    style="font-weight:bold"/>
                     <p:autoComplete id="patient"
                                     value="#{ agendaBean.event.data.patient }"

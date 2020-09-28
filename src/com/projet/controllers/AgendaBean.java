@@ -35,6 +35,7 @@ public class AgendaBean implements Serializable {
     private Message message = Message.getMessage(App.BUNDLE_MESSAGE);
     private FacesMessage PFMessages = null;
     private LazyScheduleModel events;
+    private LazyScheduleModel eventsPatient;
 
     private ScheduleEvent<Meeting> event = new DefaultScheduleEvent<Meeting>();
 
@@ -70,8 +71,7 @@ public class AgendaBean implements Serializable {
     private String view = "timeGridWeek";
 
     private User user;
-
-    private MeetingService meetingService = new MeetingService();
+    private MeetingService meetingService = new MeetingService(Meeting.class);
 
     /**
      * Init.
