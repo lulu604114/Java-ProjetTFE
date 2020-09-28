@@ -37,9 +37,8 @@ public class PatientBean implements Serializable {
     private static final long serialVersionUID = 1L;
     private static final Message message = Message.getMessage(App.BUNDLE_MESSAGE);
 
-    PatientService service = new PatientService(Patient.class);
-    EntityTransaction transaction = this.service.getTransaction();
     PatientService service = new PatientService();
+    EntityTransaction transaction = this.service.getTransaction();
     private Patient patient;
     private List<Patient> patients;
     private List<Meeting> meetings;
@@ -74,7 +73,7 @@ public class PatientBean implements Serializable {
     {
         FacesMessage message = null;
         boolean succes = false;
-        PatientService service = new PatientService(Patient.class);
+        PatientService service = new PatientService();
         EntityTransaction transaction = service.getTransaction();
         transaction.begin();
         try {
@@ -103,7 +102,7 @@ public class PatientBean implements Serializable {
      */
     public void save()
     {
-        PatientService service = new PatientService(Patient.class);
+        PatientService service = new PatientService();
         EntityTransaction transaction = this.service.getTransaction();
         this.transaction.begin();
         try {
@@ -135,7 +134,7 @@ public class PatientBean implements Serializable {
      */
     public void deletePatient(Patient patient)
     {
-        PatientService service = new PatientService(Patient.class);
+        PatientService service = new PatientService();
         EntityTransaction transaction = this.service.getTransaction();
         this.transaction.begin();
         try {
@@ -157,7 +156,7 @@ public class PatientBean implements Serializable {
      * @return
      */
     public List<Meeting> getPastAppointment(){
-        MeetingService meetingService = new MeetingService(Meeting.class);
+        MeetingService meetingService = new MeetingService();
         TemporalField fieldISO = WeekFields.of(Locale.FRANCE).dayOfWeek();
         //LocalDateTime startOfWeek = LocalDateTime.now().withHour(0).withMinute(0).withSecond(1);
         LocalDateTime startOfWeek = LocalDateTime.of(2020, 01, 01,00,00);
@@ -167,7 +166,7 @@ public class PatientBean implements Serializable {
         return meetings;
     }
     public List<Meeting> getFuturAppointment(){
-        MeetingService meetingService = new MeetingService(Meeting.class);
+        MeetingService meetingService = new MeetingService();
         TemporalField fieldISO = WeekFields.of(Locale.FRANCE).dayOfWeek();
         LocalDateTime startOfWeek = LocalDateTime.now().withHour(0).withMinute(0).withSecond(1);
         LocalDateTime endOfWeek = LocalDateTime.of(2050,12,31,00,00);

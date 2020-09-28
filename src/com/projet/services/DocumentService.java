@@ -19,12 +19,6 @@ public class DocumentService extends Service<Document> implements Serializable {
         super();
     }
 
-    public DocumentService(Class<?> ec) {
-
-        super(ec);
-    }
-
-
     public List<Document> getAllByPatient(User user, Patient patient) {
         Map<String, Object> param = new HashMap<>();
         param.put("patient", patient);

@@ -71,7 +71,7 @@ public class AgendaBean implements Serializable {
     private String view = "timeGridWeek";
 
     private User user;
-    private MeetingService meetingService = new MeetingService(Meeting.class);
+    private MeetingService meetingService = new MeetingService();
 
     /**
      * Init.
