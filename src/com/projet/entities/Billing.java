@@ -3,6 +3,7 @@ package com.projet.entities;
 import com.projet.enumeration.BillingStatusEnum;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -57,6 +58,16 @@ public class Billing {
     @ManyToOne
     @JoinColumn(name = "bill", referencedColumnName = "id")
     private Billing bill;
+
+    public Billing(){}
+
+    public Billing(int id, String reference, Date createdAt, Patient patient, String communication) {
+        this.id = id;
+        this.reference = reference;
+        this.createdAt = createdAt;
+        this.patient = patient;
+        this.communication = communication;
+    }
 
     public int getId() {
         return id;

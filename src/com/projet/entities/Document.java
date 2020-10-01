@@ -17,7 +17,8 @@ import java.util.Objects;
 @Table(name = "Documents", schema = "jsf_tfe")
 
 @NamedQueries({
-        @NamedQuery(name = "Document.findByUser", query = "SELECT d FROM Document d WHERE d.user=:user AND d.patient=:patient AND d.active=true"),
+        @NamedQuery(name = "Document.findByUserAndPatient", query = "SELECT d FROM Document d WHERE d.user=:user AND d.patient=:patient AND d.active=true"),
+        @NamedQuery(name = "Document.findByUser", query = "SELECT d FROM Document d WHERE d.user=:user AND d.patient = null AND d.active=true"),
         @NamedQuery(name = "Document.findAll", query = "SELECT d FROM Document d")
 })
 public class Document {
@@ -34,6 +35,9 @@ public class Document {
     @Basic
     @Column(name = "active")
     private boolean active;
+    @Basic
+    @Column(name = "format")
+    private String format;
     @ManyToOne
     @JoinColumn(name = "user", referencedColumnName = "id", nullable = false)
     private User user;
@@ -111,5 +115,13 @@ public class Document {
 
     public void setType(DocumentType type) {
         this.type = type;
+    }
+
+    public String getFormat() {
+        return format;
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
     }
 }

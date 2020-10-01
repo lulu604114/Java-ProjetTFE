@@ -41,12 +41,10 @@ public class PatientService extends Service<Patient> implements Serializable {
 
     @Override
     public Patient save(Patient patient) {
-        System.out.println("Je save");
+
         if (patient.getId() == 0) {
-            System.out.println("Je persist");
             em.persist(patient);
         } else {
-            System.out.println("Je merge " + patient.getAdress());
             patient = em.merge(patient);
 
         }

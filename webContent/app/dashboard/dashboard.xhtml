@@ -89,66 +89,17 @@
                                     <div class="ui-g-12 ui-md-12 ui-lg-4">
                                         <p:panel header="#{ dashboard[card.label] }" styleClass="documents">
                                             <ul>
-                                                <li>
-                                                    <p:graphicImage name="images/icons/documents/word.svg"
-                                                                    library="own-layout"/>
-                                                    <div class="seperator"></div>
-                                                    <div class="document-box">
-                                                        <span class="document-name">template_charge.docx</span>
-                                                        <div>
-                                                            <i class="fa fa-ellipsis-v"></i>
-                                                            <span class="document-details">3.8 Mo</span>
+                                                <ui:repeat value="#{fileBean.documentsPerso}" var="document">
+                                                    <li>
+                                                        <p:graphicImage name="images/icons/documents/#{document.format}.svg"
+                                                                        library="own-layout"/>
+                                                        <div class="seperator"></div>
+                                                        <div class="document-box">
+                                                            <span class="document-name">#{document.nom}</span>
+                                                            images/icons/documents/#{document.format}.svg
                                                         </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <p:graphicImage name="images/icons/documents/excel.svg"
-                                                                    library="own-layout"/>
-                                                    <div class="seperator"></div>
-                                                    <div class="document-box">
-                                                        <span class="document-name">frais_08_2020.xlsx</span>
-                                                        <div>
-                                                            <i class="fa fa-ellipsis-v"></i>
-                                                            <span class="document-details">23.4 Mo</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <p:graphicImage name="images/icons/documents/word.svg"
-                                                                    library="own-layout"/>
-                                                    <div class="seperator"></div>
-                                                    <div class="document-box">
-                                                        <span class="document-name">template_mutuel.docx</span>
-                                                        <div>
-                                                            <i class="fa fa-ellipsis-v"></i>
-                                                            <span class="document-details">7.9 Mo</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <p:graphicImage name="images/icons/documents/powerpoint.svg"
-                                                                    library="own-layout"/>
-                                                    <div class="seperator"></div>
-                                                    <div class="document-box">
-                                                        <span class="document-name">coronavirus_règles.ppt</span>
-                                                        <div>
-                                                            <i class="fa fa-ellipsis-v"></i>
-                                                            <span class="document-details">29.1 Mo</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <p:graphicImage name="images/icons/documents/word.svg"
-                                                                    library="own-layout"/>
-                                                    <div class="seperator"></div>
-                                                    <div class="document-box">
-                                                        <span class="document-name">rapport_patient.docx</span>
-                                                        <div>
-                                                            <i class="fa fa-ellipsis-v"></i>
-                                                            <span class="document-details">12.6 Mo</span>
-                                                        </div>
-                                                    </div>
-                                                </li>
+                                                    </li>
+                                                </ui:repeat>
                                             </ul>
                                         </p:panel>
                                     </div>

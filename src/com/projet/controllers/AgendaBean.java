@@ -15,13 +15,10 @@ import org.primefaces.model.*;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.persistence.EntityTransaction;
-import javax.validation.ValidationException;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -74,7 +71,6 @@ public class AgendaBean implements Serializable {
     private String view = "timeGridWeek";
 
     private User user;
-
     private MeetingService meetingService = new MeetingService(Meeting.class);
 
     /**
@@ -103,36 +99,6 @@ public class AgendaBean implements Serializable {
                 });
             }
         };
-        /**
-         * @author Nathan
-         * init eventsPatient for get all events by the Selectedpatient
-         */
-        FacesContext context = FacesContext.getCurrentInstance();
-        PatientBean patientBean = context.getApplication().evaluateExpressionGet(context, "#{patientBean}", PatientBean.class);
-        if (patientBean != null) {
-            Patient selectedpatient = patientBean.getPatient();
-            this.eventsPatient = new LazyScheduleModel() {
-                @Override
-                public void loadEvents(LocalDateTime startDate, LocalDateTime endDate) {
-                    List<Meeting> meetings = meetingService.getMeetingsByPatient(startDate, endDate, user, selectedpatient);
-                    if (meetings.isEmpty()) return;
-                    meetings.forEach(meeting -> {
-                        addEvent(DefaultScheduleEvent.builder()
-                                .title(meeting.getTitle())
-                                .startDate(DateManager.toLocalDateTime(meeting.getStartDate()))
-                                .endDate(DateManager.toLocalDateTime(meeting.getEndDate()))
-                                .description(meeting.getDescription())
-                                .styleClass(meeting.getType().toString().toLowerCase())
-                                .data(meeting)
-                                .allDay(meeting.isAllDay())
-                                .overlapAllowed(true)
-                                .build()
-                        );
-                    });
-                }
-            };
-        }
-
     }
 
 
@@ -904,25 +870,4 @@ public class AgendaBean implements Serializable {
         this.user = user;
     }
 
-    /**
-     * Gets events patient.
-     *
-     * @return events patient
-     *
-     * @author Nathan Get eventsPatient
-     */
-    public LazyScheduleModel getEventsPatient() {
-        return eventsPatient;
-    }
-
-    /**
-     * Sets events patient.
-     *
-     * @param eventsPatient the events patient
-     *
-     * @author Nathan Set patient
-     */
-    public void setEventsPatient(LazyScheduleModel eventsPatient) {
-        this.eventsPatient = eventsPatient;
-    }
 }
