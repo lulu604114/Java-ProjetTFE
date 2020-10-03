@@ -1,5 +1,6 @@
-<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:p="http://primefaces.org/ui">
 
     <h:form class="layout-topbar">
         <a href="#" id="topbar-menu-button">
@@ -13,89 +14,65 @@
 
         <a id="topbar-profile-menu-button" href="#">
             <span>${profileSettings.user.firstName} ${profileSettings.user.lastName}</span>
-            <p:graphicImage name="images/avatar/#{ profileSettings.user.avatar }" library="own-layout" styleClass="topbar-profile" />
+            <p:graphicImage name="images/avatar/#{ profileSettings.user.avatar }" library="own-layout"
+                            styleClass="topbar-profile"/>
             <i class="fa fa-angle-down"></i>
         </a>
 
         <ul id="topbar-usermenu">
             <li>
-                <p:link>
-                    <i class="fa fa-fw fa-bell-o"></i>
-                    <span class="topbar-item-name">Notifications</span>
-                    <f:param name="i" value="0"/>
-                </p:link>
-            </li>
-            <li>
                 <a href="#">
-                    <i class="fa fa-fw fa-envelope-o"></i>
-                    <span class="topbar-item-name">Messages</span>
+                    <i class="fas fa-language"></i>
+                    <span class="topbar-item-name">#{ app['menu.language'] }</span>
                 </a>
                 <ul>
                     <li role="menuitem">
-                        <a href="#" class="topbar-message">
-                            <p:graphicImage name="images/avatar-brooke.png" library="ecuador-layout" width="25"/>
-                            <span>Give me a call</span>
-                        </a>
+                        <p:commandLink action="#{i18n.changeLanguage('fr')}"
+                                       styleClass="topbar-message"
+                                       ajax="false">
+                            <p:graphicImage name="images/icons/france.png"
+                                            library="own-layout"
+                                            width="20"/>
+                            <span>#{ app['menu.fr'] }</span>
+                        </p:commandLink>
                     </li>
                     <li role="menuitem">
-                        <a href="#" class="topbar-message">
-                            <p:graphicImage name="images/avatar-tom.png" library="ecuador-layout" width="25"/>
-                            <span>Reports attached</span>
-                        </a>
-                    </li>
-                    <li role="menuitem">
-                        <a href="#" class="topbar-message">
-                            <p:graphicImage name="images/avatar-maggie.png" library="ecuador-layout" width="25"/>
-                            <span>About your invoice</span>
-                        </a>
-                    </li>
-                    <li role="menuitem">
-                        <a href="#" class="topbar-message">
-                            <p:graphicImage name="images/avatar-lucas.png" library="ecuador-layout" width="25"/>
-                            <span>Meeting today</span>
-                        </a>
+                        <p:commandLink action="#{i18n.changeLanguage('en')}"
+                                       styleClass="topbar-message"
+                                       ajax="false">
+                            <p:graphicImage name="images/icons/united-kingdom.png"
+                                            library="own-layout"
+                                            width="20"/>
+                            <span>#{ app['menu.en'] }</span>
+                        </p:commandLink>
                     </li>
                 </ul>
             </li>
             <li>
                 <a href="#">
                     <i class="fa fa-fw fa-cog"></i>
-                    <span class="topbar-item-name">Settings</span>
+                    <span class="topbar-item-name">#{ app['menu.preferences'] }</span>
                 </a>
                 <ul>
                     <li role="menuitem">
                         <p:link outcome="/app/settings/profile">
                             <i class="fa fa-fw fa-user"></i>
-                            <span class="topbar-item-name">Profile</span>
+                            <span class="topbar-item-name">#{ app['menu.profile'] }</span>
                             <f:param name="index" value="0"/>
                         </p:link>
                     </li>
                     <li role="menuitem">
                         <p:link outcome="/app/settings/security">
                             <i class="fa fa-fw fa-shield"></i>
-                            <span class="topbar-item-name">Securité</span>
+                            <span class="topbar-item-name">#{ app['menu.security'] }</span>
                             <f:param name="index" value="1"/>
-                        </p:link>
-                    </li>
-                    <li role="menuitem">
-                        <p:link outcome="/app/settings/notifications">
-                            <i class="fa fa-fw fa-bell"></i>
-                            <span class="topbar-item-name">Notifications</span>
-                            <f:param name="index" value="2"/>
-                        </p:link>
-                    </li>
-                    <li role="menuitem">
-                        <p:link outcome="/app/settings/subscriptions">
-                            <i class="fa fa-fw fa-trophy"></i>
-                            <span class="topbar-item-name">Abonnement</span>
-                            <f:param name="index" value="3"/>
                         </p:link>
                     </li>
                     <li role="menuitem">
                         <p:link outcome="/app/settings/themes">
                             <i class="fa fa-fw fa-picture-o"></i>
-                            <span class="topbar-item-name">Thèmes</span>
-                            <f:param name="index" value="4"/>
+                            <span class="topbar-item-name">#{ app['menu.theme'] }</span>
+                            <f:param name="index" value="2"/>
                         </p:link>
                     </li>
                 </ul>
@@ -103,7 +80,7 @@
             <li>
                 <p:commandLink type="button" action="#{loginBean.doLogout}">
                     <i class="fa fa-fw fa-power-off"></i>
-                    <span class="topbar-item-name">Log out</span>
+                    <span class="topbar-item-name">#{ app['menu.logout'] }</span>
                 </p:commandLink>
             </li>
         </ul>

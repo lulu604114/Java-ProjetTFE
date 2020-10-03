@@ -16,6 +16,10 @@
             <var>msg</var>
         </resource-bundle>
         <resource-bundle>
+            <base-name>resources.nav</base-name>
+            <var>nav</var>
+        </resource-bundle>
+        <resource-bundle>
             <base-name>resources.component</base-name>
             <var>cmp</var>
         </resource-bundle>
@@ -26,6 +30,10 @@
         <resource-bundle>
             <base-name>resources.dashboard</base-name>
             <var>dashboard</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>resources.app</base-name>
+            <var>app</var>
         </resource-bundle>
         <resource-bundle>
             <base-name>resources.charge</base-name>

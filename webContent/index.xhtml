@@ -13,7 +13,7 @@
         <meta name="apple-mobile-web-app-capable" content="yes"/>
         <link rel="icon" href="resources/own-layout/images/logo/favicon.png" type="image/x-icon"/>
     </f:facet>
-    <title>Assistologos</title>
+    <title>#{ nav['homepage'] }</title>
     <script type="text/javascript">
         hideMenu = function () {
             var menu = $('#landing-menu');
@@ -82,7 +82,6 @@
                             </li>
                             <li class="flag">
                                 <h:form>
-
                                     <h:commandLink action="#{i18n.changeLanguage('fr')}">
                                         <p:graphicImage name="images/icons/france.png" library="own-layout"/>
                                     </h:commandLink>
