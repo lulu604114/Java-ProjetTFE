@@ -5,7 +5,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="../../WEB-INF/template/template.xhtml">
 
-    <ui:define name="title">Empty Page</ui:define>
+    <ui:define name="title">#{cvt['chargeList.title']}</ui:define>
 
     <ui:define name="content">
         <h:form id="chargeListForm">
@@ -14,7 +14,7 @@
                 <div class="ui-g-12">
                     <p:panel>
                         <f:facet name="header">
-                            <h1>Gestion des frais</h1>
+                            <h1>#{cvt['chargeList.title']}</h1>
                         </f:facet>
                         <f:facet name="actions">
                             <p:commandButton icon="fas fa-filter" styleClass="help-btn" oncomplete="PF('filter-modal').show(100);"
@@ -24,7 +24,7 @@
                             </span>
 
                             <p:commandButton icon="fas fa-wrench" styleClass="warning-btn" oncomplete="PF('sidebar2').show();"/>
-                            <p:commandButton id="charge-creation-btn" value="Ajouter un frais" icon="fas fa-plus-circle" styleClass="success-btn"
+                            <p:commandButton id="charge-creation-btn" value="#{cmp['btn.addCharge']}" icon="fas fa-plus-circle" styleClass="success-btn"
                                              onclick="PF('chargeCreation-modal').show(100);" ajax="true" update=":chargeCreation-modal-form"
                                              actionListener="#{chargeCrud.create_new_charge}"/>
                         </f:facet>
@@ -36,12 +36,12 @@
                                 <div class="card charge-Card">
                                     <div class="charge-info">
                                         <div class="number">
-                                            <h:outputText id="charge-dashboard" value="#{chargeListView.totalCharge}">
+                                            <h:outputText id="charge-dashboard" value="#{chargeListView.totalChargeAmount}">
                                                 <f:convertNumber type="currency" currencySymbol="€" maxFractionDigits="2"/>
                                             </h:outputText>
                                         </div>
                                         <div class="text">
-                                            Total (<h:outputText value="#{chargeListView.chargeList.size()}"/> dépenses)
+                                            #{cvt['chargeList.totalCard']} (<h:outputText value="#{chargeListView.chargeList.size()}"/> #{cvt['chargeList.charge']})
                                         </div>
                                     </div>
                                     <div class="icon icon-primary">
@@ -53,12 +53,12 @@
                                 <div class="card charge-Card">
                                     <div class="charge-info">
                                         <div class="number">
-                                            <h:outputText value="#{chargeListView.totalNotPayedCharge}">
+                                            <h:outputText value="#{chargeListView.totalNotPayedChargeAmount}">
                                                 <f:convertNumber type="currency" currencySymbol="€" maxFractionDigits="2"/>
                                             </h:outputText>
                                         </div>
                                         <div class="text">
-                                            A payer
+                                            #{cvt['chargeList.due']}
                                         </div>
                                     </div>
                                     <div class="icon icon-warning">
@@ -70,12 +70,12 @@
                                 <div class="card charge-Card">
                                     <div class="charge-info">
                                         <div class="number">
-                                            <h:outputText value="#{chargeListView.totalLateCharge}">
+                                            <h:outputText value="#{chargeListView.totalLateChargeAmount}">
                                                 <f:convertNumber type="currency" currencySymbol="€" maxFractionDigits="2"/>
                                             </h:outputText>
                                         </div>
                                         <div class="text">
-                                            En retard
+                                            #{cvt['chargeList.late']}
                                         </div>
                                     </div>
                                     <div class="icon icon-danger">
@@ -87,12 +87,12 @@
                                 <div class="card charge-Card" id="card-deductible">
                                     <div class="charge-info">
                                         <div class="number">
-                                            <h:outputText value="#{chargeListView.totalDeductibleCharge}">
+                                            <h:outputText value="#{chargeListView.totalDeductibleChargeAmount}">
                                                 <f:convertNumber type="currency" currencySymbol="€" maxFractionDigits="2"/>
                                             </h:outputText>
                                         </div>
                                         <div class="text">
-                                            Deduit cette année
+                                            #{cvt['chargeList.deductedThisYear']}
                                         </div>
                                     </div>
                                     <div class="icon icon-success">
@@ -125,8 +125,8 @@
                                        <div class="card emptyMessage">
                                            <i class="fas fa-ban fa-5x icon-secondary"></i>
                                            <div class="text">
-                                               <p>Aucune dépense ajoutée</p>
-                                               <p:commandButton id="second-charge-creation-btn" value="Ajouter un frais" icon="fas fa-plus" styleClass="secondary-button"
+                                               <p>#{cvt['chargeList.datatable.emptyMessage']}</p>
+                                               <p:commandButton id="second-charge-creation-btn" value="#{cmp['btn.addCharge']}" icon="fas fa-plus" styleClass="secondary-button"
                                                                 oncomplete="PF('chargeCreation-modal').show(100);" ajax="true" update=":chargeCreation-modal-form"
                                                                 actionListener="#{chargeCrud.create_new_charge}"/>
                                            </div>
@@ -138,17 +138,17 @@
                                        </p:column>
                                    </p:headerRow>
                                    <p:column colspan="2">
-                                       <f:facet name="header">Descprition</f:facet>
+                                       <f:facet name="header">#{cvt['chargeList.datatable.description']}</f:facet>
                                        <h:outputText value="#{charge.label}"/>
                                    </p:column>
                                    <p:column>
-                                       <f:facet name="header">Date</f:facet>
+                                       <f:facet name="header">#{cvt['chargeList.datatable.createdAt']}</f:facet>
                                        <h:outputText value="#{charge.createdAt}">
                                            <f:convertDateTime pattern="dd/MM/yyyy"/>
                                        </h:outputText>
                                    </p:column>
                                    <p:column>
-                                       <f:facet name="header">Montant TTC</f:facet>
+                                       <f:facet name="header">#{cvt['chargeList.datatable.amount']}</f:facet>
                                        <h:outputText value="#{charge.amount}">
                                            <f:convertNumber type="currency" currencySymbol="€" maxFractionDigits="2"/>
                                        </h:outputText>
@@ -161,29 +161,29 @@
                                        </p:tooltip>
                                    </p:column>
                                    <p:column>
-                                       <f:facet name="header">Statut</f:facet>
+                                       <f:facet name="header">#{cvt['chargeList.datatable.status']}</f:facet>
                                        <div class="status-tag #{charge.status.statusClass}">
                                            <h:outputText value="#{cmp[charge.status.status]}"/>
                                        </div>
                                    </p:column>
                                    <p:column>
-                                       <f:facet name="header">Fournisseur</f:facet>
+                                       <f:facet name="header">#{cvt['chargeList.datatable.supplier']}</f:facet>
                                        <h:outputText value="#{charge.userSupplier.supplier.label}"/>
                                    </p:column>
                                    <p:column>
-                                       <f:facet name="header">Limite de paiement</f:facet>
+                                       <f:facet name="header">#{cvt['chargeList.datatable.dueAt']}</f:facet>
                                        <h:outputText value="#{charge.dueAt}">
                                            <f:convertDateTime pattern="dd/MM/yyyy" />
                                        </h:outputText>
                                    </p:column>
                                    <p:column style="text-align: right">
-                                       <f:facet name="header">Action <i class="fas fa-cog"></i></f:facet>
-                                       <p:splitButton  value=" Consulter" icon="far fa-eye" action="#{chargeDetailView.getChargeDetail(charge)}" style="font-size: 10px">
-                                           <p:menuitem value=" Modifier" icon="far fa-edit" update="chargeEdit-modal-form" style="font-size: 10px"
+                                       <f:facet name="header">#{cvt['chargeList.datatable.action']}<i class="fas fa-cog"></i></f:facet>
+                                       <p:splitButton  value="#{cmp['btn.consult']}" icon="far fa-eye" action="#{chargeDetailView.getChargeDetail(charge)}" style="font-size: 10px">
+                                           <p:menuitem value="#{cmp['btn.edit']}" icon="far fa-edit" update="chargeEdit-modal-form" style="font-size: 10px"
                                                        actionListener="#{chargeCrud.editCharge(charge)}" oncomplete="PF('chargeEdit-modal').show(100)"/>
-                                           <p:menuitem value=" Supprimer" icon="fas fa-trash-alt" action="#{chargeCrud.deleteCharge(charge)}"
+                                           <p:menuitem value="#{cmp['btn.delete']}" icon="fas fa-trash-alt" action="#{chargeCrud.deleteCharge(charge)}"
                                                        update="chargeListForm" style="font-size: 10px">
-                                               <p:confirm header="Confirmation" message="Êtes-vous sur de vouloir supprimer ce frais ?" icon="fas fa-5x fa-exclamation-triangle icon-warning" />
+                                               <p:confirm header="Confirmation" message="#{cvt['charge.deleteConfirmMessage']} ?" icon="fas fa-5x fa-exclamation-triangle icon-warning" />
                                            </p:menuitem>
                                        </p:splitButton>
                                    </p:column>
@@ -199,14 +199,14 @@
 
 
         <!-- CHARGE CREATION MODAL -->
-        <p:dialog header="Ajouter un frais" widgetVar="chargeCreation-modal" modal="true"
+        <p:dialog header="#{cvt['chargeForm.create.title']}" widgetVar="chargeCreation-modal" modal="true"
                   responsive="true" closable="false" blockScroll="true" fitViewport="true"
                   focus="chargeCreation-modal-form:charge-label" dynamic="true">
             <h:form id="chargeCreation-modal-form">
                 <p:scrollPanel mode="native" style=" max-width: 500px; max-height: 460px; border: none">
                     <div class="ui-fluid p-formgrid p-grid">
                         <div class="p-field p-col-12">
-                            <p:outputLabel for="charge-label" value="Description"/>
+                            <p:outputLabel for="charge-label" value="#{cvt['chargeForm.description']}"/>
                             <p:inputText id="charge-label" value="#{chargeCrud.charge.label}" required="true"
                                          requiredMessage="Veuillez renseignez ce champs">
                                 <p:ajax event="keyup" process="@this" update="charge-label-msg" delay="1000"/>
@@ -216,16 +216,16 @@
                     </div>
                     <div class="ui-fluid p-formgrid p-grid">
                         <div class="p-field p-col-12 p-md-6 p-lg-6">
-                            <p:outputLabel for="diary" value="Journal"/>
+                            <p:outputLabel for="diary" value="#{cvt['chargeForm.diary']}"/>
                             <p:selectOneMenu id="diary" value="#{chargeCrud.charge.diary}" converter="diaryConverter">
                                 <f:selectItems value="#{chargeCrud.diaries}" var="diary" itemLabel="#{diary.label}" itemValue="#{diary}"/>
                             </p:selectOneMenu>
                         </div>
                         <div class="p-fieldp-col-12 p-md-6 p-lg-6">
-                            <p:outputLabel for="supplier" value="Fournisseurs"/>
+                            <p:outputLabel for="supplier" value="#{cvt['chargeForm.supplier']}"/>
                             <small id="username-help">
-                                <p:commandLink id="supplier-creation-btn" onclick="PF('supplierCreation-modal').show(100);PF('chargeCreation-modal').hide();"
-                                               ajax="true" update=":supplierCreation-modal-form">
+                                <p:commandLink id="supplier-creation-btn" oncomplete="PF('supplierCreation-modal').show(100);PF('chargeCreation-modal').hide();"
+                                               ajax="true" update=":supplierCreation-modal-form" action="#{supplierCrud.create_new_supplier()}" immediate="true">
                                     <i class="far fa-edit"/> créer
                                 </p:commandLink>
                             </small>
@@ -240,14 +240,14 @@
                     </div>
                     <div class="ui-fluid p-formgrid p-grid">
                         <div class="p-field p-col-12 p-md-6 p-lg-6">
-                            <p:outputLabel for="createdAt" value="Date de facturation"/>
+                            <p:outputLabel for="createdAt" value="#{cvt['chargeForm.createdAt']}"/>
                             <p:datePicker id="createdAt" value="#{chargeCrud.charge.createdAt}">
                                 <p:ajax event="dateSelect" process="@this" update="createdAt-msg"/>
                             </p:datePicker>
                             <p:message id="createdAt-msg" for="createdAt"/>
                         </div>
                         <div class="p-field p-col-12 p-md-6 p-lg-6">
-                            <p:outputLabel for="dueAt" value="Date limite de paiement"/>
+                            <p:outputLabel for="dueAt" value="#{cvt['chargeForm.dueAt']}"/>
                             <p:datePicker id="dueAt" value="#{chargeCrud.charge.dueAt}" validator="#{chargeCrud.date_not_before_createdAt_date}">
                                 <p:ajax event="dateSelect" process="@this" update="dueAt-msg"/>
                             </p:datePicker>
@@ -256,7 +256,7 @@
                     </div>
                     <div class="ui-fluid p-formgrid p-grid">
                         <div class="p-field p-col-12 p-md-6 p-lg-6">
-                            <p:outputLabel for="amount" value="Montant total TTC"/>
+                            <p:outputLabel for="amount" value="#{cvt['chargeForm.amount']}"/>
                             <p:inputNumber id="amount" value="#{chargeCrud.charge.amount}" symbol=" €" symbolPosition="s"
                                            decimalSeparator="," thousandSeparator=" ">
                                 <f:validator validatorId="positiveAmountValidator"/>
@@ -265,7 +265,7 @@
                             <p:message id="amount-msg" for="amount" />
                         </div>
                         <div class="p-field p-col-12 p-md-6 p-lg-6">
-                            <p:outputLabel for="status" value="Statut de paiement"/>
+                            <p:outputLabel for="status" value="#{cvt['chargeForm.status']}"/>
                             <p:selectOneMenu id="status" value="#{chargeCrud.charge.status}" valueChangeListener="#{chargeCrud.onStatusSelect}">
                                 <p:ajax event="change" update="payed-form-group"/>
                                 <f:selectItems var="status" value="#{chargeCrud.chargeStatus}" itemLabel="#{cmp[status.status]}" itemValue="#{status}"/>
@@ -275,7 +275,7 @@
                     <h:panelGroup id="payed-form-group" layout="block">
                         <h:panelGroup styleClass="ui-fluid p-formgrid p-grid" rendered="#{chargeCrud.chargePayed}">
                             <div class="p-field p-col-12 p-md-6 p-lg-6">
-                                <p:outputLabel for="paidAt" value="Date de paiement"/>
+                                <p:outputLabel for="paidAt" value="#{cvt['chargeForm.payedAt']}"/>
                                 <p:datePicker id="paidAt" value="#{chargeCrud.charge.payedAt}" validator="#{chargeCrud.date_not_before_createdAt_date}"
                                               required="#{chargeCrud.chargePayed}" requiredMessage="Veuillez renseigner ce champ">
                                     <p:ajax event="dateSelect" process="@this" update="paidAt-msg"/>
@@ -283,7 +283,7 @@
                                 <p:message for="paidAt" id="paidAt-msg"/>
                             </div>
                             <div class="p-field p-col-12 p-md-6 p-lg-6">
-                                <p:outputLabel for="method" value="Moyen de paiement"/>
+                                <p:outputLabel for="method" value="#{cvt['chargeForm.paiementMethod']}"/>
                                 <p:selectOneMenu id="method" value="#{chargeCrud.charge.paiementMethod}">
                                     <p:importEnum type="com.projet.enumeration.PaiementMethodEnum" var="PaiementMethods" allSuffix="VALUES"/>
                                     <f:selectItem noSelectionOption="true" itemLabel="Sélectionner un moyen de paiement"/>
@@ -294,11 +294,11 @@
                     </h:panelGroup>
                     <div class="ui-fluid p-formgrid p-grid">
                         <div class="p-field p-col-12 p-md-6 p-lg-6">
-                            <p:outputLabel for="freeCom" value="Communication libre"/>
+                            <p:outputLabel for="freeCom" value="#{cvt['chargeForm.freeCom']}"/>
                             <p:inputText id="freeCom" placeholder="Ex: facture 344421" value="#{chargeCrud.charge.freeCommunication}"/>
                         </div>
                         <div class="p-field p-col-12 p-md-6 p-lg-6">
-                            <p:outputLabel for="structuredCom" value="Communication structurée"/>
+                            <p:outputLabel for="structuredCom" value="#{cvt['chargeForm.structCom']}"/>
                             <p:inputMask id="structuredCom" placeholder="+++XXX/XXXX/XXXXX+++" mask="+++999/9999/99999+++"
                                          value="#{chargeCrud.charge.structeredCommunication}"/>
                         </div>
@@ -306,12 +306,12 @@
                 </p:scrollPanel>
             </h:form>
             <f:facet name="footer">
-                <p:commandButton id="chargeCreation-modal-close-btn" value="Fermer"
+                <p:commandButton id="chargeCreation-modal-close-btn" value="#{cmp['btn.close']}"
                                  styleClass="secondary-button" oncomplete="PF('chargeCreation-modal').hide()"
                                  update="chargeListForm:msgs chargeCreation-modal-form" process="@this">
                     <p:resetInput target="chargeCreation-modal-form" />
                 </p:commandButton>
-                <p:commandButton form="chargeCreation-modal-form" value="Modfier" styleClass="success-btn" update="chargeCreation-modal-form"
+                <p:commandButton form="chargeCreation-modal-form" value="#{cmp['btn.apply']}" styleClass="success-btn" update="chargeCreation-modal-form"
                                  icon="fa fa-check" action="#{chargeCrud.createCharge}" oncomplete=" if (! args.validationFailed) { PF('chargeCreation-modal').hide() }"/>
             </f:facet>
         </p:dialog>
@@ -320,14 +320,14 @@
 
 
         <!-- CHARGE UPDATE MODAL -->
-        <p:dialog header="Modifier un frais" widgetVar="chargeEdit-modal" modal="true"
+        <p:dialog header="#{cvt['chargeForm.edit.title']}" widgetVar="chargeEdit-modal" modal="true"
                   responsive="true" closable="false" draggable="true" blockScroll="true" fitViewport="true"
                   focus="chargeEdit-modal-form:chargeEdit-label" dynamic="true">
             <h:form id="chargeEdit-modal-form">
                 <p:scrollPanel mode="native" style=" max-width: 500px; max-height: 460px; border: none">
                     <div class="ui-fluid p-formgrid p-grid">
                         <div class="p-field p-col-12">
-                            <p:outputLabel for="chargeEdit-label" value="Description"/>
+                            <p:outputLabel for="chargeEdit-label" value="#{cvt['chargeForm.description']}"/>
                             <p:inputText id="chargeEdit-label" value="#{chargeCrud.charge.label}">
                                 <p:ajax event="keyup" process="@this" update="chargeEdit-label-msg" delay="1000"/>
                             </p:inputText>
@@ -336,13 +336,13 @@
                     </div>
                     <div class="ui-fluid p-formgrid p-grid">
                         <div class="p-field p-col-12 p-md-6 p-lg-6">
-                            <p:outputLabel for="chargeEdit-diary" value="Journal"/>
+                            <p:outputLabel for="chargeEdit-diary" value="#{cvt['chargeForm.diary']}"/>
                             <p:selectOneMenu id="chargeEdit-diary" value="#{chargeCrud.charge.diary}" converter="diaryConverter">
                                 <f:selectItems value="#{chargeCrud.diaries}" var="diary" itemLabel="#{diary.label}" itemValue="#{diary}"/>
                             </p:selectOneMenu>
                         </div>
                         <div class="p-field p-col-12 p-md-6 p-lg-6">
-                            <p:outputLabel for="chargeEdit-supplier" value="Fournisseurs"/>
+                            <p:outputLabel for="chargeEdit-supplier" value="#{cvt['chargeForm.supplier']}"/>
                             <p:autoComplete id="chargeEdit-supplier" value="#{chargeCrud.charge.userSupplier}" completeMethod="#{chargeCrud.completeSupplier}"
                                             dropdown="true" var="userSupplier" itemLabel="#{userSupplier.supplier.label}" itemValue="#{userSupplier}"
                                             converter="userSupplierConverter" minQueryLength="2" required="true"
@@ -354,14 +354,14 @@
                     </div>
                     <div class="ui-fluid p-formgrid p-grid">
                         <div class="p-field p-col-12 p-md-6 p-lg-66">
-                            <p:outputLabel for="chargeEdit-createdAt" value="Date de facturation"/>
+                            <p:outputLabel for="chargeEdit-createdAt" value="#{cvt['chargeForm.createdAt']}"/>
                             <p:datePicker id="chargeEdit-createdAt" value="#{chargeCrud.charge.createdAt}">
                                 <p:ajax event="dateSelect" process="@this" update="chargeEdit-createdAt-msg"/>
                             </p:datePicker>
                             <p:message id="chargeEdit-createdAt-msg" for="chargeEdit-createdAt" />
                         </div>
                         <div class="p-field p-col-12 p-md-6 p-lg-6">
-                            <p:outputLabel for="chargeEdit-dueAt" value="Date limite de paiement"/>
+                            <p:outputLabel for="chargeEdit-dueAt" value="#{cvt['chargeForm.dueAt']}"/>
                             <p:datePicker id="chargeEdit-dueAt" value="#{chargeCrud.charge.dueAt}" validator="#{chargeCrud.date_not_before_createdAt_date}">
                                 <p:ajax event="dateSelect" process="@this" update="chargeEdit-dueAt-msg"/>
                             </p:datePicker>
@@ -370,7 +370,7 @@
                     </div>
                     <div class="ui-fluid p-formgrid p-grid">
                         <div class="p-field p-col-12 p-md-6 p-lg-6">
-                            <p:outputLabel for="chargeEdit-amount" value="Montant total TTC"/>
+                            <p:outputLabel for="chargeEdit-amount" value="#{cvt['chargeForm.amount']}"/>
                             <p:inputNumber id="chargeEdit-amount" value="#{chargeCrud.charge.amount}" symbol=" €" symbolPosition="s"
                                            decimalSeparator="," thousandSeparator=" ">
                                 <f:validator validatorId="positiveAmountValidator"/>
@@ -379,7 +379,7 @@
                             <p:message id="chargeEdit-amount-msg" for="chargeEdit-amount" />
                         </div>
                         <div class="p-field p-col-12 p-md-6 p-lg-6">
-                            <p:outputLabel for="chargeEdit-status" value="Statut de paiement"/>
+                            <p:outputLabel for="chargeEdit-status" value="#{cvt['chargeForm.status']}"/>
                             <p:selectOneMenu id="chargeEdit-status" value="#{chargeCrud.charge.status}" valueChangeListener="#{chargeCrud.onStatusSelect}">
                                 <p:ajax event="change" update="chargeEdit-payed-form-group"/>
                                 <f:selectItems var="status" value="#{chargeCrud.chargeStatus}" itemLabel="#{cmp[status.status]}" itemValue="#{status}"/>
@@ -389,7 +389,7 @@
                     <h:panelGroup id="chargeEdit-payed-form-group" layout="block">
                         <h:panelGroup styleClass="ui-fluid p-formgrid p-grid" rendered="#{chargeCrud.chargePayed}">
                             <div class="p-field p-col-12 p-md-6 p-lg-6">
-                                <p:outputLabel for="chargeEdit-paidAt" value="Date de paiement"/>
+                                <p:outputLabel for="chargeEdit-paidAt" value="#{cvt['chargeForm.payedAt']}"/>
                                 <p:datePicker id="chargeEdit-paidAt" value="#{chargeCrud.charge.payedAt}" validator="#{chargeCrud.date_not_before_createdAt_date}"
                                               required="#{chargeCrud.chargePayed}" requiredMessage="Veuillez renseigner ce champ">
                                     <p:ajax event="dateSelect" update="chargeEdit-paidAt-msg"/>
@@ -397,7 +397,7 @@
                                 <p:message for="chargeEdit-paidAt" id="chargeEdit-paidAt-msg"/>
                             </div>
                             <div class="p-field p-col-12 p-md-6 p-lg-6">
-                                <p:outputLabel for="chargeEdit-method" value="Moyen de paiement"/>
+                                <p:outputLabel for="chargeEdit-method" value="#{cvt['chargeForm.paiementMethod']}"/>
                                 <p:selectOneMenu id="chargeEdit-method" value="#{chargeCrud.charge.paiementMethod}">
                                     <p:importEnum type="com.projet.enumeration.PaiementMethodEnum" var="PaiementMethods" allSuffix="VALUES"/>
                                     <f:selectItem noSelectionOption="true" itemLabel="Sélectionner un moyen de paiement"/>
@@ -408,11 +408,11 @@
                     </h:panelGroup>
                     <div class="ui-fluid p-formgrid p-grid">
                         <div class="p-field p-col-12 p-md-6 p-lg-6">
-                            <p:outputLabel for="chargeEdit-freeCom" value="Communication libre"/>
+                            <p:outputLabel for="chargeEdit-freeCom" value="#{cvt['chargeForm.freeCom']}"/>
                             <p:inputText id="chargeEdit-freeCom" placeholder="Ex: facture 344421" value="#{chargeCrud.charge.freeCommunication}"/>
                         </div>
                         <div class="p-field p-col-12 p-md-6 p-lg-6">
-                            <p:outputLabel for="chargeEdit-structuredCom" value="Communication structurée"/>
+                            <p:outputLabel for="chargeEdit-structuredCom" value="#{cvt['chargeForm.structCom']}"/>
                             <p:inputMask id="chargeEdit-structuredCom" placeholder="+++XXX/XXXX/XXXXX+++" mask="+++999/9999/99999+++"
                                          value="#{chargeCrud.charge.structeredCommunication}"/>
                         </div>
@@ -420,11 +420,11 @@
                 </p:scrollPanel>
             </h:form>
             <f:facet name="footer">
-                <p:commandButton id="chargeEdit-modal-close-btn" value="Fermer" styleClass="secondary-button" oncomplete="PF('chargeEdit-modal').hide()"
+                <p:commandButton id="chargeEdit-modal-close-btn" value="#{cmp['btn.close']}" styleClass="secondary-button" oncomplete="PF('chargeEdit-modal').hide()"
                                  update="chargeListForm:msgs chargeEdit-modal-form">
                     <p:resetInput target="chargeEdit-modal-form"/>
                 </p:commandButton>
-                <p:commandButton form="chargeEdit-modal-form" value="Modfier" styleClass="success-btn"
+                <p:commandButton form="chargeEdit-modal-form" value="#{cmp['btn.apply']}" styleClass="success-btn"
                                  icon="fa fa-check" action="#{chargeCrud.updateCharge}" oncomplete=" if (! args.validationFailed) { PF('chargeEdit-modal').hide() }"
                                  update="chargeEdit-modal-form chargeListForm:msgs chargeListForm:chargeList"/>
             </f:facet>
@@ -432,14 +432,14 @@
 
 
         <!-- FILTER FORM MODAL -->
-        <p:dialog header="Filtrer mes dépenses" widgetVar="filter-modal" modal="true"
+        <p:dialog header="#{cvt['filterForm.title']}" widgetVar="filter-modal" modal="true"
                   responsive="true" closable="false" blockScroll="true" fitViewport="true"
                   dynamic="true">
             <h:form id="filter-modal-form">
                 <p:scrollPanel mode="native" style=" max-width: 500px; max-height: 460px; border: none">
                     <div class="ui-fluid p-formgrid p-grid">
                         <div class="p-field p-col-12">
-                            <p:outputLabel for="period" value="Période"/>
+                            <p:outputLabel for="period" value="#{cvt['filterForm.period']}"/>
                             <p:selectOneMenu id="period" value="#{chargeListFilter.choosenFilter}">
                                 <p:importEnum type="com.projet.enumeration.ChargeDateFilterEnum" var="Filters" allSuffix="VALUES"/>
                                 <f:selectItem noSelectionOption="true" itemLabel="Tout afficher" itemValue="#{null}"/>
@@ -451,7 +451,7 @@
                     <h:panelGroup id="filter-form-group" layout="block">
                         <h:panelGroup styleClass="ui-fluid p-formgrid p-grid" rendered="#{chargeListFilter.choosenFilter.equals(chargeListFilter.personnalizedFilter)}">
                             <div class="p-field p-col-12 p-md-6 p-lg-6">
-                                <p:outputLabel for="filter-begin" value="Début"/>
+                                <p:outputLabel for="filter-begin" value="#{cvt['filterForm.start']}"/>
                                 <p:datePicker id="filter-begin" value="#{chargeListFilter.start_at}"
                                               required="#{chargeListFilter.choosenFilter.equals(chargeListFilter.personnalizedFilter)}" requiredMessage="Veuillez renseigner ce champ">
                                     <p:ajax event="dateSelect" update="filter-begin-msg"/>
@@ -459,7 +459,7 @@
                                 <p:message for="filter-begin" id="filter-begin-msg"/>
                             </div>
                             <div class="p-field p-col-12 p-md-6 p-lg-6">
-                                <p:outputLabel for="filter-end" value="Fin"/>
+                                <p:outputLabel for="filter-end" value="#{cvt['filterForm.end']}"/>
                                 <p:datePicker id="filter-end" value="#{chargeListFilter.end_at}" validator="#{chargeListFilter.date_not_before_start_date}"
                                               required="#{chargeListFilter.choosenFilter.equals(chargeListFilter.personnalizedFilter)}" requiredMessage="Veuillez renseigner ce champ" mindate="#{chargeListFilter.start_at}">
                                     <p:ajax event="dateSelect" update="filter-end-msg"/>
@@ -470,7 +470,7 @@
                     </h:panelGroup>
                     <div class="ui-fluid p-formgrid p-grid">
                         <div class="p-field p-col-12">
-                            <p:outputLabel for="filter-status" value="Statut"/>
+                            <p:outputLabel for="filter-status" value="#{cvt['filterForm.status']}"/>
                             <p:selectOneMenu id="filter-status" value="#{chargeListFilter.choosenStatus}">
                                 <p:importEnum type="com.projet.enumeration.ChargeStatus" var="Status" allSuffix="VALUES"/>
                                 <f:selectItem noSelectionOption="true" itemLabel="Tout afficher" itemValue="#{null}"/>
@@ -482,7 +482,7 @@
                         <div class="p-field p-col-12">
                             <p:commandLink actionListener="#{chargeListView.resetFilter}" update="chargeListForm filter-modal-form"
                                            oncomplete="PF('filter-modal').hide();" ajax="true" immediate="true">
-                                <i class="fas fa-eraser"></i>   Enlever le(s) filtre(s)
+                                <i class="fas fa-eraser"></i>   #{cvt['filterForm.reset']}
                             </p:commandLink>
                         </div>
                     </div>
@@ -490,12 +490,12 @@
                 </p:scrollPanel>
             </h:form>
             <f:facet name="footer">
-                <p:commandButton id="filter-modal-close-btn" value="Fermer" styleClass="secondary-button"
+                <p:commandButton id="filter-modal-close-btn" value="#{cmp['btn.close']}" styleClass="secondary-button"
                                  oncomplete="PF('filter-modal').hide()"
                                  update="filter-modal-form" process="@this">
                     <p:resetInput target="filter-modal-form" />
                 </p:commandButton>
-                <p:commandButton form="filter-modal-form" value="Modfier" styleClass="success-btn" update="filter-modal-form chargeListForm" ajax="true"
+                <p:commandButton form="filter-modal-form" value="#{cmp['btn.apply']}" styleClass="success-btn" update="filter-modal-form chargeListForm" ajax="true"
                                  icon="fa fa-check"  action="#{chargeListView.applyFilter()}" oncomplete=" if (! args.validationFailed) { PF('filter-modal').hide() }"/>
             </f:facet>
         </p:dialog>
@@ -505,23 +505,23 @@
 
 
         <!-- SUPPLIER CREATION MODAL -->
-        <p:dialog header="Ajouter un fournisseur" widgetVar="supplierCreation-modal" modal="true"
+        <p:dialog header="#{cvt['supplierForm.create.title']}" widgetVar="supplierCreation-modal" modal="true"
                   responsive="true" width="500" draggable="false" closable="false"
-                  focus="supplierCreation-modal-close-btn" dynamic="true" onShow="#{supplierCrud.create_new_supplier()}">
+                  focus="supplierCreation-modal-close-btn" dynamic="true">
             <h:form id="supplierCreation-modal-form">
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-12 p-md-12">
-                        <p:outputLabel for="supplier-label" value="Description"/>
+                        <p:outputLabel for="supplier-label" value="#{cvt['supplierForm.description']}"/>
                         <p:inputText id="supplier-label" value="#{supplierCrud.userSupplier.supplier.label}"/>
                     </div>
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-6 p-md-6">
-                        <p:outputLabel for="tva" value="N° de TVA"/>
+                        <p:outputLabel for="tva" value="#{cvt['supplierForm.vatNumber']}"/>
                         <p:inputMask id="tva" mask="BE9999999999" placeholder="ex: BE0676548769" value="#{supplierCrud.userSupplier.supplier.tva}"/>
                     </div>
                     <div class="p-field p-col-6 p-md-6">
-                        <p:outputLabel for="paiement" value="Condition de paiement"/>
+                        <p:outputLabel for="paiement" value="#{cvt['supplierForm.paiementCondition']}"/>
                         <p:selectOneMenu id="paiement" value="#{supplierCrud.userSupplier.supplier.paimentCondition}" >
                             <p:importEnum type="com.projet.enumeration.SupplierPaimentCondition" var="paimentConditions" allSuffix="VALUES"/>
                             <f:selectItem noSelectionOption="true" itemLabel="Sélectionner un délai"/>
@@ -531,44 +531,44 @@
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-6 p-md-6">
-                        <p:outputLabel for="iban" value="N° IBAN"/>
+                        <p:outputLabel for="iban" value="#{cvt['supplierForm.iban']}"/>
                         <p:inputMask id="iban" mask="BE99 9999 9999 9999" placeholder="ex: BE06 7654 8769 4543" value="#{supplierCrud.userSupplier.supplier.iban}"/>
                     </div>
                     <div class="p-field p-col-6 p-md-6">
-                        <p:outputLabel for="iban-bis" value="N° IBAN alternatif"/>
+                        <p:outputLabel for="iban-bis" value="#{cvt['supplierForm.ibanAlt']}"/>
                         <p:inputMask id="iban-bis" mask="BE99 9999 9999 9999" placeholder="ex: BE06 7654 8769 4543" value="#{supplierCrud.userSupplier.supplier.ibanBis}"/>
                     </div>
                 </div>
             </h:form>
             <f:facet name="footer">
-                <p:commandButton id="supplierCreation-modal-close-btn" form="supplierCreation-modal-form" type="reset" value="Fermer"
-                                 styleClass="secondary-button" onclick="PF('supplierCreation-modal').hide();"/>
-                <p:commandButton form="supplierCreation-modal-form" value="Modfier" styleClass="success-btn" update=":chargeListForm:msgs"
+                <p:commandButton id="supplierCreation-modal-close-btn" value="#{cmp['btn.close']}" process="@this"
+                                 styleClass="secondary-button" oncomplete="PF('supplierCreation-modal').hide();"/>
+                <p:commandButton form="supplierCreation-modal-form" value="#{cmp['btn.apply']}" styleClass="success-btn" update="chargeListForm:msgs"
                                  icon="fa fa-check" onclick="PF('supplierCreation-modal').hide();PF('chargeCreation-modal').show(100);" action="#{supplierCrud.createSupplier}"/>
 
             </f:facet>
         </p:dialog>
 
         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-            <p:commandButton value="oui" type="button" styleClass="ui-confirmdialog-yes success-btn" icon="fas fa-check"/>
-            <p:commandButton value="non" type="button" styleClass="ui-confirmdialog-no danger-btn" icon="fas fa-times"/>
+            <p:commandButton value="#{cmp['btn.yes']}" type="button" styleClass="ui-confirmdialog-yes success-btn" icon="fas fa-check"/>
+            <p:commandButton value="#{cmp['btn.no']}" type="button" styleClass="ui-confirmdialog-no danger-btn" icon="fas fa-times"/>
         </p:confirmDialog>
 
         <p:sidebar widgetVar="sidebar2" position="right" baseZIndex="10000" style="width: 28em;">
-            <h1>Paramètre</h1>
+            <h1>#{cvt['param.title']}</h1>
             <p:link outcome="/app/charge/settings/supplier.xhtml">
                 <div class="card">
-                    <h3>Gérer mes fournisseurs</h3>
+                    <h3>#{cvt['param.supplier.title']}</h3>
                     <p>
-                        Créer, modifier et supprimer vos fournisseurs.
+                        #{cvt['param.supplier.description']}
                     </p>
                 </div>
             </p:link>
             <p:link outcome="/app/charge/settings/account.xhtml">
                 <div class="card">
-                    <h3>Configuration de la gestion des frais</h3>
+                    <h3>#{cvt['param.chargeConfig.title']}</h3>
                     <p>
-                        Gérer les charges, journaux et visionner vos rapports des dépenses.
+                        #{cvt['param.chargeConfig.description']}
                     </p>
                 </div>
             </p:link>

@@ -5,7 +5,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="../../../WEB-INF/template/template.xhtml">
 
-    <ui:define name="title">Empty Page</ui:define>
+    <ui:define name="title">#{cvt['supplierList.title']}</ui:define>
 
     <ui:define name="content">
         <h:form id="supplier-list-form">
@@ -14,7 +14,7 @@
                 <div class="ui-g-12">
                     <p:panel>
                         <f:facet name="header">
-                            <h1>Mes fournisseurs</h1>
+                            <h1>#{cvt['supplierList.title']}</h1>
                         </f:facet>
                         <f:facet name="actions">
                             <p:linkButton icon="fas fa-arrow-left" styleClass="primary-button" outcome="/app/charge/chargeList" />
@@ -23,34 +23,34 @@
                                           </span>
 
                             <p:commandButton icon="fas fa-wrench" styleClass="warning-btn" oncomplete="PF('sidebar2').show()"/>
-                            <p:commandButton id="supplier-creation-btn" value="Créer un fournisseur" icon="fas fa-truck"
+                            <p:commandButton id="supplier-creation-btn" value="#{cmp['btn.addSupplier']}" icon="fas fa-truck"
                                              styleClass="success-btn" onclick="PF('supplierCreation-modal').show(100);" ajax="true"
                                              update="supplierCreation-modal-form"/>
                         </f:facet>
 
                         <br/>
 
-                        <p:dataTable var="userSupplier" value="#{supplierListView.userSuppliers}" emptyMessage="no data found">
+                        <p:dataTable var="userSupplier" value="#{supplierListView.userSuppliers}" emptyMessage="#{cvt['supplierList.datatable.emptyMessage']}">
                             <p:column colspan="2">
-                                <f:facet name="header">Dénomination</f:facet>
+                                <f:facet name="header">#{cvt['supplierList.datatable.label']}</f:facet>
                                 <h:outputText value="#{userSupplier.supplier.label}"/>
                             </p:column>
                             <p:column>
-                                <f:facet name="header">N° TVA</f:facet>
+                                <f:facet name="header">#{cvt['supplierList.datatable.vatNumber']}</f:facet>
                                 <h:outputText value="#{userSupplier.supplier.tva}"/>
                             </p:column>
                             <p:column>
-                                <f:facet name="header">N° IBAN</f:facet>
+                                <f:facet name="header">#{cvt['supplierList.datatable.iban']}</f:facet>
                                 <h:outputText value="#{userSupplier.supplier.iban}"/>
                             </p:column>
                             <p:column style="text-align: right">
                                 <f:facet name="header">Action</f:facet>
-                                <p:splitButton  value=" Modifier" icon="far fa-edit" rendered="#{! userSupplier.supplier.default_sup}"
-                                                onclick="PF('supplierEdit-modal').show(100);" update=":supplierEdit-modal-form"
+                                <p:splitButton  value="#{cmp['btn.edit']}" icon="far fa-edit" rendered="#{! userSupplier.supplier.default_sup}"
+                                                onclick="PF('supplierEdit-modal').show(100);" update="supplierEdit-modal-form"
                                                 actionListener="#{supplierCrud.editSupplier(userSupplier)}" style="font-size: 10px">
-                                    <p:menuitem value=" Supprimer" icon="fas fa-trash-alt" action="#{supplierCrud.deleteSupplier(userSupplier)}"
-                                                update=":supplier-list-form:msgs, :supplier-list-form" style="font-size: 10px">
-                                        <p:confirm header="Confirmation" message="Êtes-vous sur de vouloir supprimer ce fournisseur ?" icon="pi pi-exclamation-triangle" />
+                                    <p:menuitem value="#{cmp['btn.delete']}" icon="fas fa-trash-alt" action="#{supplierCrud.deleteSupplier(userSupplier)}"
+                                                update="supplier-list-form:msgs supplier-list-form" style="font-size: 10px">
+                                        <p:confirm header="Confirmation" message="#{cvt['supplier.deleteConfirmMessage']} ?" icon="pi pi-exclamation-triangle" />
                                     </p:menuitem>
                                 </p:splitButton>
                             </p:column>
@@ -61,13 +61,12 @@
         </h:form>
 
         <!-- SUPPLIER CREATION MODAL -->
-        <p:dialog header="Ajouter un fournisseur" widgetVar="supplierCreation-modal" modal="true" width="500"
-                  responsive="true" draggable="false" closable="false" dynamic="true" focus="supplierCreation-modal-close-btn"
-                  onShow="#{supplierCrud.create_new_supplier()}">
+        <p:dialog header="#{cvt['supplierForm.create.title']}" widgetVar="supplierCreation-modal" modal="true" width="500"
+                  responsive="true" draggable="false" closable="false" dynamic="true" focus="supplierCreation-modal-close-btn">
             <h:form id="supplierCreation-modal-form">
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-12 p-md-12">
-                        <p:outputLabel for="supplier-label" value="Description"/>
+                        <p:outputLabel for="supplier-label" value="#{cvt['supplierForm.description']}"/>
                         <p:inputText id="supplier-label" value="#{supplierCrud.userSupplier.supplier.label}"
                                      required="true" requiredMessage="Veuillez renseigner ce champ">
                             <p:ajax event="keyup" update="supplier-label-msg"/>
@@ -77,14 +76,14 @@
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-6 p-md-6">
-                        <p:outputLabel for="tva" value="N° de TVA"/>
+                        <p:outputLabel for="tva" value="#{cvt['supplierForm.vatNumber']}"/>
                         <p:inputMask id="tva" mask="BE9999999999" placeholder="ex: BE0676548769" value="#{supplierCrud.userSupplier.supplier.tva}">
                             <f:validator validatorId="tvaNumberValidator"/>
                         </p:inputMask>
                         <p:message for="tva" id="tva-msg"/>
                     </div>
                     <div class="p-field p-col-6 p-md-6">
-                        <p:outputLabel for="paiement" value="Condition de paiement"/>
+                        <p:outputLabel for="paiement" value="#{cvt['supplierForm.paiementCondition']}"/>
                         <p:selectOneMenu id="paiement" value="#{supplierCrud.userSupplier.supplier.paimentCondition}" >
                             <p:importEnum type="com.projet.enumeration.SupplierPaimentCondition" var="paimentConditions" allSuffix="VALUES"/>
                             <f:selectItem noSelectionOption="true" itemLabel="Sélectionner un délai"/>
@@ -94,14 +93,14 @@
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-6 p-md-6">
-                        <p:outputLabel for="iban" value="N° IBAN"/>
+                        <p:outputLabel for="iban" value="#{cvt['supplierForm.iban']}"/>
                         <p:inputMask id="iban" mask="BE99 9999 9999 9999" placeholder="ex: BE06 7654 8769 4543" value="#{supplierCrud.userSupplier.supplier.iban}">
                             <f:validator validatorId="ibanValidator"/>
                         </p:inputMask>
                         <p:message for="iban" id="iban-msg"/>
                     </div>
                     <div class="p-field p-col-6 p-md-6">
-                        <p:outputLabel for="iban-bis" value="N° IBAN alternatif"/>
+                        <p:outputLabel for="iban-bis" value="#{cvt['supplierForm.ibanAlt']}"/>
                         <p:inputMask id="iban-bis" mask="BE99 9999 9999 9999" placeholder="ex: BE06 7654 8769 4543" value="#{supplierCrud.userSupplier.supplier.ibanBis}">
                             <f:validator validatorId="ibanValidator"/>
                         </p:inputMask>
@@ -110,12 +109,12 @@
                 </div>
             </h:form>
             <f:facet name="footer">
-                <p:commandButton id="supplierCreation-modal-close-btn" value="Fermer"
+                <p:commandButton id="supplierCreation-modal-close-btn" value="#{cmp['btn.close']}"
                                  styleClass="secondary-button" oncomplete="PF('supplierCreation-modal').hide();"
                                  update="supplier-list-form:msgs supplierCreation-modal-form" process="@this">
                     <p:resetInput target="supplierCreation-modal-form"/>
                 </p:commandButton>
-                <p:commandButton form="supplierCreation-modal-form" value="Modfier" styleClass="success-btn" ajax="true"
+                <p:commandButton form="supplierCreation-modal-form" value="#{cmp['btn.apply']}" styleClass="success-btn" ajax="true"
                                  icon="fa fa-check" oncomplete="if (! args.validationFailed) { PF('supplierCreation-modal').hide() }"
                                  update="supplier-list-form:msgs supplier-list-form supplierCreation-modal-form" action="#{supplierCrud.createSupplier}"/>
 
@@ -124,13 +123,13 @@
 
 
         <!-- SUPPLIER EDIT MODAL -->
-        <p:dialog header="Modifier un fournisseur" widgetVar="supplierEdit-modal" modal="true"
+        <p:dialog header="#{cvt['supplierForm.edit.title']}" widgetVar="supplierEdit-modal" modal="true"
                   responsive="true" width="500" draggable="false" closable="false"
                   focus="supplierEdit-modal-close-btn" dynamic="true" >
             <h:form id="supplierEdit-modal-form">
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-12 p-md-12">
-                        <p:outputLabel for="supplierEdit-label" value="Description"/>
+                        <p:outputLabel for="supplierEdit-label" value="#{cvt['supplierForm.description']}"/>
                         <p:inputText id="supplierEdit-label" value="#{supplierCrud.userSupplier.supplier.label}"
                                      required="true" requiredMessage="Veuillez renseigner ce champ"/>
                         <p:message for="supplierEdit-label" id="supplierEdit-label-msg"/>
@@ -138,14 +137,14 @@
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-6 p-md-6">
-                        <p:outputLabel for="supplierEdit-tva" value="N° de TVA"/>
+                        <p:outputLabel for="supplierEdit-tva" value="#{cvt['supplierForm.vatNumber']}"/>
                         <p:inputMask id="supplierEdit-tva" mask="BE9999999999" placeholder="ex: BE0676548769" value="#{supplierCrud.userSupplier.supplier.tva}">
                             <f:validator validatorId="tvaNumberValidator"/>
                         </p:inputMask>
                         <p:message for="supplierEdit-tva" id="supplierEdit-tva-msg"/>
                     </div>
                     <div class="p-field p-col-6 p-md-6">
-                        <p:outputLabel for="supplierEdit-paiement" value="Condition de paiement"/>
+                        <p:outputLabel for="supplierEdit-paiement" value="#{cvt['supplierForm.paiementCondition']}"/>
                         <p:selectOneMenu id="supplierEdit-paiement" value="#{supplierCrud.userSupplier.supplier.paimentCondition}" >
                             <p:importEnum type="com.projet.enumeration.SupplierPaimentCondition" var="paimentConditions" allSuffix="VALUES"/>
                             <f:selectItem noSelectionOption="true" itemLabel="Sélectionner un délai"/>
@@ -155,14 +154,14 @@
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-6 p-md-6">
-                        <p:outputLabel for="supplierEdit-iban" value="N° IBAN"/>
+                        <p:outputLabel for="supplierEdit-iban" value="#{cvt['supplierForm.iban']}"/>
                         <p:inputMask id="supplierEdit-iban" mask="BE99 9999 9999 9999" placeholder="ex: BE06 7654 8769 4543" value="#{supplierCrud.userSupplier.supplier.iban}">
                             <f:validator validatorId="ibanValidator"/>
                         </p:inputMask>
                         <p:message for="supplierEdit-iban" id="supplierEdit-iban-msg"/>
                     </div>
                     <div class="p-field p-col-6 p-md-6">
-                        <p:outputLabel for="supplierEdit-iban-bis" value="N° IBAN alternatif"/>
+                        <p:outputLabel for="supplierEdit-iban-bis" value="#{cvt['supplierForm.ibanAlt']}"/>
                         <p:inputMask id="supplierEdit-iban-bis" mask="BE99 9999 9999 9999" placeholder="ex: BE06 7654 8769 4543" value="#{supplierCrud.userSupplier.supplier.ibanBis}">
                             <f:validator validatorId="ibanValidator"/>
                         </p:inputMask>
@@ -171,12 +170,12 @@
                 </div>
             </h:form>
             <f:facet name="footer">
-                <p:commandButton id="supplierEdit-modal-close-btn" value="Fermer"
+                <p:commandButton id="supplierEdit-modal-close-btn" value="#{cmp['btn.close']}"
                                  styleClass="secondary-button" oncomplete="PF('supplierEdit-modal').hide();"
                                  update="supplier-list-form:msgs supplierEdit-modal-form">
                     <p:resetInput target="supplierEdit-modal-form"/>
                 </p:commandButton>
-                <p:commandButton form="supplierEdit-modal-form" value="Modfier" styleClass="success-btn"
+                <p:commandButton form="supplierEdit-modal-form" value="#{cmp['btn.apply']}" styleClass="success-btn"
                                  icon="fa fa-check" oncomplete="if (! args.validationFailed) { PF('supplierEdit-modal-form').hide() }"
                                  update="supplier-list-form:msgs supplier-list-form supplierEdit-modal-form" action="#{supplierCrud.updateSupplier}"/>
 
@@ -184,8 +183,8 @@
         </p:dialog>
 
         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-            <p:commandButton value="oui" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
-            <p:commandButton value="non" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+            <p:commandButton value="#{cmp['btn.yes']}" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+            <p:commandButton value="#{cmp['btn.no']}" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
         </p:confirmDialog>
 
     </ui:define>

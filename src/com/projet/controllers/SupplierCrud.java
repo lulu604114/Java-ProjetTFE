@@ -38,6 +38,7 @@ public class SupplierCrud implements Serializable {
     @PostConstruct
     public void init() {
         this.user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
+        create_new_supplier();
     }
 
     public void create_new_supplier() {
@@ -66,7 +67,7 @@ public class SupplierCrud implements Serializable {
 
             transaction.commit();
 
-            message.display(FacesMessage.SEVERITY_INFO, "Success", "Fournisseur " +  userSupplier.getSupplier().getLabel() + " ajouté");
+            message.display(FacesMessage.SEVERITY_INFO, "msg.success", userSupplier.getSupplier().getLabel() + " " + "msg.added");
 
             create_new_supplier();
         } finally {
@@ -86,14 +87,14 @@ public class SupplierCrud implements Serializable {
 
         try {
             if (userSupplier.getSupplier().getDefault_sup()) {
-                message.display(FacesMessage.SEVERITY_INFO, "Erreur", "Impossible de modifier un fournisseur par défaut");
+                message.display(FacesMessage.SEVERITY_INFO, "msg.error", "msg.supplier.edit.failed");
 
             } else {
                 service.save(userSupplier);
 
                 transaction.commit();
 
-                message.display(FacesMessage.SEVERITY_INFO, "Success", "Fournisseur modifié");
+                message.display(FacesMessage.SEVERITY_INFO, "msg.error", userSupplier.getSupplier().getLabel() + " " + "msg.edit");
             }
         } finally {
             if (transaction.isActive())
@@ -118,9 +119,9 @@ public class SupplierCrud implements Serializable {
 
             user.removeSupplier(userSupplier);
 
-            message.display(FacesMessage.SEVERITY_INFO, "Success", "Fournisseur supprimer");
+            message.display(FacesMessage.SEVERITY_INFO, "msg.success", userSupplier.getSupplier().getLabel() + " " + "msg.delete");
         } catch (Exception e) {
-            message.display(FacesMessage.SEVERITY_ERROR, "Erreur", "Impossible de supprimer ce fournisseur. Celui-ci est reprit dans un ou plusieurs frais");
+            message.display(FacesMessage.SEVERITY_ERROR, "msg.error", "msg.supplier.delete.failed");
         } finally {
             if (transaction.isActive())
                 transaction.rollback();

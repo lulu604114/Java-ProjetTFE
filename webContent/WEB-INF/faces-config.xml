@@ -27,6 +27,10 @@
             <base-name>resources.dashboard</base-name>
             <var>dashboard</var>
         </resource-bundle>
+        <resource-bundle>
+            <base-name>resources.charge</base-name>
+            <var>cvt</var>
+        </resource-bundle>
     </application>
     <navigation-rule>
         <from-view-id>/app/charge/chargeDetail.xhtml</from-view-id>

@@ -118,7 +118,7 @@ public class ChargeCrud implements Serializable {
 
             transaction.commit();
 
-            message.display(FacesMessage.SEVERITY_INFO, "Success", charge.getLabel() + " is added");
+            message.display(FacesMessage.SEVERITY_INFO, "msg.success", charge.getLabel() + " " + "msg.added");
 
             return chargeDetail.getChargeDetail(charge);
         }finally {
@@ -150,7 +150,7 @@ public class ChargeCrud implements Serializable {
 
             transaction.commit();
 
-            message.display(FacesMessage.SEVERITY_INFO, "Success", "Frais modifié");
+            message.display(FacesMessage.SEVERITY_INFO, "msg.success", charge.getLabel() + " " + "msg.edit");
 
         }finally {
             if (transaction.isActive())
@@ -178,7 +178,7 @@ public class ChargeCrud implements Serializable {
 
             chargeList.applyFilter();
 
-            message.display(FacesMessage.SEVERITY_INFO, "Success", "Frais supprimer");
+            message.display(FacesMessage.SEVERITY_INFO, "msg.success", charge.getLabel() + " " + "msg.delete");
 
             return "success";
         }finally {
@@ -203,7 +203,7 @@ public class ChargeCrud implements Serializable {
 
             transaction.commit();
 
-            message.display(FacesMessage.SEVERITY_INFO, "Success", "Frais marqué comme payer");
+            message.display(FacesMessage.SEVERITY_INFO, "msg.success", charge.getLabel() + " " + "msg.markAsPayed");
 
         }finally {
             if (transaction.isActive())
@@ -235,8 +235,8 @@ public class ChargeCrud implements Serializable {
 
             if (paidAt != null) {
                 if (paidAt.before(charge.getCreatedAt())) {
-                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Ce champ ne peut être antérieur à la date d'achat");
-                    throw new ValidatorException(message);
+                    FacesMessage FMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, message.translate("msg.error"), message.translate("msg.validation.notBeforeCreatedAt"));
+                    throw new ValidatorException(FMessage);
                 }
             }
         }

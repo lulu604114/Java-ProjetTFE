@@ -10,14 +10,11 @@ import com.projet.enumeration.ChargeStatus;
 import com.projet.security.SecurityManager;
 import com.projet.services.ChargeService;
 import com.projet.utils.DateManager;
-import org.primefaces.PrimeFaces;
-import org.primefaces.component.datatable.DataTable;
 import org.primefaces.model.FilterMeta;
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
 
 import javax.annotation.PostConstruct;
-import javax.el.MethodExpression;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -50,9 +47,9 @@ public class ChargeList implements Serializable {
 
     /**
      * Result of the getFilteredChargeList query without pagination use to make global calculation
-     * @see #getTotalLateCharge()
-     * @see #getTotalNotPayedCharge()
-     * @see #getTotalCharge()
+     * @see #getTotalLateChargeAmount()
+     * @see #getTotalNotPayedChargeAmount()
+     * @see #getTotalChargeAmount()
      */
     private List<Charge> chargeList;
 
@@ -69,7 +66,6 @@ public class ChargeList implements Serializable {
          * Lazy loading of chargeList using lazyDataModel from primefaces. For more information :
          * @see <a href="https://www.primefaces.org/showcase/ui/data/datatable/lazy.xhtml">Primefaces showcase</a>
          */
-
         this.model = new LazyDataModel<Charge>() {
             private List<Charge> lazyChargeList;
 
@@ -141,25 +137,25 @@ public class ChargeList implements Serializable {
         return DateManager.getMonthAndYearDate(charge.getCreatedAt());
     }
 
-    public double getTotalLateCharge() {
+    public double getTotalLateChargeAmount() {
         ChargeService service = new ChargeService();
 
         return service.totalCharge(chargeList, ChargeStatus.LATE);
     }
 
-    public double getTotalNotPayedCharge() {
+    public double getTotalNotPayedChargeAmount() {
         ChargeService service = new ChargeService();
 
         return service.totalCharge(chargeList, ChargeStatus.NOTPAYED) + service.totalCharge(chargeList, ChargeStatus.LATE);
     }
 
-    public double getTotalCharge() {
+    public double getTotalChargeAmount() {
         ChargeService service = new ChargeService();
 
         return service.totalCharge(chargeList, null);
     }
 
-    public double getTotalDeductibleCharge() {
+    public double getTotalDeductibleChargeAmount() {
         FinancialYearService faService = new FinancialYearService();
         ChargeService service = new ChargeService();
 

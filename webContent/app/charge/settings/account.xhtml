@@ -5,7 +5,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="../../../WEB-INF/template/template.xhtml">
 
-    <ui:define name="title">Empty Page</ui:define>
+    <ui:define name="title">#{cvt['chargeConfig.title']}</ui:define>
 
     <ui:define name="content">
         <h:form id="accountListForm">
@@ -14,7 +14,7 @@
                 <div class="ui-g-12">
                     <p:panel>
                         <f:facet name="header">
-                            <h1>Gestion de la classification des frais</h1>
+                            <h1>#{cvt['financialAccountList.title']}</h1>
                         </f:facet>
                         <f:facet name="actions">
                             <p:linkButton icon="fas fa-arrow-left" styleClass="primary-button" outcome="/app/charge/chargeList" />
@@ -23,10 +23,10 @@
                                         </span>
 
                             <p:commandButton icon="fas fa-wrench" styleClass="warning-btn" oncomplete="PF('sidebar2').show()"/>
-                            <p:commandButton id="accountCategory-creation-btn" value="Créer une catégorie" icon="fas fa-window-maximize" styleClass="info-btn"
+                            <p:commandButton id="accountCategory-creation-btn" value="#{cmp['btn.addCategory']}" icon="fas fa-window-maximize" styleClass="info-btn"
                                              oncomplete="PF('accountCategoryCreation-modal').show();" ajax="true" update="accountCategoryCreation-modal-form"
                                              actionListener="#{chargeSettings.createCategory()}"/>
-                            <p:commandButton id="userAccount-creation-btn" value="Créer une charge" icon="far fa-window-maximize" styleClass="success-btn"
+                            <p:commandButton id="userAccount-creation-btn" value="#{cmp['btn.addFinancialAccount']}" icon="far fa-window-maximize" styleClass="success-btn"
                                              oncomplete="PF('userAccountCreation-modal').show();" ajax="true" update="userAccountCreation-modal-form"
                                              actionListener="#{chargeSettings.createUserAccount()}"/>
                         </f:facet>
@@ -38,48 +38,48 @@
                                 <f:facet name="title">
                                     <h:outputText value="#{category.label}"/>
                                 </f:facet>
-                                <p:dataTable var="userAccount" value="#{category.userAccounts}" emptyMessage="no data found">
+                                <p:dataTable var="userAccount" value="#{category.userAccounts}" emptyMessage="#{cvt['financialAccountList.datatable.emptyMessage']}">
                                     <f:facet name="header">
                                         <h:panelGroup style="display: flex; justify-content: end" rendered="#{category.user != null}">
                                             <p:commandButton id="accountCategory-edit-btn" icon="fas fa-cog" oncomplete="PF('accountCategoryEdit-modal').show(100)"
                                                              actionListener="#{chargeSettings.editCategory(category)}" styleClass="info-btn" style="margin-right: 10px"/>
                                             <p:commandButton id="accountCategory-delete-btn" icon="fas fa-trash" styleClass="danger-btn"
-                                                             actionListener="#{chargeSettings.deleteAccountCategory(category)}" ajax="true" update=":accountListForm:userAccountList :accountListForm:msgs">
-                                                <p:confirm header="Confirmation" message="Êtes-vous sur de vouloir supprimer ce cette categorie ? Attention la suppression entrainera automatiquement la supressions des charges liés à cette catégorie" icon="fas fa-5x fa-exclamation-triangle icon-warning" />
+                                                             actionListener="#{chargeSettings.deleteAccountCategory(category)}" ajax="true" update="accountListForm:userAccountList accountListForm:msgs">
+                                                <p:confirm header="Confirmation" message="#{cvt['accountCategory.deleteConfirmMessage']}" icon="fas fa-5x fa-exclamation-triangle icon-warning" />
                                             </p:commandButton>
                                         </h:panelGroup>
                                     </f:facet>
                                     <p:column>
-                                        <f:facet name="header">Code</f:facet>
+                                        <f:facet name="header">#{cvt['financialAccountList.datatable.code']}</f:facet>
                                         <h:outputText value="#{userAccount.financialAccount.code}"/>
                                     </p:column>
                                     <p:column colspan="2">
-                                        <f:facet name="header">Dénomination</f:facet>
+                                        <f:facet name="header">#{cvt['financialAccountList.datatable.label']}</f:facet>
                                         <h:outputText value="#{userAccount.financialAccount.label}"/>
                                     </p:column>
                                     <p:column>
-                                        <f:facet name="header">Deductabilité</f:facet>
+                                        <f:facet name="header">#{cvt['financialAccountList.datatable.deductability']}</f:facet>
                                         <h:outputText value="#{userAccount.taxDeductible}">
                                             <f:convertNumber type="currency" currencySymbol="%" maxFractionDigits="2"/>
                                         </h:outputText>
                                     </p:column>
                                     <p:column>
-                                        <f:facet name="header">Quote-part privé</f:facet>
+                                        <f:facet name="header">#{cvt['financialAccountList.datatable.privateShare']}</f:facet>
                                         <h:outputText value="#{userAccount.privatePart}">
                                             <f:convertNumber type="currency" currencySymbol="%" maxFractionDigits="2"/>
                                         </h:outputText>
                                     </p:column>
                                     <p:column>
-                                        <f:facet name="header">Ammortissable</f:facet>
+                                        <f:facet name="header">#{cvt['financialAccountList.datatable.amortisable']}</f:facet>
                                         <i class="#{userAccount.financialAccount.redeemable ? 'fas fa-check icon-success' : 'fas fa-times icon-danger'}"/>
                                     </p:column>
                                     <p:column style="text-align: right">
                                         <f:facet name="header">Action</f:facet>
-                                        <p:splitButton  value=" Modifier" icon="far fa-edit" actionListener="#{chargeSettings.editUserAccount(userAccount)}"
+                                        <p:splitButton  value="#{cmp['btn.edit']}" icon="far fa-edit" actionListener="#{chargeSettings.editUserAccount(userAccount)}"
                                                         oncomplete="PF('userAccountEdit-modal').show(100);" style="font-size: 10px">
-                                            <p:menuitem value=" Supprimer" icon="fas fa-trash-alt"  actionListener="#{chargeSettings.deleteUserAccount(userAccount)}"
-                                                        update=":accountListForm:msgs :accountListForm:userAccountList" style="font-size: 10px">
-                                                <p:confirm header="Confirmation" message="Êtes-vous sur de vouloir supprimer ce cette charge ? Attention la suppression peu echoué si cette charge est utilisée par un frais" icon="fas fa-5x fa-exclamation-triangle icon-warning" />
+                                            <p:menuitem value="#{cmp['btn.delete']}" icon="fas fa-trash-alt"  actionListener="#{chargeSettings.deleteUserAccount(userAccount)}"
+                                                        update="accountListForm:msgs accountListForm:userAccountList" style="font-size: 10px">
+                                                <p:confirm header="Confirmation" message="#{cvt['financialAccount.deleteConfirmMessage']} ?" icon="fas fa-5x fa-exclamation-triangle icon-warning" />
                                             </p:menuitem>
                                         </p:splitButton>
                                     </p:column>
@@ -93,7 +93,7 @@
                 <div class="ui-g-6">
                     <p:panel>
                         <f:facet name="header">
-                            <h1>Gestion des journaux</h1>
+                            <h1>#{cvt['diaryList.title']}</h1>
                         </f:facet>
                         <f:facet name="actions">
                             <p:commandButton id="diary-creation-btn" icon="fas fa-plus" styleClass="success-btn" actionListener="#{chargeSettings.createDiary()}"
@@ -104,12 +104,12 @@
 
                         <p:dataTable id="diary-list" var="diary" value="#{chargeSettings.diaries}" emptyMessage="no data found">
                             <p:column>
-                                <f:facet name="header">Denomination</f:facet>
+                                <f:facet name="header">#{cvt['diaryList.datatable.label']}</f:facet>
                                 <h:outputText value="#{diary.label}"/>
                             </p:column>
                             <p:column style="text-align: right">
                                 <f:facet name="header">Action</f:facet>
-                                <p:commandButton  value=" Modifier" icon="far fa-edit" styleClass="info-btn" oncomplete="PF('diaryEdit-modal').show(100);"
+                                <p:commandButton  value="#{cmp['btn.edit']}" icon="far fa-edit" styleClass="info-btn" oncomplete="PF('diaryEdit-modal').show(100);"
                                                   actionListener="#{chargeSettings.editDiary(diary)}" style="font-size: 10px"/>
                             </p:column>
                         </p:dataTable>
@@ -118,19 +118,19 @@
                 <div class="ui-g-6">
                     <p:panel>
                         <f:facet name="header">
-                            <h1>Gestion des années comptables</h1>
+                            <h1>#{cvt['financialYearList.title']}</h1>
                         </f:facet>
 
                         <br/>
 
                         <p:dataTable var="year" value="#{chargeSettings.financialYears}" emptyMessage="no data found" sortBy="#{year.beginAt}">
                             <p:column>
-                                <f:facet name="header">Année</f:facet>
+                                <f:facet name="header">#{cvt['financialYearList.datatable.year']}</f:facet>
                                 <h:outputText value="#{year.beginAt}"/>
                             </p:column>
                             <p:column style="text-align: right">
                                 <f:facet name="header">Action</f:facet>
-                                <p:commandButton  value=" Rapport" icon="fas fa-file-alt" action="#{chargeReportPdfGenerator.generateReport(year)}"
+                                <p:commandButton  value="#{cmp['btn.report']}" icon="fas fa-file-alt" action="#{chargeReportPdfGenerator.generateReport(year)}"
                                                   ajax="false" styleClass="success-btn" style="font-size: 10px"/>
                                 </p:column>
                         </p:dataTable>
@@ -140,13 +140,13 @@
         </h:form>
 
         <!-- ACCOUNTCATEGORY CREATION FORM-->
-        <p:dialog header="Créer une catégorie" widgetVar="accountCategoryCreation-modal" modal="true"
+        <p:dialog header="#{cvt['accountCategoryForm.create.title']}" widgetVar="accountCategoryCreation-modal" modal="true"
                   responsive="true" width="500" draggable="false" closable="false"
                   focus="accountCategoryCreation-modal-close-btn" dynamic="true">
             <h:form id="accountCategoryCreation-modal-form">
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-12 p-md-12">
-                        <p:outputLabel for="accountCategory-label" value="Description"/>
+                        <p:outputLabel for="accountCategory-label" value="#{cvt['accountCategoryForm.description']}"/>
                         <p:inputText id="accountCategory-label" value="#{chargeSettings.accountCategory.label}"
                                      required="true" requiredMessage="Veuiller renseigner ce champ"/>
                         <p:message for="accountCategory-label" id="accountCategory-label-msg"/>
@@ -154,12 +154,12 @@
                 </div>
             </h:form>
             <f:facet name="footer">
-                <p:commandButton id="accountCategoryCreation-modal-close-btn" value="Fermer"
+                <p:commandButton id="accountCategoryCreation-modal-close-btn" value="#{cmp['btn.close']}"
                                  styleClass="secondary-button" oncomplete="PF('accountCategoryCreation-modal').hide();"
                                  update=":accountListForm:msgs accountCategoryCreation-modal-form" process="@this">
                     <p:resetInput target="accountCategoryCreation-modal-form" />
                 </p:commandButton>
-                <p:commandButton form="accountCategoryCreation-modal-form" value="Modfier" styleClass="success-btn"
+                <p:commandButton form="accountCategoryCreation-modal-form" value="#{cmp['btn.apply']}" styleClass="success-btn"
                                  icon="fa fa-check" oncomplete="if (! args.validationFailed) { PF('accountCategoryCreation-modal').hide() };"
                                  update="accountListForm:msgs accountListForm:userAccountList accountCategoryCreation-modal-form" action="#{chargeSettings.addAccountCategory}"/>
 
@@ -167,13 +167,13 @@
         </p:dialog>
 
         <!-- ACCOUNTCATEGORY EDIT FORM -->
-        <p:dialog header="Modifier une catégorie" widgetVar="accountCategoryEdit-modal" modal="true"
+        <p:dialog header="#{cvt['accountCategoryForm.edit.title']}" widgetVar="accountCategoryEdit-modal" modal="true"
                   responsive="true" width="500" draggable="false" closable="false"
                   focus="accountCategoryEdit-modal-close-btn" dynamic="true">
             <h:form id="accountCategoryEdit-modal-form">
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-12 p-md-12">
-                        <p:outputLabel for="category-label" value="Description"/>
+                        <p:outputLabel for="category-label" value="#{cvt['accountCategoryForm.description']}"/>
                         <p:inputText id="category-label" value="#{chargeSettings.accountCategory.label}"
                                      required="true" requiredMessage="Veuiller renseigner ce champ"/>
                         <p:message for="category-label" id="category-label-msg"/>
@@ -181,12 +181,12 @@
                 </div>
             </h:form>
             <f:facet name="footer">
-                <p:commandButton id="accountCategoryEdit-modal-close-btn" value="Fermer"
+                <p:commandButton id="accountCategoryEdit-modal-close-btn" value="#{cmp['btn.close']}"
                                  styleClass="secondary-button" oncomplete="PF('accountCategoryEdit-modal').hide();"
                                  update="accountListForm:msgs accountCategoryEdit-modal-form" process="@this">
                     <p:resetInput target="accountCategoryEdit-modal-form" />
                 </p:commandButton>
-                <p:commandButton form="accountCategoryEdit-modal-form" value="Modfier" styleClass="success-btn"
+                <p:commandButton form="accountCategoryEdit-modal-form" value="#{cmp['btn.apply']}" styleClass="success-btn"
                                  icon="fa fa-check" oncomplete="if (! args.validationFailed) {PF('accountCategoryEdit-modal').hide()};"
                                  update="accountListForm:msgs accountListForm:userAccountList accountCategoryEdit-modal-form" action="#{chargeSettings.updateAccountCategory}"/>
 
@@ -194,13 +194,13 @@
         </p:dialog>
 
         <!-- USERACCOUNT CREATION FORM -->
-        <p:dialog header="Créer une charge" widgetVar="userAccountCreation-modal" modal="true"
+        <p:dialog header="#{cvt['financialAccountForm.create.title']}" widgetVar="userAccountCreation-modal" modal="true"
                   responsive="true" width="500" draggable="false" closable="false"
                   focus="userAccountCreation-modal-close-btn" dynamic="true">
             <h:form id="userAccountCreation-modal-form">
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-12">
-                        <p:outputLabel for="userAccount-category" value="Categorie"/>
+                        <p:outputLabel for="userAccount-category" value="#{cvt['financialAccountForm.category']}"/>
                         <p:selectOneMenu id="userAccount-category" value="#{chargeSettings.userAccount.financialAccount.accountCategory}" converter="accountCategoryConverter"
                                          required="true" requiredMessage="Veuillez renseigner ce champ">
                             <f:selectItems value="#{chargeSettings.userAccountCategories}" var="accountCategory"
@@ -212,13 +212,13 @@
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-4" style="padding-top: 0; padding-bottom: 0;">
-                        <p:outputLabel for="userAccount-code" value="Code"/>
+                        <p:outputLabel for="userAccount-code" value="#{cvt['financialAccountForm.code']}"/>
                         <p:inputNumber id="userAccount-code" value="#{chargeSettings.userAccount.financialAccount.code}" decimalPlaces="0"
                                        required="true" requiredMessage="Veuillez renseigner ce champ"/>
                         <p:message for="userAccount-code" id="userAccount-code-msg"/>
                     </div>
                     <div class="p-field p-col-8">
-                        <p:outputLabel for="userAccount-label" value="Nom de la charge"/>
+                        <p:outputLabel for="userAccount-label" value="#{cvt['financialAccountForm.name']}"/>
                         <p:inputText id="userAccount-label" value="#{chargeSettings.userAccount.financialAccount.label}"
                                      required="true" requiredMessage="Veuillez renseigner ce champ"/>
                         <p:message for="userAccount-label" id="userAccount-label-msg"/>
@@ -226,7 +226,7 @@
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-6">
-                        <p:outputLabel for="userAccount-taxDeductible" value="% Déductabilité"/>
+                        <p:outputLabel for="userAccount-taxDeductible" value="#{cvt['financialAccountForm.deductability']}"/>
                         <p:inputNumber id="userAccount-taxDeductible" value="#{chargeSettings.userAccount.taxDeductible}"
                                        required="true" requiredMessage="Veuillez renseigner ce champ">
                             <f:validateDoubleRange minimum="0.00" maximum="100.00" for="userAccount-taxDeductible"/>
@@ -234,7 +234,7 @@
                         <p:message for="userAccount-taxDeductible" id="userAccount-taxDeductible-msg"/>
                     </div>
                     <div class="p-field p-col-6">
-                        <p:outputLabel for="userAccount-privatePart" value="% Quote-part privé"/>
+                        <p:outputLabel for="userAccount-privatePart" value="#{cvt['financialAccountForm.privatePart']}"/>
                         <p:inputNumber id="userAccount-privatePart" value="#{chargeSettings.userAccount.privatePart}"
                                        required="true" requiredMessage="Veuillez renseigner ce champ">
                             <f:validateDoubleRange minimum="0.00" maximum="100.00" for="userAccount-privatePart"/>
@@ -244,32 +244,32 @@
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-12 boolean-field">
-                        <p:outputLabel for="userAccount-redeemable" value="Ammortissable"/>
+                        <p:outputLabel for="userAccount-redeemable" value="#{cvt['financialAccountForm.amortisable']}"/>
                         <p:toggleSwitch id="userAccount-redeemable" value="#{chargeSettings.userAccount.financialAccount.redeemable}"/>
                     </div>
                 </div>
             </h:form>
             <f:facet name="footer">
-                <p:commandButton id="userAccountCreation-modal-close-btn" value="Fermer"
+                <p:commandButton id="userAccountCreation-modal-close-btn" value="#{cmp['btn.close']}"
                                  styleClass="secondary-button" oncomplete="PF('userAccountCreation-modal').hide();"
                                  update="accountListForm:msgs userAccountCreation-modal-form" process="@this">
                     <p:resetInput target="userAccountCreation-modal-form" />
                 </p:commandButton>
-                <p:commandButton form="userAccountCreation-modal-form" value="Modfier" styleClass="success-btn"
+                <p:commandButton form="userAccountCreation-modal-form" value="#{cmp['btn.apply']}r" styleClass="success-btn"
                                  icon="fa fa-check" oncomplete="if (! args.validationFailed) { PF('userAccountCreation-modal').hide() }"
-                                 update=":accountListForm:msgs accountListForm userAccountCreation-modal-form" action="#{chargeSettings.addUserAccount}"/>
+                                 update="accountListForm:msgs accountListForm userAccountCreation-modal-form" action="#{chargeSettings.addUserAccount}"/>
 
             </f:facet>
         </p:dialog>
 
         <!-- USERACCOUNT EDIT FORM -->
-        <p:dialog header="Modifier une charge" widgetVar="userAccountEdit-modal" modal="true"
+        <p:dialog header="#{cvt['financialAccountForm.edit.title']}" widgetVar="userAccountEdit-modal" modal="true"
                   responsive="true" width="500" draggable="false" closable="false"
                   focus="userAccountEdit-modal-close-btn" dynamic="true">
             <h:form id="userAccountEdit-modal-form">
                 <h:panelGroup layout="block" styleClass="ui-fluid p-formgrid p-grid" rendered="#{ ! chargeSettings.userAccount.financialAccount.defaultFa}">
                     <div class="p-field p-col-12">
-                        <p:outputLabel for="userAccountEdit-category" value="Categorie"/>
+                        <p:outputLabel for="userAccountEdit-category" value="#{cvt['financialAccountForm.category']}"/>
                         <p:selectOneMenu id="userAccountEdit-category" value="#{chargeSettings.userAccount.financialAccount.accountCategory}" converter="accountCategoryConverter">
                             <f:selectItems value="#{chargeSettings.accountCategories}" var="accountCategory"
                                            itemLabel="#{accountCategory.label}" itemValue="#{accountCategory}"/>
@@ -278,17 +278,17 @@
                 </h:panelGroup>
                 <h:panelGroup layout="block" styleClass="ui-fluid p-formgrid p-grid" rendered="#{ ! chargeSettings.userAccount.financialAccount.defaultFa}">
                     <div class="p-field p-col-4" style="padding-top: 0; padding-bottom: 0;">
-                        <p:outputLabel for="userAccountEdit-code" value="Code"/>
+                        <p:outputLabel for="userAccountEdit-code" value="#{cvt['financialAccountForm.code']}"/>
                         <p:inputNumber id="userAccountEdit-code" value="#{chargeSettings.userAccount.financialAccount.code}" decimalPlaces="0"/>
                     </div>
                     <div class="p-field p-col-8">
-                        <p:outputLabel for="userAccountEdit-label" value="Nom de la charge"/>
+                        <p:outputLabel for="userAccountEdit-label" value="#{cvt['financialAccountForm.name']}"/>
                         <p:inputText id="userAccountEdit-label" value="#{chargeSettings.userAccount.financialAccount.label}"/>
                     </div>
                 </h:panelGroup>
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-6">
-                        <p:outputLabel for="userAccountEdit-taxDeductible" value="% Déductabilité"/>
+                        <p:outputLabel for="userAccountEdit-taxDeductible" value="#{cvt['financialAccountForm.deductability']}"/>
                         <p:inputNumber id="userAccountEdit-taxDeductible" value="#{chargeSettings.userAccount.taxDeductible}">
                             <f:validateDoubleRange minimum="0.00" maximum="100.00" for="userAccountEdit-taxDeductible"/>
                         </p:inputNumber>
@@ -296,7 +296,7 @@
 
                     </div>
                     <div class="p-field p-col-6">
-                        <p:outputLabel for="userAccountEdit-privatePart" value="% Quote-part privé"/>
+                        <p:outputLabel for="userAccountEdit-privatePart" value="#{cvt['financialAccountForm.privatePart']}"/>
                         <p:inputText id="userAccountEdit-privatePart" value="#{chargeSettings.userAccount.privatePart}">
                             <f:validateDoubleRange minimum="0.00" maximum="100.00" for="userAccountEdit-privatePart"/>
                         </p:inputText>
@@ -305,34 +305,34 @@
                 </div>
                 <h:panelGroup layout="block" styleClass="ui-fluid p-formgrid p-grid" rendered="#{ ! chargeSettings.userAccount.financialAccount.defaultFa}">
                     <div class="p-field p-col-12 boolean-field">
-                        <p:outputLabel for="userAccountEdit-redeemable" value="Ammortissable"/>
+                        <p:outputLabel for="userAccountEdit-redeemable" value="#{cvt['financialAccountForm.amortisable']}"/>
                         <p:toggleSwitch id="userAccountEdit-redeemable" value="#{chargeSettings.userAccount.financialAccount.redeemable}" />
                     </div>
                 </h:panelGroup>
             </h:form>
             <f:facet name="footer">
-                <p:commandButton id="syncronize-btn" icon="fas fa-sync-alt" value="Synchroniser" actionListener="#{chargeSettings.synchronizeAccountItems}" update=":accountListForm:msgs" styleClass="info-btn">
+                <p:commandButton id="syncronize-btn" icon="fas fa-sync-alt" value="#{cmp['btn.synchronize']}" actionListener="#{chargeSettings.synchronizeAccountItems}" update=":accountListForm:msgs" styleClass="info-btn">
                     <p:confirm header="Confirmation" message="Êtes-vous sur de vouloir synchroniser cette charge ? Attention toute les imputations concernée seront modifiées" icon="fas fa-5x fa-exclamation-triangle icon-warning" />
                 </p:commandButton>
-                <p:commandButton id="userAccountEdit-modal-close-btn" value="Fermer"
+                <p:commandButton id="userAccountEdit-modal-close-btn" value="#{cmp['btn.close']}"
                                  styleClass="secondary-button" oncomplete="PF('userAccountEdit-modal').hide();"
                                  update="accountListForm: userAccountEdit-modal-form" process="@this">
                     <p:resetInput target="userAccountEdit-modal-form" />
                 </p:commandButton>
-                <p:commandButton form="userAccountEdit-modal-form" value="Modfier" styleClass="success-btn"
+                <p:commandButton form="userAccountEdit-modal-form" value="#{cmp['btn.apply']}" styleClass="success-btn"
                                  icon="fa fa-check" update="accountListForm:msgs accountListForm userAccountEdit-modal-form" action="#{chargeSettings.updateUserAccount}"/>
 
             </f:facet>
         </p:dialog>
 
         <!-- DIARY CREATION FORM-->
-        <p:dialog header="Créer un journal" widgetVar="diaryCreation-modal" modal="true"
+        <p:dialog header="#{cvt['diaryForm.create.title']}" widgetVar="diaryCreation-modal" modal="true"
                   responsive="true" width="500" draggable="false" closable="false"
                   focus="diaryCreation-modal-close-btn" dynamic="true">
             <h:form id="diaryCreation-modal-form">
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-12 p-md-12">
-                        <p:outputLabel for="diary-label" value="Description"/>
+                        <p:outputLabel for="diary-label" value="#{cvt['diaryForm.description']}"/>
                         <p:inputText id="diary-label" value="#{chargeSettings.diary.label}"
                                      required="true" requiredMessage="Veuiller renseigner ce champ"/>
                         <p:message for="diary-label" id="diary-label-msg"/>
@@ -340,12 +340,12 @@
                 </div>
             </h:form>
             <f:facet name="footer">
-                <p:commandButton id="diaryCreation-modal-close-btn" value="Fermer"
+                <p:commandButton id="diaryCreation-modal-close-btn" value="#{cmp['btn.close']}"
                                  styleClass="secondary-button" oncomplete="PF('diaryCreation-modal').hide();"
                                  update="accountListForm:msgs diaryCreation-modal-form" process="@this">
                     <p:resetInput target="diaryCreation-modal-form" />
                 </p:commandButton>
-                <p:commandButton form="diaryCreation-modal-form" value="Modfier" styleClass="success-btn"
+                <p:commandButton form="diaryCreation-modal-form" value="#{cmp['btn.apply']}" styleClass="success-btn"
                                  icon="fa fa-check" oncomplete="if (! args.validationFailed) { PF('diaryCreation-modal').hide() };"
                                  update="accountListForm:msgs accountListForm:diary-list diaryCreation-modal-form" action="#{chargeSettings.addDiary}"/>
 
@@ -353,13 +353,13 @@
         </p:dialog>
 
         <!-- DIARY EDIT FORM-->
-        <p:dialog header="Modifier un journal" widgetVar="diaryEdit-modal" modal="true"
+        <p:dialog header="#{cvt['diaryForm.edit.title']}" widgetVar="diaryEdit-modal" modal="true"
                   responsive="true" width="500" draggable="false" closable="false"
                   focus="diaryEdit-modal-close-btn" dynamic="true">
             <h:form id="diaryEdit-modal-form">
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-12 p-md-12">
-                        <p:outputLabel for="diaryEdit-label" value="Description"/>
+                        <p:outputLabel for="diaryEdit-label" value="#{cvt['diaryForm.description']}"/>
                         <p:inputText id="diaryEdit-label" value="#{chargeSettings.diary.label}"
                                      required="true" requiredMessage="Veuiller renseigner ce champ"/>
                         <p:message for="diaryEdit-label" id="diaryEdit-label-msg"/>
@@ -367,12 +367,12 @@
                 </div>
             </h:form>
             <f:facet name="footer">
-                <p:commandButton id="diaryEdit-modal-close-btn" value="Fermer"
+                <p:commandButton id="diaryEdit-modal-close-btn" value="#{cmp['btn.close']}"
                                  styleClass="secondary-button" onclick="PF('diaryEdit-modal').hide();"
                                  update="accountListForm:msgs diaryEdit-modal-form">
                     <p:resetInput target="diaryEdit-modal-form" />
                 </p:commandButton>
-                <p:commandButton form="diaryEdit-modal-form" value="Modfier" styleClass="success-btn"
+                <p:commandButton form="diaryEdit-modal-form" value="#{cmp['btn.apply']}" styleClass="success-btn"
                                  icon="fa fa-check" oncomplete="if (! args.validationFailed) { PF('diaryEdit-modal').hide() };"
                                  update="accountListForm:msgs accountListForm:diary-list diaryEdit-modal-form" action="#{chargeSettings.updateDiary}"/>
 
@@ -380,8 +380,8 @@
         </p:dialog>
 
         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="500">
-            <p:commandButton value="oui" type="button" styleClass="ui-confirmdialog-yes success-btn" icon="fas fa-check"/>
-            <p:commandButton value="non" type="button" styleClass="ui-confirmdialog-no danger-btn" icon="fas fa-times" />
+            <p:commandButton value="#{cmp['btn.yes']}" type="button" styleClass="ui-confirmdialog-yes success-btn" icon="fas fa-check"/>
+            <p:commandButton value="#{cmp['btn.no']}" type="button" styleClass="ui-confirmdialog-no danger-btn" icon="fas fa-times" />
         </p:confirmDialog>
 
     </ui:define>

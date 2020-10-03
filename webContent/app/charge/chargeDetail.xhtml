@@ -5,7 +5,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="../../WEB-INF/template/template.xhtml">
 
-    <ui:define name="title">Empty Page</ui:define>
+    <ui:define name="title">#{cvt['chargeDetail.title']}</ui:define>
 
     <ui:define name="content">
         <h:form id="chargeDetailForm">
@@ -16,14 +16,14 @@
                         <f:facet name="header">
                             <div class="toolbar">
                                 <div class="text">
-                                    <h1>Dépense</h1>
-                                    <small class="tag">Fournisseur : #{chargeDetailView.charge.userSupplier.supplier.label}</small>
-                                    <small class="tag">Facturé le  :
+                                    <h1>#{cvt['chargeDetail.title']}</h1>
+                                    <small class="tag">#{cvt['chargeDetail.supplierTag']} : #{chargeDetailView.charge.userSupplier.supplier.label}</small>
+                                    <small class="tag">#{cvt['chargeDetail.createdAtTag']} :
                                         <h:outputText value="#{chargeDetailView.charge.createdAt}">
                                             <f:convertDateTime pattern="dd/MM/yyyy"/>
                                         </h:outputText>
                                     </small>
-                                    <small class="tag #{chargeDetailView.charge.status.statusClass}" style="margin-left: 3px">Statut du paiement : #{cmp[chargeDetailView.charge.status.status]}</small>
+                                    <small class="tag #{chargeDetailView.charge.status.statusClass}" style="margin-left: 3px">#{cvt['chargeDetail.statusTag']} : #{cmp[chargeDetailView.charge.status.status]}</small>
                                 </div>
                                 <div class="button">
                                     <p:linkButton icon="fas fa-arrow-left" styleClass="primary-button" outcome="/app/charge/chargeList"/>
@@ -33,7 +33,7 @@
 
                                     <p:commandButton icon="fas fa-wrench" styleClass="warning-btn"/>
                                     <p:commandButton icon="far fa-trash-alt" styleClass="danger-btn" action="#{chargeCrud.deleteCharge(chargeDetailView.charge)}" >
-                                        <p:confirm header="Confirmation" message="Êtes-vous sur de vouloir supprimer ce frais ?" icon="pi pi-exclamation-triangle"/>
+                                        <p:confirm header="Confirmation" message="#{cvt['charge.deleteConfirmMessage']}" icon="pi pi-exclamation-triangle"/>
                                     </p:commandButton>
                                 </div>
                             </div>
@@ -42,15 +42,15 @@
 
                         <div class="toolbar">
                             <div class="text">
-                                <h4> <i class="far fa-clock"></i>   Marquez votre facture comme payée le cas échéant.</h4>
-                                <small>Vous pouvez uploader une pièce justificative, encoder les imputations et leurs éventuels amortissements.</small>
+                                <h4> <i class="far fa-clock"></i>   #{cvt['chargeDetail.subtitle']}.</h4>
+                                <small>#{cvt['chargeDetail.description']}.</small>
                             </div>
                             <div class="button">
                                 <p:commandButton id="item-rapid-creation-btn" icon="fas fa-plus" ajax="true" onclick="PF('itemEdit-modal').show()"
                                                actionListener="#{chargeDetailView.initialize_new_accountItem}" update="itemEdit-modal-form" styleClass="secondary-button">
                                 </p:commandButton>
-                                <p:tooltip for="item-rapid-creation-btn" position="bottom" value="Ajouter une imputation"/>
-                                <p:commandButton icon="fas fa-euro-sign" value="Marquer comme payée" styleClass="success-btn" rendered="#{!chargeDetailView.charge.payed}"
+                                <p:tooltip for="item-rapid-creation-btn" position="bottom" value="#{cmp['btn.addAccountItem']}"/>
+                                <p:commandButton icon="fas fa-euro-sign" value="#{cmp['btn.markPayed']}" styleClass="success-btn" rendered="#{!chargeDetailView.charge.payed}"
                                                  actionListener="#{chargeCrud.editCharge(chargeDetailView.charge)}" onclick="PF('marquedPaid-modal').show(100)"/>
                             </div>
                         </div>
@@ -68,7 +68,7 @@
                         <f:facet name="header">
                             <i class="fas fa-user"/>
                             <text/>
-                            <h:outputText value="Fournisseur"/>
+                            <h:outputText value="#{cvt['chargeDetail.supplierCard.title']}"/>
                         </f:facet>
                         <f:facet name="actions">
                             <p:commandLink id="supplier-card-edit-btn" type="button" onclick="PF('supplierEdit-modal').show();" ajax="true" rendered="#{! chargeDetailView.charge.userSupplier.supplier.default_sup}"
@@ -82,14 +82,14 @@
                                 <li>
                                     <div><i class="far fa-building"></i></div>
                                     <div class="panel-content-info">
-                                        <small>Nom :</small>
+                                        <small>#{cvt['chargeDetail.supplierCard.name']} :</small>
                                         <div>#{chargeDetailView.charge.userSupplier.supplier.label}</div>
                                     </div>
                                 </li>
                                 <li>
                                     <div><i class="fas fa-id-card-alt"></i></div>
                                     <div class="panel-content-info">
-                                        <small>N° de TVA : </small>
+                                        <small>#{cvt['chargeDetail.supplierCard.tva']} : </small>
                                         <div>
                                             #{empty(chargeDetailView.charge.userSupplier.supplier.tva) ? '---' : chargeDetailView.charge.userSupplier.supplier.tva}
                                         </div>
@@ -98,7 +98,7 @@
                                 <li>
                                     <div><i class="fas fa-money-check"></i></div>
                                     <div class="panel-content-info">
-                                        <small>IBAN</small>
+                                        <small>#{cvt['chargeDetail.supplierCard.iban']}</small>
                                         <div>
                                             #{empty(chargeDetailView.charge.userSupplier.supplier.iban) ? '---' : chargeDetailView.charge.userSupplier.supplier.iban}
                                         </div>
@@ -115,15 +115,13 @@
                         <f:facet name="header">
                             <i class="fas fa-cogs"></i>
                             <text/>
-                            <h:outputText value="Configuration"/>
+                            <h:outputText value="#{cvt['chargeDetail.chargeCard.title']}"/>
                         </f:facet>
                         <f:facet name="actions">
                             <p:commandLink id="config-card-edit-btn" type="button" oncomplete="PF('chargeEdit-modal').show();" ajax="true"
                                            update="chargeEdit-modal-form" actionListener="#{chargeCrud.editCharge(chargeDetailView.charge)}">
                                 <i class="fa fa-fw fa-pencil"></i>
-                                <p:confirm header="Confirmation" message="Attention la modification du frais peut entrainer une discordance entre le frais et ses imputations.
-                                                  il est recommandé de vérifier que les imputations soient toujours correctes après la modification.
-                                                  Si ce n'est le cas veuillez supprimer et réintroduire les imputations concernées" icon="fas fa-5x fa-exclamation-triangle icon-warning" disabled="#{empty(chargeDetailView.charge.accountItems)}" />
+                                <p:confirm header="Confirmation" message="#{cvt['chargeDetail.chargeCard.editMessage']}" icon="fas fa-5x fa-exclamation-triangle icon-warning" disabled="#{empty(chargeDetailView.charge.accountItems)}" />
                             </p:commandLink>
                             <p:tooltip for="config-card-edit-btn" value="Editer" position="top"/>
                         </f:facet>
@@ -132,7 +130,7 @@
                                 <li>
                                     <i class="fas fa-book"></i>
                                     <div class="panel-content-info">
-                                        <small>Journal : </small>
+                                        <small>#{cvt['chargeDetail.chargeCard.diary']} : </small>
                                         <div>
                                             <h:outputText value="#{chargeDetailView.charge.diary.label}"/>
                                         </div>
@@ -141,7 +139,7 @@
                                 <li>
                                     <div><i class="far fa-calendar-alt"></i></div>
                                     <div class="panel-content-info">
-                                        <small>Année comptable : </small>
+                                        <small>#{cvt['chargeDetail.chargeCard.financialYear']} : </small>
                                         <div>
                                             <h:outputText value="#{chargeDetailView.charge.financialYear.beginAt}"/>
                                         </div>
@@ -150,7 +148,7 @@
                                 <li>
                                     <div><i class="far fa-calendar-check"></i></div>
                                     <div class="panel-content-info">
-                                        <small>Date de la facture : </small>
+                                        <small>#{cvt['chargeDetail.chargeCard.createdAt']} : </small>
                                         <div>
                                             <h:outputText value="#{chargeDetailView.charge.createdAt}">
                                                 <f:convertDateTime pattern="dd/MM/yyyy"/>
@@ -161,7 +159,7 @@
                                 <li>
                                     <div><i class="far fa-calendar-times"></i></div>
                                     <div class="panel-content-info">
-                                        <small>Date limite de paiement : </small>
+                                        <small>#{cvt['chargeDetail.chargeCard.dueAt']} : </small>
                                         <div>
                                             <h:outputText value="---" rendered="#{empty(chargeDetailView.charge.dueAt)}"/>
                                             <h:outputText value="#{chargeDetailView.charge.dueAt}" rendered="#{!empty(chargeDetailView.charge.dueAt)}">
@@ -181,7 +179,7 @@
                         <f:facet name="header">
                             <i class="far fa-list-alt"></i>
                             <text/>
-                            <h:outputText value="Détails"/>
+                            <h:outputText value="#{cvt['chargeDetail.detailCard.title']}"/>
                         </f:facet>
                         <f:facet name="actions">
                             <p:commandLink id="detail-card-edit-btn" type="button" onclick="PF('chargeEdit-modal').show(100);" ajax="true"
@@ -194,7 +192,7 @@
                                 <li>
                                     <div><i class="fa fa-fw fa-user"/></div>
                                     <div class="panel-content-info">
-                                        <small>Montant de la facture : </small>
+                                        <small>#{cvt['chargeDetail.detailCard.amount']} : </small>
                                         <div>
                                             <h:outputText value="#{chargeDetailView.charge.amount}">
                                                 <f:convertNumber type="currency" currencySymbol="€" maxFractionDigits="2"/>
@@ -206,7 +204,7 @@
                                     <li>
                                         <div><i class="far fa-calendar-alt"/></div>
                                         <div class="panel-content-info">
-                                            <small>Date de paiement : </small>
+                                            <small>#{cvt['chargeDetail.detailCard.payedAt']} : </small>
                                             <div>
                                                 <h:outputText value="#{chargeDetailView.charge.payedAt}">
                                                     <f:convertDateTime pattern="dd/MM/yyyy"/>
@@ -219,7 +217,7 @@
                                     <li>
                                         <div><i class="fas fa-university"/></div>
                                         <div class="panel-content-info">
-                                            <small>Moyen de paiement : </small>
+                                            <small>#{cvt['chargeDetail.detailCard.paiementMethod']} : </small>
                                             <div>
                                                 <h:outputText value="#{chargeDetailView.charge.paiementMethod.label}"/>
                                             </div>
@@ -238,7 +236,7 @@
                         <f:facet name="header">
                             <i class="fas fa-file-invoice"></i>
                             <text/>
-                            <h:outputText value="Imputations"/>
+                            <h:outputText value="#{cvt['chargeDetail.accountItemList.title']}"/>
                         </f:facet>
                         <f:facet name="actions">
                             <p:commandLink id="item-creation-btn"  ajax="true" onclick="PF('itemEdit-modal').show()"
@@ -252,20 +250,18 @@
                                 <div class="card emptyMessage">
                                     <i class="far fa-plus-square fa-5x icon-primary"/>
                                     <div class="text">
-                                        <p>Ajouter des imputations à votre dépense afin de renseigner
-                                            les différents éléments de votre facture et d'en définir
-                                            leur % de déductibilité et leur éventuelle période d'amortissement.</p>
-                                        <p:commandButton id="second-item-creation-btn" value="Ajouter une imputation" icon="fas fa-plus" styleClass="secondary-button"
+                                        <p>#{cvt['chargeDetail.accountItemList.datatable.emptyMessage']}.</p>
+                                        <p:commandButton id="second-item-creation-btn" value="#{cmp['btn.addAccountItem']}" icon="fas fa-plus" styleClass="secondary-button"
                                                          ajax="true" onclick="PF('itemEdit-modal').show()" actionListener="#{chargeDetailView.initialize_new_accountItem}" update="itemEdit-modal-form"/>
                                     </div>
                                 </div>
                             </f:facet>
                             <p:column>
-                                <f:facet name="header">Année</f:facet>
+                                <f:facet name="header">#{cvt['chargeDetail.accountItemList.datatable.year']}</f:facet>
                                 <h:outputText value="#{item.financialYear.beginAt}"/>
                             </p:column>
                             <p:column colspan="3">
-                                <f:facet name="header">Charge</f:facet>
+                                <f:facet name="header">#{cvt['chargeDetail.accountItemList.datatable.financialAccount']}</f:facet>
                                 <h:outputText styleClass="fas fa-level-up-alt icon-primary" rendered="#{item.parent != null}" style="margin-right: 2px"/>
                                 <h:outputText value="#{item.userAccount.financialAccount.label}" styleClass="#{item.parent != null ? 'item-label-secondary' : ''}"/>
                                 <small style="display: block">
@@ -273,13 +269,13 @@
                                 </small>
                             </p:column>
                             <p:column>
-                                <f:facet name="header">Montant</f:facet>
+                                <f:facet name="header">#{cvt['chargeDetail.accountItemList.datatable.amount']}</f:facet>
                                 <h:outputText value="#{item.amount}" styleClass="#{item.parent != null ? 'item-label-secondary' : ''}">
                                     <f:convertNumber type="currency" currencySymbol="€" maxFractionDigits="2"/>
                                 </h:outputText>
                             </p:column>
                             <p:column>
-                                <f:facet name="header">Pro/Privé</f:facet>
+                                <f:facet name="header">#{cvt['chargeDetail.accountItemList.datatable.privatePart']}</f:facet>
                                 <h:outputText value="#{100 - item.privatePart}" styleClass="#{item.parent != null ? 'item-label-secondary' : ''}">
                                     <f:convertNumber type="currency" maxFractionDigits="0" currencySymbol=""/>
                                 </h:outputText>
@@ -289,35 +285,35 @@
                                 </h:outputText>
                             </p:column>
                             <p:column>
-                                <f:facet name="header">% déductabilité</f:facet>
+                                <f:facet name="header">#{cvt['chargeDetail.accountItemList.datatable.deductability']}</f:facet>
                                 <h:outputText value="#{item.taxDeductible}" styleClass="#{item.parent != null ? 'item-label-secondary' : ''}">
                                     <f:convertNumber type="currency" maxFractionDigits="2" currencySymbol="%"/>
                                 </h:outputText>
                             </p:column>
                             <p:column>
-                                <f:facet name="header">Montant déduit</f:facet>
+                                <f:facet name="header">#{cvt['chargeDetail.accountItemList.datatable.deductedAmount']}</f:facet>
                                 <h:outputText value="#{chargeDetailView.calculate_deductible_amount(item)}">
                                     <f:convertNumber type="currency" maxFractionDigits="2" currencySymbol="€"/>
                                 </h:outputText>
                             </p:column>
                             <p:column style="text-align: right">
                                 <f:facet name="header">Action <i class="fas fa-cog"></i></f:facet>
-                                <p:commandButton value=" Supprimer" icon="fas fa-trash-alt" update="chargeDetailForm:AccountItem-card chargeDetailForm:itemList chargeDetailForm:charge-card chargeDetailForm:detail-card" style="font-size: 10px"
+                                <p:commandButton value="#{cmp['btn.delete']}" icon="fas fa-trash-alt" update="chargeDetailForm:AccountItem-card chargeDetailForm:itemList chargeDetailForm:charge-card chargeDetailForm:detail-card" style="font-size: 10px"
                                                  action="#{chargeDetailView.deleteAccountItem(item)}" rendered="#{item.parent == null}"/>
 
                             </p:column>
                             <p:columnGroup type="footer">
                                 <p:row>
                                     <p:column colspan="6" rowspan="3" style="background: #f4f8fb; border: none; border-right: 15px solid white;" />
-                                    <p:column colspan="2" footerText="Total de la depense" style="text-align: left;  border: none; background-color: #00b1ff; color: white;  font-weight: 600; font-size: 15px"/>
+                                    <p:column colspan="2" footerText="#{cvt['chargeDetail.accountItemList.datatable.footer.totalAmount']}" style="text-align: left;  border: none; background-color: #00b1ff; color: white;  font-weight: 600; font-size: 15px"/>
                                     <p:column footerText="#{chargeDetailView.convert_double_in_string(chargeDetailView.charge.amount)} €"  style="text-align: right;  border: none; background-color: #00b1ff; color: white; font-weight: 600; font-size: 15px"/>
                                 </p:row>
                                 <p:row>
-                                    <p:column colspan="2" footerText="Montant déjà imputé" style="text-align: left;  border: none; font-size: 12px; padding-left: 18px;"/>
+                                    <p:column colspan="2" footerText="#{cvt['chargeDetail.accountItemList.datatable.footer.imputedAmount']}" style="text-align: left;  border: none; font-size: 12px; padding-left: 18px;"/>
                                     <p:column footerText="#{chargeDetailView.convert_double_in_string(chargeDetailView.imputedAmount)} €" style="text-align: right;  border: none; font-size: 12px; padding-right: 19px;"/>
                                 </p:row>
                                 <p:row>
-                                    <p:column colspan="2" footerText="Montant déduit" style="text-align: left;  border: none; background-color: #81c868; color: white; font-size: 12px; padding-left: 18px;"/>
+                                    <p:column colspan="2" footerText="#{cvt['chargeDetail.accountItemList.datatable.footer.deductedAmount']}" style="text-align: left;  border: none; background-color: #81c868; color: white; font-size: 12px; padding-left: 18px;"/>
                                     <p:column footerText="#{chargeDetailView.convert_double_in_string(chargeDetailView.total_deductible_amount)} €" style="text-align: right;  border: none; background-color: #81c868; color: white; font-size: 12px; padding-right: 19px;"/>
                                 </p:row>
                             </p:columnGroup>
@@ -330,23 +326,23 @@
 
 
         <!-- SUPPLIER EDIT MODAL -->
-        <p:dialog header="Modifier un fournisseur" widgetVar="supplierEdit-modal" modal="true"
+        <p:dialog header="#{cvt['supplierForm.edit.title']}" widgetVar="supplierEdit-modal" modal="true"
                   responsive="true" width="500" draggable="false" closable="false"
                   focus="supplierEdit-modal-close-btn" dynamic="true" onShow="#{supplierCrud.editSupplier(chargeDetailView.charge.userSupplier)}" >
         <h:form id="supplierEdit-modal-form">
             <div class="ui-fluid p-formgrid p-grid">
                 <div class="p-field p-col-12 p-md-12">
-                    <p:outputLabel for="supplierEdit-label" value="Description"/>
+                    <p:outputLabel for="supplierEdit-label" value="#{cvt['supplierForm.description']}"/>
                     <p:inputText id="supplierEdit-label" value="#{supplierCrud.userSupplier.supplier.label}"/>
                 </div>
             </div>
             <div class="ui-fluid p-formgrid p-grid">
                 <div class="p-field p-col-6 p-md-6">
-                    <p:outputLabel for="supplierEdit-tva" value="N° de TVA"/>
+                    <p:outputLabel for="supplierEdit-tva" value="#{cvt['supplierForm.vatNumber']}"/>
                     <p:inputMask id="supplierEdit-tva" mask="BE9999999999" placeholder="ex: BE0676548769" value="#{supplierCrud.userSupplier.supplier.tva}"/>
                 </div>
                 <div class="p-field p-col-6 p-md-6">
-                    <p:outputLabel for="supplierEdit-paiement" value="Condition de paiement"/>
+                    <p:outputLabel for="supplierEdit-paiement" value="#{cvt['supplierForm.paiementCondition']}"/>
                     <p:selectOneMenu id="supplierEdit-paiement" value="#{supplierCrud.userSupplier.supplier.paimentCondition}">
                         <p:importEnum type="com.projet.enumeration.SupplierPaimentCondition" var="paimentConditions" allSuffix="VALUES"/>
                         <f:selectItem noSelectionOption="true" itemLabel="Sélectionner un délai"/>
@@ -356,34 +352,36 @@
             </div>
             <div class="ui-fluid p-formgrid p-grid">
                 <div class="p-field p-col-6 p-md-6">
-                    <p:outputLabel for="supplierEdit-iban" value="N° IBAN"/>
+                    <p:outputLabel for="supplierEdit-iban" value="#{cvt['supplierForm.iban']}"/>
                     <p:inputMask id="supplierEdit-iban" mask="BE99 9999 9999 9999" placeholder="ex: BE06 7654 8769 4543" value="#{supplierCrud.userSupplier.supplier.iban}"/>
                 </div>
                 <div class="p-field p-col-6 p-md-6">
-                    <p:outputLabel for="supplierEdit-iban-bis" value="N° IBAN alternatif"/>
+                    <p:outputLabel for="supplierEdit-iban-bis" value="#{cvt['supplierForm.ibanAlt']}"/>
                     <p:inputMask id="supplierEdit-iban-bis" mask="BE99 9999 9999 9999" placeholder="ex: BE06 7654 8769 4543" value="#{supplierCrud.userSupplier.supplier.ibanBis}"/>
                 </div>
             </div>
         </h:form>
         <f:facet name="footer">
-            <p:commandButton id="supplierEdit-modal-close-btn" form="supplierEdit-modal-form" type="button" value="Fermer"
+            <p:commandButton id="supplierEdit-modal-close-btn" value="#{cmp['btn.close']}"
                              styleClass="secondary-button" onclick="PF('supplierEdit-modal').hide();"
-                             update=":chargeDetailForm:msgs"/>
-            <p:commandButton form="supplierEdit-modal-form" value="Modfier" styleClass="success-btn"
+                             update="chargeDetailForm:msgs supplierEdit-modal-form" process="@this">
+                <p:resetInput target="supplierEdit-modal-form"/>
+            </p:commandButton>
+            <p:commandButton form="supplierEdit-modal-form" value="#{cmp['btn.apply']}" styleClass="success-btn"
                              icon="fa fa-check" onclick="PF('supplierEdit-modal').hide();"
-                             update=":chargeDetailForm:msgs, :chargeDetailForm:supplier-card" action="#{supplierCrud.updateSupplier}"/>
+                             update="chargeDetailForm:msgs chargeDetailForm:supplier-card" action="#{supplierCrud.updateSupplier}"/>
         </f:facet>
         </p:dialog>
 
         <!-- CHARGE UPDATE MODAL -->
-        <p:dialog header="Modifier un frais" widgetVar="chargeEdit-modal" modal="true"
+        <p:dialog header="#{cvt['chargeForm.edit.title']}" widgetVar="chargeEdit-modal" modal="true"
                   responsive="true" closable="false" draggable="true" blockScroll="true" fitViewport="true"
                   focus="chargeEdit-modal-form:chargeEdit-label" dynamic="true">
             <h:form id="chargeEdit-modal-form">
                 <p:scrollPanel mode="native" style=" max-width: 500px; max-height: 460px; border: none">
                     <div class="ui-fluid p-formgrid p-grid">
                         <div class="p-field p-col-12">
-                            <p:outputLabel for="chargeEdit-label" value="Description"/>
+                            <p:outputLabel for="chargeEdit-label" value="#{cvt['chargeForm.description']}"/>
                             <p:inputText id="chargeEdit-label" value="#{chargeCrud.charge.label}">
                                 <p:ajax event="keyup" process="@this" update="chargeEdit-label-msg" delay="1000"/>
                             </p:inputText>
@@ -392,13 +390,13 @@
                     </div>
                     <div class="ui-fluid p-formgrid p-grid">
                         <div class="p-field p-col-12 p-md-6 p-lg-6">
-                            <p:outputLabel for="chargeEdit-diary" value="Journal"/>
+                            <p:outputLabel for="chargeEdit-diary" value="#{cvt['chargeForm.diary']}"/>
                             <p:selectOneMenu id="chargeEdit-diary" value="#{chargeCrud.charge.diary}" converter="diaryConverter">
                                 <f:selectItems value="#{chargeCrud.diaries}" var="diary" itemLabel="#{diary.label}" itemValue="#{diary}"/>
                             </p:selectOneMenu>
                         </div>
                         <div class="p-field p-col-12 p-md-6 p-lg-6">
-                            <p:outputLabel for="chargeEdit-supplier" value="Fournisseurs"/>
+                            <p:outputLabel for="chargeEdit-supplier" value="#{cvt['chargeForm.supplier']}"/>
                             <p:autoComplete id="chargeEdit-supplier" value="#{chargeCrud.charge.userSupplier}" completeMethod="#{chargeCrud.completeSupplier}"
                                             dropdown="true" var="userSupplier" itemLabel="#{userSupplier.supplier.label}" itemValue="#{userSupplier}"
                                             converter="userSupplierConverter" minQueryLength="2" required="true"
@@ -410,14 +408,14 @@
                     </div>
                     <div class="ui-fluid p-formgrid p-grid">
                         <div class="p-field p-col-12 p-md-6 p-lg-6">
-                            <p:outputLabel for="chargeEdit-createdAt" value="Date de facturation"/>
+                            <p:outputLabel for="chargeEdit-createdAt" value=#{cvt['chargeForm.createdAt']}"/>
                             <p:datePicker id="chargeEdit-createdAt" value="#{chargeCrud.charge.createdAt}">
                                 <p:ajax event="dateSelect" process="@this" update="chargeEdit-createdAt-msg"/>
                             </p:datePicker>
                             <p:message id="chargeEdit-createdAt-msg" for="chargeEdit-createdAt" />
                         </div>
                         <div class="p-field p-col-12 p-md-6 p-lg-6">
-                            <p:outputLabel for="chargeEdit-dueAt" value="Date limite de paiement"/>
+                            <p:outputLabel for="chargeEdit-dueAt" value="#{cvt['chargeForm.dueAt']}"/>
                             <p:datePicker id="chargeEdit-dueAt" value="#{chargeCrud.charge.dueAt}" validator="#{chargeCrud.date_not_before_createdAt_date}">
                                 <p:ajax event="dateSelect" process="@this" update="chargeEdit-dueAt-msg"/>
                             </p:datePicker>
@@ -426,7 +424,7 @@
                     </div>
                     <div class="ui-fluid p-formgrid p-grid">
                         <div class="p-field p-col-12 p-md-6 p-lg-6">
-                            <p:outputLabel for="chargeEdit-amount" value="Montant total TTC"/>
+                            <p:outputLabel for="chargeEdit-amount" value="#{cvt['chargeForm.amount']}"/>
                             <p:inputNumber id="chargeEdit-amount" value="#{chargeCrud.charge.amount}" symbol=" €" symbolPosition="s"
                                            decimalSeparator="," thousandSeparator=" ">
                                 <f:validator validatorId="positiveAmountValidator"/>
@@ -435,7 +433,7 @@
                             <p:message id="chargeEdit-amount-msg" for="chargeEdit-amount" />
                         </div>
                         <div class="p-field p-col-12 p-md-6 p-lg-6">
-                            <p:outputLabel for="chargeEdit-status" value="Statut de paiement"/>
+                            <p:outputLabel for="chargeEdit-status" value="#{cvt['chargeForm.status']}"/>
                             <p:selectOneMenu id="chargeEdit-status" value="#{chargeCrud.charge.status}" valueChangeListener="#{chargeCrud.onStatusSelect}">
                                 <p:ajax event="itemSelect" update="chargeEdit-payed-form-group"/>
                                 <f:selectItems var="status" value="#{chargeCrud.chargeStatus}" itemLabel="#{cmp[status.status]}" itemValue="#{status}"/>
@@ -445,7 +443,7 @@
                     <h:panelGroup id="chargeEdit-payed-form-group" layout="block">
                         <h:panelGroup styleClass="ui-fluid p-formgrid p-grid" rendered="#{chargeCrud.chargePayed}">
                             <div class="p-field p-col-12 p-md-6 p-lg-6">
-                                <p:outputLabel for="chargeEdit-paidAt" value="Date de paiement"/>
+                                <p:outputLabel for="chargeEdit-paidAt" value="#{cvt['chargeForm.payedAt']}"/>
                                 <p:datePicker id="chargeEdit-paidAt" value="#{chargeCrud.charge.payedAt}" validator="#{chargeCrud.date_not_before_createdAt_date}"
                                               required="#{chargeCrud.chargePayed}" requiredMessage="Veuillez renseigner ce champ">
                                     <p:ajax event="dateSelect" process="@this" update="chargeEdit-dueAt-msg"/>
@@ -453,7 +451,7 @@
                                 <p:message for="chargeEdit-paidAt" id="chargeEdit-paidAt-msg"/>
                             </div>
                             <div class="p-field p-col-12 p-md-6 p-lg-6">
-                                <p:outputLabel for="chargeEdit-method" value="Moyen de paiement"/>
+                                <p:outputLabel for="chargeEdit-method" value="#{cvt['chargeForm.paiementMethod']}"/>
                                 <p:selectOneMenu id="chargeEdit-method" value="#{chargeCrud.charge.paiementMethod}">
                                     <p:importEnum type="com.projet.enumeration.PaiementMethodEnum" var="PaiementMethods" allSuffix="VALUES"/>
                                     <f:selectItem noSelectionOption="true" itemLabel="Sélectionner un moyen de paiement"/>
@@ -464,11 +462,11 @@
                     </h:panelGroup>
                     <div class="ui-fluid p-formgrid p-grid">
                         <div class="p-field p-col-12 p-md-6 p-lg-6">
-                            <p:outputLabel for="chargeEdit-freeCom" value="Communication libre"/>
+                            <p:outputLabel for="chargeEdit-freeCom" value="#{cvt['chargeForm.freeCom']}"/>
                             <p:inputText id="chargeEdit-freeCom" placeholder="Ex: facture 344421" value="#{chargeCrud.charge.freeCommunication}"/>
                         </div>
                         <div class="p-field p-col-12 p-md-6 p-lg-6">
-                            <p:outputLabel for="chargeEdit-structuredCom" value="Communication structurée"/>
+                            <p:outputLabel for="chargeEdit-structuredCom" value="#{cvt['chargeForm.structCom']}"/>
                             <p:inputMask id="chargeEdit-structuredCom" placeholder="+++XXX/XXXX/XXXXX+++" mask="+++999/9999/99999+++"
                                          value="#{chargeCrud.charge.structeredCommunication}"/>
                         </div>
@@ -476,11 +474,11 @@
                 </p:scrollPanel>
             </h:form>
             <f:facet name="footer">
-                <p:commandButton id="chargeEdit-modal-close-btn" styleClass="secondary-button" process="@this" value="Fermer"
+                <p:commandButton id="chargeEdit-modal-close-btn" styleClass="secondary-button" process="@this" value="#{cmp['btn.close']}"
                                  oncomplete="PF('chargeEdit-modal').hide()" update="chargeDetailForm:msgs chargeEdit-modal-form" >
                     <p:resetInput target="chargeEdit-modal-form" />
                 </p:commandButton>
-                <p:commandButton form="chargeEdit-modal-form" value="Modfier" styleClass="success-btn"
+                <p:commandButton form="chargeEdit-modal-form" value="#{cmp['btn.apply']}" styleClass="success-btn"
                                  icon="fa fa-check" action="#{chargeCrud.updateCharge}" oncomplete=" if (! args.validationFailed) { PF('chargeEdit-modal').hide() }"
                                  update="chargeEdit-modal-form chargeDetailForm:msgs chargeDetailForm:charge-card chargeDetailForm:detail-card"/>
             </f:facet>
@@ -489,13 +487,13 @@
 
 
         <!-- ITEM CREATION MODAL -->
-        <p:dialog header="Ajouter une imputation" widgetVar="itemEdit-modal" modal="true"
+        <p:dialog header="#{cvt['accountItemForm.create.title']}" widgetVar="itemEdit-modal" modal="true"
                   responsive="true" width="600" draggable="false" closable="false"
                   focus="itemEdit-modal-close-btn" blockScroll="true">
             <h:form id="itemEdit-modal-form">
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-12 p-md-12">
-                        <p:outputLabel for="item-description" value="Description"/>
+                        <p:outputLabel for="item-description" value="#{cvt['accountItemForm.description']}"/>
                         <p:inputText id="item-description" styleClass="notupdate" value="#{chargeDetailView.accountItem.description}"
                                      required="true" requiredMessage="Veuiller renseigner ce champ"/>
                         <p:message for="item-description" id="item-description-msg"/>
@@ -503,7 +501,7 @@
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-12 p-md-12">
-                        <p:outputLabel for="item-financialAccount" value="Charge"/>
+                        <p:outputLabel for="item-financialAccount" value="#{cvt['accountItemForm.financialAccount']}"/>
                         <p:autoComplete id="item-financialAccount" value="#{chargeDetailView.accountItem.userAccount}" completeMethod="#{chargeDetailView.searchUserAccount}"
                                         var="userAccount" itemLabel="#{chargeDetailView.display_detailed_userAccount_label(userAccount)}" itemValue="#{userAccount}"
                                         converter="userAccountConverter" forceSelection="true" dropdown="true" minQueryLength="2" scrollHeight="250"
@@ -515,7 +513,7 @@
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-6 p-md-6">
-                        <p:outputLabel for="item-amount" value="Montant à imputer (en €)"/>
+                        <p:outputLabel for="item-amount" value="#{cvt['accountItemForm.imputedAmount']}"/>
                         <p:inputNumber id="item-amount" value="#{chargeDetailView.accountItem.amount}" decimalSeparator="," thousandSeparator=" "
                                        validator="#{chargeDetailView.imputedAmount_dont_exceed_chargeAmount}">
                             <p:ajax event="keyup" update="item-deductible-amount item-amount-msg" listener="#{chargeDetailView.accountItem_amount_is_set()}"
@@ -524,7 +522,7 @@
                         <p:message for="item-amount" id="item-amount-msg"/>
                     </div>
                     <div class="p-field p-col-6 p-md-6">
-                        <p:outputLabel for="item-deductible" value="% de déductabilité"/>
+                        <p:outputLabel for="item-deductible" value="#{cvt['accountItemForm.deductability']}"/>
                         <p:inputNumber id="item-deductible" value="#{chargeDetailView.accountItem.taxDeductible}" placeholder="ex: 75(%)">
                             <p:ajax event="keyup" update="item-deductible-amount item-deductible-msg" listener="#{chargeDetailView.accountItem_taxDeductible_is_set()}"
                                     process="@this" delay="1000"/>
@@ -535,7 +533,7 @@
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-6 p-md-6">
-                        <p:outputLabel for="item-privatePart" value="% Quote-part privée"/>
+                        <p:outputLabel for="item-privatePart" value="#{cvt['accountItemForm.privatePart']}"/>
                         <p:inputNumber id="item-privatePart" value="#{chargeDetailView.accountItem.privatePart}" placeholder="ex: 10(%)">
                             <p:ajax event="keyup" update="item-deductible-amount item-privatePart-msg" listener="#{chargeDetailView.accountItem_privatePart_is_set()}"
                                     process="@this" delay="1000"/>
@@ -544,14 +542,14 @@
                         <p:message for="item-privatePart" id="item-privatePart-msg"/>
                     </div>
                     <div class="p-field p-col-6 p-md-6">
-                        <p:outputLabel for="item-deductible-amount" value="Montant déduit (simulation en €)"/>
+                        <p:outputLabel for="item-deductible-amount" value="#{cvt['accountItemForm.simulateAmount']}"/>
                         <p:inputText id="item-deductible-amount" value="#{chargeDetailView.simulate_deductible_amount()}" disabled="true" />
                     </div>
                 </div>
                 <h:panelGroup layout="block" id="item-redeemable-group">
                     <h:panelGroup  styleClass="ui-fluid p-formgrid p-grid" rendered="#{chargeDetailView.does_userAccount_is_redeemable()}">
                         <div class="p-field p-col-12 boolean-field">
-                            <p:outputLabel for="item-redeemable" value="Définir un armotissement"/>
+                            <p:outputLabel for="item-redeemable" value="#{cvt['accountItemForm.amortisable'}"/>
                             <p:toggleSwitch id="item-redeemable" value="#{chargeDetailView.accountItem_is_redeemable}">
                                 <p:ajax update="item-redeemableYear-group" process="@this"/>
                             </p:toggleSwitch>
@@ -561,7 +559,7 @@
                 <h:panelGroup id="item-redeemableYear-group" layout="block">
                     <h:panelGroup styleClass="ui-fluid p-formgrid p-grid" rendered="#{chargeDetailView.accountItem_is_redeemable}">
                         <div class="p-field p-col-6 p-md-6">
-                            <p:outputLabel for="item-redeemableYear" value="Nombres d'années d'amortissements"/>
+                            <p:outputLabel for="item-redeemableYear" value="#{cvt['accountItemForm.amortisableYear']}"/>
                             <p:selectOneMenu id="item-redeemableYear" value="#{chargeDetailView.accountItem.redeemableYear}">
                                 <f:selectItems value="#{chargeDetailView.getRedeemableYearList(2, 10)}" var="year" itemLabel="#{year}" itemValue="#{year}"/>
                             </p:selectOneMenu>
@@ -570,12 +568,12 @@
                 </h:panelGroup>
             </h:form>
             <f:facet name="footer">
-                <p:commandButton id="itemEdit-modal-close-btn" value="Fermer"
+                <p:commandButton id="itemEdit-modal-close-btn" value="#{cmp['btn.close']}"
                                  styleClass="secondary-button" onclick="PF('itemEdit-modal').hide()"
                                  update="itemEdit-modal-form">
                     <p:resetInput target="itemEdit-modal-form"/>
                 </p:commandButton>
-                <p:commandButton form="itemEdit-modal-form" value="Modfier" styleClass="success-btn"
+                <p:commandButton form="itemEdit-modal-form" value="#{cmp['btn.apply']}" styleClass="success-btn"
                                  icon="fa fa-check" oncomplete="if (! args.validationFailed) { PF('itemEdit-modal').hide()}"
                                  update="chargeDetailForm:itemList chargeDetailForm:charge-card chargeDetailForm:detail-card itemEdit-modal-form " action="#{chargeDetailView.addAccountItem}">
                 </p:commandButton>
@@ -584,20 +582,20 @@
 
 
         <!-- MARKED PAID MODAL -->
-        <p:dialog header="Marquer comme payé" widgetVar="marquedPaid-modal" modal="true"
+        <p:dialog header="#{cmp['btn.markPayed']}" widgetVar="marquedPaid-modal" modal="true"
                   responsive="true" width="600" draggable="false" closable="false"
                   focus="marquedPaid-modal-close-btn" dynamic="true">
             <h:form id="marquedPaid-modal-form">
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-6 p-md-6">
-                        <p:outputLabel for="charge-paidAt" value="Date de paiement"/>
+                        <p:outputLabel for="charge-paidAt" value="#{cvt['chargeForm.payedAt']}"/>
                         <p:datePicker id="charge-paidAt" value="#{chargeCrud.charge.payedAt}" validator="#{chargeCrud.date_not_before_createdAt_date}">
                             <p:ajax event="dateSelect" process="@this" update="charge-paidAt-msg"/>
                         </p:datePicker>
                         <p:message for="charge-paidAt" id="charge-paidAt-msg"/>
                     </div>
                     <div class="p-field p-col-6 p-md-6">
-                        <p:outputLabel for="charge-method" value="Moyen de paiement"/>
+                        <p:outputLabel for="charge-method" value="#{cvt['chargeForm.paiementMethod']}"/>
                         <p:selectOneMenu id="charge-method" value="#{chargeCrud.charge.paiementMethod}">
                             <p:importEnum type="com.projet.enumeration.PaiementMethodEnum" var="PaiementMethods" allSuffix="VALUES"/>
                             <f:selectItem noSelectionOption="true" itemLabel="Sélectionner un moyen de paiement"/>
@@ -607,11 +605,11 @@
                 </div>
                 <div class="ui-fluid p-formgrid p-grid">
                     <div class="p-field p-col-6 p-md-6">
-                        <p:outputLabel for="charge-freeCom" value="Communication libre"/>
+                        <p:outputLabel for="charge-freeCom" value="#{cvt['chargeForm.freeCom']}"/>
                         <p:inputText id="charge-freeCom" placeholder="Ex: facture 344421" value="#{chargeCrud.charge.freeCommunication}"/>
                     </div>
                     <div class="p-field p-col-6 p-md-6">
-                        <p:outputLabel for="charge-structuredCom" value="Communication structurée"/>
+                        <p:outputLabel for="charge-structuredCom" value="#{cvt['chargeForm.structCom']}"/>
                         <p:inputMask id="charge-structuredCom" placeholder="+++XXX/XXXX/XXXXX+++" mask="+++999/9999/99999+++"
                                      value="#{chargeCrud.charge.structeredCommunication}"/>
 
@@ -619,20 +617,20 @@
                 </div>
             </h:form>
             <f:facet name="footer">
-                <p:commandButton id="marquedPaid-modal-close-btn" form="marquedPaid-modal-form" value="Fermer"
+                <p:commandButton id="marquedPaid-modal-close-btn" form="marquedPaid-modal-form" value="#{cmp['btn.close']}"
                                  styleClass="secondary-button" oncomplete="PF('marquedPaid-modal').hide()"
-                                 update=":chargeDetailForm:msgs" process="@this">
+                                 update="chargeDetailForm:msgs" process="@this">
                     <p:resetInput target="chargeEdit-modal-form" />
                 </p:commandButton>
-                <p:commandButton form="marquedPaid-modal-form" value="Modfier" styleClass="success-btn"
+                <p:commandButton form="marquedPaid-modal-form" value="#{cmp['btn.apply']}" styleClass="success-btn"
                                  icon="fa fa-check" action="#{chargeCrud.markAsPayed}" oncomplete=" if (! args.validationFailed) { PF('marquedPaid-modal').hide() }"
                                  update="chargeDetailForm marquedPaid-modal-form"/>
             </f:facet>
         </p:dialog>
 
         <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" width="600">
-            <p:commandButton value="oui" type="button" styleClass="ui-confirmdialog-yes" icon="fas fa-check"/>
-            <p:commandButton value="non" type="button" styleClass="ui-confirmdialog-no" icon="fas fa-times" />
+            <p:commandButton value="#{cmp['btn.yes']}" type="button" styleClass="ui-confirmdialog-yes" icon="fas fa-check"/>
+            <p:commandButton value="#{cmp['btn.no']}" type="button" styleClass="ui-confirmdialog-no" icon="fas fa-times" />
         </p:confirmDialog>
 
     </ui:define>

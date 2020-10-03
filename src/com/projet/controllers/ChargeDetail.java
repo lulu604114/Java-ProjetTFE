@@ -223,7 +223,7 @@ public class ChargeDetail implements Serializable {
 
             return convert_double_in_string(total);
         } else {
-            return "Montant réelement déduit";
+            return message.translate("msg.simulateAmount");
         }
     }
 
@@ -259,7 +259,7 @@ public class ChargeDetail implements Serializable {
 
             transaction.commit();
 
-            message.display(FacesMessage.SEVERITY_INFO, "Success", accountItem.getDescription() + " is added");
+            message.display(FacesMessage.SEVERITY_INFO, "msg.success", accountItem.getDescription() + " " + "msg.added");
 
         } catch (CloneNotSupportedException e) {
 
@@ -289,7 +289,7 @@ public class ChargeDetail implements Serializable {
 
             transaction.commit();
 
-            message.display(FacesMessage.SEVERITY_INFO, "Success", accountItem.getDescription() + " est supprimé");
+            message.display(FacesMessage.SEVERITY_INFO, "msg.success", accountItem.getDescription() + " " + "msg.delete");
         } finally {
             if (transaction.isActive())
                 transaction.rollback();
@@ -321,7 +321,7 @@ public class ChargeDetail implements Serializable {
             double itemAmount = Double.parseDouble(value.toString());
 
             if (itemAmount <= 0) {
-                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Ce montant doit être supérieur à 0");
+                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "msg.error", "msg.validation.amountSupToZero");
                 throw new ValidatorException(message);
             } else {
                 List<AccountItem> accountItems = charge.getAccountItems();
@@ -331,7 +331,7 @@ public class ChargeDetail implements Serializable {
                 double imputedAmount = service.calculate_imputed_amount(accountItems);
 
                 if ((imputedAmount + itemAmount) > charge.getAmount()) {
-                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Le montant total imputé ne peut être supérieur au montant du frais");
+                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "msg.error", "msg.validation.amountNotSupCharge");
                     throw new ValidatorException(message);
                 }
 

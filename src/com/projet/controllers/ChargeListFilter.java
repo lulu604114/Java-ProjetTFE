@@ -47,16 +47,17 @@ public class ChargeListFilter implements Serializable {
     private Date end_at;
     private Date date_period_start_at;
     private Date date_period_end_at;
-    private User user;
 
     private int currentPage;
 
     @PostConstruct
     public void init() {
         resetFilter();
-        this.user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
     }
 
+    /**
+     *  Applies the choosen filter and status
+     */
     public void applyFilter() {
         dateFilter = choosenFilter;
         chargeStatus = choosenStatus;
@@ -76,6 +77,9 @@ public class ChargeListFilter implements Serializable {
 
     }
 
+    /**
+     * Determines the start date and the end date of a period according to the filter selected
+     */
     private void setPeriodFromFilter() {
         Date currentDate = new Date();
         Date calculated_date;
@@ -108,6 +112,13 @@ public class ChargeListFilter implements Serializable {
         this.date_period_end_at = null;
     }
 
+    /**
+     * Check if the end date of a period is not before the start date
+     *
+     * @param context
+     * @param comp
+     * @param value
+     */
     public void date_not_before_start_date(FacesContext context, UIComponent comp, Object value) {
         if (date_period_start_at != null) {
             Date endDate = (Date) value;
@@ -126,10 +137,6 @@ public class ChargeListFilter implements Serializable {
         this.choosenStatus = this.chargeStatus;
         this.start_at = null;
         this.end_at = null;
-    }
-
-    public void onPageChange(PageEvent event) {
-        currentPage = event.getPage();
     }
 
     public ChargeDateFilterEnum getPersonnalizedFilter() {
