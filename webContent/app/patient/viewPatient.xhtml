@@ -5,7 +5,7 @@
                 xmlns:p="http://primefaces.org/ui"
                 template="../../WEB-INF/template/template.xhtml">
 
-    <ui:define name="title">Dossier du patient</ui:define>
+    <ui:define name="title">#{patientResources['dossierPatient']}</ui:define>
     <ui:define name="viewname">
         <li>Pages</li>
         <li>/</li>
@@ -26,35 +26,35 @@
                         <f:facet name="header">
                             <i class="fa fa-fw fa-address-card"/>
                             <text/>
-                            <h:outputText value="Informations personnel"/>
+                            <h:outputText value="#{patientResources['infoPerso']}"/>
                         </f:facet>
                         <f:facet name="actions">
                             <p:commandLink id="patient-card-edit-btn" type="button" onclick="PF('info-modal').show();" ajax="true"
                                            update=":info-modal-form">
                                 <i class="fa fa-fw fa-pencil"></i>
                             </p:commandLink>
-                            <p:tooltip for="patient-card-edit-btn" value="Editer" position="top"/>
+                            <p:tooltip for="patient-card-edit-btn" value="#{patientResources['editer']}" position="top"/>
                         </f:facet>
                         <div class="panel-content">
                             <ul>
                                 <li>
                                     <div><i class="fa fa-fw fa-user"></i></div>
                                     <div class="panel-content-info">
-                                        <small>Prénom du patient</small>
+                                        <small>#{patientResources['firstName']}</small>
                                         <div>#{patientBean.patient.firstName}</div>
                                     </div>
                                 </li>
                                 <li>
                                     <div><i class="fa fa-fw fa-user"></i></div>
                                     <div class="panel-content-info">
-                                        <small>Nom du patient</small>
+                                        <small>#{patientResources['nom']}</small>
                                         <div>#{patientBean.patient.lastName}</div>
                                     </div>
                                 </li>
                                 <li>
                                     <div><i class="fa fa-fw fa-birthday-cake"></i></div>
                                     <div class="panel-content-info">
-                                        <small>Date de naissance</small>
+                                        <small>#{patientResources['naissance']}</small>
                                         <div>
                                             <h:outputText value="#{empty(patientBean.patient.birthdate) ? '---' : patientBean.patient.birthdate }">
                                                 <f:convertDateTime pattern="dd/MM/yyyy"/>
@@ -65,7 +65,7 @@
                                 <li>
                                     <div><i class="fa fa-fw fa-map-marker"></i></div>
                                     <div class="panel-content-info">
-                                        <small>Adresse</small>
+                                        <small>#{patientResources['adresse']}</small>
                                         <div>#{patientBean.patient.adress}</div>
                                     </div>
                                 </li>
@@ -86,14 +86,14 @@
                                 <li>
                                     <div><i class="fa fa-fw fa-map-marker"></i></div>
                                     <div class="panel-content-info">
-                                        <small>Code Postal</small>
+                                        <small>#{patientResources['codePostal']}</small>
                                         <div>#{empty(patientBean.patient.postalCode) ? '---' : patientBean.patient.postalCode}</div>
                                     </div>
                                 </li>
                                 <li>
                                     <div><i class="fa fa-fw fa-map-marker"></i></div>
                                     <div class="panel-content-info">
-                                        <small>Ville</small>
+                                        <small>#{patientResources['ville']}</small>
                                         <div>#{empty(patientBean.patient.city) ? '---' : patientBean.patient.city}</div>
                                     </div>
                                 </li>
@@ -115,14 +115,14 @@
                                            update=":status-modal-form">
                                 <i class="fa fa-fw fa-pencil"></i>
                             </p:commandLink>
-                            <p:tooltip for="status-card-edit-btn" value="Editer" position="top"/>
+                            <p:tooltip for="status-card-edit-btn" value="#{patientResources['editer']}" position="top"/>
                         </f:facet>
                         <div class="panel-content">
                             <ul>
                                 <li>
                                     <div><i class="fa fa-fw fa-male"/></div>
                                     <div class="panel-content-info">
-                                        <small>N° de téléphone</small>
+                                        <small>#{patientResources['phone']}</small>
                                         <div>#{empty(patientBean.patient.phone) ? '---' : patientBean.patient.phone}</div>
                                     </div>
                                 </li>
@@ -144,7 +144,7 @@
                         <f:facet name="header">
                             <i class="fa fa-fw fa-file-text"></i>
                             <text/>
-                            <h:outputText value="Informations diverses et médicales"/>
+                            <h:outputText value="#{patientResources['infoDivers']}"/>
                         </f:facet>
                         <f:facet name="actions">
                             <p:commandLink id="info-medical-card-edit-btn" type="button" onclick="PF('medical-modal').show();" ajax="true"
@@ -164,7 +164,7 @@
                                 <li>
                                     <div><i class="fa fa-fw fa-user"/></div>
                                     <div class="panel-content-info">
-                                        <small>Tiers Payant</small>
+                                        <small>#{patientResources['tiersPayant']}</small>
                                         <p:selectBooleanCheckbox value="#{patientBean.patient.tiersPayant}" />
                                     </div>
                                 </li>
@@ -176,42 +176,42 @@
         </h:form>
 
         <!-- INFORMATIONS MODIFICATION MODAL -->
-        <p:dialog header="Modifier les informations personnelles" widgetVar="info-modal" modal="true"
+        <p:dialog header="#{patientResources['modifierInfoPerso']}" widgetVar="info-modal" modal="true"
                   responsive="true" width="500" draggable="false" closable="false"
                   focus="info-modal-close-btn">
             <h:form id="info-modal-form" styleClass="ui-g">
                 <div class="ui-g">
                     <div class="ui-g-12 ui-md-12 ui-lg-6">
                         <i class="fa fa-fw fa-user"></i>
-                        <p:outputLabel  for="firstName" value=" Prénom :" />
-                        <p:inputText id="firstName" value="#{patientBean.patient.firstName}" required="true" label="firstName" requiredMessage="Entrez un Prénom"/>
+                        <p:outputLabel  for="firstName" value=" #{patientResources['firstName']} :" />
+                        <p:inputText id="firstName" value="#{patientBean.patient.firstName}" required="true" label="firstName" requiredMessage="#{patientResources['entrePrenom']}"/>
                         <p:message for="firstName" />
                     </div>
                     <div class="ui-g-12 ui-md-12 ui-lg-6">
                         <i class="fa fa-fw fa-envelope"></i>
-                        <p:outputLabel for="lastName" value=" Nom :"/>
-                        <p:inputText id="lastName" value="#{patientBean.patient.lastName}" required="true" requiredMessage="Entrez un nom"/>
+                        <p:outputLabel for="lastName" value=" #{patientResources['nom']} :"/>
+                        <p:inputText id="lastName" value="#{patientBean.patient.lastName}" required="true" requiredMessage="#{patientResources['entreNom']}"/>
                         <p:message for="lastName" />
                     </div>
                     <div class="ui-g-12 ui-md-12 ui-lg-12">
                         <i class="fa fa-fw fa-envelope"></i>
-                        <p:outputLabel for="birthday" value=" Date d'anniversaire :"/>
-                        <p:calendar id="birthday" pattern="dd/MM/yyyy"  value="#{patientBean.patient.birthdate}" required="true" requiredMessage="Entrez la date d'anniversaire">
+                        <p:outputLabel for="birthday" value=" #{patientResources['naissance']} :"/>
+                        <p:calendar id="birthday" pattern="dd/MM/yyyy"  value="#{patientBean.patient.birthdate}" required="true" requiredMessage="#{patientResources['enterNaissance']}">
                             <f:convertDateTime pattern="dd/MM/yyyy"/>
                         </p:calendar>
                         <p:message for="birthday" />
                     </div>
                     <div class="ui-g-12 ui-md-12 ui-lg-4">
                         <i class="fa fa-fw fa-envelope"></i>
-                        <p:outputLabel for="address" value=" Adresse :"/>
-                        <p:inputText id="address" value="#{patientBean.patient.adress}" required="true" requiredMessage="Entrez une adresse"/>
+                        <p:outputLabel for="address" value=" #{patientResources['adresse']} :"/>
+                        <p:inputText id="address" value="#{patientBean.patient.adress}" required="true" requiredMessage="#{patientResources['entreAdresse']}"/>
                         <p:message for="address" />
 
                     </div>
                     <div class="ui-g-12 ui-md-12 ui-lg-4">
                         <i class="fa fa-fw fa-envelope"></i>
                         <p:outputLabel for="number" value=" N° :"/>
-                        <p:inputText id="number" value="#{patientBean.patient.streetNumber}" required="true" requiredMessage="Entrez le numéro de maison"/>
+                        <p:inputText id="number" value="#{patientBean.patient.streetNumber}" required="true" requiredMessage="#{patientResources['entreNumMaison']}"/>
                         <p:message for="number" />
 
                     </div>
@@ -222,15 +222,15 @@
                     </div>
                     <div class="ui-g-12 ui-md-12 ui-lg-6">
                         <i class="fa fa-fw fa-envelope"></i>
-                        <p:outputLabel for="cp" value=" Code Postal :"/>
-                        <p:inputText id="cp" value="#{patientBean.patient.postalCode}" required="true" requiredMessage="Entrez le code postal"/>
+                        <p:outputLabel for="cp" value=" #{patientResources['codePostal']} :"/>
+                        <p:inputText id="cp" value="#{patientBean.patient.postalCode}" required="true" requiredMessage="#{patientResources['entreCP']}"/>
                         <p:message for="cp" />
 
                     </div>
                     <div class="ui-g-12 ui-md-12 ui-lg-6">
                         <i class="fa fa-fw fa-envelope"></i>
-                        <p:outputLabel for="city" value=" Ville :"/>
-                        <p:inputText id="city" value="#{patientBean.patient.city}" required="true" requiredMessage="Entrez la ville"/>
+                        <p:outputLabel for="city" value=" #{patientResources['ville']} :"/>
+                        <p:inputText id="city" value="#{patientBean.patient.city}" required="true" requiredMessage="#{patientResources['entreVille']}"/>
                         <p:message for="city" />
 
                     </div>
@@ -239,10 +239,10 @@
                 <br/>
             </h:form>
             <f:facet name="footer">
-                <p:commandButton id="info-modal-close-btn" form="info-modal-form" type="button" value="Fermer"
+                <p:commandButton id="info-modal-close-btn" form="info-modal-form" type="button" value="#{patientResources['fermer']}"
                                  styleClass="secondary-button" onclick="PF('info-modal').hide()"
                                  actionListener="#{patientBean.cancel}" update=":content:msgs"/>
-                <p:commandButton form="info-modal-form" value="Modfier" styleClass="success-btn"
+                <p:commandButton form="info-modal-form" value="#{patientResources['editer']}" styleClass="success-btn"
                                  icon="fa fa-check" onclick="PF('info-modal').hide()"
                                  actionListener="#{patientBean.save}" update=":content:patient-card :content:msgs"
                                  ajax="true" />
@@ -250,54 +250,54 @@
         </p:dialog>
 
         <!-- CONTACT MODIFICATION MODAL -->
-        <p:dialog header="Modifier les informations de contact" widgetVar="status-modal" modal="true"
+        <p:dialog header="#{patientResources['modifierContactInfo']}" widgetVar="status-modal" modal="true"
                   responsive="true" width="500" draggable="false" closable="false"
                   focus="status-modal-close-btn">
             <h:form id="status-modal-form">
                 <div class="ui-g">
                     <div class="ui-g-12 ui-md-12 ui-lg-12">
                         <i class="fa fa-fw fa-envelope"></i>
-                        <p:outputLabel value=" N° de téléphone :"/>
-                        <p:inputText placeholder="(exemple :  0494/12.36.36)" value="#{patientBean.patient.phone}" mask="9999/99.99.99" required="true" requiredMessage="Entrez un numéro de téléphone"  />
+                        <p:outputLabel value=" #{patientResources['phone']} :"/>
+                        <p:inputText placeholder="(exemple :  0494/12.36.36)" value="#{patientBean.patient.phone}" mask="9999/99.99.99" required="true" requiredMessage="#{patientResources['enterPhone']}"  />
                     </div>
                     <div class="ui-g-12 ui-md-12 ui-lg-12">
                         <i class="fa fa-fw fa-envelope"></i>
                         <p:outputLabel value=" Email :"/>
-                        <p:inputText value="#{patientBean.patient.email}" disabled="false" required="true" requiredMessage="Entrez un email"/>
+                        <p:inputText value="#{patientBean.patient.email}" disabled="false" required="true" requiredMessage="#{patientResources['entreEmail']}"/>
                     </div>
                 </div>
             </h:form>
             <f:facet name="footer">
-                <p:commandButton id="status-modal-close-btn" form="status-modal-form" value="Fermer" type="button"
+                <p:commandButton id="status-modal-close-btn" form="status-modal-form" value="#{patientResources['fermer']}" type="button"
                                  styleClass="secondary-button" onclick="PF('status-modal').hide()"
                                  actionListener="#{patientBean.cancel}" update=":content:msgs" ajax="true"/>
-                <p:commandButton form="status-modal-form" value="Modifier" styleClass="success-btn"
+                <p:commandButton form="status-modal-form" value="#{patientResources['editer']}" styleClass="success-btn"
                                  icon="fa fa-check" onclick="PF('status-modal').hide()"
                                  actionListener="#{patientBean.save}" update=":content:status-card, :content:msgs" ajax="true"/>
             </f:facet>
         </p:dialog>
         <!-- Info medical MODIFICATION MODAL -->
-        <p:dialog header="Modifier les informations médicales" widgetVar="medical-modal" modal="true"
+        <p:dialog header="#{patientResources['modifierMedicalInfo']}" widgetVar="medical-modal" modal="true"
                   responsive="true" width="500" draggable="false" closable="false"
                   focus="status-modal-close-btn">
             <h:form id="info-medical-modal-form">
                 <div class="ui-g">
                     <div class="ui-g-12">
-                        <p:outputLabel for="Niss" value=" Numéro Niss" />
-                        <p:inputMask id="Niss" placeholder="(exemple :  94.03.17/245-76)" value="#{patientBean.patient.niss}" mask=" 99.99.99/999-99" required="true" requiredMessage="Entrez le Niss"/>
+                        <p:outputLabel for="Niss" value=" Niss" />
+                        <p:inputMask id="Niss" placeholder="(exemple :  94.03.17/245-76)" value="#{patientBean.patient.niss}" mask=" 99.99.99/999-99" required="true" requiredMessage="#{patientResources['entreNiss']}"/>
                     </div>
                     <div class="ui-g-12">
-                        <p:outputLabel for="tiersPayant" value=" Tiers payant" />
+                        <p:outputLabel for="tiersPayant" value=" #{patientResources['tiersPayant']}" />
                         <p:selectBooleanCheckbox id="tiersPayant" value="#{patientBean.patient.tiersPayant}"/>
                     </div>
 
                 </div>
             </h:form>
             <f:facet name="footer">
-                <p:commandButton id="info-medical-modal-close-btn" form="info-medical-modal-form" value="Fermer" type="button"
+                <p:commandButton id="info-medical-modal-close-btn" form="info-medical-modal-form" value="#{patientResources['fermer']}" type="button"
                                  styleClass="secondary-button" onclick="PF('medical-modal').hide()"
                                  actionListener="#{patientBean.cancel}" update=":content:msgs" ajax="true"/>
-                <p:commandButton form="info-medical-modal-form" value="Modifier" styleClass="success-btn"
+                <p:commandButton form="info-medical-modal-form" value="#{patientResources['editer']}" styleClass="success-btn"
                                  icon="fa fa-check" onclick="PF('medical-modal').hide()"
                                  actionListener="#{patientBean.save}" update=":content:invoice-card, :content:msgs" ajax="true"/>
             </f:facet>

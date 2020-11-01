@@ -9,19 +9,19 @@
         <div class="ui-g-12">
             <p:panel>
                 <f:facet name="header">
-                    <h1>Dossier du patient :  #{patientBean.patient.firstName} #{patientBean.patient.lastName} </h1>
+                    <h1>#{patientResources['dossierPatient']} :  #{patientBean.patient.firstName} #{patientBean.patient.lastName} </h1>
                 </f:facet>
                 <p:tabMenu activeIndex="#{param.index}">
-                    <p:menuitem value="Fiche du patient" outcome="viewPatient" icon="fa fa-fw fa-user">
+                    <p:menuitem value="#{patientResources['fiche']}" outcome="viewPatient" icon="fa fa-fw fa-user">
                         <f:param name="index" value="0" />
                     </p:menuitem>
-                    <p:menuitem value="Rendez-vous" outcome="agendaPatient"  icon="fas fa-calendar-alt" ajax="true">
+                    <p:menuitem value="#{patientResources['rdv']}" outcome="agendaPatient"  icon="fas fa-calendar-alt" ajax="true">
                         <f:param name="index" value="1" />
                     </p:menuitem>
-                    <p:menuitem value="Factures" outcome="invoicesPatient" icon="fas fa-file-invoice-dollar">
+                    <p:menuitem value="#{patientResources['factures']}" outcome="invoicesPatient" icon="fas fa-file-invoice-dollar">
                         <f:param name="index" value="2" />
                     </p:menuitem>
-                    <p:menuitem value="Documents" outcome="documentsPatient" icon="fas fa-folder">
+                    <p:menuitem value="#{patientResources['documents']}" outcome="documentsPatient" icon="fas fa-folder">
                         <f:param name="index" value="3" />
                     </p:menuitem>
                 </p:tabMenu>

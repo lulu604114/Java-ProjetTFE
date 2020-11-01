@@ -19,7 +19,7 @@
         <h:panelGroup layout="block">
         <!-- APPOINTMENT CARD -->
         <div class="ui-g-12 ui-md-12 ui-lg-4">
-            <p:panel header="Rendez-vous passé du patient" styleClass="appointments">
+            <p:panel header="#{patientResources['rdvPatient']}" styleClass="appointments">
                 <ul>
                     <ui:repeat value="#{ patientBean.getPastAppointment()}"
                                var="meeting">
@@ -47,7 +47,7 @@
             </p:panel>
         </div>
             <div class="ui-g-12 ui-md-12 ui-lg-4">
-                <p:panel header="Rendez-vous future du patient" styleClass="appointments">
+                <p:panel header="#{patientResources['futurRdv']}" styleClass="appointments">
                     <ul>
                         <ui:repeat value="#{ patientBean.getFuturAppointment()}"
                                    var="meeting">

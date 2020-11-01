@@ -35,6 +35,10 @@
             <base-name>resources.app</base-name>
             <var>app</var>
         </resource-bundle>
+        <resource-bundle>
+            <base-name>resources.patient</base-name>
+            <var>patientResources</var>
+        </resource-bundle>
     </application>
     <navigation-rule>
         <from-view-id>/app/charge/chargeDetail.xhtml</from-view-id>
