@@ -71,7 +71,14 @@
                                     <p:commandButton style="margin-right:20px;" type="submit" action="#{patientBean.openRedirection()}" icon="fas fa-book-open" title="#{patientResources['dossierPatient']}">
                                         <f:setPropertyActionListener target="#{patientBean.patient}" value="#{patient}"    />
                                     </p:commandButton>
-                                    <p:commandButton style="margin-right:20px;" ajax="true" update=":form:tablePatient" action="#{patientBean.deletePatient(patient)}" icon="fas fa-trash-alt" title="#{patientResources['supprimer']}"/>
+                                    <p:commandButton style="margin-right:20px;" ajax="true" update=":form:tablePatient" action="#{patientBean.deletePatient(patient)}" icon="fas fa-trash-alt" title="#{patientResources['supprimer']}">
+                                        <p:confirm header="Confirmation" message="Are you sure?" icon="pi pi-exclamation-triangle" />
+                                    </p:commandButton>
+                                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                        <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+                                        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="pi pi-times" />
+                                    </p:confirmDialog>
+
                                 </p:column>
 
                                 <f:facet name="paginatorTopLeft">
