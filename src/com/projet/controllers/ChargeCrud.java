@@ -150,6 +150,8 @@ public class ChargeCrud implements Serializable {
 
             transaction.commit();
 
+            chargeList.applyFilter();
+
             message.display(FacesMessage.SEVERITY_INFO, "msg.success", charge.getLabel() + " " + "msg.edit");
 
         }finally {
