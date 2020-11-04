@@ -4,7 +4,7 @@
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
                 template="../../WEB-INF/template/template.xhtml">
-    <ui:define name="title">Dossier du patient</ui:define>
+    <ui:define name="title">#{patientResources['dossierPatient']}</ui:define>
     <ui:define name="viewname">
         <li>Pages</li>
         <li>/</li>
@@ -20,7 +20,7 @@
             <div class="ui-g">
                 <!-- Ajout de documents -->
                         <div class="ui-g-12 ui-md-12 ui-lg-12">
-                            <h:outputText value="Ajouter un document "/>
+                            <h:outputText value="#{patientResources['ajoutDossier']} "/>
                             <p:fileUpload listener="#{fileBean.handleFileUpload}" mode="advanced" dragDropSupport="false"
                                           update="messages :content:tablePatient" fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png|pdf|doc|docx)$/" ajax="true" />
                             <p:growl id="messages" showDetail="true" />
@@ -31,12 +31,12 @@
                                  rows="10" paginator="true"
                                  paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                  rowsPerPageTemplate="5,10,15"
-                                 emptyMessage="Aucun document trouvé" filteredValue="#{fileBean.filteredDocuments}"
+                                 emptyMessage="#{patientResources['documentPasTrouve']}" filteredValue="#{fileBean.filteredDocuments}"
                     >
                         <f:facet name="header">
                             <p:outputPanel>
                                 <h:outputText value="Search all fields:" />
-                                <p:inputText id="globalFilter" onkeyup="PF('patientTable').filter()" style="width:150px" placeholder="Enter keyword"/>
+                                <p:inputText id="globalFilter" onkeyup="PF('patientTable').filter()" style="width:150px" placeholder="#{patientResources['motCle']}"/>
                             </p:outputPanel>
                         </f:facet>
 
@@ -44,7 +44,7 @@
                             <h:outputText value="#{document.id}" />
                         </p:column>
 
-                        <p:column headerText="Fichiers" filterBy="#{document.nom}" sortBy="#{document.nom}" filterMatchMode="startsWith">
+                        <p:column headerText="#{patientResources['fichiers']}" filterBy="#{document.nom}" sortBy="#{document.nom}" filterMatchMode="startsWith">
                             <h:outputText value="#{document.nom}" />
                         </p:column>
 
@@ -52,13 +52,13 @@
                             <p:commandButton style="margin-right:20px;" value="Download4" ajax="false">
                                 <p:fileDownload value="#{fileBean.download(document)}" />
                             </p:commandButton>
-                            <p:commandButton style="margin-right:20px;" update=":content:tablePatient" action="#{fileBean.delete}"  icon="fas fa-trash-alt" title="Supprimer">
+                            <p:commandButton style="margin-right:20px;" update=":content:tablePatient" action="#{fileBean.delete}"  icon="fas fa-trash-alt" title="#{patientResources['supprimer']}">
                                 <f:setPropertyActionListener value="#{document}"  target="#{fileBean.document}"  />
                             </p:commandButton>
                         </p:column>
 
                         <f:facet name="paginatorTopRight">
-                            <p:commandButton value="Réinitialiser les filtres" action="#{fileBean.clearTableState}" update="@form" />
+                            <p:commandButton value="#{patientResources['reinitialiserFiltre']}" action="#{fileBean.clearTableState}" update="@form" />
                         </f:facet>
 
                     </p:dataTable>

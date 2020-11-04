@@ -17,7 +17,7 @@
         }
     </style>
 
-    <ui:define name="title">Dossier du patient</ui:define>
+    <ui:define name="title">#{patientResources['dossierPatient']}</ui:define>
     <ui:define name="viewname">
         <li>Pages</li>
         <li>/</li>
@@ -37,24 +37,24 @@
                                      rows="10" paginator="true"
                                      paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
                                      rowsPerPageTemplate="5,10,15"
-                                     emptyMessage="Aucun patient trouvé" filteredValue="#{patientBean.filteredInvoices}"
+                                     emptyMessage="#{patientResources['patientPasTrouve']}" filteredValue="#{patientBean.filteredInvoices}"
                         >
                             <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true" />
 
-                            <p:column headerText="Numéro" filterBy="#{invoice.id}" sortBy="#{invoice.id}" filterMatchMode="contains">
+                            <p:column headerText="#{patientResources['numero']}" filterBy="#{invoice.id}" sortBy="#{invoice.id}" filterMatchMode="contains">
                                 <h:outputText value="#{invoice.id}" />
                             </p:column>
 
-                            <p:column headerText="Référence" filterBy="#{invoice.reference}" sortBy="#{invoice.reference}" filterMatchMode="startsWith">
+                            <p:column headerText="#{patientResources['reference']}" filterBy="#{invoice.reference}" sortBy="#{invoice.reference}" filterMatchMode="startsWith">
                                 <h:outputText value="#{invoice.reference}" />
                             </p:column>
 
-                            <p:column headerText="Date de la facture" filterBy="#{invoice.createdAt}" sortBy="#{invoice.createdAt}" filterMatchMode="startsWith">
+                            <p:column headerText="#{patientResources['dateFacture']}" filterBy="#{invoice.createdAt}" sortBy="#{invoice.createdAt}" filterMatchMode="startsWith">
                                 <h:outputText value="#{invoice.createdAt}" >
                                     <f:convertDateTime pattern="dd/MM/yyyy"/>
                                 </h:outputText>
                             </p:column>
-                            <p:column headerText="Communicaiton" filterBy="#{invoice.communication}" sortBy="#{invoice.communication}" filterMatchMode="startsWith">
+                            <p:column headerText="#{patientResources['communication']}" filterBy="#{invoice.communication}" sortBy="#{invoice.communication}" filterMatchMode="startsWith">
                                 <h:outputText value="#{invoice.communication}" />
                             </p:column>
 
