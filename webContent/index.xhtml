@@ -19,13 +19,13 @@
             var menu = $('#landing-menu');
             menu.removeClass('landing-menu-active');
             $(document.body).removeClass('landing-masked').children('.landing-wrapper').children('.layout-mask').remove();
-        }
+        };
 
         showMenu = function () {
             var menu = $('#landing-menu');
             menu.addClass('landing-menu-active');
             $(document.body).addClass('landing-masked').children('.landing-wrapper').append('<div class="layout-mask"></div>');
-        }
+        };
 
         $(function () {
             $('#menu-btn').on('click', function (e) {

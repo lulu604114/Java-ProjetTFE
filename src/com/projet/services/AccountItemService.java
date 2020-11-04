@@ -78,7 +78,7 @@ public class AccountItemService extends Service<AccountItem>{
      * @param accountItems List of accountItem
      * @return the sum of each deductible amount
      */
-    public double calculate_deductible_amount_of_accountItem_list(List<AccountItem> accountItems) {
+    public double   calculate_deductible_amount_of_accountItem_list(List<AccountItem> accountItems) {
         double total = 0;
 
         for (AccountItem item : accountItems) {

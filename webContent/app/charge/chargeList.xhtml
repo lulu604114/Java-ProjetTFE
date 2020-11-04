@@ -426,7 +426,7 @@
                 </p:commandButton>
                 <p:commandButton form="chargeEdit-modal-form" value="#{cmp['btn.apply']}" styleClass="success-btn"
                                  icon="fa fa-check" action="#{chargeCrud.updateCharge}" oncomplete=" if (! args.validationFailed) { PF('chargeEdit-modal').hide() }"
-                                 update="chargeEdit-modal-form chargeListForm:msgs chargeListForm:chargeList"/>
+                                 update="chargeEdit-modal-form chargeListForm"/>
             </f:facet>
         </p:dialog>
 

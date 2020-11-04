@@ -24,15 +24,15 @@ public class I18n implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Locale locale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+    private Locale locale = new Locale("fr");
 
     public String getLanguage() {
         return locale.getLanguage();
     }
 
     public void changeLanguage(String language) {
-        locale = new Locale(language);
-        FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale(language));
+        this.locale = new Locale(language);
+        FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
     }
 
     public Locale getLocale() {

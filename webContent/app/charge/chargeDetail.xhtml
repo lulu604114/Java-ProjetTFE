@@ -408,7 +408,7 @@
                     </div>
                     <div class="ui-fluid p-formgrid p-grid">
                         <div class="p-field p-col-12 p-md-6 p-lg-6">
-                            <p:outputLabel for="chargeEdit-createdAt" value=#{cvt['chargeForm.createdAt']}"/>
+                            <p:outputLabel for="chargeEdit-createdAt" value="#{cvt['chargeForm.createdAt']}"/>
                             <p:datePicker id="chargeEdit-createdAt" value="#{chargeCrud.charge.createdAt}">
                                 <p:ajax event="dateSelect" process="@this" update="chargeEdit-createdAt-msg"/>
                             </p:datePicker>
@@ -549,7 +549,7 @@
                 <h:panelGroup layout="block" id="item-redeemable-group">
                     <h:panelGroup  styleClass="ui-fluid p-formgrid p-grid" rendered="#{chargeDetailView.does_userAccount_is_redeemable()}">
                         <div class="p-field p-col-12 boolean-field">
-                            <p:outputLabel for="item-redeemable" value="#{cvt['accountItemForm.amortisable'}"/>
+                            <p:outputLabel for="item-redeemable" value="#{cvt['accountItemForm.amortisable']}"/>
                             <p:toggleSwitch id="item-redeemable" value="#{chargeDetailView.accountItem_is_redeemable}">
                                 <p:ajax update="item-redeemableYear-group" process="@this"/>
                             </p:toggleSwitch>

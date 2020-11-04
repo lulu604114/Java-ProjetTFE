@@ -259,7 +259,7 @@ public class ChargeDetail implements Serializable {
 
             transaction.commit();
 
-            message.display(FacesMessage.SEVERITY_INFO, "msg.success", accountItem.getDescription() + " " + "msg.added");
+            message.display(FacesMessage.SEVERITY_INFO, "msg.success", accountItem.getDescription() + " " + message.translate("msg.added"));
 
         } catch (CloneNotSupportedException e) {
 
@@ -289,7 +289,7 @@ public class ChargeDetail implements Serializable {
 
             transaction.commit();
 
-            message.display(FacesMessage.SEVERITY_INFO, "msg.success", accountItem.getDescription() + " " + "msg.delete");
+            message.display(FacesMessage.SEVERITY_INFO, "msg.success", accountItem.getDescription() + " " + message.translate("msg.delete"));
         } finally {
             if (transaction.isActive())
                 transaction.rollback();
@@ -321,8 +321,8 @@ public class ChargeDetail implements Serializable {
             double itemAmount = Double.parseDouble(value.toString());
 
             if (itemAmount <= 0) {
-                FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "msg.error", "msg.validation.amountSupToZero");
-                throw new ValidatorException(message);
+                FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, message.translate("msg.error"), message.translate("msg.validation.amountSupToZero"));
+                throw new ValidatorException(facesMessage);
             } else {
                 List<AccountItem> accountItems = charge.getAccountItems();
 
@@ -331,8 +331,8 @@ public class ChargeDetail implements Serializable {
                 double imputedAmount = service.calculate_imputed_amount(accountItems);
 
                 if ((imputedAmount + itemAmount) > charge.getAmount()) {
-                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "msg.error", "msg.validation.amountNotSupCharge");
-                    throw new ValidatorException(message);
+                    FacesMessage facesMessage = new FacesMessage(FacesMessage.SEVERITY_ERROR, message.translate("msg.error"), message.translate("msg.validation.amountNotSupCharge"));
+                    throw new ValidatorException(facesMessage);
                 }
 
             }

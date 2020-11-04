@@ -125,7 +125,7 @@ public class ChargeListFilter implements Serializable {
 
             if (endDate != null) {
                 if (endDate.before(date_period_start_at)) {
-                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur", "Ce champ ne peut être antérieur à la date de debut");
+                    FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "msg.error", "msg.validation.notBeforeStartDate");
                     throw new ValidatorException(message);
                 }
             }

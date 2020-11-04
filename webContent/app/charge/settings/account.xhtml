@@ -148,7 +148,7 @@
                     <div class="p-field p-col-12 p-md-12">
                         <p:outputLabel for="accountCategory-label" value="#{cvt['accountCategoryForm.description']}"/>
                         <p:inputText id="accountCategory-label" value="#{chargeSettings.accountCategory.label}"
-                                     required="true" requiredMessage="Veuiller renseigner ce champ"/>
+                                     required="true" requiredMessage="#{msg['msg.validation.required']}"/>
                         <p:message for="accountCategory-label" id="accountCategory-label-msg"/>
                     </div>
                 </div>
@@ -175,7 +175,7 @@
                     <div class="p-field p-col-12 p-md-12">
                         <p:outputLabel for="category-label" value="#{cvt['accountCategoryForm.description']}"/>
                         <p:inputText id="category-label" value="#{chargeSettings.accountCategory.label}"
-                                     required="true" requiredMessage="Veuiller renseigner ce champ"/>
+                                     required="true" requiredMessage="#{msg['msg.validation.required']}"/>
                         <p:message for="category-label" id="category-label-msg"/>
                     </div>
                 </div>
@@ -202,7 +202,7 @@
                     <div class="p-field p-col-12">
                         <p:outputLabel for="userAccount-category" value="#{cvt['financialAccountForm.category']}"/>
                         <p:selectOneMenu id="userAccount-category" value="#{chargeSettings.userAccount.financialAccount.accountCategory}" converter="accountCategoryConverter"
-                                         required="true" requiredMessage="Veuillez renseigner ce champ">
+                                         required="true" requiredMessage="#{msg['msg.validation.required']}">
                             <f:selectItems value="#{chargeSettings.userAccountCategories}" var="accountCategory"
                                            itemLabel="#{accountCategory.label}" itemValue="#{accountCategory}"/>
                         </p:selectOneMenu>
@@ -214,13 +214,13 @@
                     <div class="p-field p-col-4" style="padding-top: 0; padding-bottom: 0;">
                         <p:outputLabel for="userAccount-code" value="#{cvt['financialAccountForm.code']}"/>
                         <p:inputNumber id="userAccount-code" value="#{chargeSettings.userAccount.financialAccount.code}" decimalPlaces="0"
-                                       required="true" requiredMessage="Veuillez renseigner ce champ"/>
+                                       required="true" requiredMessage="#{msg['msg.validation.required']}"/>
                         <p:message for="userAccount-code" id="userAccount-code-msg"/>
                     </div>
                     <div class="p-field p-col-8">
                         <p:outputLabel for="userAccount-label" value="#{cvt['financialAccountForm.name']}"/>
                         <p:inputText id="userAccount-label" value="#{chargeSettings.userAccount.financialAccount.label}"
-                                     required="true" requiredMessage="Veuillez renseigner ce champ"/>
+                                     required="true" requiredMessage="#{msg['msg.validation.required']}"/>
                         <p:message for="userAccount-label" id="userAccount-label-msg"/>
                     </div>
                 </div>
@@ -228,7 +228,7 @@
                     <div class="p-field p-col-6">
                         <p:outputLabel for="userAccount-taxDeductible" value="#{cvt['financialAccountForm.deductability']}"/>
                         <p:inputNumber id="userAccount-taxDeductible" value="#{chargeSettings.userAccount.taxDeductible}"
-                                       required="true" requiredMessage="Veuillez renseigner ce champ">
+                                       required="true" requiredMessage="#{msg['msg.validation.required']}">
                             <f:validateDoubleRange minimum="0.00" maximum="100.00" for="userAccount-taxDeductible"/>
                         </p:inputNumber>
                         <p:message for="userAccount-taxDeductible" id="userAccount-taxDeductible-msg"/>
@@ -236,7 +236,7 @@
                     <div class="p-field p-col-6">
                         <p:outputLabel for="userAccount-privatePart" value="#{cvt['financialAccountForm.privatePart']}"/>
                         <p:inputNumber id="userAccount-privatePart" value="#{chargeSettings.userAccount.privatePart}"
-                                       required="true" requiredMessage="Veuillez renseigner ce champ">
+                                       required="true" requiredMessage="#{msg['msg.validation.required']}">
                             <f:validateDoubleRange minimum="0.00" maximum="100.00" for="userAccount-privatePart"/>
                         </p:inputNumber>
                         <p:message for="userAccount-privatePart" id="userAccount-privatePart-msg"/>
@@ -312,7 +312,7 @@
             </h:form>
             <f:facet name="footer">
                 <p:commandButton id="syncronize-btn" icon="fas fa-sync-alt" value="#{cmp['btn.synchronize']}" actionListener="#{chargeSettings.synchronizeAccountItems}" update=":accountListForm:msgs" styleClass="info-btn">
-                    <p:confirm header="Confirmation" message="Êtes-vous sur de vouloir synchroniser cette charge ? Attention toute les imputations concernée seront modifiées" icon="fas fa-5x fa-exclamation-triangle icon-warning" />
+                    <p:confirm header="Confirmation" message="#{cvt['financialAccountForm.synchronizeConfirmMessage']}" icon="fas fa-5x fa-exclamation-triangle icon-warning" />
                 </p:commandButton>
                 <p:commandButton id="userAccountEdit-modal-close-btn" value="#{cmp['btn.close']}"
                                  styleClass="secondary-button" oncomplete="PF('userAccountEdit-modal').hide();"
@@ -334,7 +334,7 @@
                     <div class="p-field p-col-12 p-md-12">
                         <p:outputLabel for="diary-label" value="#{cvt['diaryForm.description']}"/>
                         <p:inputText id="diary-label" value="#{chargeSettings.diary.label}"
-                                     required="true" requiredMessage="Veuiller renseigner ce champ"/>
+                                     required="true" requiredMessage="#{msg['msg.validation.required']}"/>
                         <p:message for="diary-label" id="diary-label-msg"/>
                     </div>
                 </div>
@@ -361,7 +361,7 @@
                     <div class="p-field p-col-12 p-md-12">
                         <p:outputLabel for="diaryEdit-label" value="#{cvt['diaryForm.description']}"/>
                         <p:inputText id="diaryEdit-label" value="#{chargeSettings.diary.label}"
-                                     required="true" requiredMessage="Veuiller renseigner ce champ"/>
+                                     required="true" requiredMessage="#{msg['msg.validation.required']}"/>
                         <p:message for="diaryEdit-label" id="diaryEdit-label-msg"/>
                     </div>
                 </div>

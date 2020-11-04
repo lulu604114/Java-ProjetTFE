@@ -68,7 +68,7 @@
                     <div class="p-field p-col-12 p-md-12">
                         <p:outputLabel for="supplier-label" value="#{cvt['supplierForm.description']}"/>
                         <p:inputText id="supplier-label" value="#{supplierCrud.userSupplier.supplier.label}"
-                                     required="true" requiredMessage="Veuillez renseigner ce champ">
+                                     required="true" requiredMessage="#{msg['msg.validation.required']}">
                             <p:ajax event="keyup" update="supplier-label-msg"/>
                         </p:inputText>
                         <p:message for="supplier-label" id="supplier-label-msg"/>
@@ -131,7 +131,7 @@
                     <div class="p-field p-col-12 p-md-12">
                         <p:outputLabel for="supplierEdit-label" value="#{cvt['supplierForm.description']}"/>
                         <p:inputText id="supplierEdit-label" value="#{supplierCrud.userSupplier.supplier.label}"
-                                     required="true" requiredMessage="Veuillez renseigner ce champ"/>
+                                     required="true" requiredMessage="#{msg['msg.validation.required']}"/>
                         <p:message for="supplierEdit-label" id="supplierEdit-label-msg"/>
                     </div>
                 </div>

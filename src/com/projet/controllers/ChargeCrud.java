@@ -118,7 +118,7 @@ public class ChargeCrud implements Serializable {
 
             transaction.commit();
 
-            message.display(FacesMessage.SEVERITY_INFO, "msg.success", charge.getLabel() + " " + "msg.added");
+            message.display(FacesMessage.SEVERITY_INFO, "msg.success", charge.getLabel() + " " + message.translate("msg.added"));
 
             return chargeDetail.getChargeDetail(charge);
         }finally {
@@ -178,7 +178,7 @@ public class ChargeCrud implements Serializable {
 
             chargeList.applyFilter();
 
-            message.display(FacesMessage.SEVERITY_INFO, "msg.success", charge.getLabel() + " " + "msg.delete");
+            message.display(FacesMessage.SEVERITY_INFO, "msg.success", charge.getLabel() + " " + message.translate("msg.delete"));
 
             return "success";
         }finally {
@@ -203,7 +203,7 @@ public class ChargeCrud implements Serializable {
 
             transaction.commit();
 
-            message.display(FacesMessage.SEVERITY_INFO, "msg.success", charge.getLabel() + " " + "msg.markAsPayed");
+            message.display(FacesMessage.SEVERITY_INFO, "msg.success", charge.getLabel() + " " + message.translate("msg.markAsPayed"));
 
         }finally {
             if (transaction.isActive())
