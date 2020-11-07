@@ -137,6 +137,13 @@ public class ChargeDetail implements Serializable {
         this.userAccount_is_redeemable = value;
     }
 
+    /**
+     * create the list of year to display when user choose the number of redeemable year
+     *
+     * @param beginYear
+     * @param endYear
+     * @return a list of year
+     */
     public int[] getRedeemableYearList(int beginYear, int endYear) {
         int[] yearList = new int[endYear - beginYear];
 
@@ -151,6 +158,7 @@ public class ChargeDetail implements Serializable {
      * Method used by the autocomplete field.
      * This returns all userAccounts that label
      * or code begin with or contains the query typed by the user.
+     *
      * @param query user search.
      * @return the corresponding userAccounts.
      */
@@ -215,6 +223,11 @@ public class ChargeDetail implements Serializable {
         }
     }
 
+    /**
+     * Simulate the deductible amount when the user create an imputation
+     *
+     * @return
+     */
     public String simulate_deductible_amount() {
         if (does_accountItem_amount_has_been_set() && does_accountItem_taxDeductible_has_been_set() && does_accountItem_privatePart_has_been_set()) {
             double total = 0;
@@ -315,6 +328,13 @@ public class ChargeDetail implements Serializable {
         this.accountItem = accountItem;
     }
 
+    /**
+     * Check if the imputation's amount don't exceed the charge amount
+     *
+     * @param context
+     * @param comp
+     * @param value
+     */
     public void imputedAmount_dont_exceed_chargeAmount(FacesContext context, UIComponent comp, Object value) {
         if (value != null) {
 

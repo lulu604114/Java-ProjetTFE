@@ -270,6 +270,12 @@ public class ChargeService extends Service<Charge> {
         return total;
     }
 
+    /**
+     * calculate total deductible amount from a financialYear
+     *
+     * @param financialYear
+     * @return the total amount
+     */
     public double calculate_total_deductible_amount_by_financialYear(FinancialYear financialYear) {
         AccountItemService accountItemService = new AccountItemService();
 

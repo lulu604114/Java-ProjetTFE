@@ -67,6 +67,12 @@ public class ChargeCrud implements Serializable {
         this.chargePayed = charge.isPayed();
     }
 
+    /**
+     * research method for the autocomplete field in charge creation et update
+     *
+     * @param query the search query
+     * @return the list of supplier find by the research
+     */
     public List<UserSupplier> completeSupplier(String query) {
         List<UserSupplier> userSuppliers = user.getUserSuppliers();
 
@@ -231,6 +237,12 @@ public class ChargeCrud implements Serializable {
         this.chargePayed = chargePayed;
     }
 
+    /**
+     * check if the dueDate or paiement date is not before the created date
+     * @param context
+     * @param comp
+     * @param value
+     */
     public void date_not_before_createdAt_date(FacesContext context, UIComponent comp, Object value) {
         if (charge.getCreatedAt() != null) {
             Date paidAt = (Date) value;

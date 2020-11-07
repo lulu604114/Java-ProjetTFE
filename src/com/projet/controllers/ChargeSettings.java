@@ -87,6 +87,10 @@ public class ChargeSettings implements Serializable {
         this.userAccount.setFinancialAccount(new FinancialAccount());
     }
 
+    /**
+     * map the userAccount with categories to display to the user
+     * @return
+     */
     private List<AccountCategory> map_userAccountList_by_account_category() {
         UserAccountService service = new UserAccountService();
 

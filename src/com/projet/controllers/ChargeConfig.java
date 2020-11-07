@@ -40,6 +40,10 @@ public class ChargeConfig implements Serializable {
         this.user = (User) SecurityManager.getSessionAttribute(App.SESSION_USER);
     }
 
+    /**
+     * set the first configuration of charge management
+     * @return
+     */
     public String setConfig() {
         UserService service = new UserService();
         DiaryService diaryService = new DiaryService();
