@@ -67,7 +67,7 @@ public class SupplierCrud implements Serializable {
 
             transaction.commit();
 
-            message.display(FacesMessage.SEVERITY_INFO, "msg.success", userSupplier.getSupplier().getLabel() + " " + "msg.added");
+            message.display(FacesMessage.SEVERITY_INFO, "msg.success", userSupplier.getSupplier().getLabel() + " " + message.translate("msg.added"));
 
             create_new_supplier();
         } finally {
@@ -94,7 +94,7 @@ public class SupplierCrud implements Serializable {
 
                 transaction.commit();
 
-                message.display(FacesMessage.SEVERITY_INFO, "msg.error", userSupplier.getSupplier().getLabel() + " " + "msg.edit");
+                message.display(FacesMessage.SEVERITY_INFO, "msg.error", userSupplier.getSupplier().getLabel() + " " + message.translate("msg.edit"));
             }
         } finally {
             if (transaction.isActive())
@@ -119,7 +119,7 @@ public class SupplierCrud implements Serializable {
 
             user.removeSupplier(userSupplier);
 
-            message.display(FacesMessage.SEVERITY_INFO, "msg.success", userSupplier.getSupplier().getLabel() + " " + "msg.delete");
+            message.display(FacesMessage.SEVERITY_INFO, "msg.success", userSupplier.getSupplier().getLabel() + " " + message.translate("msg.delete"));
         } catch (Exception e) {
             message.display(FacesMessage.SEVERITY_ERROR, "msg.error", "msg.supplier.delete.failed");
         } finally {

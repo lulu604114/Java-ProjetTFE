@@ -316,11 +316,11 @@
                 </p:commandButton>
                 <p:commandButton id="userAccountEdit-modal-close-btn" value="#{cmp['btn.close']}"
                                  styleClass="secondary-button" oncomplete="PF('userAccountEdit-modal').hide();"
-                                 update="accountListForm: userAccountEdit-modal-form" process="@this">
+                                 update="accountListForm userAccountEdit-modal-form" process="@this">
                     <p:resetInput target="userAccountEdit-modal-form" />
                 </p:commandButton>
                 <p:commandButton form="userAccountEdit-modal-form" value="#{cmp['btn.apply']}" styleClass="success-btn"
-                                 icon="fa fa-check" update="accountListForm:msgs accountListForm userAccountEdit-modal-form" action="#{chargeSettings.updateUserAccount}"/>
+                                 icon="fa fa-check" update="accountListForm userAccountEdit-modal-form" action="#{chargeSettings.updateUserAccount}"/>
 
             </f:facet>
         </p:dialog>

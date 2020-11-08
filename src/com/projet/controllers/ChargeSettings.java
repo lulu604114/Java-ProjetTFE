@@ -182,7 +182,7 @@ public class ChargeSettings implements Serializable {
 
             transaction.commit();
 
-            message.display(FacesMessage.SEVERITY_INFO, "msg.success", "msg.category " + accountCategory.getLabel() + " " + "msg.added");
+            message.display(FacesMessage.SEVERITY_INFO, "msg.success", message.translate("msg.category") + " " + accountCategory.getLabel() + " " + message.translate("msg.added"));
 
             this.accountCategories = map_userAccountList_by_account_category();
         } finally {
@@ -206,7 +206,7 @@ public class ChargeSettings implements Serializable {
 
             transaction.commit();
 
-            message.display(FacesMessage.SEVERITY_INFO, "msg.success", "msg.category " + accountCategory.getLabel() + " " + "msg.edit");
+            message.display(FacesMessage.SEVERITY_INFO, "msg.success", message.translate("msg.category") + " " +  accountCategory.getLabel() + " " + message.translate("msg.edit"));
 
             this.accountCategories = map_userAccountList_by_account_category();
         } finally {
@@ -240,7 +240,7 @@ public class ChargeSettings implements Serializable {
 
             transaction.commit();
 
-            message.display(FacesMessage.SEVERITY_INFO, "msg.success", accountCategory.getLabel() + " " + "msg.delete");
+            message.display(FacesMessage.SEVERITY_INFO, "msg.success", accountCategory.getLabel() + " " + message.translate("msg.delete"));
 
             this.accountCategories = map_userAccountList_by_account_category();
 
@@ -272,7 +272,7 @@ public class ChargeSettings implements Serializable {
 
             transaction.commit();
 
-            message.display(FacesMessage.SEVERITY_INFO, "msg.success", userAccount.getFinancialAccount().getLabel() + " " + "msg.added");
+            message.display(FacesMessage.SEVERITY_INFO, "msg.success", userAccount.getFinancialAccount().getLabel() + " " + message.translate("msg.added"));
 
             this.accountCategories = map_userAccountList_by_account_category();
 
@@ -292,11 +292,13 @@ public class ChargeSettings implements Serializable {
         transaction.begin();
 
         try {
+            service.getEm().merge(userAccount.getFinancialAccount());
+
             service.save(userAccount);
 
             transaction.commit();
 
-            message.display(FacesMessage.SEVERITY_INFO, "msg.success", userAccount.getFinancialAccount().getLabel() + " " + "msg.edit");
+            message.display(FacesMessage.SEVERITY_INFO, "msg.success", userAccount.getFinancialAccount().getLabel() + " " + message.translate("msg.edit"));
 
             this.accountCategories = map_userAccountList_by_account_category();
 
@@ -321,7 +323,7 @@ public class ChargeSettings implements Serializable {
 
             transaction.commit();
 
-            message.display(FacesMessage.SEVERITY_INFO, "msg.success", userAccount.getFinancialAccount().getLabel() + " " + "msg.delete");
+            message.display(FacesMessage.SEVERITY_INFO, "msg.success", userAccount.getFinancialAccount().getLabel() + " " + message.translate("msg.delete"));
 
             this.accountCategories = map_userAccountList_by_account_category();
 
@@ -349,7 +351,7 @@ public class ChargeSettings implements Serializable {
 
             transaction.commit();
 
-            message.display(FacesMessage.SEVERITY_INFO, "msg.success", diary.getLabel() + " " + "msg.added");
+            message.display(FacesMessage.SEVERITY_INFO, "msg.success", diary.getLabel() + " " + message.translate("msg.added"));
 
         } finally {
             if (transaction.isActive())
@@ -371,7 +373,7 @@ public class ChargeSettings implements Serializable {
 
             transaction.commit();
 
-            message.display(FacesMessage.SEVERITY_INFO, "msg.success", diary.getLabel() + "msg.edit");
+            message.display(FacesMessage.SEVERITY_INFO, "msg.success", diary.getLabel() + message.translate("msg.edit"));
 
         } finally {
             if (transaction.isActive())
@@ -402,7 +404,7 @@ public class ChargeSettings implements Serializable {
 
             transaction.commit();
 
-            message.display(FacesMessage.SEVERITY_INFO, "msg.success", userAccount.getAccountItems().size() + " " +  "msg.synchronise");
+            message.display(FacesMessage.SEVERITY_INFO, "msg.success", userAccount.getAccountItems().size() + " " +  message.translate("msg.synchronise"));
         } finally {
             if (transaction.isActive())
                 transaction.rollback();
