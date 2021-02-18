@@ -158,7 +158,7 @@ public class ChargeCrud implements Serializable {
 
             chargeList.applyFilter();
 
-            message.display(FacesMessage.SEVERITY_INFO, "msg.success", charge.getLabel() + " " + "msg.edit");
+            message.display(FacesMessage.SEVERITY_INFO, "msg.success", charge.getLabel() + " " + message.translate("msg.edit"));
 
         }finally {
             if (transaction.isActive())

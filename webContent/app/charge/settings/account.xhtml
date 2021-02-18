@@ -255,7 +255,7 @@
                                  update="accountListForm:msgs userAccountCreation-modal-form" process="@this">
                     <p:resetInput target="userAccountCreation-modal-form" />
                 </p:commandButton>
-                <p:commandButton form="userAccountCreation-modal-form" value="#{cmp['btn.apply']}r" styleClass="success-btn"
+                <p:commandButton form="userAccountCreation-modal-form" value="#{cmp['btn.apply']}" styleClass="success-btn"
                                  icon="fa fa-check" oncomplete="if (! args.validationFailed) { PF('userAccountCreation-modal').hide() }"
                                  update="accountListForm:msgs accountListForm userAccountCreation-modal-form" action="#{chargeSettings.addUserAccount}"/>
 

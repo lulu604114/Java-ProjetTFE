@@ -192,6 +192,7 @@ public class chargeReportPdfGenerator implements Serializable {
                 canvas.setTextMatrix(350, top);
                 canvas.showText(String.valueOf(results.size()));
 
+
                 canvas.setTextMatrix(480, top);
                 canvas.showText(String.format("%.2f", service.totalCharge(results, null)) + " €");
 

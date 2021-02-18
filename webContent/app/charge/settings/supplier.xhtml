@@ -176,7 +176,7 @@
                     <p:resetInput target="supplierEdit-modal-form"/>
                 </p:commandButton>
                 <p:commandButton form="supplierEdit-modal-form" value="#{cmp['btn.apply']}" styleClass="success-btn"
-                                 icon="fa fa-check" oncomplete="if (! args.validationFailed) { PF('supplierEdit-modal-form').hide() }"
+                                 icon="fa fa-check" oncomplete="if (! args.validationFailed) { PF('supplierEdit-modal').hide() }"
                                  update="supplier-list-form:msgs supplier-list-form supplierEdit-modal-form" action="#{supplierCrud.updateSupplier}"/>
 
             </f:facet>
